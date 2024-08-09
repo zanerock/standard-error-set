@@ -41,13 +41,7 @@ const generateErrorClass = (name, {
   const classCode = `class ${name} extends ${extendsClass} {
     
   }`
-  // console.error('classCode:', classCode) // DEBUG
-  process.stdout.write('classCode:'+ classCode) // DEBUG
-  process.stdout.write('more')
-
-  eval(classCode)
-  console.log('Class:', Class)
-/*
+  
   const classConstructor = function classConstructor () {
     const options = arguments[arguments.length - 1] || {}
     let superSelf
@@ -116,7 +110,7 @@ const generateErrorClass = (name, {
         classConstructor.apply(this, arguments);
       }
     }`) */
-  /*
+  
   const Class = classGeneratorFn(classConstructor)
 
   Class.prototype = Object.create(extendsClass.prototype)
