@@ -1,5 +1,3 @@
-import { validErrorNames } from './lib/valid-error-names'
-
 const defaultMapping = {
   InvalidArgumentError : 400
 }
@@ -8,7 +6,7 @@ const mapping = {}
 
 const mapErrorsToHTTPStatus = (errorName, status) => {
   if (errorName === undefined) { // reset mapping to default
-    for(var prop in mapping) {
+    for (const prop in mapping) {
       delete mapping[prop]
     }
     Object.assign(mapping, defaultMapping)
