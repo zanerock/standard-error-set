@@ -25,6 +25,7 @@ describe('InvalidArgumentError', () => {
     console.log('error:', error) // DEBUG
     expect(error.message).toMatch(messageMatcher)
     expect(error.status).toBe(expectedStatus)
+    expect(error.statusName).toBeTruthy()
     expect(error.cause).toBe(expectedCause)
   })
 })
