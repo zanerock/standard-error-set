@@ -1,7 +1,7 @@
 // We considered using something like 'http-status' (https://www.npmjs.com/package/http-status), but it would add a 
 // bunch of unnecessary codes. I.e., errors don't need 1xx, 2xx, or 3xx codes since those represent non-error statuses.
 
-const mappings = {
+const defaultMappings = {
   400 : 'Bad Request',
   401 : 'Unauthorized',
   402 : 'Payment Required',
@@ -47,8 +47,18 @@ const mappings = {
   540 : 'Unknown Error' // extended code from Cloudflair
 }
 
+const customMappings = {}
+
 const mapHTTPStatusToName = (status, name) => {
-  return mappings[status] || 'Unassigned'
+  if (status === undefined) {
+    for (const prop in customMapping) {
+      delete customMapping[prop]
+    }
+  } else if (name === undefined) {
+    return customMappings[status] || defaultMappings[status] || 'Unassigned'
+  } else {
+    customMapping[status] = name
+  }
 }
 
 export { mapHTTPStatusToName }
