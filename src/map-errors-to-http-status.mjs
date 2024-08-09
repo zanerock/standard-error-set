@@ -4,7 +4,7 @@ const defaultMapping = {
 
 const customMapping = {}
 
-const mapErrorsToHTTPStatus = (errorName, status) => {
+const mapErrorsToHttpStatus = (errorName, status) => {
   if (errorName === undefined) { // reset customMapping to default
     for (const prop in customMapping) {
       delete customMapping[prop]
@@ -25,4 +25,4 @@ const mapErrorsToHTTPStatus = (errorName, status) => {
   }
 }
 
-export { mapErrorsToHTTPStatus }
+export { mapErrorsToHttpStatus }

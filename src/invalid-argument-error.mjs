@@ -1,5 +1,5 @@
-import { mapErrorsToHTTPStatus } from './map-errors-to-http-status'
-import { mapHTTPStatusToName } from './map-http-status-to-name'
+import { mapErrorsToHttpStatus } from './map-errors-to-http-status'
+import { mapHttpStatusToName } from './map-http-status-to-name'
 
 const name = 'InvalidArgumentError'
 
@@ -20,8 +20,8 @@ const InvalidArgumentError = class extends Error {
     }
 
     this.name = name
-    this.status = options.status || mapErrorsToHTTPStatus(this.name)
-    this.statusName = mapHTTPStatusToName(this.status)
+    this.status = options.status || mapErrorsToHttpStatus(this.name)
+    this.statusName = mapHttpStatusToName(this.status)
   }
 }
 

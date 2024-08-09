@@ -49,7 +49,7 @@ const defaultMappings = {
 
 const customMappings = {}
 
-const mapHTTPStatusToName = (status, name) => {
+const mapHttpStatusToName = (status, name) => {
   if (status === undefined) {
     for (const prop in customMapping) {
       delete customMapping[prop]
@@ -61,4 +61,4 @@ const mapHTTPStatusToName = (status, name) => {
   }
 }
 
-export { mapHTTPStatusToName }
+export { mapHttpStatusToName }
