@@ -1,5 +1,5 @@
 import { mapErrorsToHTTPStatus } from './map-errors-to-http-status'
-import { mapHTTPStatusToName } from './lib/map-http-status-to-name'
+import { mapHTTPStatusToName } from './map-http-status-to-name'
 
 const name = 'InvalidArgumentError'
 
