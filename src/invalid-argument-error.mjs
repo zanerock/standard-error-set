@@ -14,13 +14,13 @@ const InvalidArgumentError = class extends Error {
       super(options.message || trivialMessage, options)
     } else if (argumentName === undefined || typeof argumentName === 'object') {
       options = argumentName || {}
-      super(`Function ${functionName} called with invalid arguments.`, options)
+      super(`Function '${functionName}' called with invalid arguments.`, options)
     } else if (argumentValue === undefined || typeof argumentValue === 'object') {
       options = argumentValue || {}
-      super(`Function ${functionName} argument ${argumentName} is invalid.`, options)
+      super(`Function '${functionName}' argument '${argumentName}' is invalid.`, options)
     } else {
       options = options || {}
-      super(`Function ${functionName} argument ${argumentName} has invalid value '${argumentValue}'.`, options)
+      super(`Function '${functionName}' argument '${argumentName}' has invalid value '${argumentValue}'.`, options)
     }
 
     this.name = name
