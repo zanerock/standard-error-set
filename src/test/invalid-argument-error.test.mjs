@@ -22,7 +22,6 @@ describe('InvalidArgumentError', () => {
     ]
   ])('Args %p => message %s and status %s', (args, messageMatcher, expectedStatus, expectedCause) => {
     const error = new InvalidArgumentError(...args)
-    console.log('error:', error) // DEBUG
     expect(error.message).toMatch(messageMatcher)
     expect(error.status).toBe(expectedStatus)
     expect(error.statusName).toBeTruthy()
