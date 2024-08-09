@@ -4,11 +4,17 @@
   "description": "",
   "main": "dist/common-errors.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "make",
+    "lint": "make lint",
+    "lint:fix": "make lint-fix",
+    "test": "make test",
+    "prepack": "make build",
+    "preversion": "npm test && make lint",
+    "qa": "make qa"
   },
   "keywords": [],
   "author": "Zane Rockenbaugh <zane@liquid-labs.com>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "repository": "git+ssh://git@github.com/liquid-labs/common-errors.git",
   "bugs": {
     "url": "https://github.com/liquid-labs/common-errors/issues"
@@ -18,8 +24,5 @@
     "@liquid-labs/sdlc-resource-babel-and-rollup": "^1.0.0-alpha.9",
     "@liquid-labs/sdlc-resource-eslint": "^1.0.0-alpha.11",
     "@liquid-labs/sdlc-resource-jest": "^1.0.0-alpha.7"
-  },
-  "dependencies": {
-    "regex-repo": "^4.0.1"
   }
 }
