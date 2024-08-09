@@ -1,7 +1,7 @@
 {
   "name": "@liquid-labs/common-errors",
   "version": "1.0.0-alpha.0",
-  "description": "",
+  "description": "A collection of common/standard error types to flesh out Javascripts rather anemic baseline.",
   "main": "dist/common-errors.js",
   "scripts": {
     "build": "make",
