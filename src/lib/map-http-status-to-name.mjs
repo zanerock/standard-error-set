@@ -8,57 +8,47 @@ const mappings = {
   403 : 'Forbidden',
   404 : 'Not Found',
   405 : 'Method Not Allowed',
-  406 : 'Not Acceptable'
+  406 : 'Not Acceptable',
+  407 : 'Proxy Authentication Required',
+  408 : 'Request Timeout',
+  409 : 'Conflict',
+  410 : 'Gone',
+  411 : 'Length Required',
+  412 : 'Precondition Failed',
+  413 : 'Content Too Large',
+  414 : 'URI Too Long',
+  415 : 'Unsupported Media Type',
+  416 : 'Range Not Satisfiable',
+  417 : 'Expectation Failed',
+  418 : '(Unused)',
+  421 : 'Misdirected Request',
+  422 : 'Unprocessable Content',
+  423 : 'Locked',
+  424 : 'Failed Dependency',
+  425 : 'Too Early',
+  426 : 'Upgrade Required',
+  428 : 'Precondition Required',
+  429 : 'Too Many Requests',
+  431 : 'Request Header Fields Too Large',
+  440 : 'Login Time Out', // extended code from IIS
+  444 : 'No Response', // extended code from Nginx
+  451 : 'Unavailable For Legal Reasons',
+  500 : 'Internal Server Error',
+  501 : 'Not Implemented',
+  502 : 'Bad Gateway',
+  503 : 'Service Unavailable',
+  504 : 'Gateway Timeout',
+  505 : 'HTTP Version Not Supported',
+  506 : 'Variant Also Negotiates',
+  507 : 'Insufficient Storage',
+  508 : 'Loop Detected',
+  510 : 'Not Extended', // OBSOLETE
+  511 : 'Network Authentication Required',
+  540 : 'Unknown Error' // extended code from Cloudflair
 }
-/*
-407 Proxy Authentication Required [RFC9110, Section 15.5.8]
-408 Request Timeout [RFC9110, Section 15.5.9]
-409 Conflict  [RFC9110, Section 15.5.10]
-410 Gone  [RFC9110, Section 15.5.11]
-411 Length Required [RFC9110, Section 15.5.12]
-412 Precondition Failed [RFC9110, Section 15.5.13]
-413 Content Too Large [RFC9110, Section 15.5.14]
-414 URI Too Long  [RFC9110, Section 15.5.15]
-415 Unsupported Media Type  [RFC9110, Section 15.5.16]
-416 Range Not Satisfiable [RFC9110, Section 15.5.17]
-417 Expectation Failed  [RFC9110, Section 15.5.18]
-418 (Unused)  [RFC9110, Section 15.5.19]
-419-420 Unassigned  
-421 Misdirected Request [RFC9110, Section 15.5.20]
-422 Unprocessable Content [RFC9110, Section 15.5.21]
-423 Locked  [RFC4918]
-424 Failed Dependency [RFC4918]
-425 Too Early [RFC8470]
-426 Upgrade Required  [RFC9110, Section 15.5.22]
-427 Unassigned  
-428 Precondition Required [RFC6585]
-429 Too Many Requests [RFC6585]
-430 Unassigned  
-431 Request Header Fields Too Large [RFC6585]
-432-450 Unassigned  
-451 Unavailable For Legal Reasons [RFC7725]
-452-499 Unassigned  
-500 Internal Server Error [RFC9110, Section 15.6.1]
-501 Not Implemented [RFC9110, Section 15.6.2]
-502 Bad Gateway [RFC9110, Section 15.6.3]
-503 Service Unavailable [RFC9110, Section 15.6.4]
-504 Gateway Timeout [RFC9110, Section 15.6.5]
-505 HTTP Version Not Supported  [RFC9110, Section 15.6.6]
-506 Variant Also Negotiates [RFC2295]
-507 Insufficient Storage  [RFC4918]
-508 Loop Detected [RFC5842]
-509 Unassigned  
-510 Not Extended (OBSOLETED)  [RFC2774][status-change-http-experiments-to-historic]
-511 Network Authentication Required [RFC6585]
-512-599 Unassigned 
-*/
-/*
-Extras:
-440: Login Time Out (from IIS)
-444: No Response (from Nginx)
-540: Unknown Error (from Cloudflare; this seems redundant with plain 500)
-*/
 
-const mapHTTPStatusToName = (status) => mappings[status]
+const mapHTTPStatusToName = (status, name) => {
+  return mappings[status] || 'Unassigned'
+}
 
 export { mapHTTPStatusToName }
