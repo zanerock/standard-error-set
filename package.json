@@ -23,6 +23,9 @@
   "devDependencies": {
     "@liquid-labs/sdlc-resource-babel-and-rollup": "^1.0.0-alpha.9",
     "@liquid-labs/sdlc-resource-eslint": "^1.0.0-alpha.11",
-    "@liquid-labs/sdlc-resource-jest": "^1.0.0-alpha.7"
+    "@liquid-labs/sdlc-resource-jest": "^1.0.0-alpha.7",
+    "dmd": "file:.yalc/dmd",
+    "dmd-readme-api": "file:.yalc/dmd-readme-api",
+    "jsdoc-to-markdown": "file:.yalc/jsdoc-to-markdown"
   }
 }

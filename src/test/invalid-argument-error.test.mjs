@@ -4,21 +4,58 @@ describe('InvalidArgumentError', () => {
   const causeError = new Error()
 
   test.each([
-    [[], /Function called with invalid arguments/, 400, undefined],
-    [[null], /Function called with invalid arguments/, 400, undefined],
-    [[{ status : 401 }], /Function called with invalid arguments/, 401, undefined],
-    [['foo()'], /Function 'foo\(\)'/, 400, undefined],
-    [['foo()', 'bar'], /Function 'foo\(\)' argument 'bar'/, 400, undefined],
-    [['foo()', 'bar', 100], /Function 'foo\(\)' argument 'bar' has invalid value '100'./, 400, undefined],
+    [[], /Function argument has invalid value./, 400, undefined],
+    [[null], /Function argument has invalid value./, 400, undefined],
+    [[{ status : 401 }], /Function argument has invalid value./, 401, undefined],
+    [['my-package', 'foo'], /Function 'my-package#foo\(\)'/, 400, undefined],
+    [[undefined, 'foo'], /Function 'foo\(\)'/, 400, undefined],
+    [[undefined, 'foo', 'bar'], /Function 'foo\(\)' argument 'bar'/, 400, undefined],
+    [[undefined, 'foo', 'bar', 100], /Function 'foo\(\)' argument 'bar' has invalid value '100'./, 400, undefined],
     [[{ message : 'Foo is bad', status : 401 }], /Foo is bad/, 401, undefined],
     [[{ message : 'Foo is bad', cause : causeError, status : 401 }], /Foo is bad/, 401, causeError],
-    [['foo()', { cause : causeError, status : 401 }], /Function 'foo\(\)'/, 401, causeError],
-    [['foo()', 'bar', { cause : causeError, status : 401 }], /Function 'foo\(\)' argument 'bar'/, 401, causeError],
+    [[undefined, 'foo', { cause : causeError, status : 401 }], /Function 'foo\(\)'/, 401, causeError],
     [
-      ['foo()', 'bar', 100, { cause : causeError, status : 401 }],
+      [undefined, 'foo', 'bar', { cause : causeError, status : 401 }],
+      /Function 'foo\(\)' argument 'bar'/,
+      401,
+      causeError
+    ],
+    [
+      [undefined, 'foo', 'bar', 100, { cause : causeError, status : 401 }],
       /Function 'foo\(\)' argument 'bar' has invalid value '100'./,
       401,
       causeError
+    ],
+    [
+      [{ functionName : 'foo', argumentName : 'bar', argumentValue : 100, cause : causeError, status : 401 }],
+      /Function 'foo\(\)' argument 'bar' has invalid value '100'./,
+      401,
+      causeError
+    ],
+    [
+      ['my-package', { functionName : 'foo', argumentName : 'bar', argumentValue : 100, cause : causeError, status : 401 }],
+      /Function 'my-package#foo\(\)' argument 'bar' has invalid value '100'./,
+      401,
+      causeError
+    ],
+    [['my-package'], /Function in package 'my-package' argument has invalid value./, 400, undefined],
+    [
+      ['my-package', 'foo', 'bar', { bar : 100 }, { cause : causeError, status : 401 }],
+      /Function 'my-package#foo\(\)' argument 'bar' has invalid value '{"bar":100}'./,
+      401,
+      causeError
+    ],
+    [
+      ['my-package', 'foo', 'bar', { bar : 100 }],
+      /Function 'my-package#foo\(\)' argument 'bar' has invalid value./,
+      400,
+      undefined
+    ],
+    [
+      ['my-package', 'foo', 'bar', { bar : 100 }, null],
+      /Function 'my-package#foo\(\)' argument 'bar' has invalid value '{"bar":100}'./,
+      400,
+      undefined
     ]
   ])('Args %p => message %s and status %s', (args, messageMatcher, expectedStatus, expectedCause) => {
     const error = new InvalidArgumentError(...args)
