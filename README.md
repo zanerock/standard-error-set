@@ -10,8 +10,6 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 - Functions:
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
-- Typedefs:
-  - [`InvalidArgumentOptions`](#InvalidArgumentOptions): The arguments option for `InvalidArgumentError`.
 
 <a id="CommonError"></a>
 ### CommonError
@@ -69,22 +67,25 @@ object. Otherwise, `argumentValueOrOptions` will be treated as the options argum
 If specified, in either positional arguments, or option fields, `packageName`, `funcitonName`, `argumentName`, and
 `argumentValue` will be available as fields on the `InvalidArgumentError` instance.
 
-[**Source code**](./src/invalid-argument-error.mjs#L36)
+[**Source code**](./src/invalid-argument-error.mjs#L29)
 
 
 <a id="new_InvalidArgumentError_new"></a>
-#### `new InvalidArgumentError(packageNameOrOptions, functionNameOrOptions, argumentNameOrOptions, argumentValueOrOptions, options)`
+#### `new InvalidArgumentError(options)`
 
 The [`InvalidArgumentError`](#InvalidArgumentError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| packageNameOrOptions | `string` \| [`InvalidArgumentOptions`](#InvalidArgumentOptions) \| `undefined` | The package name, a   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the package name from   the message unless specified in a final options argument). |
-| functionNameOrOptions | `string` \| [`InvalidArgumentOptions`](#InvalidArgumentOptions) \| `undefined` | The function name, a   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the function name from   the message unless specified in a final options argument). |
-| argumentNameOrOptions | `string` \| [`InvalidArgumentOptions`](#InvalidArgumentOptions) \| `undefined` | The argument name, a   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the argument name from |
-| argumentValueOrOptions | `string` \| [`InvalidArgumentOptions`](#InvalidArgumentOptions) \| `undefined` | The argument value, a   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the argument value   from the message unless specified in a final options argument). If the value is an `Object`, you must provide a   final `options` argument, which may be `{}`, `null`, but not `undefined`. See function documentation for   treatment of `Object` values in any generated message. |
-| options | [`InvalidArgumentOptions`](#InvalidArgumentOptions) \| `undefined` | The final options `Object`, if any, which is passed to the   `Error` super-constructor and whose values can override the positional arguments. |
+| options | `object` | The error options.` |
+| options.packageName | `string` \| `undefined` | The package name (optional). |
+| options.functionName | `string` \| `undefined` | The function name (optional). |
+| options.argumentName | `string` \| `undefined` | The argument name (optional). |
+| options.argumentValue | `string` \| `undefined` | The argument value (optional). |
+| options.message | `string` \| `undefined` | If not undefined, then the `message` value will used as the error   message instead of a generated error message. |
+| options.status | `number` \| `undefined` | If defined, overrides the default HTTP status code assignment for this    `Error` instance. |
+| options.options | `object` \| `undefined` | The remainder of the options to to pass to `Error`. |
 
 **Examples**:
 *No arg constructor yields: &quot;Function argument has invalid value.&quot;*:
@@ -92,10 +93,6 @@ The [`InvalidArgumentError`](#InvalidArgumentError) constructor.
 new InvalidArgumentError()
 ```
 *Partial spec by positional args, yields: &quot;Function &#x27;my-package#foo()&#x27; argument  has invalid value.&quot;*:
-```js
-new InvalidArgumentError('my-package', 'foo')
-```
-*Partial spec by options, yields: &quot;Function &#x27;my-package#foo()&#x27; argument has invalid value.&quot;*:
 ```js
 new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
 ```
@@ -108,7 +105,7 @@ new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argum
 <a id="mapErrorToHttpStatus"></a>
 ### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined`
 
-Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your 
+Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your
 own mappings, which may be useful when dealing with non-common error errors.
 - To retrieve a status, call `mapErrorToHttpStatus(errorRef)`.
 - To add/override a status mapping, call `mapErrorToHttpStatus(errorRef, status)`.
@@ -119,20 +116,20 @@ own mappings, which may be useful when dealing with non-common error errors.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| errorRef | `string` \| `Error` \| `CommonError.constructor` \| `Object.<string, true>` | The name, instance, or class    (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<   string,true>` `for bulk add/override of the custom mappings. |
+| errorRef | `string` \| `Error` \| `CommonError.constructor` \| `Object.<string, true>` | The name, instance, or class   (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<   string,true>` `for bulk add/override of the custom mappings. |
 | status | `number` | An integer value to map the error to. |
 
 **Returns**: `number` \| `undefined` - - Returns an integer if retrieving an error to status mapping, otherwise return
   undefined.
 
-[**Source code**](./src/map-error-to-http-status.mjs#L25)
+[**Source code**](./src/map-error-to-http-status.mjs#L26)
 
 
 <a id="mapHttpStatusToName"></a>
 ### `mapHttpStatusToName(status, name)`
 
 Used to translate and manage mappings from HTTP status codes to names. Supports all current status defined by the [
-IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions 
+IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions
 returned by IIS, NginX, and Cloudflare.
 - To retrieve a status name, call `mapHttpStatusToName(status)`.
 - To add/override a single custom mapping, call `mapHttpStatusToName(status, name)`.
@@ -142,24 +139,9 @@ returned by IIS, NginX, and Cloudflare.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| status | `number` \| `Object.<number, string>` | Either the status to retrieve or set mapping for, or an    `Object<number,string>` to bulk update mappings. |
+| status | `number` \| `Object.<number, string>` | Either the status to retrieve or set mapping for, or an   `Object<number,string>` to bulk update mappings. |
 | name | `string` | The name to map a status onto. |
 
 [**Source code**](./src/map-http-status-to-name.mjs#L64)
-
-
-<a id="InvalidArgumentOptions"></a>
-### `InvalidArgumentOptions`
-
-The arguments option for `InvalidArgumentError`. These options are also passed to the `Error` constructor, which may
-recognize additional options.
-
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| functionName | `string` | The name of the function to use in any generated message. |
-
-[**Source code**](./src/invalid-argument-error.mjs#L5)
 
 

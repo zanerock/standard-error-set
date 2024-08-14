@@ -3,13 +3,6 @@ import { CommonError } from './common-error'
 const name = 'InvalidArgumentError'
 
 /**
- * The arguments option for `InvalidArgumentError`. These options are also passed to the `Error` constructor, which may
- * recognize additional options.
- * @typedef InvalidArgumentOptions
- * @property {string} functionName - The name of the function to use in any generated message.
- */
-
-/**
  * Indicates an invalid argument was passed to a function. In general, the easiest way to invoke the constructor is
  * with a single [`InvalidArgumentOptions`](#InvalidArgumentOptions} option object. The constructor can also be called
  * with either positional arguments for the function package, function name, argument name, and argument value (in that
@@ -39,65 +32,36 @@ const InvalidArgumentError = class extends CommonError {
    * @example <caption>No arg constructor yields: "Function argument has invalid value."</caption>
    * new InvalidArgumentError()
    * @example <caption>Partial spec by positional args, yields: "Function 'my-package#foo()' argument  has invalid value."</caption>
-   * new InvalidArgumentError('my-package', 'foo')
-   * @example <caption>Partial spec by options, yields: "Function 'my-package#foo()' argument has invalid value."</caption>
    * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
    * @example <caption>Full spec yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."</caption>
    * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
-   * @param {string|InvalidArgumentOptions|undefined} packageNameOrOptions - The package name, a
-   *   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the package name from
-   *   the message unless specified in a final options argument).
-   * @param {string|InvalidArgumentOptions|undefined} functionNameOrOptions - The function name, a
-   *   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the function name from
-   *   the message unless specified in a final options argument).
-   * @param {string|InvalidArgumentOptions|undefined} argumentNameOrOptions - The argument name, a
-   *   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the argument name from
-   * @param {string|InvalidArgumentOptions|undefined} argumentValueOrOptions - The argument value, a
-   *   [`InvalidArgumentOptions`](#InvalidArgumentOptions) object, or undefined (which will omit the argument value
-   *   from the message unless specified in a final options argument). If the value is an `Object`, you must provide a
-   *   final `options` argument, which may be `{}`, `null`, but not `undefined`. See function documentation for
-   *   treatment of `Object` values in any generated message.
-   * @param {InvalidArgumentOptions|undefined} options - The final options `Object`, if any, which is passed to the
-   *   `Error` super-constructor and whose values can override the positional arguments.
+   * @param {object} options - The error options.`
+   * @param {string|undefined} options.packageName - The package name (optional).
+   * @param {string|undefined} options.functionName - The function name (optional).
+   * @param {string|undefined} options.argumentName - The argument name (optional).
+   * @param {string|undefined} options.argumentValue - The argument value (optional).
+   * @param {string|undefined} options.message - If not undefined, then the `message` value will used as the error
+   *   message instead of a generated error message.
+   * @param {number|undefined} options.status - If defined, overrides the default HTTP status code assignment for this 
+   *   `Error` instance.
+   * @param {object|undefined} options.options - The remainder of the options to to pass to `Error`.
    */
-  constructor (packageNameOrOptions, functionNameOrOptions, argumentNameOrOptions, argumentValueOrOptions, options) {
-    const effectiveOptions = {}
-    if (typeof packageNameOrOptions === 'string') {
-      effectiveOptions.packageName = packageNameOrOptions
-    }
-    if (typeof functionNameOrOptions === 'string') {
-      effectiveOptions.functionName = functionNameOrOptions
-    }
-    if (typeof argumentNameOrOptions === 'string') {
-      effectiveOptions.argumentName = argumentNameOrOptions
-    }
-    if (typeof argumentValueOrOptions !== 'object' || options !== undefined) {
-      effectiveOptions.argumentValue = argumentValueOrOptions
-    }
-    options = arguments[arguments.length - 1] || {}
-    if (typeof options !== 'object') {
-      options = {}
-    }
-    Object.assign(effectiveOptions, options)
+  constructor ({ packageName, functionName, argumentName, argumentValue, message, status, ...options }={}) {
+    message = message || generateMessage(packageName, functionName, argumentName, argumentValue)
 
-    const message = generateMessage(effectiveOptions)
+    super(name, message, { status, ...options})
 
-    super(name, message, effectiveOptions)
-
-    this.packageName = effectiveOptions.packageName
-    this.functionName = effectiveOptions.functionName
-    this.argumentName = effectiveOptions.argumentName
-    this.argumentValue = effectiveOptions.argumentName
+    this.packageName = packageName
+    this.functionName = functionName
+    this.argumentName = argumentName
+    this.argumentValue = argumentName
   }
 }
 
 InvalidArgumentError.typeName = name
 
-const generateMessage = ({ packageName, functionName, argumentName, argumentValue, message }) => {
-  if (message !== undefined) {
-    return message
-  }
-  message = 'Function '
+const generateMessage = (packageName, functionName, argumentName, argumentValue) => {
+  let message = 'Function '
   if (packageName !== undefined) {
     message += functionName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
   }

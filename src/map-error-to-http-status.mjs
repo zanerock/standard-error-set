@@ -1,5 +1,6 @@
 const defaultMapping = {
-  InvalidArgumentError : 400
+  InvalidArgumentError : 400,
+  UniqueConstraintViolationError : 409
 }
 
 const customMapping = {}
@@ -8,14 +9,14 @@ const customMapping = {}
 // defined, we just don't see it when parsing this file on it's own.
 /* eslint-disable jsdoc/check-types, jsdoc/no-undefined-types */
 /**
- * Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your 
+ * Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your
  * own mappings, which may be useful when dealing with non-common error errors.
  * - To retrieve a status, call `mapErrorToHttpStatus(errorRef)`.
  * - To add/override a status mapping, call `mapErrorToHttpStatus(errorRef, status)`.
  * - To bulk add/override status mappings, call `mapErrorToHttpStatus(mappingObject)` where `mappingObject` is an
  *   `Object<string,true>`.
  * - To reset the custom mappings to the default mappings, call `mapErrorToHttpStatus()` with no arguments.
- * @param {string|Error|CommonError.constructor|Object<string,true>} errorRef - The name, instance, or class 
+ * @param {string|Error|CommonError.constructor|Object<string,true>} errorRef - The name, instance, or class
  *   (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<
  *   string,true>` `for bulk add/override of the custom mappings.
  * @param {number} status - An integer value to map the error to.
