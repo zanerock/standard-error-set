@@ -23,9 +23,11 @@ const CommonError = class extends Error {
     super(message, options)
 
     this.name = name
+    this.code = options.code
     this.status = options.status || mapErrorToHttpStatus(this.name)
     this.statusName = mapHttpStatusToName(this.status)
   }
+
 }
 
 export { CommonError }

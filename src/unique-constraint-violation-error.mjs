@@ -1,9 +1,9 @@
-import { CommonError } from './common-error'
+import { ConstraintViolationError } from './constraint-violation-error'
 
 const name = 'UniqueConstraintViolationError'
 
 /**
- * Indicates violation of a unique constraint, such as login ID.
+ * A {@link ConstraintViolationError} ndicating violation of a unique constraint, such as login ID.
  * @param {object} options - The error options.
  * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
  * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
@@ -14,7 +14,7 @@ const name = 'UniqueConstraintViolationError'
  *   mapped to default if not provided.
  * @param {object|undefined} options.options - The remainder of the options are passed to the `Error` super-constructor.
  */
-const UniqueConstraintViolationError = class extends CommonError {
+const UniqueConstraintViolationError = class extends ConstraintViolationError {
   constructor ({ entityType, fieldAndValues, message, status, ...options } = {}) {
     message = message || generateMessage(entityType, fieldAndValues)
 

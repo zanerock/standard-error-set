@@ -12,4 +12,4 @@ $(README_MD): $(README_MD_SRC)
 	  --plugin dmd-readme-api \
 	  --clever-links \
 	  >> $@
-	# cat $(SRC)/docs/README.02.md >> $@
+	cat $(SRC)/docs/README.02.md >> $@

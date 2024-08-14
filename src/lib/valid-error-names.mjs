@@ -1,6 +1,6 @@
 import * as exports from '../index'
 
-const nonErrorExports = ['mapErrorToHttpStatus', 'mapHttpStatusToName']
+const nonErrorExports = ['hideAccessErrors', 'mapErrorToHttpStatus', 'mapHttpStatusToName']
 
 const exportedErrors = Object.keys(exports).filter((name) => !nonErrorExports.includes(name))
 
