@@ -2,11 +2,23 @@ import { CommonError } from './common-error'
 
 const name = 'UniqueConstraintViolationError'
 
+/**
+ * Indicates violation of a unique constraint, such as login ID.
+ * @param {object} options - The error options.
+ * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
+ * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
+ *   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.
+ * @param {string|undefined} options.message - The explicit error message to use (rather than generating an error
+ *   message) (optional).
+ * @param {number|undefined} options.status - The HTTP status code to use on this error instance (optional); will be
+ *   mapped to default if not provided.
+ * @param {object|undefined} options.options - The remainder of the options are passed to the `Error` super-constructor.
+ */
 const UniqueConstraintViolationError = class extends CommonError {
-  constructor ({ entityType, fieldAndValues, message, ...options }) {
+  constructor ({ entityType, fieldAndValues, message, status, ...options } = {}) {
     message = message || generateMessage(entityType, fieldAndValues)
 
-    super(name, message, options)
+    super(name, message, { status, ...options })
     this.entityType = entityType
     this.fieldAndValues = fieldAndValues
   }
@@ -21,7 +33,7 @@ const generateMessage = (entityType, fieldAndValues) => {
         const [field, value] = fieldAndValue
         message += `${field}(${value}),`
       } else {
-        message += `${field},`
+        message += `${fieldAndValue/* is just field */},`
       }
     }
     message = message.slice(-1)
@@ -31,6 +43,8 @@ const generateMessage = (entityType, fieldAndValues) => {
     message += `on entity type ${entityType} `
   }
   message += 'violated.'
+
+  return message
 }
 
 UniqueConstraintViolationError.typeName = name

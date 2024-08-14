@@ -1,5 +1,5 @@
 const defaultMapping = {
-  InvalidArgumentError : 400,
+  InvalidArgumentError           : 400,
   UniqueConstraintViolationError : 409
 }
 

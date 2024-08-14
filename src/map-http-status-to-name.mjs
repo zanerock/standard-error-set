@@ -49,6 +49,7 @@ const defaultMappings = {
 
 const customMappings = {}
 
+/* eslint-disable jsdoc/check-types */
 /**
  * Used to translate and manage mappings from HTTP status codes to names. Supports all current status defined by the [
  * IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions
@@ -60,8 +61,9 @@ const customMappings = {}
  * @param {number|Object<number,string>} status - Either the status to retrieve or set mapping for, or an
  *   `Object<number,string>` to bulk update mappings.
  * @param {string} name - The name to map a status onto.
+ * @returns {string|undefined} - The status name, if known.
  */
-const mapHttpStatusToName = (status, name) => {
+const mapHttpStatusToName = (status, name) => { /* eslint-enable jsdoc/check-types */
   if (status === undefined) {
     for (const prop in customMappings) {
       delete customMappings[prop]
@@ -69,7 +71,7 @@ const mapHttpStatusToName = (status, name) => {
   } else if (name === undefined) {
     return customMappings[status] || defaultMappings[status] || 'Unassigned'
   } else if (typeof status === 'object') {
-    Object.assign(customMapping, status)
+    Object.assign(customMappings, status)
   } else {
     customMappings[status] = name
   }

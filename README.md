@@ -7,6 +7,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 - Classes:
   - [CommonError](#CommonError): A base class for common errors.
   - [InvalidArgumentError](#InvalidArgumentError): Indicates an invalid argument was passed to a function.
+  - [UniqueConstraintViolationError](#UniqueConstraintViolationError): Indicates violation of a unique constraint, such as login ID.
 - Functions:
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
@@ -100,6 +101,28 @@ new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
 ```js
 new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
 ```
+
+
+<a id="UniqueConstraintViolationError"></a>
+### UniqueConstraintViolationError
+
+Indicates violation of a unique constraint, such as login ID.
+
+[**Source code**](./src/unique-constraint-violation-error.mjs#L17)
+
+
+<a id="new_UniqueConstraintViolationError_new"></a>
+#### `new UniqueConstraintViolationError(options)`
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` | The error options. |
+| options.entityType | `string` \| `undefined` | The "type" of entity (e.g., 'user'; optional). |
+| options.fieldAndValues | `Array.<string>` \| `Array.<Array.string>` | An array of either field names and/or arrays of    field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+| options.message | `string` \| `undefined` | The explicit error message to use (rather than generating an error    message) (optional). |
+| options.status | `number` \| `undefined` | The HTTP status code to use on this error instance (optional); will be    mapped to default if not provided. |
+| options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
 
 
 <a id="mapErrorToHttpStatus"></a>

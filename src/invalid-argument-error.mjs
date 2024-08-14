@@ -42,14 +42,14 @@ const InvalidArgumentError = class extends CommonError {
    * @param {string|undefined} options.argumentValue - The argument value (optional).
    * @param {string|undefined} options.message - If not undefined, then the `message` value will used as the error
    *   message instead of a generated error message.
-   * @param {number|undefined} options.status - If defined, overrides the default HTTP status code assignment for this 
+   * @param {number|undefined} options.status - If defined, overrides the default HTTP status code assignment for this
    *   `Error` instance.
    * @param {object|undefined} options.options - The remainder of the options to to pass to `Error`.
    */
-  constructor ({ packageName, functionName, argumentName, argumentValue, message, status, ...options }={}) {
+  constructor ({ packageName, functionName, argumentName, argumentValue, message, status, ...options } = {}) {
     message = message || generateMessage(packageName, functionName, argumentName, argumentValue)
 
-    super(name, message, { status, ...options})
+    super(name, message, { status, ...options })
 
     this.packageName = packageName
     this.functionName = functionName
