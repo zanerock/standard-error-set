@@ -1,9 +1,10 @@
 import { ExternalServiceError } from './external-service-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'ExternalServiceError'
+const myName = 'DataServiceError'
 
 /**
- * An {@link ExternalServiceError} sub-type indicating a problem related to a data service specifically. Consider 
+ * An {@link ExternalServiceError} sub-type indicating a problem related to a data service specifically. Consider
  * whether any of the following errors might be more precise or better suited:
  * - {@link ConnectionError}
  * - {@link ConstraintViolation}
@@ -12,11 +13,13 @@ const name = 'ExternalServiceError'
  * - {@link UniqueConstraintViolation}
  */
 const DataServiceError = class extends ExternalServiceError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-DataServiceError.typeName = name
+registerParent(myName, Object.getPrototypeOf(DataServiceError).name)
+
+DataServiceError.typeName = myName
 
 export { DataServiceError }

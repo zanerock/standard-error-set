@@ -1,16 +1,19 @@
 import { CommonError } from './common-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'ExternalServiceError'
+const myName = 'ExternalServiceError'
 
 /**
  * Indicates an error related to an external service.
  */
 const ExternalServiceError = class extends CommonError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-ExternalServiceError.typeName = name
+registerParent(myName, Object.getPrototypeOf(ExternalServiceError).name)
+
+ExternalServiceError.typeName = myName
 
 export { ExternalServiceError }

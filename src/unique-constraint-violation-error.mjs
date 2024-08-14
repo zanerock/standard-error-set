@@ -1,6 +1,7 @@
 import { ConstraintViolationError } from './constraint-violation-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'UniqueConstraintViolationError'
+const myName = 'UniqueConstraintViolationError'
 
 /**
  * A {@link ConstraintViolationError} ndicating violation of a unique constraint, such as login ID.
@@ -15,14 +16,17 @@ const name = 'UniqueConstraintViolationError'
  * @param {object|undefined} options.options - The remainder of the options are passed to the `Error` super-constructor.
  */
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
-  constructor ({ entityType, fieldAndValues, message, status, ...options } = {}) {
-    message = message || generateMessage(entityType, fieldAndValues)
+  constructor ({ entityType, fieldAndValues, name = myName, ...options } = {}) {
+    options.message = options.message || generateMessage(entityType, fieldAndValues)
 
-    super(name, message, { status, ...options })
+    super({ name, ...options })
+
     this.entityType = entityType
     this.fieldAndValues = fieldAndValues
   }
 }
+
+registerParent(myName, Object.getPrototypeOf(UniqueConstraintViolationError).name)
 
 const generateMessage = (entityType, fieldAndValues) => {
   let message = 'Unique constraint '
@@ -47,6 +51,6 @@ const generateMessage = (entityType, fieldAndValues) => {
   return message
 }
 
-UniqueConstraintViolationError.typeName = name
+UniqueConstraintViolationError.typeName = myName
 
 export { UniqueConstraintViolationError }

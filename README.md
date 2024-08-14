@@ -30,7 +30,7 @@ itself.
   - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 - Functions:
-  - [`hideAccessErrors()`](#hideAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message.
+  - [`hideNoAccessErrors()`](#hideNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message.
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
 
@@ -70,7 +70,7 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 
 A base class for common errors. To create a common error of your own, extend this class.
 ```js
-const name = 'MyError'
+const myName = 'MyError'
 
 export const MyError = class extends CommonError {
   constructor(foo, options) {
@@ -78,21 +78,23 @@ export const MyError = class extends CommonError {
     super(name, message, options)
   }
 }
-MyError.typeName = name
+MyError.typeName = myName
 ```
 
-[**Source code**](./src/common-error.mjs#L21)
+[**Source code**](./src/common-error.mjs#L23)
 
 
 <a id="new_CommonError_new"></a>
-#### `new CommonError(name, message, options)`
+#### `new CommonError(options)`
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | `string` | The name of error. In general, this should match the class name. |
-| message | `string` | = The error message. |
-| options | `object` | The options to pass to the `Error` super-constructor. |
+| options | `object` | Creation objects. |
+| options.name | `string` | The name of error. In general, this should match the class name. |
+| options.message | `string` | The error message. |
+| options.status | `number` | (optional) The status override for this particular error instance. |
+| options.options | `object` | The options to pass to the `Error` super-constructor. |
 
 
 <a id="ConnectionError"></a>
@@ -202,6 +204,7 @@ The [`InvalidArgumentError`](#InvalidArgumentError) constructor.
 | options.argumentValue | `string` \| `undefined` | The argument value (optional). |
 | options.message | `string` \| `undefined` | If not undefined, then the `message` value will used as the error   message instead of a generated error message. |
 | options.status | `number` \| `undefined` | If defined, overrides the default HTTP status code assignment for this   `Error` instance. |
+| options.cause | `Error` \| `undefined` | The underlying error, if any, which caused this error. Typically used    when wrapping a more generic error with a more specific error or connecting errors across error boundaries    (e.g., across asynchronous calls). |
 | options.options | `object` \| `undefined` | The remainder of the options to to pass to `Error`. |
 
 **Examples**:
@@ -251,7 +254,7 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. Note, in high security 
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an 
-access issue, use and see [`hideAccessErrors`](#hideAccessErrors) to deal with this situation.
+access issue, use and see [`hideAccessErrors`](hideAccessErrors) to deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not 
@@ -323,8 +326,8 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 | options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
 
 
-<a id="hideAccessErrors"></a>
-### `hideAccessErrors()`
+<a id="hideNoAccessErrors"></a>
+### `hideNoAccessErrors()`
 
 Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message. This is a common 
 practice in secure systems where it is undesirable to give attackers any information about a resource they don't 
@@ -332,7 +335,7 @@ have access to. I.e., if a user tries to access a resource they are not permitte
 would divulge the existence of a resource, so instead high security systems will usually prefer a [`NotFoundError`](#NotFoundError) so as to not give anything away. Note, this does not change the class of the error itself, so 
 one must take care in how [errors are presented to users](#presenting-errors-to-users).
 
-[**Source code**](./src/hide-access-errors.mjs#L9)
+[**Source code**](./src/hide-no-access-errors.mjs#L9)
 
 
 <a id="mapErrorToHttpStatus"></a>
@@ -380,3 +383,12 @@ returned by IIS, NginX, and Cloudflare.
 [**Source code**](./src/map-http-status-to-name.mjs#L66)
 
 
+## Presenting errors to users
+
+In a production context, 
+
+## Rejected error types
+
+### Socket errors
+
+We considered a `SocketError`, but the issue here is that "sockets" may be local or remote, and those are essentially different animals. A local error would naturally derive from {@link IoError} while a remote socket error would derive from {@link ConnectionError}. We also have {@link ConnectionReset} which should be used in the case a socket connection is reset, so this ground is essentially already covered by these errors and we don't see a lot of utility in introducing two additional classes just to represent local, IO related socket errors and remote, connection related socket errors specifically.

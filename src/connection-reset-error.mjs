@@ -1,16 +1,19 @@
 import { ConnectionError } from './connection-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'ConnectionResetError'
+const myName = 'ConnectionResetError'
 
 /**
  * A {@link ConnectionError} sub-type indicating a connection has been reset or closed unexpectedly or while in use.
  */
 const ConnectionResetError = class extends ConnectionError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, code: 'ECONNRESET', ...options })
+  constructor ({ name = myName, ...options }) {
+    super(name, message, { status, code : 'ECONNRESET', ...options })
   }
 }
 
-ConnectionResetError.typeName = name
+registerParent(myName, Object.getPrototypeOf(ConnectionResetError).name)
+
+ConnectionResetError.typeName = myName
 
 export { ConnectionResetError }

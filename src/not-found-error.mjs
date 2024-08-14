@@ -1,17 +1,20 @@
 import { CommonError } from './common-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'NotFoundError'
+const myName = 'NotFoundError'
 
 /**
  * An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
  * where the fundamental issue is the named thing not being present.
  */
 const NotFoundError = class extends CommonError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { code: 'ENOENT', status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, code : 'ENOENT', ...options })
   }
 }
 
-NotFoundError.typeName = name
+registerParent(myName, Object.getPrototypeOf(NotFoundError).name)
+
+NotFoundError.typeName = myName
 
 export { NotFoundError }

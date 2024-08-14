@@ -1,6 +1,7 @@
 import { CommonError } from './common-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'InvalidArgumentError'
+const myName = 'InvalidArgumentError'
 
 /**
  * Indicates an invalid argument was passed to a function. In general, the easiest way to invoke the constructor is
@@ -42,14 +43,18 @@ const InvalidArgumentError = class extends CommonError {
    * @param {string|undefined} options.argumentValue - The argument value (optional).
    * @param {string|undefined} options.message - If not undefined, then the `message` value will used as the error
    *   message instead of a generated error message.
+   * @param options.name
    * @param {number|undefined} options.status - If defined, overrides the default HTTP status code assignment for this
    *   `Error` instance.
+   * @param {Error|undefined} options.cause - The underlying error, if any, which caused this error. Typically used
+   *   when wrapping a more generic error with a more specific error or connecting errors across error boundaries
+   *   (e.g., across asynchronous calls).
    * @param {object|undefined} options.options - The remainder of the options to to pass to `Error`.
    */
-  constructor ({ packageName, functionName, argumentName, argumentValue, message, status, ...options } = {}) {
-    message = message || generateMessage(packageName, functionName, argumentName, argumentValue)
+  constructor ({ packageName, functionName, argumentName, argumentValue, name = myName, ...options } = {}) {
+    options.message = options.message || generateMessage(packageName, functionName, argumentName, argumentValue)
 
-    super(name, message, { status, ...options })
+    super({ name, ...options })
 
     this.packageName = packageName
     this.functionName = functionName
@@ -58,7 +63,9 @@ const InvalidArgumentError = class extends CommonError {
   }
 }
 
-InvalidArgumentError.typeName = name
+registerParent(myName, Object.getPrototypeOf(InvalidArgumentError).name)
+
+InvalidArgumentError.typeName = myName
 
 const generateMessage = (packageName, functionName, argumentName, argumentValue) => {
   let message = 'Function '

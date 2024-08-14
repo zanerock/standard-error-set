@@ -1,17 +1,20 @@
 import { AuthError } from './auth-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'AuthenticationRequiredError'
+const myName = 'AuthenticationRequiredError'
 
 /**
- * An {@link AuthError} indicating that an operation requires an authenticated user and the current us not 
+ * An {@link AuthError} indicating that an operation requires an authenticated user and the current us not
  * authenticated.
  */
 const AuthenticationRequiredError = class extends AuthError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-AuthenticationRequiredError.typeName = name
+registerParent(myName, Object.getPrototypeOf(AuthenticationRequiredError).name)
+
+AuthenticationRequiredError.typeName = myName
 
 export { AuthenticationRequiredError }

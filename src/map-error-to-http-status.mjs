@@ -1,6 +1,12 @@
+const parents = {}
+
 const defaultMapping = {
-  InvalidArgumentError           : 400,
-  UniqueConstraintViolationError : 409
+  CommonError              : 500,
+  AuthError                : 403, // note 401 (Unauthorized) is actually specifically for HTTP authorization and
+  // not a general authorization status
+  ConstraintViolationError : 409,
+  InvalidArgumentError     : 400,
+  NotFoundError            : 404
 }
 
 const customMapping = {}
@@ -43,10 +49,20 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
 
   // it's either a regular retrieve or single value add/override
   if (status === undefined) { // return customMapping value
-    return customMapping[name] || defaultMapping[name]
+    let status = customMapping[name] || defaultMapping[name]
+    let parentName = parents[name]
+    while (status === undefined && parentName !== undefined) {
+      status = customMapping[parentName] || defaultMapping[parentName]
+      parentName = parents[parentName]
+    }
+    return status
   } else { // both errorRef and status are defined, set individual customMapping
     customMapping[name] = status
   }
 }
 
-export { mapErrorToHttpStatus }
+const registerParent = (childName, parentName) => {
+  parents[childName] = parentName
+}
+
+export { mapErrorToHttpStatus, registerParent }

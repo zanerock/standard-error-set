@@ -1,16 +1,19 @@
 import { IoError } from './io-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'FileLoadError'
+const myName = 'FileLoadError'
 
 /**
  * An {@link IoError} indicating a file is present, and can be read, but there is a problem loading it.
  */
 const FileLoadError = class extends IoError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-FileLoadError.typeName = name
+registerParent(myName, Object.getPrototypeOf(FileLoadError).name)
+
+FileLoadError.typeName = myName
 
 export { FileLoadError }

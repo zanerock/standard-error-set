@@ -1,17 +1,20 @@
 import { CommonError } from './common-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'ConstraintViolationError'
+const myName = 'ConstraintViolationError'
 
 /**
- * Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint. 
- * Consider 
+ * Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
+ * Consider
  */
 const ConstraintViolationError = class extends CommonError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-ConstraintViolationError.typeName = name
+registerParent(myName, Object.getPrototypeOf(ConstraintViolationError).name)
+
+ConstraintViolationError.typeName = myName
 
 export { ConstraintViolationError }

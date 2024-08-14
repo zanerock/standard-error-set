@@ -1,16 +1,19 @@
 import { ExternalServiceError } from './external-service-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'ConnectionError'
+const myName = 'ConnectionError'
 
 /**
  * An {@link ExternalServiceError} sub-type indicating a problem with the connection, including making a connection.
  */
 const ConnectionError = class extends ExternalServiceError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-ConnectionError.typeName = name
+registerParent(myName, Object.getPrototypeOf(ConnectionError).name)
+
+ConnectionError.typeName = myName
 
 export { ConnectionError }

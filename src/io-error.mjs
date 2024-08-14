@@ -1,17 +1,20 @@
 import { CommonError } from './common-error'
+import { registerParent } from './map-error-to-http-status'
 
-const name = 'IoError'
+const myName = 'IoError'
 
 /**
- * A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and  
+ * A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
  * external service, or remote connections errors are therefore not I/O errors.
  */
 const IoError = class extends CommonError {
-  constructor({ message, status, ...options }) {
-    super(name, message, { status, ...options })
+  constructor ({ name = myName, ...options }) {
+    super({ name, ...options })
   }
 }
 
-IoError.typeName = name
+registerParent(myName, Object.getPrototypeOf(IoError).name)
+
+IoError.typeName = myName
 
 export { IoError }
