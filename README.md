@@ -1,7 +1,18 @@
 # @liquid-labs/common-errors
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
-##  API reference
+
+## API
+
+### Common parameters
+
+The following parameter options are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
+
+- `cause` {`Error`|`undefined`}: The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
+- `message` (`string`|`undefined`): All {@link CommonError} classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
+- `status` (`number`|`undefined`): All {@link CommonError} classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with {@link mapErrorToHttpStatus}. This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
+
+###  API reference
 _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-api)._
 
 - Classes:
@@ -35,7 +46,7 @@ itself.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
 
 <a id="ArgumentMissingError"></a>
-### ArgumentMissingError
+#### ArgumentMissingError
 
 A [`InvalidArgumentError`](#InvalidArgumentError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
 or '').
@@ -44,7 +55,7 @@ or '').
 
 
 <a id="AuthenticationRequiredError"></a>
-### AuthenticationRequiredError
+#### AuthenticationRequiredError
 
 An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
 authenticated.
@@ -53,7 +64,7 @@ authenticated.
 
 
 <a id="AuthError"></a>
-### AuthError
+#### AuthError
 
 A generic error indicating a problem with user authentication or authorization. `AuthError` should generally not be
 used directly, but instead is intended as a base class for auth related errors allowing consumers to check for auth
@@ -66,7 +77,7 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 
 
 <a id="CommonError"></a>
-### CommonError
+#### CommonError
 
 A base class for common errors. To create a common error of your own, extend this class.
 ```js
@@ -85,7 +96,7 @@ MyError.typeName = myName
 
 
 <a id="new_CommonError_new"></a>
-#### `new CommonError(options)`
+##### `new CommonError(options)`
 
 
 | Param | Type | Description |
@@ -98,7 +109,7 @@ MyError.typeName = myName
 
 
 <a id="ConnectionError"></a>
-### ConnectionError
+#### ConnectionError
 
 An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with the connection, including making a connection.
 
@@ -106,7 +117,7 @@ An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem
 
 
 <a id="ConnectionResetError"></a>
-### ConnectionResetError
+#### ConnectionResetError
 
 A [`ConnectionError`](#ConnectionError) sub-type indicating a connection has been reset or closed unexpectedly or while in use.
 
@@ -114,7 +125,7 @@ A [`ConnectionError`](#ConnectionError) sub-type indicating a connection has bee
 
 
 <a id="ConstraintViolationError"></a>
-### ConstraintViolationError
+#### ConstraintViolationError
 
 Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
 Consider
@@ -123,7 +134,7 @@ Consider
 
 
 <a id="DataServiceError"></a>
-### DataServiceError
+#### DataServiceError
 
 An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically. Consider
 whether any of the following errors might be more precise or better suited:
@@ -137,7 +148,7 @@ whether any of the following errors might be more precise or better suited:
 
 
 <a id="EndOfStreamError"></a>
-### EndOfStreamError
+#### EndOfStreamError
 
 An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
 
@@ -145,7 +156,7 @@ An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a 
 
 
 <a id="ExternalServiceError"></a>
-### ExternalServiceError
+#### ExternalServiceError
 
 Indicates an error related to an external service.
 
@@ -153,7 +164,7 @@ Indicates an error related to an external service.
 
 
 <a id="FileLoadError"></a>
-### FileLoadError
+#### FileLoadError
 
 An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
 
@@ -161,7 +172,7 @@ An [`IoError`](#IoError) indicating a file is present, and can be read, but ther
 
 
 <a id="InvalidArgumentError"></a>
-### InvalidArgumentError
+#### InvalidArgumentError
 
 Indicates an invalid argument was passed to a function.
 
@@ -176,23 +187,20 @@ Consider whether any of the following errors might be more precise or better sui
 
 
 <a id="new_InvalidArgumentError_new"></a>
-#### `new InvalidArgumentError(options)`
+##### `new InvalidArgumentError(options)`
 
 The [`InvalidArgumentError`](#InvalidArgumentError) constructor.
+
+See the [common parameters](#common-parameters) note for additional parameters.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The error options.` |
+| options | `object` | The error options. |
 | options.packageName | `string` \| `undefined` | The package name (optional). |
 | options.functionName | `string` \| `undefined` | The function name (optional). |
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
 | options.argumentValue | `string` \| `undefined` | The argument value (optional). |
-| options.message | `string` \| `undefined` | If not undefined, then the `message` value will used as the error   message instead of a generated error message. |
-| options.name |  |  |
-| options.status | `number` \| `undefined` | If defined, overrides the default HTTP status code assignment for this   `Error` instance. |
-| options.cause | `Error` \| `undefined` | The underlying error, if any, which caused this error. Typically used   when wrapping a more generic error with a more specific error or connecting errors across error boundaries   (e.g., across asynchronous calls). |
-| options.options | `object` \| `undefined` | The remainder of the options to to pass to `Error`. |
 
 **Examples**:
 *No arg constructor yields: &quot;Function argument has invalid value.&quot;*:
@@ -210,7 +218,7 @@ new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argum
 
 
 <a id="IoError"></a>
-### IoError
+#### IoError
 
 A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
 external service, or remote connections errors are therefore not I/O errors.
@@ -219,7 +227,7 @@ external service, or remote connections errors are therefore not I/O errors.
 
 
 <a id="LocalRollbackError"></a>
-### LocalRollbackError
+#### LocalRollbackError
 
 An [`IoError`](#IoError) relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client side to
 indicate a failed rollback in an external data service.
@@ -228,7 +236,7 @@ indicate a failed rollback in an external data service.
 
 
 <a id="LocalTransactionError"></a>
-### LocalTransactionError
+#### LocalTransactionError
 
 An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
@@ -237,7 +245,7 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 
 
 <a id="NoAccessError"></a>
-### NoAccessError
+#### NoAccessError
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. Note, in high security
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
@@ -252,7 +260,7 @@ Consider whether any of the following errors might be more precise or better sui
 
 
 <a id="NotFoundError"></a>
-### NotFoundError
+#### NotFoundError
 
 An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
 where the fundamental issue is the named thing not being present.
@@ -261,7 +269,7 @@ where the fundamental issue is the named thing not being present.
 
 
 <a id="NotPermittedError"></a>
-### NotPermittedError
+#### NotPermittedError
 
 An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation. Consider whether any of the
 following errors might be more precise or better suited:
@@ -274,7 +282,7 @@ following errors might be more precise or better suited:
 
 
 <a id="RollbackError"></a>
-### RollbackError
+#### RollbackError
 
 A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service. Use [`LocalRollbackError`](#LocalRollbackError) within a database implementation itself.
 
@@ -282,7 +290,7 @@ A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt 
 
 
 <a id="TransactionError"></a>
-### TransactionError
+#### TransactionError
 
 A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction. Note, this error is
 specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for error or
@@ -292,7 +300,7 @@ otherwise involving a transaction within a database system itself.
 
 
 <a id="UniqueConstraintViolationError"></a>
-### UniqueConstraintViolationError
+#### UniqueConstraintViolationError
 
 A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 
@@ -300,7 +308,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 
 
 <a id="new_UniqueConstraintViolationError_new"></a>
-#### `new UniqueConstraintViolationError(options)`
+##### `new UniqueConstraintViolationError(options)`
 
 
 | Param | Type | Description |
@@ -314,7 +322,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 
 
 <a id="hideNoAccessErrors"></a>
-### `hideNoAccessErrors()`
+#### `hideNoAccessErrors()`
 
 Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message. This is a common
 practice in secure systems where it is undesirable to give attackers any information about a resource they don't
@@ -326,7 +334,7 @@ one must take care in how [errors are presented to users](#presenting-errors-to-
 
 
 <a id="mapErrorToHttpStatus"></a>
-### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined`
+#### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined`
 
 Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your
 own mappings, which may be useful when dealing with non-common error errors.
@@ -349,7 +357,7 @@ own mappings, which may be useful when dealing with non-common error errors.
 
 
 <a id="mapHttpStatusToName"></a>
-### `mapHttpStatusToName(status, name)` ⇒ `string` \| `undefined`
+#### `mapHttpStatusToName(status, name)` ⇒ `string` \| `undefined`
 
 Used to translate and manage mappings from HTTP status codes to names. Supports all current status defined by the [
 IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions

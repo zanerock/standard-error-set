@@ -2,7 +2,7 @@ README_MD:=README.md
 README_MD_SRC:=$(shell find $(SRC)/docs -name "*.md") $(SDLC_ALL_NON_TEST_JS_FILES_SRC)
 BUILD_TARGETS+=$(README_MD)
 
-$(README_MD): $(README_MD_SRC)
+$(README_MD): $(README_MD_SRC) jsdoc.config.json .jsdoc2md.json
 	cp $(SRC)/docs/README.01.md $@
 	npx jsdoc2md \
 	  --configure ./jsdoc.config.json \
