@@ -4,28 +4,14 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'InvalidArgumentError'
 
 /**
- * Indicates an invalid argument was passed to a function. In general, the easiest way to invoke the constructor is
- * with a single [`InvalidArgumentOptions`](#InvalidArgumentOptions} option object. The constructor can also be called
- * with either positional arguments for the function package, function name, argument name, and argument value (in that
- * order, each optional). In any case, if the final argument is an `Object`, it is treated as an options argument and
- * the options argument is passed to the `Error` super-constructor (e.g., this is where you would set `cause`, if any).
- * Finally, if `message` is set directly in the options argument, it will be used  regardless of the presence of other
- * option fields or positional arguments.
- *
- * When the argument value is specified, either with positional arguments or as an options field, it will be reported
- * in the message, if possible. If the value is an `Object`, it will be stringified with `JSON.stringify`. If that is
- * not possible, then the resulting error message will omit reporting the value and treat the argument value as
- * `undefined` for the purposes of creating the message. The argument value will still be available in the `
- *  argumentValue` field on the `InvalidArgumentError` instance.`
- *
- * When both a positional argument and the corresponding options argument are both set, (e.g., `functionNameOrOptions'
- * and `options.functionName`), the options field will win out. Also, because if the last argument is treated as the
- * options argument, you must explicitly set `options` (either `{}` or `null`) if `argumentValueOrOptions` is itself an
- * object. Otherwise, `argumentValueOrOptions` will be treated as the options argument (and not the argument value) if
- * `options` is unset or explicitly undefined.
- *
- * If specified, in either positional arguments, or option fields, `packageName`, `funcitonName`, `argumentName`, and
- * `argumentValue` will be available as fields on the `InvalidArgumentError` instance.
+ * Indicates an invalid argument was passed to a function.
+ * 
+ * Consider whether any of the following errors might be more precise or better suited:
+ * - {@link EmptyArgumentError} - Consider this when the argument is required, but missing or empty.
+ * - {@link ConstraintViolationError} - Consider this when the argument is of the proper type, but violates some 
+ *   constraint.
+ * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a 
+ *   unique constraint.
  */
 const InvalidArgumentError = class extends CommonError {
   /**
