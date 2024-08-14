@@ -26,7 +26,7 @@ const UniqueConstraintViolationError = class extends CommonError {
 
 const generateMessage = (entityType, fieldAndValues) => {
   let message = 'Unique constraint '
-  if (fieldAndValues !== null && fieldAndValues.length > 0) {
+  if (fieldAndValues !== undefined && fieldAndValues.length > 0) {
     message += 'on fields <'
     for (const fieldAndValue of fieldAndValues) {
       if (Array.isArray(fieldAndValue) && fieldAndValue.length === 2) {
@@ -36,11 +36,11 @@ const generateMessage = (entityType, fieldAndValues) => {
         message += `${fieldAndValue/* is just field */},`
       }
     }
-    message = message.slice(-1)
+    message = message.slice(0, -1)
     message += '> '
   }
   if (entityType !== undefined) {
-    message += `on entity type ${entityType} `
+    message += `on entity type '${entityType}' `
   }
   message += 'violated.'
 
