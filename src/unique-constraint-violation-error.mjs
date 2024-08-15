@@ -5,7 +5,7 @@ const myName = 'UniqueConstraintViolationError'
 
 /**
  * A {@link ConstraintViolationError} ndicating violation of a unique constraint, such as login ID.
- * @param {object} options - The error options.
+ * @param {object|undefined} options - The error options.
  * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
  * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
  *   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.

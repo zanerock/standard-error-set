@@ -1,4 +1,4 @@
-/* globals AuthenticationRequiredError NoAccessDirectoryError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */ // used in docs
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError NoAccessDirectoryError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */ // used in docs
 import { AuthError } from './auth-error'
 import { generateNoAccessMessage } from './lib/generate-no-access-message'
 import { mapErrorToHttpStatus, registerParent } from './map-error-to-http-status'
@@ -15,6 +15,8 @@ const myName = 'NoAccessError'
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link AuthenticationRequiredError} - Use this when the resource requires authenticated access and the user is not
  *   currently authenticated.
+ * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to access the resource under 
+ *   some conditions.
  * - {@link NoAccessDirectoryError}
  * - {@link NoAccessFileError}
  * - {@link OperationNotPermittedError}

@@ -1,4 +1,4 @@
-/* globals AuthenticationRequiredError maskNoAccessErrors NoAccessDirectoryError OperationNotPermittedError */
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError maskNoAccessErrors NoAccessDirectoryError OperationNotPermittedError */
 import { NoAccessError } from './no-access-error'
 import { describeFile } from './lib/describe-file'
 import { registerParent } from './map-error-to-http-status'
@@ -13,6 +13,8 @@ const myName = 'NoAccessFileError'
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link AuthenticationRequiredError} - Use this when the resource requires authenticated access and the user is not
  *   currently authenticated.
+ * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to access the file under some
+ *   conditions.
  * - {@link NoAccessDirectoryError}
  * - {@link NoAccessError}
  * - {@link OperationNotPermittedError}

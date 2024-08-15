@@ -1,4 +1,4 @@
-/* global AuthenticationError BadCredentialsError AuthorizationConditionsNotMetError NoAccessError */ // used in docs
+/* global AuthenticationError AuthorizationConditionsNotMetError BadCredentialsError AuthorizationConditionsNotMetError NoAccessError */ // used in docs
 import { AuthError } from './auth-error'
 import { registerParent } from './map-error-to-http-status'
 
@@ -10,6 +10,8 @@ const myName = 'OperationNotPermittedError'
  * NoAccessError} or it's children may be better suited. Consider whether any of the following errors might be more
  * precise or better suited:
  * - {@link AuthenticationError}
+ * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to perform the operation under 
+ *   some conditions.
  * - {@link BadCredentialsError}
  * - {@link AuthorizationConditionsNotMetError}
  * - {@link NoAccessError}
