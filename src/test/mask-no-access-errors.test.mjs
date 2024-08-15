@@ -25,20 +25,20 @@ describe('maskNoAccessErrors', () => {
       defaultCode   : 'ENOENT'
     }))('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
 
-    test.each(testData)('NoAccessError and NotFoundError generate the same messages', 
-      (options, stringMatcher) => {
+    test.each(testData)('NoAccessError and NotFoundError generate the same messages',
+      (options) => {
         const noAccessError = new NoAccessError(options)
         const notFoundError = new NotFoundError(options)
 
         expect(noAccessError.message).toBe(notFoundError.message)
-    })
+      })
   })
 
   describe('NoAccessFileError', () => {
     const testData = [
       [undefined, /File not found./],
       [{ fileName : 'foo.txt' }, /File 'foo.txt' not found./],
-      [{ dirPath: '/dir', fileName : 'foo.txt' }, /File '\/dir\/foo.txt' not found./],
+      [{ dirPath : '/dir', fileName : 'foo.txt' }, /File '\/dir\/foo.txt' not found./]
     ]
 
     test.each(completeTestData({
@@ -47,19 +47,19 @@ describe('maskNoAccessErrors', () => {
       defaultCode   : 'ENOENT'
     }))('Options %p => message %s and status %s', standardErrorTest(NoAccessFileError))
 
-    test.each(testData)('NoAccessFileError and FileNotFoundError generate the same messages', 
-      (options, stringMatcher) => {
+    test.each(testData)('NoAccessFileError and FileNotFoundError generate the same messages',
+      (options) => {
         const noAccessFileError = new NoAccessFileError(options)
         const fileNotFoundError = new FileNotFoundError(options)
 
         expect(noAccessFileError.message).toBe(fileNotFoundError.message)
-    })
+      })
   })
 
   describe('NoAccessDirecotryError', () => {
     const testData = [
       [undefined, /Directory not found./],
-      [{ dirPath: '/dir' }, /Directory '\/dir' not found./],
+      [{ dirPath : '/dir' }, /Directory '\/dir' not found./]
     ]
 
     test.each(completeTestData({
@@ -68,12 +68,12 @@ describe('maskNoAccessErrors', () => {
       defaultCode   : 'ENOENT'
     }))('Options %p => message %s and status %s', standardErrorTest(NoAccessDirectoryError))
 
-    test.each(testData)('NoAccessDirectoryError and DirectoryNotFoundError generate the same messages', 
-      (options, stringMatcher) => {
+    test.each(testData)('NoAccessDirectoryError and DirectoryNotFoundError generate the same messages',
+      (options) => {
         const noAccessDirectoryError = new NoAccessDirectoryError(options)
         const directoryNotFoundError = new DirectoryNotFoundError(options)
 
         expect(noAccessDirectoryError.message).toBe(directoryNotFoundError.message)
-    })
+      })
   })
 })

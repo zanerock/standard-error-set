@@ -1,3 +1,4 @@
+/* globals RollbackError */ // used in docs
 import { IoError } from './io-error'
 import { registerParent } from './map-error-to-http-status'
 

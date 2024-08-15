@@ -1,3 +1,4 @@
+/* globals ArgumentMissingError ConstraintViolationError UniqueConstraintViolationError */
 import { CommonError } from './common-error'
 import { registerParent } from './map-error-to-http-status'
 
@@ -7,7 +8,7 @@ const myName = 'ArgumentInvalidError'
  * Indicates an invalid argument was passed to a function.
  *
  * Consider whether any of the following errors might be more precise or better suited:
- * - {@link EmptyArgumentError} - Consider this when the argument is required, but missing or empty.
+ * - {@link ArgumentMissingError} - Consider this when the argument is required, but missing or empty.
  * - {@link ConstraintViolationError} - Consider this when the argument is of the proper type, but violates some
  *   constraint.
  * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a

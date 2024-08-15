@@ -1,3 +1,4 @@
+/* globals AuthenticationRequiredError BadCredentialsError NoAccessError OperationNotPermittedError */
 import { CommonError } from './common-error'
 import { registerParent } from './map-error-to-http-status'
 
@@ -9,6 +10,7 @@ const myName = 'AuthError'
  * related errors broadly (`e.g., instanceof AuthError`). Generally, will want to use one of the following:
  * - {@link AuthenticationRequiredError}
  * - {@link BadCredentialsError}
+ * - {@link NoAccessError}
  * - {@link OperationNotPermittedError}
  */
 const AuthError = class extends CommonError {

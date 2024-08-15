@@ -27,6 +27,7 @@ In addition to this, all parameters passed to a `CommonError` constructor will b
 _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-api)._
 
 - Classes:
+  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid argument was passed to a function.
   - [ArgumentMissingError](#ArgumentMissingError): A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
 or '').
   - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
@@ -37,25 +38,68 @@ authenticated.
   - [ConnectionResetError](#ConnectionResetError): A [`ConnectionError`](#ConnectionError) sub-type indicating a connection has been reset or closed unexpectedly or while in use.
   - [ConstraintViolationError](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
   - [DataServiceError](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
+  - [DirectoryNotFoundError](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [EndOfStreamError](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
   - [ExternalServiceError](#ExternalServiceError): Indicates an error related to an external service.
   - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
   - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
-  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid argument was passed to a function.
   - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
   - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) relating to a failed rollback within a database.
   - [LocalTransactionError](#LocalTransactionError): An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself.
+  - [NoAccessDirectoryError](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
   - [NoAccessError](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
+  - [NoAccessFileError](#NoAccessFileError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file.
   - [NotFoundError](#NotFoundError): An error indicating a resource or entity cannot be found.
   - [OperationNotPermittedError](#OperationNotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
   - [RollbackError](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
   - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 - Functions:
-  - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message.
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
+  - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
+
+<a id="ArgumentInvalidError"></a>
+#### ArgumentInvalidError
+
+Indicates an invalid argument was passed to a function.
+
+Consider whether any of the following errors might be more precise or better suited:
+- [`EmptyArgumentError`](EmptyArgumentError) - Consider this when the argument is required, but missing or empty.
+- [`ConstraintViolationError`](#ConstraintViolationError) - Consider this when the argument is of the proper type, but violates some
+  constraint.
+- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError) - Consider this when the argument is of the proper type, but violates a
+  unique constraint.
+
+[**Source code**](./src/argument-invalid-error.mjs#L16)
+
+
+<a id="new_ArgumentInvalidError_new"></a>
+##### `new ArgumentInvalidError(options)`
+
+The [`ArgumentInvalidError`](#ArgumentInvalidError) constructor.
+
+See the [common parameters](#common-parameters) note for additional parameters.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` | The error options. |
+| options.packageName | `string` \| `undefined` | The package name (optional). |
+| options.functionName | `string` \| `undefined` | The function name (optional). |
+| options.argumentName | `string` \| `undefined` | The argument name (optional). |
+| options.argumentValue | `string` \| `undefined` | The argument value (optional). |
+
+**Example**:
+```js
+new ArgumentInvalidError() // "Function argument has invalid value."
+// v yields: "Function 'my-package#foo()' argument  has invalid value."
+new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
+// v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
+new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
+```
+
 
 <a id="ArgumentMissingError"></a>
 #### ArgumentMissingError
@@ -159,6 +203,32 @@ whether any of the following errors might be more precise or better suited:
 [**Source code**](./src/data-service-error.mjs#L15)
 
 
+<a id="DirectoryNotFoundError"></a>
+#### DirectoryNotFoundError
+
+A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and
+`fileName` are specified, `DirectoryNotFound` tries to be smart about joining them and will try and guess the proper path
+separator and whether it needs to be appended or not.
+
+[**Source code**](./src/directory-not-found-error.mjs#L19)
+
+
+<a id="new_DirectoryNotFoundError_new"></a>
+##### `new DirectoryNotFoundError(dirPath, resource)`
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
+| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set. |
+
+**Example**:
+```js
+new DirectoryNotFound() // "Directory not found."
+new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found."
+```
+
+
 <a id="EndOfStreamError"></a>
 #### EndOfStreamError
 
@@ -186,21 +256,22 @@ An [`IoError`](#IoError) indicating a file is present, and can be read, but ther
 <a id="FileNotFoundError"></a>
 #### FileNotFoundError
 
-A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and 
-`fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path 
+A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and
+`fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path
 separator and whether it needs to be appended or not.
 
-[**Source code**](./src/file-not-found-error.mjs#L21)
+[**Source code**](./src/file-not-found-error.mjs#L25)
 
 
 <a id="new_FileNotFoundError_new"></a>
-##### `new FileNotFoundError(dirPath, fileName)`
+##### `new FileNotFoundError(dirPath, fileName, resource)`
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should    be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the    standard error message. |
+| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should   be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the   standard error message. |
+| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
 
 **Example**:
 ```js
@@ -209,47 +280,6 @@ new FileNotFound({ fileName: 'foo.txt' }) // "File 'foo.txt' not found."
 new FileNotFound({ dirPath: '/tmp', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
 new FileNotFound({ dirPath: '/tmp/', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
 new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-weird' not found."
-```
-
-
-<a id="ArgumentInvalidError"></a>
-#### ArgumentInvalidError
-
-Indicates an invalid argument was passed to a function.
-
-Consider whether any of the following errors might be more precise or better suited:
-- [`EmptyArgumentError`](EmptyArgumentError) - Consider this when the argument is required, but missing or empty.
-- [`ConstraintViolationError`](#ConstraintViolationError) - Consider this when the argument is of the proper type, but violates some 
-  constraint.
-- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError) - Consider this when the argument is of the proper type, but violates a 
-  unique constraint.
-
-[**Source code**](./src/argument-invalid-error.mjs#L16)
-
-
-<a id="new_ArgumentInvalidError_new"></a>
-##### `new ArgumentInvalidError(options)`
-
-The [`ArgumentInvalidError`](#ArgumentInvalidError) constructor.
-
-See the [common parameters](#common-parameters) note for additional parameters.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | `object` | The error options. |
-| options.packageName | `string` \| `undefined` | The package name (optional). |
-| options.functionName | `string` \| `undefined` | The function name (optional). |
-| options.argumentName | `string` \| `undefined` | The argument name (optional). |
-| options.argumentValue | `string` \| `undefined` | The argument value (optional). |
-
-**Example**:
-```js
-new ArgumentInvalidError() // "Function argument has invalid value."
-// v yields: "Function 'my-package#foo()' argument  has invalid value."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-// v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
 ```
 
 
@@ -280,19 +310,76 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 [**Source code**](./src/local-transaction-error.mjs#L10)
 
 
+<a id="NoAccessDirectoryError"></a>
+#### NoAccessDirectoryError
+
+An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory. Note, in high security
+systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
+access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to deal with this situation.
+
+Consider whether any of the following errors might be more precise or better suited:
+- [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
+  currently authenticated.
+- [`NoAccessError`](#NoAccessError)
+- [`NoAccessFileError`](#NoAccessFileError)
+- [`OperationNotPermittedError`](#OperationNotPermittedError)
+
+[**Source code**](./src/no-access-directory-error.mjs#L23)
+
+
+<a id="new_NoAccessDirectoryError_new"></a>
+##### `new NoAccessDirectoryError(dirPath, resource)`
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
+| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set.} |
+
+
 <a id="NoAccessError"></a>
 #### NoAccessError
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. Note, in high security
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
-access issue, use and see [`maskNoAccessErrors`](maskNoAccessErrors) to deal with this situation.
+access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
   currently authenticated.
-- [`OperationOperationNotPermittedError`](OperationOperationNotPermittedError)
+- [`NoAccessDirectoryError`](#NoAccessDirectoryError)
+- [`NoAccessFileError`](#NoAccessFileError)
+- [`OperationNotPermittedError`](#OperationNotPermittedError)
 
-[**Source code**](./src/no-access-error.mjs#L16)
+[**Source code**](./src/no-access-error.mjs#L20)
+
+
+<a id="NoAccessFileError"></a>
+#### NoAccessFileError
+
+An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file. Note, in high security
+systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
+access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to deal with this situation.
+
+Consider whether any of the following errors might be more precise or better suited:
+- [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
+  currently authenticated.
+- [`NoAccessDirectoryError`](#NoAccessDirectoryError)
+- [`NoAccessError`](#NoAccessError)
+- [`OperationNotPermittedError`](#OperationNotPermittedError)
+
+[**Source code**](./src/no-access-file-error.mjs#L26)
+
+
+<a id="new_NoAccessFileError_new"></a>
+##### `new NoAccessFileError(dirPath, fileName, resource)`
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
+| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should   be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the   standard error message. |
+| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
 
 
 <a id="NotFoundError"></a>
@@ -301,7 +388,7 @@ Consider whether any of the following errors might be more precise or better sui
 An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
 where the fundamental issue is the named thing not being present.
 
-[**Source code**](./src/not-found-error.mjs#L10)
+[**Source code**](./src/not-found-error.mjs#L11)
 
 
 <a id="OperationNotPermittedError"></a>
@@ -314,7 +401,7 @@ following errors might be more precise or better suited:
 - [`AuthorizationConditionsNotMetError`](AuthorizationConditionsNotMetError)
 - [`NoAccessError`](#NoAccessError)
 
-[**Source code**](./src/operation-not-permitted-error.mjs#L14)
+[**Source code**](./src/operation-not-permitted-error.mjs#L15)
 
 
 <a id="RollbackError"></a>
@@ -322,7 +409,7 @@ following errors might be more precise or better suited:
 
 A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service. Use [`LocalRollbackError`](#LocalRollbackError) within a database implementation itself.
 
-[**Source code**](./src/rollback-error.mjs#L10)
+[**Source code**](./src/rollback-error.mjs#L11)
 
 
 <a id="TransactionError"></a>
@@ -332,7 +419,7 @@ A [`DataServiceError`](#DataServiceError) indicating a problem with creating or 
 specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for error or
 otherwise involving a transaction within a database system itself.
 
-[**Source code**](./src/transaction-error.mjs#L11)
+[**Source code**](./src/transaction-error.mjs#L12)
 
 
 <a id="UniqueConstraintViolationError"></a>
@@ -355,18 +442,6 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 | options.message | `string` \| `undefined` | The explicit error message to use (rather than generating an error   message) (optional). |
 | options.status | `number` \| `undefined` | The HTTP status code to use on this error instance (optional); will be   mapped to default if not provided. |
 | options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
-
-
-<a id="maskNoAccessErrors"></a>
-#### `maskNoAccessErrors()`
-
-Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message. This is a common
-practice in secure systems where it is undesirable to give attackers any information about a resource they don't
-have access to. I.e., if a user tries to access a resource they are not permitted to access, a [`NoAccessError`](#NoAccessError)
-would divulge the existence of a resource, so instead high security systems will usually prefer a [`NotFoundError`](#NotFoundError) so as to not give anything away. Note, this does not change the class of the error itself, so
-one must take care in how [errors are presented to users](#presenting-errors-to-users).
-
-[**Source code**](./src/mask-no-access-errors.mjs#L9)
 
 
 <a id="mapErrorToHttpStatus"></a>
@@ -414,9 +489,25 @@ returned by IIS, NginX, and Cloudflare.
 [**Source code**](./src/map-http-status-to-name.mjs#L66)
 
 
+<a id="maskNoAccessErrors"></a>
+#### `maskNoAccessErrors()`
+
+Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message. This
+will effectively remap and custom mappings of [`NoAccessError`](#NoAccessError) or it's children that may be in place. This  is a
+common practice in secure systems where it is undesirable to give attackers any information about a resource they
+don't have access to. I.e., if a user tries to access a resource they are not permitted to access, an unmasked [`NoAccessError`](#NoAccessError) would divulge the existence of a resource. Note, this does not change the class of the error itself, 
+so and developers _should_ continue to use [`NoAccessErrors`](NoAccessErrors) where the problem is actually access. In 
+production systems, the [presentation of errors to the users](#presenting-errors-to-users) should not indicate the 
+underlying type.
+
+[**Source code**](./src/mask-no-access-errors.mjs#L16)
+
+
 ## Presenting errors to users
 
-In a production context, 
+In a production system, the user should only see the error message, and additional information about the type of the error or where it occurred should not be passed on. This includes in response data which might not be directly displayed to the user, but could be accessed by inspecting the HTTP result, for instance. In particular, the class type and stack trace _should not_ be included in any error response.
+
+If this information will be included in response data, then high security systems _should_ use {@link NotFoundError} and it's children directly, even when the real problem is one off authorization. This is a less elegant solution, but may be necessary.
 
 ## Rejected error types
 

@@ -8,7 +8,7 @@ const completeTestData = ({ testData, defaultCode, defaultStatus, fillLength = d
     if (typeof record[2] !== 'number') {
       record.splice(2, 0, defaultStatus)
     }
-    while (record.length < defaultFillLength) {
+    while (record.length < fillLength) {
       record.push(record.length === 4 ? defaultCode : undefined)
     }
     return record

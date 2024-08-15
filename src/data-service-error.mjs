@@ -1,3 +1,4 @@
+/* globals ConnectionError ConstraintViolationError RollbackError TransactionError UniqueConstraintViolationError */ // used in docs
 import { ExternalServiceError } from './external-service-error'
 import { registerParent } from './map-error-to-http-status'
 

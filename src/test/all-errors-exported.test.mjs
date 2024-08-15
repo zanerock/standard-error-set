@@ -1,9 +1,11 @@
 import { readdirSync } from 'node:fs'
 import { resolve as resolvePath } from 'node:path'
 
-import camelCase from 'lodash/camelCase'
-import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase' // eslint-disable-line node/no-unpublished-import
+import upperFirst from 'lodash/upperFirst' // eslint-disable-line node/no-unpublished-import
 
+// I think this import is what might be confusing eslint into thinking tihs file is published (which is triggering the
+// false errors above).
 import * as exports from '../index'
 
 test('Check that all errors are exported', () => {

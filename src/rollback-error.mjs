@@ -1,3 +1,4 @@
+/* globals LocalRollbackError */ // used in docs
 import { DataServiceError } from './data-service-error'
 import { registerParent } from './map-error-to-http-status'
 
