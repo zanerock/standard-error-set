@@ -1,3 +1,5 @@
+/* global expect */
+
 const standardErrorTest = (TestClass) =>
   (options, messageMatcher, expectedStatus, expectedCause, expectedCode) => {
     const error = new TestClass(options)

@@ -49,8 +49,8 @@ describe('ArgumentInvalidError', () => {
     ]
   ]
 
-  test.each(completeTestData({ 
-    testData, 
-    defaultStatus: 400 
+  test.each(completeTestData({
+    testData,
+    defaultStatus : 400
   }))('Options %p => message %s and status %s', standardErrorTest(ArgumentInvalidError))
 })

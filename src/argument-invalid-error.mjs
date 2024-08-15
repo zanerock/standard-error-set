@@ -5,25 +5,25 @@ const myName = 'ArgumentInvalidError'
 
 /**
  * Indicates an invalid argument was passed to a function.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link EmptyArgumentError} - Consider this when the argument is required, but missing or empty.
- * - {@link ConstraintViolationError} - Consider this when the argument is of the proper type, but violates some 
+ * - {@link ConstraintViolationError} - Consider this when the argument is of the proper type, but violates some
  *   constraint.
- * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a 
+ * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a
  *   unique constraint.
  */
 const ArgumentInvalidError = class extends CommonError {
   /**
    * The {@link ArgumentInvalidError} constructor.
-   * 
+   *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} options - The error options.
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
    * @param {string|undefined} options.argumentName - The argument name (optional).
    * @param {string|undefined} options.argumentValue - The argument value (optional).
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError} 
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example

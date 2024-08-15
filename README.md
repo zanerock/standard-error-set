@@ -285,7 +285,7 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. Note, in high security
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
-access issue, use and see [`hideAccessErrors`](hideAccessErrors) to deal with this situation.
+access issue, use and see [`maskNoAccessErrors`](maskNoAccessErrors) to deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not

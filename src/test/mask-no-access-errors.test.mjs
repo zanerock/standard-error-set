@@ -9,12 +9,13 @@ describe('maskNoAccessErrors', () => {
   afterAll(() => mapErrorToHttpStatus())
 
   const testData = [
-    [undefined, /Resource not found./]
+    [undefined, /Resource not found./],
+    [{ resource : 'the thing' }, /The thing not found./]
   ]
 
-  test.each(completeTestData({ 
-    testData, 
-    defaultStatus: 404, 
-    defaultCode: 'ENOENT' 
+  test.each(completeTestData({
+    testData,
+    defaultStatus : 404,
+    defaultCode   : 'ENOENT'
   }))('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
 })

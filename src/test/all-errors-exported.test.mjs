@@ -20,6 +20,6 @@ test('Check that all errors are exported', () => {
     }
     return acc
   }, [])
-  
+
   expect(missingExports).toHaveLength(0)
 })
