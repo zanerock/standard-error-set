@@ -1,4 +1,4 @@
-import { describeDirecory } from './lib/describe-directory'
+import { describeDirectory } from './lib/describe-directory'
 import { generateNotFoundMessage } from './lib/generate-not-found-message'
 import { NotFoundError } from './not-found-error'
 import { registerParent } from './map-error-to-http-status'
@@ -18,7 +18,7 @@ const myName = 'DirectoryNotFoundError'
  */
 const DirectoryNotFoundError = class extends NotFoundError {
   constructor ({ name = myName, ...options } = {}) {
-    const resource = describeDirecory(options)
+    const resource = describeDirectory(options)
     options.message = options.message || generateNotFoundMessage({ resource })
     options.resource = options.resource || resource
 
