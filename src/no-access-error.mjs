@@ -16,7 +16,7 @@ const myName = 'NoAccessError'
  * - {@link OperationOperationNotPermittedError}
  */
 const NoAccessError = class extends AuthError {
-  constructor ({ message, status, ...options } = {}) {
+  constructor ({ name = myName, message, status, ...options } = {}) {
     status = status || mapErrorToHttpStatus(myName)
     options.message = options.message || generateMessage({ status, ...options })
     if (status === 404 && options.code === undefined) {
@@ -33,7 +33,7 @@ NoAccessError.typeName = myName
 
 const generateMessage = ({ resource, status }) => {
   if (status === 404) {
-    generateNotFoundMessage({ resource })
+    return generateNotFoundMessage({ resource })
   } else {
     return `Access ${resource === undefined ? '' : `to ${resource} `}is denied.`
   }

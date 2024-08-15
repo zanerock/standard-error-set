@@ -10,7 +10,7 @@ import { NoAccessError } from './no-access-error'
  * one must take care in how [errors are presented to users](#presenting-errors-to-users).
  */
 const hideNoAccessErrors = () => {
-  mapErrorToHttpStatus(NoAccessError, '404')
+  mapErrorToHttpStatus(NoAccessError, 404)
 }
 
 export { hideNoAccessErrors }

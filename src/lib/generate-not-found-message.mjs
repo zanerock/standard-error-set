@@ -6,6 +6,6 @@
  * @param {object} options.resource - The name or short description of the missing resource.
  * @private
  */
-const generateNotFoundMessage = ({ resource }) => `Resource ${resource} not found.`
+const generateNotFoundMessage = ({ resource }) => `Resource ${resource === undefined ? '' : resource + ' '}not found.`
 
 export { generateNotFoundMessage }
