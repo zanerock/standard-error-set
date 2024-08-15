@@ -1,9 +1,9 @@
 import { NoAccessError } from './no-access-error'
-import { describeDirectory } from './lib/describe-directory'
-import { describeNoAccessMessage } from './lib/describe-no-access-message'
+import { describeFile } from './lib/describe-file'
+import { generateNoAccessMessage } from './lib/generate-no-access-message'
 import { mapErrorToHttpStatus, registerParent } from './map-error-to-http-status'
 
-const myName = 'NoAccessDirectoryError'
+const myName = 'NoAccessFileError'
 
 /**
  * An {@link AuthError} indicating a user lacks the rights to access a particular file. Note, in high security
@@ -17,10 +17,10 @@ const myName = 'NoAccessDirectoryError'
  * - {@link NoAccessError}
  * - {@link OperationOperationNotPermittedError}
  */
-const NoAccessDirectoryError = class extends NoAccess {
+const NoAccessFileError = class extends NoAccessError {
   constructor ({ name = myName, message, status, ...options } = {}) {
     status = status || mapErrorToHttpStatus(myName)
-    const resource = describeDirectory(options)
+    const resource = describeFile(options)
     options.resource = options.resource || resource
     options.message = options.message || generateNoAccessMessage({ status, ...options })
 
@@ -28,8 +28,8 @@ const NoAccessDirectoryError = class extends NoAccess {
   }
 }
 
-registerParent(myName, Object.getPrototypeOf(NoAccessDirectoryError).name)
+registerParent(myName, Object.getPrototypeOf(NoAccessFileError).name)
 
-NoAccessDirectoryError.typeName = myName
+NoAccessFileError.typeName = myName
 
-export { NoAccessDirectoryError }
+export { NoAccessFileError }

@@ -9,7 +9,7 @@ const myName = 'NotFoundError'
  * where the fundamental issue is the named thing not being present.
  */
 const NotFoundError = class extends CommonError {
-  constructor ({ name = myName, code = 'ENOENT', ...options }) {
+  constructor ({ name = myName, code = 'ENOENT', ...options } = {}) {
     options.message = options.message || generateNotFoundMessage(options)
 
     super({ name, code, ...options })
