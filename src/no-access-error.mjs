@@ -1,4 +1,6 @@
 import { AuthError } from './auth-error'
+import { generateNotFoundMessage } from './lib/generate-not-found-message'
+import { mapErrorToHttpStatus } from './map-error-to-http-status'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NoAccessError'
@@ -11,16 +13,30 @@ const myName = 'NoAccessError'
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link AuthenticationRequiredError} - Use this when the resource requires authenticated access and the user is not
  *   currently authenticated.
- * - {@link OperationNotPermittedError}
+ * - {@link OperationOperationNotPermittedError}
  */
 const NoAccessError = class extends AuthError {
   constructor ({ message, status, ...options } = {}) {
-    super({ name, ...options })
+    status = status || mapErrorToHttpStatus(myName)
+    options.message = options.message || generateMessage({ status, ...options })
+    if (status === 404 && options.code === undefined) {
+      options.code = 'ENOENT'
+    }
+
+    super({ name, status, ...options })
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(NoAccessError).name)
 
 NoAccessError.typeName = myName
+
+const generateMessage = ({ resource, status }) => {
+  if (status === 404) {
+    generateNotFoundMessage({ resource })
+  } else {
+    return `Access ${resource === undefined ? '' : `to ${resource} `}is denied.`
+  }
+}
 
 export { NoAccessError }

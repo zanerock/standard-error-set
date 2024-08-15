@@ -1,4 +1,5 @@
 import { CommonError } from './common-error'
+import { generateNotFoundMessage } from './lib/generate-not-found-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NotFoundError'
@@ -9,6 +10,8 @@ const myName = 'NotFoundError'
  */
 const NotFoundError = class extends CommonError {
   constructor ({ name = myName, code = 'ENOENT', ...options }) {
+    options.message = options.message || generateNotFoundMessage(options)
+
     super({ name, code, ...options })
   }
 }

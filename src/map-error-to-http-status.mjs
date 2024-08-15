@@ -5,7 +5,7 @@ const defaultMapping = {
   AuthError                : 403, // note 401 (Unauthorized) is actually specifically for HTTP authorization and
   // not a general authorization status
   ConstraintViolationError : 409,
-  InvalidArgumentError     : 400,
+  ArgumentInvalidError     : 400,
   NotFoundError            : 404
 }
 

@@ -1,3 +1,6 @@
+import { mapErrorToHttpStatus } from './map-error-to-http-status'
+import { NoAccessError } from './no-access-error'
+
 /**
  * Remaps {@link NoAccessError}s to a 404 (Not Found) status and changes the generated message. This is a common
  * practice in secure systems where it is undesirable to give attackers any information about a resource they don't
@@ -7,5 +10,7 @@
  * one must take care in how [errors are presented to users](#presenting-errors-to-users).
  */
 const hideNoAccessErrors = () => {
-
+  mapErrorToHttpStatus(NoAccessError, '404')
 }
+
+export { hideNoAccessErrors }

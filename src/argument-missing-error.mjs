@@ -1,13 +1,13 @@
-import { InvalidArgumentError } from './invalid-argument-error'
+import { ArgumentInvalidError } from './argument-invalid-error'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ArgumentMissingError'
 
 /**
- * A {@link InvalidArgumentError} sub-type indicating an argument is missing or empty (typically `null', `undefined`,
+ * A {@link ArgumentInvalidError} sub-type indicating an argument is missing or empty (typically `null', `undefined`,
  * or '').
  */
-const ArgumentMissingError = class extends InvalidArgumentError {
+const ArgumentMissingError = class extends ArgumentInvalidError {
   constructor ({ name = myName, ...options }) {
     super({ name, ...options })
   }

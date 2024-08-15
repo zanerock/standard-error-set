@@ -27,7 +27,7 @@ In addition to this, all parameters passed to a `CommonError` constructor will b
 _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-api)._
 
 - Classes:
-  - [ArgumentMissingError](#ArgumentMissingError): A [`InvalidArgumentError`](#InvalidArgumentError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
+  - [ArgumentMissingError](#ArgumentMissingError): A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
 or '').
   - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
 authenticated.
@@ -41,14 +41,14 @@ authenticated.
   - [ExternalServiceError](#ExternalServiceError): Indicates an error related to an external service.
   - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
   - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
-  - [InvalidArgumentError](#InvalidArgumentError): Indicates an invalid argument was passed to a function.
+  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid argument was passed to a function.
   - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
   - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) relating to a failed rollback within a database.
   - [LocalTransactionError](#LocalTransactionError): An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself.
   - [NoAccessError](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
   - [NotFoundError](#NotFoundError): An error indicating a resource or entity cannot be found.
-  - [NotPermittedError](#NotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
+  - [OperationNotPermittedError](#OperationNotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
   - [RollbackError](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
   - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
@@ -60,10 +60,10 @@ itself.
 <a id="ArgumentMissingError"></a>
 #### ArgumentMissingError
 
-A [`InvalidArgumentError`](#InvalidArgumentError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
+A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is missing or empty (typically `null', `undefined`,
 or '').
 
-[**Source code**](./src/argument-empty-error.mjs#L10)
+[**Source code**](./src/argument-missing-error.mjs#L10)
 
 
 <a id="AuthenticationRequiredError"></a>
@@ -83,7 +83,7 @@ used directly, but instead is intended as a base class for auth related errors a
 related errors broadly (`e.g., instanceof AuthError`). Generally, will want to use one of the following:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError)
 - [`BadCredentialsError`](BadCredentialsError)
-- [`NotPermittedError`](#NotPermittedError)
+- [`OperationNotPermittedError`](#OperationNotPermittedError)
 
 [**Source code**](./src/auth-error.mjs#L14)
 
@@ -212,8 +212,8 @@ new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-
 ```
 
 
-<a id="InvalidArgumentError"></a>
-#### InvalidArgumentError
+<a id="ArgumentInvalidError"></a>
+#### ArgumentInvalidError
 
 Indicates an invalid argument was passed to a function.
 
@@ -224,13 +224,13 @@ Consider whether any of the following errors might be more precise or better sui
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError) - Consider this when the argument is of the proper type, but violates a 
   unique constraint.
 
-[**Source code**](./src/invalid-argument-error.mjs#L16)
+[**Source code**](./src/argument-invalid-error.mjs#L16)
 
 
-<a id="new_InvalidArgumentError_new"></a>
-##### `new InvalidArgumentError(options)`
+<a id="new_ArgumentInvalidError_new"></a>
+##### `new ArgumentInvalidError(options)`
 
-The [`InvalidArgumentError`](#InvalidArgumentError) constructor.
+The [`ArgumentInvalidError`](#ArgumentInvalidError) constructor.
 
 See the [common parameters](#common-parameters) note for additional parameters.
 
@@ -245,11 +245,11 @@ See the [common parameters](#common-parameters) note for additional parameters.
 
 **Example**:
 ```js
-new InvalidArgumentError() // "Function argument has invalid value."
+new ArgumentInvalidError() // "Function argument has invalid value."
 // v yields: "Function 'my-package#foo()' argument  has invalid value."
-new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
+new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
 // v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
-new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
+new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
 ```
 
 
@@ -290,7 +290,7 @@ access issue, use and see [`hideAccessErrors`](hideAccessErrors) to deal with th
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
   currently authenticated.
-- [`OperationNotPermittedError`](OperationNotPermittedError)
+- [`OperationOperationNotPermittedError`](OperationOperationNotPermittedError)
 
 [**Source code**](./src/no-access-error.mjs#L16)
 
@@ -304,8 +304,8 @@ where the fundamental issue is the named thing not being present.
 [**Source code**](./src/not-found-error.mjs#L10)
 
 
-<a id="NotPermittedError"></a>
-#### NotPermittedError
+<a id="OperationNotPermittedError"></a>
+#### OperationNotPermittedError
 
 An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation. Consider whether any of the
 following errors might be more precise or better suited:

@@ -9,7 +9,7 @@ const myName = 'AuthError'
  * related errors broadly (`e.g., instanceof AuthError`). Generally, will want to use one of the following:
  * - {@link AuthenticationRequiredError}
  * - {@link BadCredentialsError}
- * - {@link NotPermittedError}
+ * - {@link OperationNotPermittedError}
  */
 const AuthError = class extends CommonError {
   constructor ({ name = myName, ...options }) {

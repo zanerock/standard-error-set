@@ -1,7 +1,7 @@
 import { CommonError } from './common-error'
 import { registerParent } from './map-error-to-http-status'
 
-const myName = 'InvalidArgumentError'
+const myName = 'ArgumentInvalidError'
 
 /**
  * Indicates an invalid argument was passed to a function.
@@ -13,9 +13,9 @@ const myName = 'InvalidArgumentError'
  * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a 
  *   unique constraint.
  */
-const InvalidArgumentError = class extends CommonError {
+const ArgumentInvalidError = class extends CommonError {
   /**
-   * The {@link InvalidArgumentError} constructor.
+   * The {@link ArgumentInvalidError} constructor.
    * 
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} options - The error options.
@@ -27,11 +27,11 @@ const InvalidArgumentError = class extends CommonError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example
-   * new InvalidArgumentError() // "Function argument has invalid value."
+   * new ArgumentInvalidError() // "Function argument has invalid value."
    * // v yields: "Function 'my-package#foo()' argument  has invalid value."
-   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
+   * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
    * // v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
-   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
+   * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    */
   constructor ({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
@@ -40,9 +40,9 @@ const InvalidArgumentError = class extends CommonError {
   }
 }
 
-registerParent(myName, Object.getPrototypeOf(InvalidArgumentError).name)
+registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 
-InvalidArgumentError.typeName = myName
+ArgumentInvalidError.typeName = myName
 
 const generateMessage = ({ packageName, functionName, argumentName, argumentValue }) => {
   let message = 'Function '
@@ -70,4 +70,4 @@ const generateMessage = ({ packageName, functionName, argumentName, argumentValu
   return message
 }
 
-export { InvalidArgumentError }
+export { ArgumentInvalidError }

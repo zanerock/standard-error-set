@@ -1,7 +1,7 @@
 import { AuthError } from './auth-error'
 import { registerParent } from './map-error-to-http-status'
 
-const myName = 'NotPermittedError'
+const myName = 'OperationNotPermittedError'
 
 /**
  * An {@link AuthError} indicating the user lacks authorization to perform some operation. Consider whether any of the
@@ -11,14 +11,14 @@ const myName = 'NotPermittedError'
  * - {@link AuthorizationConditionsNotMetError}
  * - {@link NoAccessError}
  */
-const NotPermittedError = class extends AuthError {
+const OperationNotPermittedError = class extends AuthError {
   constructor ({ name = myName, ...options }) {
     super({ name, ...options })
   }
 }
 
-registerParent(myName, Object.getPrototypeOf(NotPermittedError).name)
+registerParent(myName, Object.getPrototypeOf(OperationNotPermittedError).name)
 
-NotPermittedError.typeName = myName
+OperationNotPermittedError.typeName = myName
 
-export { NotPermittedError }
+export { OperationNotPermittedError }

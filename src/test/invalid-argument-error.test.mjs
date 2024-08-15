@@ -1,8 +1,8 @@
 import { completeTestData } from './lib/complete-test-data'
-import { InvalidArgumentError } from '../invalid-argument-error'
+import { ArgumentInvalidError } from '../argument-invalid-error'
 import { standardErrorTest } from './lib/standard-error-test'
 
-describe('InvalidArgumentError', () => {
+describe('ArgumentInvalidError', () => {
   const causeError = new Error()
 
   const testData = [
@@ -52,5 +52,5 @@ describe('InvalidArgumentError', () => {
   test.each(completeTestData({ 
     testData, 
     defaultStatus: 400 
-  }))('Options %p => message %s and status %s', standardErrorTest(InvalidArgumentError))
+  }))('Options %p => message %s and status %s', standardErrorTest(ArgumentInvalidError))
 })
