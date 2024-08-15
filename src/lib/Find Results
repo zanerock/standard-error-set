@@ -1,0 +1,10 @@
+Searching 60 files for "'NOENT'" (case sensitive)
+
+~/playground/liquid-labs/common-errors/src/test/mask-no-access-errors.test.mjs:
+   16      testData, 
+   17      defaultStatus: 404, 
+   18:     defaultCode: 'NOENT' 
+   19    }))('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
+   20  })
+
+1 match in 1 file

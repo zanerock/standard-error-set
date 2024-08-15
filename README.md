@@ -53,7 +53,7 @@ itself.
   - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 - Functions:
-  - [`hideNoAccessErrors()`](#hideNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message.
+  - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message.
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
 
@@ -357,8 +357,8 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 | options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
 
 
-<a id="hideNoAccessErrors"></a>
-#### `hideNoAccessErrors()`
+<a id="maskNoAccessErrors"></a>
+#### `maskNoAccessErrors()`
 
 Remaps [`NoAccessError`](#NoAccessError)s to a 404 (Not Found) status and changes the generated message. This is a common
 practice in secure systems where it is undesirable to give attackers any information about a resource they don't
@@ -366,7 +366,7 @@ have access to. I.e., if a user tries to access a resource they are not permitte
 would divulge the existence of a resource, so instead high security systems will usually prefer a [`NotFoundError`](#NotFoundError) so as to not give anything away. Note, this does not change the class of the error itself, so
 one must take care in how [errors are presented to users](#presenting-errors-to-users).
 
-[**Source code**](./src/hide-no-access-errors.mjs#L9)
+[**Source code**](./src/mask-no-access-errors.mjs#L9)
 
 
 <a id="mapErrorToHttpStatus"></a>

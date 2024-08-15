@@ -9,8 +9,8 @@ import { NoAccessError } from './no-access-error'
  * NotFoundError} so as to not give anything away. Note, this does not change the class of the error itself, so
  * one must take care in how [errors are presented to users](#presenting-errors-to-users).
  */
-const hideNoAccessErrors = () => {
+const maskNoAccessErrors = () => {
   mapErrorToHttpStatus(NoAccessError, 404)
 }
 
-export { hideNoAccessErrors }
+export { maskNoAccessErrors }
