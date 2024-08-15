@@ -15,19 +15,22 @@ import { mapHttpStatusToName } from './map-http-status-to-name'
  * MyError.typeName = myName
  * ```
  * @param {object} options - Creation objects.
- * @param {string} options.name - The name of error. In general, this should match the class name.
+ * @param {string} options.name - The name of error. In general, this should match the final class name.
  * @param {string} options.message - The error message.
  * @param {number} options.status - (optional) The status override for this particular error instance.
  * @param {object} options.options - The options to pass to the `Error` super-constructor.
  */
 const CommonError = class extends Error {
-  constructor ({ name, message, ...options }) {
+  constructor ({ message, status, ...options }) {
     super(message, options)
 
-    this.name = name
-    this.code = options.code
+    for (const parameter of Object.keys(options || {})) {
+      if (!['message', 'status', 'statusName', 'prototype'].includes(parameter)) {
+        this[parameter] = options[parameter]
+      }
+    }
 
-    this.status = options.status || mapErrorToHttpStatus(this.name)
+    this.status = status || mapErrorToHttpStatus(this.name)
     this.statusName = mapHttpStatusToName(this.status)
   }
 }

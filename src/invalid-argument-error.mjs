@@ -18,12 +18,6 @@ const InvalidArgumentError = class extends CommonError {
    * The {@link InvalidArgumentError} constructor.
    * 
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @example <caption>No arg constructor yields: "Function argument has invalid value."</caption>
-   * new InvalidArgumentError()
-   * @example <caption>Partial spec by positional args, yields: "Function 'my-package#foo()' argument  has invalid value."</caption>
-   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
-   * @example <caption>Full spec yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."</caption>
-   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    * @param {object} options - The error options.
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
@@ -32,16 +26,17 @@ const InvalidArgumentError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError} 
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @example
+   * new InvalidArgumentError() // "Function argument has invalid value."
+   * // v yields: "Function 'my-package#foo()' argument  has invalid value."
+   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
+   * // v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
+   * new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    */
-  constructor ({ packageName, functionName, argumentName, argumentValue, name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(packageName, functionName, argumentName, argumentValue)
+  constructor ({ name = myName, ...options } = {}) {
+    options.message = options.message || generateMessage(options)
 
     super({ name, ...options })
-
-    this.packageName = packageName
-    this.functionName = functionName
-    this.argumentName = argumentName
-    this.argumentValue = argumentName
   }
 }
 
@@ -49,7 +44,7 @@ registerParent(myName, Object.getPrototypeOf(InvalidArgumentError).name)
 
 InvalidArgumentError.typeName = myName
 
-const generateMessage = (packageName, functionName, argumentName, argumentValue) => {
+const generateMessage = ({ packageName, functionName, argumentName, argumentValue }) => {
   let message = 'Function '
   if (packageName !== undefined) {
     message += functionName === undefined ? `in package '${packageName}' ` : `'${packageName}#`

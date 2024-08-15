@@ -8,10 +8,21 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 
 The following parameter options are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
 
-- `cause` {`Error`|`undefined`}: The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
+- `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
 - `message` (`string`|`undefined`): All {@link CommonError} classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All {@link CommonError} classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with {@link mapErrorToHttpStatus}. This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
+### Available fields
+
+All {@link CommonError}s provide the following member fields:
+
+- `cause` (`Error`|`undefined`): The error that caused this error, if any.
+- `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
+- `message` (`string`): The error message.
+- `status` (`number`): The HTTP status code.
+- `statusName` (`string`): The HTTP status name.
+
+In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., {@link FileNotFoundError} provides fields `dirPath` and `fileName`.
 ###  API reference
 _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-api)._
 
@@ -29,6 +40,7 @@ authenticated.
   - [EndOfStreamError](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
   - [ExternalServiceError](#ExternalServiceError): Indicates an error related to an external service.
   - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
+  - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [InvalidArgumentError](#InvalidArgumentError): Indicates an invalid argument was passed to a function.
   - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
   - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) relating to a failed rollback within a database.
@@ -102,7 +114,7 @@ MyError.typeName = myName
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` | Creation objects. |
-| options.name | `string` | The name of error. In general, this should match the class name. |
+| options.name | `string` | The name of error. In general, this should match the final class name. |
 | options.message | `string` | The error message. |
 | options.status | `number` | (optional) The status override for this particular error instance. |
 | options.options | `object` | The options to pass to the `Error` super-constructor. |
@@ -171,6 +183,35 @@ An [`IoError`](#IoError) indicating a file is present, and can be read, but ther
 [**Source code**](./src/file-load-error.mjs#L9)
 
 
+<a id="FileNotFoundError"></a>
+#### FileNotFoundError
+
+A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and 
+`fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path 
+separator and whether it needs to be appended or not.
+
+[**Source code**](./src/file-not-found-error.mjs#L21)
+
+
+<a id="new_FileNotFoundError_new"></a>
+##### `new FileNotFoundError(dirPath, fileName)`
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
+| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should    be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the    standard error message. |
+
+**Example**:
+```js
+new FileNotFound() // "File not found."
+new FileNotFound({ fileName: 'foo.txt' }) // "File 'foo.txt' not found."
+new FileNotFound({ dirPath: '/tmp', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
+new FileNotFound({ dirPath: '/tmp/', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
+new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-weird' not found."
+```
+
+
 <a id="InvalidArgumentError"></a>
 #### InvalidArgumentError
 
@@ -202,17 +243,12 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
 | options.argumentValue | `string` \| `undefined` | The argument value (optional). |
 
-**Examples**:
-*No arg constructor yields: &quot;Function argument has invalid value.&quot;*:
+**Example**:
 ```js
-new InvalidArgumentError()
-```
-*Partial spec by positional args, yields: &quot;Function &#x27;my-package#foo()&#x27; argument  has invalid value.&quot;*:
-```js
+new InvalidArgumentError() // "Function argument has invalid value."
+// v yields: "Function 'my-package#foo()' argument  has invalid value."
 new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo'})
-```
-*Full spec yields: &quot;Function &#x27;my-package#foo()&#x27; argument &#x27;bar&#x27; has invalid value &#x27;100&#x27;.&quot;*:
-```js
+// v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
 new InvalidArgumentError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
 ```
 

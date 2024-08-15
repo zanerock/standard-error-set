@@ -39,8 +39,10 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
 
   let name = errorRef // we just leave it if it's a string
   if (errorRef instanceof Error) {
+    // TODO: we should probably throw an error if there is no 'name' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.name
   } else if (typeof errorRef === 'function') { // classes are functions
+    // TODO: we should probably throw an error if there is no 'typeName' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.typeName
   } else if (typeof errorRef === 'object') { // do this here, because if it's an instanceof Error, we skip this
     Object.assign(customMapping, errorRef) // bulk update customMappings
