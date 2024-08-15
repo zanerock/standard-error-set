@@ -19,10 +19,8 @@ const myName = 'NoAccessDirectoryError'
  */
 const NoAccessDirectoryError = class extends NoAccessError {
   constructor ({ name = myName, message, status, ...options } = {}) {
-    status = status || mapErrorToHttpStatus(myName)
     const resource = describeDirectory(options)
     options.resource = options.resource || resource
-    options.message = options.message || generateNoAccessMessage({ status, ...options })
 
     super({ name, status, ...options })
   }
