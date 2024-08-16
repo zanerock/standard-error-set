@@ -7,7 +7,7 @@ const myName = 'FileLoadError'
  * An {@link IoError} indicating a file is present, and can be read, but there is a problem loading it.
  */
 const FileLoadError = class extends IoError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

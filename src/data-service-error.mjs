@@ -14,7 +14,7 @@ const myName = 'DataServiceError'
  * - {@link UniqueConstraintViolationError}
  */
 const DataServiceError = class extends ExternalServiceError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

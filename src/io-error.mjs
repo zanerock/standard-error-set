@@ -8,7 +8,7 @@ const myName = 'IoError'
  * external service, or remote connections errors are therefore not I/O errors.
  */
 const IoError = class extends CommonError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

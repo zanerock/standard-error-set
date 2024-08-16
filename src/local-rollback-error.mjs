@@ -9,7 +9,7 @@ const myName = 'LocalRollbackError'
  * indicate a failed rollback in an external data service.
  */
 const LocalRollbackError = class extends IoError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

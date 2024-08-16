@@ -7,7 +7,7 @@ const myName = 'ExternalServiceError'
  * Indicates an error related to an external service.
  */
 const ExternalServiceError = class extends CommonError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

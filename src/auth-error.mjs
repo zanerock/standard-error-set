@@ -14,7 +14,7 @@ const myName = 'AuthError'
  * - {@link OperationNotPermittedError}
  */
 const AuthError = class extends CommonError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

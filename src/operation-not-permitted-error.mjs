@@ -17,7 +17,7 @@ const myName = 'OperationNotPermittedError'
  * - {@link NoAccessError}
  */
 const OperationNotPermittedError = class extends AuthError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

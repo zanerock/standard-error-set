@@ -1,4 +1,4 @@
-/* globals ArgumentMissingError ConstraintViolationError UniqueConstraintViolationError */
+/* globals ArgumentMissingError ArgumentOutOfRangeError */
 import { CommonError } from './common-error'
 import { generateBadArgumentMessage } from './lib/generate-bad-argument-message'
 import { registerParent } from './map-error-to-http-status'
@@ -9,11 +9,8 @@ const myName = 'ArgumentInvalidError'
  * Indicates an invalid argument was passed to a function.
  *
  * Consider whether any of the following errors might be more precise or better suited:
- * - {@link ArgumentMissingError} - Consider this when the argument is required, but missing or empty.
- * - {@link ConstraintViolationError} - Consider this when the argument is of the proper type, but violates some
- *   constraint.
- * - {@link UniqueConstraintViolationError} - Consider this when the argument is of the proper type, but violates a
- *   unique constraint.
+ * - {@link ArgumentMissingError} - For when the argument is required, but missing or empty.
+ * - {@link ArgumentOutOfRangeError} - For when the argument is of the proper type, but outside the acceptable range.
  */
 const ArgumentInvalidError = class extends CommonError {
   /**
@@ -30,14 +27,14 @@ const ArgumentInvalidError = class extends CommonError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example
-   * new ArgumentInvalidError() // "Function argument has invalid value."
-   * // v yields: "Function 'my-package#foo()' argument  has invalid value."
+   * new ArgumentInvalidError() // "Function argument is invalid."
+   * // v yields: "Function 'my-package#foo()' argument  is invalid."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-   * // v yields: "Function 'my-package#foo()' argument 'bar' has invalid value '100'."
+   * // v yields: "Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    */
   constructor ({ name = myName, ...options } = {}) {
-    options.message = options.message || generateBadArgumentMessage('has invalid value', '', options)
+    options.message = options.message || generateBadArgumentMessage('is invalid', options)
 
     super({ name, ...options })
   }

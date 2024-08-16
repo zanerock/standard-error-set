@@ -7,7 +7,7 @@ const myName = 'EndOfStreamError'
  * An {@link IoError} sub-type indicating an attempt to read beyond the of a stream.
  */
 const EndOfStreamError = class extends IoError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

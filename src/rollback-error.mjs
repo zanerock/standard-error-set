@@ -9,7 +9,7 @@ const myName = 'RollbackError'
  * LocalRollbackError} within a database implementation itself.
  */
 const RollbackError = class extends DataServiceError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

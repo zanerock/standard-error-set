@@ -7,7 +7,7 @@ const myName = 'ConnectionError'
  * An {@link ExternalServiceError} sub-type indicating a problem with the connection, including making a connection.
  */
 const ConnectionError = class extends ExternalServiceError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

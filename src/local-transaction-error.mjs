@@ -9,7 +9,7 @@ const myName = 'LocalTransactionError'
  * itself. Use {@link TransactionError} for transaction errors related to transactions in an external database service.
  */
 const LocalTransactionError = class extends IoError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

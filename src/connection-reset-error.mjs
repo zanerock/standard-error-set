@@ -7,7 +7,7 @@ const myName = 'ConnectionResetError'
  * A {@link ConnectionError} sub-type indicating a connection has been reset or closed unexpectedly or while in use.
  */
 const ConnectionResetError = class extends ConnectionError {
-  constructor ({ code = 'ENOENT', ...options }) {
+  constructor ({ code = 'ENOENT', ...options } = {}) {
     super({ code, ...options })
   }
 }

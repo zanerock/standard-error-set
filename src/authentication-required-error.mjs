@@ -8,7 +8,7 @@ const myName = 'AuthenticationRequiredError'
  * authenticated.
  */
 const AuthenticationRequiredError = class extends AuthError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }

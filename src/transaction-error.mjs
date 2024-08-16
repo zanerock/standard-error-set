@@ -10,7 +10,7 @@ const myName = 'TransactionError'
  * otherwise involving a transaction within a database system itself.
  */
 const TransactionError = class extends DataServiceError {
-  constructor ({ name = myName, ...options }) {
+  constructor ({ name = myName, ...options } = {}) {
     super({ name, ...options })
   }
 }
