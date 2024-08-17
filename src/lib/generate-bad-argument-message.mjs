@@ -1,4 +1,7 @@
-const generateBadArgumentMessage = (issue, { packageName, functionName, argumentName, argumentValue }) => {
+const generateBadArgumentMessage = (
+  defaultIssue, 
+  { packageName, functionName, argumentName, argumentValue, issue }
+) => {
   let message = 'Function '
   if (packageName !== undefined) {
     message += functionName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
@@ -11,12 +14,17 @@ const generateBadArgumentMessage = (issue, { packageName, functionName, argument
     message += `'${argumentName}' `
   }
   if (argumentValue !== undefined) {
-    try {
-      const valueString = argumentValue = typeof argumentValue === 'object' ? JSON.stringify(argumentValue) : argumentValue
-      message += `with value '${valueString}' `
-    } catch (e) {}
+    if (typeof argumentValue === 'function') {
+      message += 'of type function or class '
+    }
+    else {
+      try {
+        const valueString = argumentValue = typeof argumentValue === 'object' ? JSON.stringify(argumentValue) : argumentValue
+        message += `with value '${valueString}' `
+      } catch (e) {}
+    }
   }
-  message += `${issue}.`
+  message += `${issue || defaultIssue}.`
 
   return message
 }

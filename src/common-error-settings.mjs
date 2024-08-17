@@ -28,17 +28,16 @@ const commonErrorSettings = (option, value) => {
     for (const prop in customSettings) {
       delete customSettings[prop]
     }
-  } else if (value === undefined) {
-    verifyArguments(option, value)
-
-    return customSettings[option] || defaultSettings[option]
   } else if (typeof option === 'object') {
     for (const [newOpt, newVal] of Object.entries(option)) {
       verifyArguments(newOpt, newVal)
     }
 
     Object.assign(customSettings, option)
+  } else if (value === undefined) {
+    return customSettings[option] || defaultSettings[option]
   } else {
+    verifyArguments(option, value)
     customSettings[option] = value
   }
 }
@@ -51,17 +50,20 @@ const verifyArguments = (option, value) => {
       issue         : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`
     })
   }
-  if (typeof defaultSettings[option] === 'boolean' && !(value === true || value === false)) {
-    throw new ArgumentInvalidError({
-      argumentName  : 'value',
-      argumentValue : value,
-      issue         : "must be literal 'true' or 'false'"
-    })
+  
+  if (typeof defaultSettings[option] === 'boolean') {
+    if (!(value === true || value === false)) {
+      throw new ArgumentInvalidError({
+        argumentName  : 'value',
+        argumentValue : value,
+        issue         : `must be literal 'true' or 'false' for option '${option}'`
+      })
+    }
   } else if (!(value === undefined || (value instanceof CommonError))) {
     throw new ArgumentInvalidError({
       argumentName  : 'value',
       argumentValue : value,
-      issue         : "must be literal 'undefined', or 'CommonError' class or sub-class"
+      issue         : `must be literal 'undefined', or 'CommonError' class or sub-class for option '${option}'`
     })
   }
 }

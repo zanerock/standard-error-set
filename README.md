@@ -825,7 +825,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 
 
 <a id="commonErrorSettings"></a>
-#### `commonErrorSettings(option, value)`
+#### `commonErrorSettings(option, value)` ⇒ `boolean` \| `function` \| `undefined`
 
 Used to retrieve and manage options used in [`wrapError`](#wrapError).
 - To retrieve a setting, call `commonErrorSettings(option)` (where `option` is a `string`).
@@ -841,9 +841,11 @@ Currently, we support two settings (see [`wrapError`](#wrapError) for details):
 | Param | Type | Description |
 | --- | --- | --- |
 | option | `string` \| `object` | Then name of the setting, or bulk settings `Object`. |
-| value | `boolean` \| `Class` \| `undefined` | The value of the setting. |
+| value | `boolean` \| `function` \| `undefined` | The value of the setting. |
 
-[**Source code**](./src/common-error-settings.mjs#L25)
+**Returns**: `boolean` \| `function` \| `undefined` - - The value of the indicated `option` or undefined.
+
+[**Source code**](./src/common-error-settings.mjs#L26)
 
 
 <a id="mapErrorToHttpStatus"></a>
@@ -908,41 +910,41 @@ underlying type.
 <a id="wrapError"></a>
 #### `wrapError(error, options)` ⇒ `Array.<Error, boolean>`
 
-Wraps an `Error` in a [`CommonError`](#CommonError). The `error` parameter will be set as the `cause` field of the new 
+Wraps an `Error` in a [`CommonError`](#CommonError). The `error` parameter will be set as the `cause` field of the new
 `CommonError` instance (unless `cause` is specifically set in the `options`).
 
 The wrapping logic is as follows:
-- If the `noInstanceHidingOnWrap` is `true` and the `error` class is anything but `Error` 
-  (`error.prototype.constructor !== 'Error'`), then results in the original error.
+- If the `noInstanceHidingOnWrap` is `true` and the `error` class is anything but `Error`
+  (`error.name !== 'Error'`), then results in the original error.
 - If the `error` `code` indicates a connection error, results in a [`ConnectionError`](#ConnectionError).
 - If the `error` `code` is 'EACCESS' or 'EPERM', results in a [`NoAccessError`](#NoAccessError).
 - If the `error` `code` is 'ENOENT', results in a [`NotFoundError`](#NotFoundError).
-- If the `error` is an instance of `URIError` and the `wrapUserErrorType` option is `undefined`, results in a 
+- If the `error` is an instance of `URIError` and the `wrapUserErrorType` option is `undefined`, results in a
   {@ArgumentInvalidError}.
-- If the `error` is an instance of `RangeError` and the `wrapUserErrorType` option is `undefined`, results in a 
+- If the `error` is an instance of `RangeError` and the `wrapUserErrorType` option is `undefined`, results in a
   [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError).
 - If the `error` is an instance of `TypeError` and the `wrapUserErrorType` option is `undefined`, results in a
   [`ArgumentTypeError`](#ArgumentTypeError).
 - If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a {@SystemError}.
 - Otherwise, results in a [`CommonError`](#CommonError).
 
-Note, there is no special handling for `EvalError` (which [is no longer in 
-use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError)) or `CommonError` 
-(which is 
+Note, there is no special handling for `EvalError` (which [is no longer in
+use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError)) or `CommonError`
+(which is
 [non-standard](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError)).
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | error | `Error` | The `Error` to be wrapped. |
-| options | `object` | The options controlling some wrapping and also passed to the wrapping `CommonError`    constructor. |
-| options.noInstanceHidingOnWrap | `boolean` | If true, then if the `error` class is anything but `Error`, the    original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
-| options.wrapUserErrorType | `Class` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped in    a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)    `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
+| options | `object` | The options controlling some wrapping and also passed to the wrapping `CommonError`   constructor. |
+| options.noInstanceHidingOnWrap | `boolean` | If true, then if the `error` class is anything but `Error`, the   original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
+| options.wrapUserErrorType | `function` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped   in a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
 
-**Returns**: `Array.<Error, boolean>` - - An array containing either the original `Error` or the new wrapping `CommonError` 
+**Returns**: `Array.<Error, boolean>` - - An array containing either the original `Error` or the new wrapping `CommonError`
   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
 
-[**Source code**](./src/wrap-error.mjs#L46)
+[**Source code**](./src/wrap-error.mjs#L47)
 
 
 ## Presenting errors to users

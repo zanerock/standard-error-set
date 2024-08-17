@@ -15,7 +15,7 @@ import { connectionCodes } from './lib/connection-codes'
  *
  * The wrapping logic is as follows:
  * - If the `noInstanceHidingOnWrap` is `true` and the `error` class is anything but `Error`
- *   (`error.prototype.constructor !== 'Error'`), then results in the original error.
+ *   (`error.name !== 'Error'`), then results in the original error.
  * - If the `error` `code` indicates a connection error, results in a {@link ConnectionError}.
  * - If the `error` `code` is 'EACCESS' or 'EPERM', results in a {@link NoAccessError}.
  * - If the `error` `code` is 'ENOENT', results in a {@link NotFoundError}.
@@ -48,7 +48,7 @@ const wrapError = (error, options = {}) => {
   const { code } = error
 
   const noInstanceHidingOnWrap = options.noInstanceHidingOnWrap || commonErrorSettings('noInstanceHidingOnWrap')
-  if (noInstanceHidingOnWrap === true && error.prototype.constructor !== 'Error') {
+  if (noInstanceHidingOnWrap === true && error.name !== 'Error') {
     return [error, false]
   }
 
