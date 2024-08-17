@@ -6,15 +6,26 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 
 ### Common parameters
 
-The following parameter options are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
+The following option parameters are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
 
 - `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
 - `message` (`string`|`undefined`): All {@link CommonError} classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All {@link CommonError} classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with {@link mapErrorToHttpStatus}. This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
-### Available fields
+### Error code hoisting
 
-All {@link CommonError}s provide the following member fields:
+When the creation option `cause` is an `Error` and defines a `code` instance field, the `code` value is hoisted to the new {@link CommonError} unless the `code` or `noHoistCode` option is set to `true`. E.g.:
+```js
+const cause = new Error()
+exampleError.code = 'ENOENT'
+const hoistError = new CommonError({ cause }) // hoistError.code === 'ENOENT'
+const codeError = new CommonError({ cause, code: 'EISDIR' }) // codeError.code === 'EISDIR'
+const noHoistError = new CommonError({ cause, noHoistError : true }) // noHoistError.code === undefined
+```
+
+### Instance fields
+
+All {@link CommonError}s provide the following instance fields:
 
 - `cause` (`Error`|`undefined`): The error that caused this error, if any.
 - `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
@@ -38,8 +49,7 @@ authenticated.
   - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but 
 additional conditions must be met.
   - [CommonError](#CommonError): A base class for common errors.
-  - [ConnectionError](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with the connection, including making a connection.
-  - [ConnectionResetError](#ConnectionResetError): A [`ConnectionError`](#ConnectionError) sub-type indicating a connection has been reset or closed unexpectedly or while in use.
+  - [ConnectionError](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
   - [ConstraintViolationError](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
   - [DataServiceError](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
   - [DirectoryNotFoundError](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
@@ -313,7 +323,7 @@ export const MyError = class extends CommonError {
 MyError.typeName = myName
 ```
 
-[**Source code**](./src/common-error.mjs#L23)
+[**Source code**](./src/common-error.mjs#L24)
 
 
 <a id="new_CommonError_new"></a>
@@ -332,17 +342,39 @@ MyError.typeName = myName
 <a id="ConnectionError"></a>
 #### ConnectionError
 
-An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with the connection, including making a connection.
+An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection. The 
+standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the 
+connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error` 
+will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and 
+the hoisted `code` will determine the standard message (unless the `message` option is defined).`
 
-[**Source code**](./src/connection-error.mjs#L9)
+[**Source code**](./src/connection-error.mjs#L14)
 
 
-<a id="ConnectionResetError"></a>
-#### ConnectionResetError
+<a id="new_ConnectionError_new"></a>
+##### `new ConnectionError(options)`
 
-A [`ConnectionError`](#ConnectionError) sub-type indicating a connection has been reset or closed unexpectedly or while in use.
+Constructor for the [`ConnectionResetError`](ConnectionResetError) class.
 
-[**Source code**](./src/connection-reset-error.mjs#L9)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` | The constructor options. |
+| options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the    specific issue.` |
+| options.target | `string` \| `undefined` | The name or description of the connection target. |
+
+**Example**:
+```js
+new ConnectionError() // "Connection has experienced an unknown error."
+// v "Connection to host 'foo.com' has experienced an unknown error."
+new ConnectionError({ target: "to host 'foo.com'" })
+// v "Connection to host 'foo.com' is blocked by system firewall."
+new ConnectionError({ target: "to host 'foo.com'", issue: 'is blocked by system firewall' })
+new ConnectionError({ code: 'ECONNRESET' }) // "Connection has been reset."
+const cause = new Error()
+const cause.code = 'ECONNRESET'
+const connError = new ConnectionError({ cause }) // also "Connection has been reset."
+```
 
 
 <a id="ConstraintViolationError"></a>

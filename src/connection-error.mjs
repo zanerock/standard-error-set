@@ -1,5 +1,4 @@
 import { ExternalServiceError } from './external-service-error'
-import { generateConnectionMessage } from './lib/generate-connection-message'
 import { hoistErrorCode } from './lib/hoist-error-code'
 import { registerParent } from './map-error-to-http-status'
 
@@ -8,16 +7,30 @@ const myName = 'ConnectionError'
 /**
  * An {@link ExternalServiceError} sub-type indicating a problem with a connection, including making a connection. The 
  * standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the 
- * connection error.
+ * connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error` 
+ * will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and 
+ * the hoisted `code` will determine the standard message (unless the `message` option is defined).`
  */
 const ConnectionError = class extends ExternalServiceError {
   /**
    * Constructor for the {@link ConnectionResetError} class.
    * @param {object} options - The constructor options.
+   * @param {string|undefined} options.issue - Typically left `undefined` and determined automatically. Describes the 
+   *   specific issue.`
    * @param {string|undefined} options.target - The name or description of the connection target.
+   * @example
+   * new ConnectionError() // "Connection has experienced an unknown error."
+   * // v "Connection to host 'foo.com' has experienced an unknown error."
+   * new ConnectionError({ target: "to host 'foo.com'" })
+   * // v "Connection to host 'foo.com' is blocked by system firewall."
+   * new ConnectionError({ target: "to host 'foo.com'", issue: 'is blocked by system firewall' })
+   * new ConnectionError({ code: 'ECONNRESET' }) // "Connection has been reset."
+   * const cause = new Error()
+   * const cause.code = 'ECONNRESET'
+   * const connError = new ConnectionError({ cause }) // also "Connection has been reset."
    */
   constructor ({ name = myName, ...options } = {}) {
-    hoistErrorCode(options)
+    hoistErrorCode(options) // hoist the code prior to generating message
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }
@@ -47,15 +60,13 @@ const generateMessage = ({ code, issue, target }) => {
     case ('EHOSTUNREACH') :
       issue = 'host unreachable; check local routing configuration and target and intermediate firewalls'; break
     case ('EAI_AGAIN') :
-      issue = 'host name cannot be resolved due to temporary DNS resolution issue; verify internet connection is stable and check DNS resolution settings (/etc/resolv.conf and /etc/hosts)'
+      issue = 'host name cannot be resolved due to temporary DNS resolution issue; verify internet connection is stable and check DNS resolution settings (/etc/resolv.conf and /etc/hosts)'; break
+    default:
+      issue = 'experienced an unknown error'
     }
+  }
 
-    issue = 'experienced an unknown error' // default
-
-
-  let message = `Connection ${target === undefined ? '' : `${target} `} ${issue}.`
+  return `Connection ${target === undefined ? '' : `${target} `}${issue}.`
 }
-
-export { generateConnectionMessage }
 
 export { ConnectionError }

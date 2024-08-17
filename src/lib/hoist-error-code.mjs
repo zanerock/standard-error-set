@@ -1,7 +1,7 @@
-const hoistErrorCode(options) => {
-  const { cause, code } = options
-  if (code === undefined) {
-    options.code = cause.code
+const hoistErrorCode = (options) => {
+  const { cause, code, noHoistCode } = options
+  if (code === undefined && noHoistCode !== true) {
+    options.code = cause?.code
   }
 }
 
