@@ -13,10 +13,10 @@ const myName = 'UnavailableError'
  */
 const UnavailableError = class extends CommonError {
   /**
-   * Constructor for {$link UnavailableError}.
+   * {@link UnavailableError} constructor.
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @param {object} options - The input options.
+   * @param {object|undefined} options - The constructor options.
    * @param {string|undefined} options.expectedTime - A short description as to when the resource might be available. E.g., 'after 1400' or 'in two hours'.
    * @param {string|undefined} options.target - The name of the function, endpoint, service, etc. which the user is
    *   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'

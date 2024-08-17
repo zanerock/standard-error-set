@@ -33,8 +33,8 @@ import { connectionCodes } from './lib/connection-codes'
  * (which is
  * [non-standard](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError)).
  * @param {Error} error - The `Error` to be wrapped.
- * @param {object} options - The options controlling some wrapping and also passed to the wrapping `CommonError`
- *   constructor.
+ * @param {object|undefined} options - The options controlling some wrapping and also passed to the wrapping
+ *   `CommonError`constructor.
  * @param {boolean} options.noInstanceHidingOnWrap - If true, then if the `error` class is anything but `Error`, the
  *   original `error` will be return as is. If `undefined`, then the logic will refer to the {@link
  *   commonErrorSettings} `noInstanceHidingOnWrap` option value.

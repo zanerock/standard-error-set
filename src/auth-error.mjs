@@ -14,8 +14,16 @@ const myName = 'AuthError'
  * - {@link OperationNotPermittedError}
  */
 const AuthError = class extends CommonError {
-  constructor ({ name = myName, ...options } = {}) {
-    super({ name, ...options })
+  /**
+   * {@AuthError} constructor.
+   * @param {object|undefined} options - Creation objects.
+   * @param {string|undefined} options.message - The error message.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   */
+  constructor ({ name = myName, message = 'An auth error has ocurred.', ...options } = {}) {
+    super({ name, message, ...options })
   }
 }
 

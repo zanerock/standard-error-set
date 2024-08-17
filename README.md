@@ -43,7 +43,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 or '').
   - [ArgumentOutOfRangeError](#ArgumentOutOfRangeError): A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is of the correct time, but outside the acceptable range.
   - [ArgumentTypeError](#ArgumentTypeError): A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is not the correct type.
-  - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
+  - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
   - [AuthError](#AuthError): A generic error indicating a problem with user authentication or authorization.
   - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but
@@ -247,10 +247,31 @@ new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argum
 <a id="AuthenticationRequiredError"></a>
 #### AuthenticationRequiredError
 
-An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
+An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
 
 [**Source code**](./src/authentication-required-error.mjs#L10)
+
+
+<a id="new_AuthenticationRequiredError_new"></a>
+##### `new AuthenticationRequiredError(options)`
+
+[`AuthenticationRequiredError`](#AuthenticationRequiredError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.action | `string` \| `undefined` | A short description of the action requiring authentication. |
+| options.target | `string` \| `undefined` | A short description of the action target. |
+
+**Example**:
+```js
+new AuthenticationRequiredError() // "Action requires authentication."
+new AuthenticationRequiredError({ action : 'endpoint access' }) // "Endpoint access requires authentication."
+// v "Updating the customer database requires authentication."
+new AuthenticationRequiredError({ action : 'updating', target : 'customer database' })
+```
 
 
 <a id="AuthError"></a>
@@ -265,6 +286,18 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
 [**Source code**](./src/auth-error.mjs#L16)
+
+
+<a id="new_AuthError_new"></a>
+##### `new AuthError(options)`
+
+{@AuthError} constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Creation objects. |
+| options.message | `string` \| `undefined` | The error message. |
 
 
 <a id="AuthorizationConditionsNotMetError"></a>
@@ -328,20 +361,29 @@ export const MyError = class extends CommonError {
 MyError.typeName = myName
 ```
 
-[**Source code**](./src/common-error.mjs#L24)
+[**Source code**](./src/common-error.mjs#L19)
 
 
 <a id="new_CommonError_new"></a>
 ##### `new CommonError(options)`
+
+{@CommonError} constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | Creation objects. |
 | options.name | `string` | The name of error. In general, this should match the final class name. |
-| options.message | `string` | The error message. |
-| options.status | `number` | (optional) The status override for this particular error instance. |
+| options.message | `string` \| `undefined` | The error message. |
+| options.code | `string` \| `undefined` | The error code. |
+| options.status | `number` \| `undefined` | (optional) The status override for this particular error instance. |
 | options.options | `object` \| `undefined` | The options to pass to the `Error` super-constructor. |
+
+**Example**:
+```js
+new CommonError() // "An error has occurred."
+new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
+```
 
 
 <a id="ConnectionError"></a>
@@ -364,7 +406,7 @@ Constructor for the [`ConnectionError`](#ConnectionError) class.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The constructor options. |
+| options | `object` \| `undefined` | The constructor options. |
 | options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the   specific issue.` |
 | options.target | `string` \| `undefined` | The name or description of the connection target. |
 
@@ -410,20 +452,27 @@ whether any of the following errors might be more precise or better suited:
 #### DirectoryNotFoundError
 
 A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and
-`fileName` are specified, `DirectoryNotFound` tries to be smart about joining them and will try and guess the proper path
-separator and whether it needs to be appended or not.
+`fileName` are specified, `DirectoryNotFound` tries to be smart about joining them and will try and guess the proper
+path separator and whether it needs to be appended or not.
 
-[**Source code**](./src/directory-not-found-error.mjs#L19)
+Consider whether any of the following errors might be more precise or better suited:
+- [`FileNotFoundError`](#FileNotFoundError)
+- [`NotFoundError`](#NotFoundError)
+
+[**Source code**](./src/directory-not-found-error.mjs#L18)
 
 
 <a id="new_DirectoryNotFoundError_new"></a>
-##### `new DirectoryNotFoundError(dirPath, resource)`
+##### `new DirectoryNotFoundError(options)`
+
+[`DirectoryNotFoundError`](#DirectoryNotFoundError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set. |
+| options | `object` \| `undefined` | Constructor options. |
+| options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
+| options.resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set. |
 
 **Example**:
 ```js
@@ -463,18 +512,21 @@ A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the 
 `fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path
 separator and whether it needs to be appended or not.
 
-[**Source code**](./src/file-not-found-error.mjs#L25)
+[**Source code**](./src/file-not-found-error.mjs#L14)
 
 
 <a id="new_FileNotFoundError_new"></a>
-##### `new FileNotFoundError(dirPath, fileName, resource)`
+##### `new FileNotFoundError(options)`
+
+[`FileNotFoundError`](#FileNotFoundError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should   be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the   standard error message. |
-| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
+| options | `object` \| `undefined` | Constructor options. |
+| options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
+| options.fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case   `dirPath` should be left undefined) or just the file name, in which case it is combined with `dirPath`, if   present, to create the standard error message. |
+| options.resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
 
 **Example**:
 ```js
@@ -529,17 +581,20 @@ Consider whether any of the following errors might be more precise or better sui
 - [`NoAccessFileError`](#NoAccessFileError)
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
-[**Source code**](./src/no-access-directory-error.mjs#L25)
+[**Source code**](./src/no-access-directory-error.mjs#L22)
 
 
 <a id="new_NoAccessDirectoryError_new"></a>
-##### `new NoAccessDirectoryError(dirPath, resource)`
+##### `new NoAccessDirectoryError(options)`
+
+[`NoAccessDirectoryError`](#NoAccessDirectoryError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set.} |
+| options | `object` \| `undefined` | Constructor options. |
+| options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
+| options.resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `dirPath` and be used to generate the standard message if `message` option not set.} |
 
 
 <a id="NoAccessError"></a>
@@ -561,6 +616,18 @@ Consider whether any of the following errors might be more precise or better sui
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
 [**Source code**](./src/no-access-error.mjs#L24)
+
+
+<a id="new_NoAccessError_new"></a>
+##### `new NoAccessError(options)`
+
+[`NoAccessError`](#NoAccessError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.resource | `string` \| `undefined` | A description of the resource attempting to be accessed. |
 
 
 <a id="NoAccessFileError"></a>
@@ -618,14 +685,14 @@ Consider whether any of the following errors might be more precise or better sui
 <a id="new_NotImplementedError_new"></a>
 ##### `new NotImplementedError(options)`
 
-Constructor for {$link NotImplementedError}.
+[`NotImplementedError`](#NotImplementedError) constructor.
 
 See the [common parameters](#common-parameters) note for additional parameters.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The input options. |
+| options | `object` \| `undefined` | The input options. |
 | options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. |
 
 **Example**:
@@ -653,14 +720,14 @@ Consider whether any of the following errors might be more precise or better sui
 <a id="new_NotSupportedError_new"></a>
 ##### `new NotSupportedError(options)`
 
-Constructor for {$link NotSupportedError}.
+[`NotSupportedError`](#NotSupportedError) constructor.
 
 See the [common parameters](#common-parameters) note for additional parameters.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The input options. |
+| options | `object` \| `undefined` | The input options. |
 | options.issue | `string` \| `undefined` | A short description of the thing which is not supported. E.g., 'YAML   request payloads' or 'asynchronous execution'. |
 | options.hint | `string` \| `undefined` | A short hint to the user as to how they might resolve or workaround the   issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous execution.' |
 | options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
@@ -712,14 +779,14 @@ An error indicating a system error. When used to wrap native system errors (like
 <a id="new_SystemError_new"></a>
 ##### `new SystemError(options)`
 
-Constructor for {$link SystemError}.
+[`SystemError`](#SystemError) constructor.
 
 See the [common parameters](#common-parameters) note for additional parameters.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The constructor options. |
+| options | `object` \| `undefined` | The constructor options. |
 | options.resource | `string` \| `undefined` | The name or short description of the resource which has run out of   memory. |
 
 **Example**:
@@ -746,7 +813,7 @@ The [`TimeoutError`](#TimeoutError) constructor.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The constructor options. |
+| options | `object` \| `undefined` | The constructor options. |
 | options.resource | `string` \| `undefined` | The name or short description of the thing which is timing out. |
 
 **Example**:
@@ -781,14 +848,14 @@ Consider whether any of the following errors might be more precise or better sui
 <a id="new_UnavailableError_new"></a>
 ##### `new UnavailableError(options)`
 
-Constructor for {$link UnavailableError}.
+[`UnavailableError`](#UnavailableError) constructor.
 
 See the [common parameters](#common-parameters) note for additional parameters.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | `object` | The input options. |
+| options | `object` \| `undefined` | The constructor options. |
 | options.expectedTime | `string` \| `undefined` | A short description as to when the resource might be available. E.g., 'after 1400' or 'in two hours'. |
 | options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
@@ -937,7 +1004,7 @@ use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Ob
 | Param | Type | Description |
 | --- | --- | --- |
 | error | `Error` | The `Error` to be wrapped. |
-| options | `object` | The options controlling some wrapping and also passed to the wrapping `CommonError`   constructor. |
+| options | `object` \| `undefined` | The options controlling some wrapping and also passed to the wrapping   `CommonError`constructor. |
 | options.noInstanceHidingOnWrap | `boolean` | If true, then if the `error` class is anything but `Error`, the   original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
 | options.wrapUserErrorType | `function` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped   in a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
 

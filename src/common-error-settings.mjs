@@ -50,7 +50,7 @@ const verifyArguments = (option, value) => {
       issue         : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`
     })
   }
-  
+
   if (typeof defaultSettings[option] === 'boolean') {
     if (!(value === true || value === false)) {
       throw new ArgumentInvalidError({

@@ -1,4 +1,4 @@
-/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */
 import { NoAccessError } from './no-access-error'
 import { describeDirectory } from './lib/describe-directory'
 import { registerParent } from './map-error-to-http-status'
@@ -18,16 +18,23 @@ const myName = 'NoAccessDirectoryError'
  * - {@link NoAccessError}
  * - {@link NoAccessFileError}
  * - {@link OperationNotPermittedError}
- * @param {string|undefined} dirPath - The directory (not including the file itself) where the file is located.
- * @param {string|undefined} resource - Should usually be left undefined. If set, then the value will override
- *   `dirPath` and be used to generate the standard message if `message` option not set.}
  */
 const NoAccessDirectoryError = class extends NoAccessError {
-  constructor ({ name = myName, status, ...options } = {}) {
-    const resource = describeDirectory(options)
-    options.resource = options.resource || resource
+  /**
+   * {@link NoAccessDirectoryError} constructor.
+   * @param {object|undefined} options - Constructor options.
+   * @param {string|undefined} options.dirPath - The directory (not including the file itself) where the file is
+   *   located.
+   * @param {string|undefined} options.resource - Should usually be left undefined. If set, then the value will override
+   *   `dirPath` and be used to generate the standard message if `message` option not set.}
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   */
+  constructor ({ name = myName, ...options } = {}) {
+    options.resource = options.resource || describeDirectory(options)
 
-    super({ name, status, ...options })
+    super({ name, ...options })
   }
 }
 

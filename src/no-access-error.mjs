@@ -1,4 +1,4 @@
-/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError NoAccessDirectoryError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */ // used in docs
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError NoAccessDirectoryError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */ // used in docs
 import { AuthError } from './auth-error'
 import { generateNoAccessMessage } from './lib/generate-no-access-message'
 import { mapErrorToHttpStatus, registerParent } from './map-error-to-http-status'
@@ -22,6 +22,14 @@ const myName = 'NoAccessError'
  * - {@link OperationNotPermittedError}
  */
 const NoAccessError = class extends AuthError {
+  /**
+   * {@link NoAccessError} constructor.
+   * @param {object|undefined} options - Constructor options.
+   * @param {string|undefined} options.resource - A description of the resource attempting to be accessed.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   */
   constructor ({ name = myName, status, ...options } = {}) {
     status = status || mapErrorToHttpStatus(myName)
     options.message = options.message || generateNoAccessMessage({ status, ...options })

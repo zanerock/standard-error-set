@@ -14,10 +14,10 @@ const myName = 'NotImplementedError'
  */
 const NotImplementedError = class extends CommonError {
   /**
-   * Constructor for {$link NotImplementedError}.
+   * {@link NotImplementedError} constructor.
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @param {object} options - The input options.
+   * @param {object|undefined} options - The input options.
    * @param {string|undefined} options.target - The name of the function, endpoint, service, etc. which the user is
    *   trying to invoke.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

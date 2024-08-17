@@ -15,14 +15,21 @@ import { mapHttpStatusToName } from './map-http-status-to-name'
  * }
  * MyError.typeName = myName
  * ```
- * @param {object|undefined} options - Creation objects.
- * @param {string} options.name - The name of error. In general, this should match the final class name.
- * @param {string} options.message - The error message.
- * @param {number} options.status - (optional) The status override for this particular error instance.
- * @param {object|undefined} options.options - The options to pass to the `Error` super-constructor.
  */
 const CommonError = class extends Error {
-  constructor ({ message = 'An error occurred.', status, ...options } = {}) {
+  /**
+   * {@CommonError} constructor.
+   * @param {object|undefined} options - Creation objects.
+   * @param {string} options.name - The name of error. In general, this should match the final class name.
+   * @param {string|undefined} options.message - The error message.
+   * @param {string|undefined} options.code - The error code.
+   * @param {number|undefined} options.status - (optional) The status override for this particular error instance.
+   * @param {object|undefined} options.options - The options to pass to the `Error` super-constructor.
+   * @example
+   * new CommonError() // "An error has occurred."
+   * new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
+   */
+  constructor ({ message = 'An error has occurred.', status, ...options } = {}) {
     super(message, options)
 
     hoistErrorCode(options)
