@@ -1,3 +1,4 @@
+import { hoistErrorCode } from './lib/hoist-error-code'
 import { mapErrorToHttpStatus } from './map-error-to-http-status'
 import { mapHttpStatusToName } from './map-http-status-to-name'
 
@@ -23,6 +24,8 @@ import { mapHttpStatusToName } from './map-http-status-to-name'
 const CommonError = class extends Error {
   constructor ({ message = 'An error occurred.', status, ...options } = {}) {
     super(message, options)
+
+    hoistErrorCode(options)
 
     for (const parameter of Object.keys(options || {})) {
       if (!['message', 'status', 'statusName', 'prototype'].includes(parameter)) {

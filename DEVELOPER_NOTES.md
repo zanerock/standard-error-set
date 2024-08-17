@@ -3,7 +3,7 @@
 ## Influences
 
 - We referenced the [common-errors](https://www.npmjs.com/package/common-errors) project for some ideas on the first round of exceptions. We largely match their list (except for the native error counterparts, see [discussion here](./README.md#specialized-system-errors)), though we changed some names and interpretations slightly.
-- 
+- We used [16 Common Errors in Node.js and How to Fix Them](https://betterstack.com/community/guides/scaling-nodejs/nodejs-errors/) when defining `ConnectionError` messages.
 
 ## No `generateErrorClass`
 
