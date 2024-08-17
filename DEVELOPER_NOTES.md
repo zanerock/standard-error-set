@@ -1,5 +1,10 @@
 # Developer Notes
 
+## Influences
+
+- We referenced the [common-errors](https://www.npmjs.com/package/common-errors) project for some ideas on the first round of exceptions. We largely match their list (except for the native error counterparts, see [discussion here](./README.md#specialized-system-errors)), though we changed some names and interpretations slightly.
+- 
+
 ## No `generateErrorClass`
 
 At first, we wanted to try and create [a generator class ala 'common-errors'](https://github.com/shutterstock/node-common-errors/blob/master/lib/helpers/class-generator.js). You can see [the last gasp of our attempts](https://github.com/liquid-labs/common-errors/blob/b632305ae83c96d8bcd647e9a262fc238ce14d17/src/generate-error-class.mjs). However, we were not able to overcome certain limitations.
