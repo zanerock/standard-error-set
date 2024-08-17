@@ -1,0 +1,68 @@
+/* globals wrapError */
+import { ArgumentInvalidError } from './argument-invalid-error'
+import { CommonError } from './common-error'
+
+const defaultSettings = {
+  noInstanceHidingOnWrap : false,
+  wrapUserErrorType : undefined
+}
+
+const customSettings = {}
+
+/**
+ * Used to retrieve and manage options used in {@link wrapError}.
+ * - To retrieve a setting, call `commonErrorSettings(option)` (where `option` is a `string`).
+ * - To add/override a single setting, call `commonErrorSettings(option, value)`.
+ * - To bulk add/override settings, call `commonErrorSettings(/mappings)` (where `mappings is an `Object`).
+ * - To reset the custom settings to default, call `commonErrorSettings()`.
+ * 
+ * Currently, we support two settings (see {@link wrapError} for details):
+ * - `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
+ * - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
+ * @param {string|object} option - Then name of the setting, or bulk settings `Object`.
+ * @param {boolean|Class|undefined} value - The value of the setting.
+ */
+const commonErrorSettings = (option, value) => {
+  if (option === undefined) {
+    for (const prop in customMappings) {
+      delete customMappings[prop]
+    }
+  } else if (value === undefined) {
+    verifyArguments(option, value)
+
+    return customSettings[status] || defaultSettings[status]
+  } else if (typeof option === 'object') {
+    for (const [newOpt, newVal] of Object.entries(option)) {
+      verifyArguments(newOpt, newVal)
+    }
+
+    Object.assign(customSettings, option)
+  } else {
+    customMappings[option] = value
+  }
+}
+
+const verifyArguments = (option, value) => {
+  if ((!option in defaultSettings)) {
+    throw new ArgumentInvalidError({ 
+      argumentName: 'option', 
+      argumentValue: option, 
+      issue : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`
+    })
+  }
+  if (typeof defaultSettings[option] === 'boolean' && !(value === true || value === false)) {
+    throw new ArgumentInvalidError({ 
+      argumentName: 'value', 
+      argumentValue: value, 
+      issue : "must be literal 'true' or 'false'"
+    })
+  } else if (!(value === undefined || (value instanceof CommonError))) {
+    throw new ArgumentInvalidError({ 
+      argumentName: 'value', 
+      argumentValue: value, 
+      issue : "must be literal 'undefined', or 'CommonError' class or sub-class"
+    })
+  }
+}
+
+export { commonErrorSettings }

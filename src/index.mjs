@@ -34,6 +34,8 @@ export * from './unavailable-error'
 export * from './unique-constraint-violation-error'
 
 // Status management functions
+export * from './common-error-settings'
 export * from './mask-no-access-errors'
 export * from './map-error-to-http-status'
 export * from './map-http-status-to-name'
+export * from './wrap-error'

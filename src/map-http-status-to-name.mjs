@@ -54,9 +54,9 @@ const customMappings = {}
  * Used to translate and manage mappings from HTTP status codes to names. Supports all current status defined by the [
  * IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions
  * returned by IIS, NginX, and Cloudflare.
- * - To retrieve a status name, call `mapHttpStatusToName(status)`.
+ * - To retrieve a status name, call `mapHttpStatusToName(status)` (where `status` is a `string`).
  * - To add/override a single custom mapping, call `mapHttpStatusToName(status, name)`.
- * - To bulk add/override custom mappings, call `mapHttpStatusToName(mappings)`.
+ * - To bulk add/override custom mappings, call `mapHttpStatusToName(/mappings)` (where `mappings is an `Object`).
  * - To reset the custom mappings to default, call `mapHttpStatusToName()`.
  * @param {number|Object<number,string>} status - Either the status to retrieve or set mapping for, or an
  *   `Object<number,string>` to bulk update mappings.

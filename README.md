@@ -46,7 +46,7 @@ or '').
   - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) indicating that an operation requires an authenticated user and the current us not
 authenticated.
   - [AuthError](#AuthError): A generic error indicating a problem with user authentication or authorization.
-  - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but 
+  - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but
 additional conditions must be met.
   - [CommonError](#CommonError): A base class for common errors.
   - [ConnectionError](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
@@ -75,9 +75,11 @@ itself.
   - [UnavailableError](#UnavailableError): An error indicating that the resource exists, but is not currently available.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 - Functions:
+  - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError).
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
   - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
+  - [`wrapError()`](#wrapError): Wraps an `Error` in a [`CommonError`](#CommonError).
 
 <a id="ArgumentInvalidError"></a>
 #### ArgumentInvalidError
@@ -87,8 +89,9 @@ Indicates an invalid argument was passed to a function.
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentMissingError`](#ArgumentMissingError) - For when the argument is required, but missing or empty.
 - [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError) - For when the argument is of the proper type, but outside the acceptable range.
+- [`ArgumentTypeError`](#ArgumentTypeError) - Indicates an argument is an incorrect type.
 
-[**Source code**](./src/argument-invalid-error.mjs#L15)
+[**Source code**](./src/argument-invalid-error.mjs#L16)
 
 
 <a id="new_ArgumentInvalidError_new"></a>
@@ -105,7 +108,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | options.packageName | `string` \| `undefined` | The package name (optional). |
 | options.functionName | `string` \| `undefined` | The function name (optional). |
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
-| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored    when `undefined`, consider using the string 'undefined' if it's important to display the value. |
+| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored   when `undefined`, consider using the string 'undefined' if it's important to display the value. |
 
 **Example**:
 ```js
@@ -126,8 +129,9 @@ or '').
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
 - [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError) - Indicates an argument is of the correct type, but outside the acceptable range.
+- [`ArgumentTypeError`](#ArgumentTypeError) - Indicates an argument is an incorrect type.
 
-[**Source code**](./src/argument-missing-error.mjs#L16)
+[**Source code**](./src/argument-missing-error.mjs#L17)
 
 
 <a id="new_ArgumentMissingError_new"></a>
@@ -144,7 +148,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | options.packageName | `string` \| `undefined` | The package name (optional). |
 | options.functionName | `string` \| `undefined` | The function name (optional). |
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
-| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored    when `undefined`, consider using the string 'undefined' if it's important to display the value. |
+| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored   when `undefined`, consider using the string 'undefined' if it's important to display the value. |
 
 **Example**:
 ```js
@@ -162,10 +166,11 @@ new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argum
 A [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is of the correct time, but outside the acceptable range.
 
 Consider whether any of the following errors might be more precise or better suited:
-- [`ArgumentInvalidError`](#ArgumentInvalidError) - For general argument errors not of a more specific type.
-- [`ArgumentMissingError`](#ArgumentMissingError) - Consider this when the argument is required, but missing or empty.
+- [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
+- [`ArgumentMissingError`](#ArgumentMissingError) - For when the argument is required, but missing or empty.
+- [`ArgumentTypeError`](#ArgumentTypeError) - Indicates an argument is an incorrect type.
 
-[**Source code**](./src/argument-out-of-range-error.mjs#L14)
+[**Source code**](./src/argument-out-of-range-error.mjs#L16)
 
 
 <a id="new_ArgumentOutOfRangeError_new"></a>
@@ -182,7 +187,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | options.packageName | `string` \| `undefined` | The package name (optional). |
 | options.functionName | `string` \| `undefined` | The function name (optional). |
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
-| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored    when `undefined`, consider using the string 'undefined' if it's important to display the value. |
+| options.argumentValue | `string` \| `undefined` | The argument value (optional). Because this is value is ignored   when `undefined`, consider using the string 'undefined' if it's important to display the value. |
 | options.max | `string` \| `number` \| `undefined` | The maximum value; the value must be less than or equal to this. |
 | options.maxBoundary | `string` \| `number` \| `undefined` | The upper value boundary; the value must be less than this. This value will be ignored if `max` is set. |
 | options.min | `string` \| `number` \| `undefined` | The minimum; the value must be greater than or equal to this.` |
@@ -225,7 +230,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | options.packageName | `string` \| `undefined` | The package name (optional). |
 | options.functionName | `string` \| `undefined` | The function name (optional). |
 | options.argumentName | `string` \| `undefined` | The argument name (optional). |
-| options.argumentValue | `string` \| `undefined` | The value of the argument; though we recommend to leave this    undefined. The value is generally not important since the type is incorrect. |
+| options.argumentValue | `string` \| `undefined` | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
 | options.expectedType | `string` \| `undefined` | The expected type of the argument. |
 | options.receivedType | `string` \| `undefined` | The actual type of the argument. |
 
@@ -265,21 +270,21 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 <a id="AuthorizationConditionsNotMetError"></a>
 #### AuthorizationConditionsNotMetError
 
-An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but 
+An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but
 additional conditions must be met. The blocking or necessary conditions should be described if possible.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
   currently authenticated.
 - [`NoAccessError`](#NoAccessError) - Use this when the user is accessing a resource the user has no authorizations to.
-- [`OperationNotPermittedError`](#OperationNotPermittedError) - Use this when user is attempting an operation for which they have no 
+- [`OperationNotPermittedError`](#OperationNotPermittedError) - Use this when user is attempting an operation for which they have no
   authorization.
 
 [**Source code**](./src/authorization-conditions-not-met-error.mjs#L18)
 
 
 <a id="new_AuthorizationConditionsNotMetError_new"></a>
-##### `new AuthorizationConditionsNotMetError(action, hint, issue)`
+##### `new AuthorizationConditionsNotMetError(options)`
 
 Constructor for the [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError).
 
@@ -288,10 +293,10 @@ See the [common parameters](#common-parameters) note for additional parameters.
 
 | Param | Type | Description |
 | --- | --- | --- |
-|  | `object` \| `undefined` | The constructor options. |
-| action | `string` \| `undefined` | A description of the action being taken. This should identify the target    resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer data'. |
-| hint | `string` \| `undefined` | A description of what the user might do to remedy the situation. This should be a    complete sentence. E.g., 'You may contact customer service and request a quota increase.', or 'Try again in a    few minutes.' |
-| issue | `string` \| `undefined` | A description of the problem. E.g., 'the user is over request quota', or 'this    operation is only allowed between 0900 and 1700'. |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken. This should identify the target   resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer data'. |
+| options.hint | `string` \| `undefined` | A description of what the user might do to remedy the situation. This   should be a complete sentence. E.g., 'You may contact customer service and request a quota increase.', or 'Try   again in a few minutes.' |
+| options.issue | `string` \| `undefined` | A description of the problem. E.g., 'the user is over request quota', or   'this operation is only allowed between 0900 and 1700'. |
 
 **Example**:
 ```js
@@ -342,25 +347,25 @@ MyError.typeName = myName
 <a id="ConnectionError"></a>
 #### ConnectionError
 
-An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection. The 
-standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the 
-connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error` 
-will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and 
+An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection. The
+standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the
+connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error`
+will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and
 the hoisted `code` will determine the standard message (unless the `message` option is defined).`
 
-[**Source code**](./src/connection-error.mjs#L14)
+[**Source code**](./src/connection-error.mjs#L16)
 
 
 <a id="new_ConnectionError_new"></a>
 ##### `new ConnectionError(options)`
 
-Constructor for the [`ConnectionResetError`](ConnectionResetError) class.
+Constructor for the [`ConnectionError`](#ConnectionError) class.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` | The constructor options. |
-| options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the    specific issue.` |
+| options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the   specific issue.` |
 | options.target | `string` \| `undefined` | The name or description of the connection target. |
 
 **Example**:
@@ -380,9 +385,11 @@ const connError = new ConnectionError({ cause }) // also "Connection has been re
 <a id="ConstraintViolationError"></a>
 #### ConstraintViolationError
 
-Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint. `ConstraintViolationError`s are distinguished from [`ArgumentInvalidErrors`](ArgumentInvalidErrors) in that argument errors are evaluated at the function level, while constraint violations result from database constraints.
+Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
+`ConstraintViolationError` is distinguished from [`ArgumentInvalidError`](#ArgumentInvalidError) in that argument errors are evaluated
+at the function level, while constraint violations result from database constraints.
 
-[**Source code**](./src/constraint-violation-error.mjs#L9)
+[**Source code**](./src/constraint-violation-error.mjs#L12)
 
 
 <a id="DataServiceError"></a>
@@ -516,7 +523,7 @@ access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to deal wi
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
   currently authenticated.
-- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to access the directory under 
+- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to access the directory under
   some conditions.
 - [`NoAccessError`](#NoAccessError)
 - [`NoAccessFileError`](#NoAccessFileError)
@@ -547,7 +554,7 @@ this situation.
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
   currently authenticated.
-- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to access the resource under 
+- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to access the resource under
   some conditions.
 - [`NoAccessDirectoryError`](#NoAccessDirectoryError)
 - [`NoAccessFileError`](#NoAccessFileError)
@@ -601,7 +608,7 @@ where the fundamental issue is the named thing not being present.
 An error indicating the requested operation is not currently implemented.
 
 Consider whether any of the following errors might be more precise or better suited:
-- [`NotSupportedError`](#NotSupportedError) - Use this when the target is implemented, but does not support some feature or 
+- [`NotSupportedError`](#NotSupportedError) - Use this when the target is implemented, but does not support some feature or
   condition captured in the request.
 - [`UnavailableError`](#UnavailableError) - Use this when a resource exists, but is temporarily unavailable for some reason.
 
@@ -619,7 +626,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` | The input options. |
-| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is    trying to invoke. |
+| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. |
 
 **Example**:
 ```js
@@ -631,13 +638,13 @@ new NotImplementedError({ target: '/some/url/endpoint'}) // "'/some/url/endpoint
 <a id="NotSupportedError"></a>
 #### NotSupportedError
 
-An error indicating that the resource exists, but does not support some aspect of the request as is. This is most 
-typically used when implementing a specification, but where some feature of the specification is not implemented. 
-E.g., let's say a specification says requests can use JSON or YAML, but we only implement JSON support. If we get a 
+An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
+typically used when implementing a specification, but where some feature of the specification is not implemented.
+E.g., let's say a specification says requests can use JSON or YAML, but we only implement JSON support. If we get a
 request with a YAML payload, we could throw a `NotSUpportedError`.
 
 Consider whether any of the following errors might be more precise or better suited:
-- [`NotImplemented`](NotImplemented) - Use this when the target is not implemented at all.
+- [`NotImplementedError`](#NotImplementedError) - Use this when the target is not implemented at all.
 - [`UnavailableError`](#UnavailableError) - Use this when the target is implemented, but temporarily unavailable for some reason.
 
 [**Source code**](./src/not-supported-error.mjs#L17)
@@ -654,15 +661,15 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` | The input options. |
-| options.issue | `string` \| `undefined` | A short description of the thing which is not supported. E.g., 'YAML    request payloads' or 'asynchronous execution'. |
-| options.hint | `string` \| `undefined` | A short hint to the user as to how they might resolve or workaround the    issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous execution.' |
-| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is    trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
+| options.issue | `string` \| `undefined` | A short description of the thing which is not supported. E.g., 'YAML   request payloads' or 'asynchronous execution'. |
+| options.hint | `string` \| `undefined` | A short hint to the user as to how they might resolve or workaround the   issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous execution.' |
+| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
 **Example**:
 ```js
 new NotSupportedError() // "The target does not currently support a requested feature."
 // v "'/some/endpoint' does not currently support some requested feature."
-new NotSupportedError({ target: '/some/endpoint'}) 
+new NotSupportedError({ target: '/some/endpoint'})
 // v "'myFunc()' does not currently support RFC 3339 style dates."
 new NotSupportedError({ target: 'myFunc()', issue: 'RFC 3339 style dates' })
 // v "The target does not currently support YAML payloads. Send request in JSON."
@@ -677,7 +684,7 @@ An [`AuthError`](#AuthError) indicating the user lacks authorization to perform 
 when the user is trying to _do_ something. If the user is attempting to "access" a resource, the [`NoAccessError`](#NoAccessError) or it's children may be better suited. Consider whether any of the following errors might be more
 precise or better suited:
 - [`AuthenticationError`](AuthenticationError)
-- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to perform the operation under 
+- [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to perform the operation under
   some conditions.
 - [`BadCredentialsError`](BadCredentialsError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError)
@@ -699,7 +706,7 @@ A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt 
 
 An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`, etc.), be sure to set the `cause` option.
 
-[**Source code**](./src/system-error.mjs#L10)
+[**Source code**](./src/system-error.mjs#L9)
 
 
 <a id="new_SystemError_new"></a>
@@ -713,13 +720,13 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` | The constructor options. |
-| options.resource | `string` \| `undefined` | The name or short description of the resource which has run out of memory. |
+| options.resource | `string` \| `undefined` | The name or short description of the resource which has run out of   memory. |
 
 **Example**:
 ```js
 new SystemError() // "The process has experienced a System."
 // v "The application has experienced a stack overflow."
-new SystemError({ resource: 'application'}) 
+new SystemError({ resource: 'application'})
 ```
 
 
@@ -765,7 +772,7 @@ otherwise involving a transaction within a database system itself.
 An error indicating that the resource exists, but is not currently available. This represents a temporary condition.
 
 Consider whether any of the following errors might be more precise or better suited:
-- [`NotImplemented`](NotImplemented) - Use this when the target is not implemented at all.
+- [`NotImplementedError`](#NotImplementedError) - Use this when the target is not implemented at all.
 - [`NotSupportedError`](#NotSupportedError) - Use this when the target is implemented, but doesn't support some requested feature.
 
 [**Source code**](./src/unavailable-error.mjs#L14)
@@ -783,13 +790,13 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | --- | --- | --- |
 | options | `object` | The input options. |
 | options.expectedTime | `string` \| `undefined` | A short description as to when the resource might be available. E.g., 'after 1400' or 'in two hours'. |
-| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is    trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
+| options.target | `string` \| `undefined` | The name of the function, endpoint, service, etc. which the user is   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
 **Example**:
 ```js
 new UnavailableError() // "The target is currently unavailable.
 // v "'/some/endpoint' is not currently available."
-new UnavailableError({ target: '/some/endpoint'}) 
+new UnavailableError({ target: '/some/endpoint'})
 // v "'/some/endpoint' is not currently available, try again after 12:00 Saturday.'
 new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Saturday' })
 ```
@@ -815,6 +822,28 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 | options.message | `string` \| `undefined` | The explicit error message to use (rather than generating an error   message) (optional). |
 | options.status | `number` \| `undefined` | The HTTP status code to use on this error instance (optional); will be   mapped to default if not provided. |
 | options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
+
+
+<a id="commonErrorSettings"></a>
+#### `commonErrorSettings(option, value)`
+
+Used to retrieve and manage options used in [`wrapError`](#wrapError).
+- To retrieve a setting, call `commonErrorSettings(option)` (where `option` is a `string`).
+- To add/override a single setting, call `commonErrorSettings(option, value)`.
+- To bulk add/override settings, call `commonErrorSettings(/mappings)` (where `mappings is an `Object`).
+- To reset the custom settings to default, call `commonErrorSettings()`.
+
+Currently, we support two settings (see [`wrapError`](#wrapError) for details):
+- `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
+- `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| option | `string` \| `object` | Then name of the setting, or bulk settings `Object`. |
+| value | `boolean` \| `Class` \| `undefined` | The value of the setting. |
+
+[**Source code**](./src/common-error-settings.mjs#L25)
 
 
 <a id="mapErrorToHttpStatus"></a>
@@ -846,9 +875,9 @@ own mappings, which may be useful when dealing with non-common error errors.
 Used to translate and manage mappings from HTTP status codes to names. Supports all current status defined by the [
 IANA](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml), as well as common extensions
 returned by IIS, NginX, and Cloudflare.
-- To retrieve a status name, call `mapHttpStatusToName(status)`.
+- To retrieve a status name, call `mapHttpStatusToName(status)` (where `status` is a `string`).
 - To add/override a single custom mapping, call `mapHttpStatusToName(status, name)`.
-- To bulk add/override custom mappings, call `mapHttpStatusToName(mappings)`.
+- To bulk add/override custom mappings, call `mapHttpStatusToName(/mappings)` (where `mappings is an `Object`).
 - To reset the custom mappings to default, call `mapHttpStatusToName()`.
 
 
@@ -874,6 +903,46 @@ production systems, the [presentation of errors to the users](#presenting-errors
 underlying type.
 
 [**Source code**](./src/mask-no-access-errors.mjs#L16)
+
+
+<a id="wrapError"></a>
+#### `wrapError(error, options)` ⇒ `Array.<Error, boolean>`
+
+Wraps an `Error` in a [`CommonError`](#CommonError). The `error` parameter will be set as the `cause` field of the new 
+`CommonError` instance (unless `cause` is specifically set in the `options`).
+
+The wrapping logic is as follows:
+- If the `noInstanceHidingOnWrap` is `true` and the `error` class is anything but `Error` 
+  (`error.prototype.constructor !== 'Error'`), then results in the original error.
+- If the `error` `code` indicates a connection error, results in a [`ConnectionError`](#ConnectionError).
+- If the `error` `code` is 'EACCESS' or 'EPERM', results in a [`NoAccessError`](#NoAccessError).
+- If the `error` `code` is 'ENOENT', results in a [`NotFoundError`](#NotFoundError).
+- If the `error` is an instance of `URIError` and the `wrapUserErrorType` option is `undefined`, results in a 
+  {@ArgumentInvalidError}.
+- If the `error` is an instance of `RangeError` and the `wrapUserErrorType` option is `undefined`, results in a 
+  [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError).
+- If the `error` is an instance of `TypeError` and the `wrapUserErrorType` option is `undefined`, results in a
+  [`ArgumentTypeError`](#ArgumentTypeError).
+- If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a {@SystemError}.
+- Otherwise, results in a [`CommonError`](#CommonError).
+
+Note, there is no special handling for `EvalError` (which [is no longer in 
+use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError)) or `CommonError` 
+(which is 
+[non-standard](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError)).
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| error | `Error` | The `Error` to be wrapped. |
+| options | `object` | The options controlling some wrapping and also passed to the wrapping `CommonError`    constructor. |
+| options.noInstanceHidingOnWrap | `boolean` | If true, then if the `error` class is anything but `Error`, the    original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
+| options.wrapUserErrorType | `Class` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped in    a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)    `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
+
+**Returns**: `Array.<Error, boolean>` - - An array containing either the original `Error` or the new wrapping `CommonError` 
+  and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
+
+[**Source code**](./src/wrap-error.mjs#L46)
 
 
 ## Presenting errors to users

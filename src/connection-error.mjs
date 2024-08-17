@@ -1,5 +1,6 @@
 /* globals CommonError */
 import { ExternalServiceError } from './external-service-error'
+import { connectionCodes } from './lib/connection-codes'
 import { hoistErrorCode } from './lib/hoist-error-code'
 import { registerParent } from './map-error-to-http-status'
 
@@ -45,30 +46,7 @@ registerParent(myName, Object.getPrototypeOf(ConnectionError).name)
 ConnectionError.typeName = myName
 
 const generateMessage = ({ code, issue, target }) => {
-  if (issue === undefined) {
-    switch (code) {
-      case ('ECONNRESET') :
-        issue = 'has been reset'; break
-      case ('ENOTFOUND') :
-        issue = 'host not found; check for typos'; break
-      case ('ETIMEDOUT') :
-        issue = 'request timed out'; break
-      case ('ECONNREFUSED') :
-        issue = 'refused; check port and ensure target service is running'; break
-      case ('ERRADDRINUSE') :
-        issue = 'port already bound; verify port and check for duplicate or conflicting service'; break
-      case ('EADDRNOTAVAIL') :
-        issue = 'address not available; verify binding IP address correct and exists or try binding to 0.0.0.0'; break
-      case (' ECONNABORTED') :
-        issue = "connection prematurely aborted; this is possibly due to 'result.end()' being called before 'result.sendFile()' could complete"; break
-      case ('EHOSTUNREACH') :
-        issue = 'host unreachable; check local routing configuration and target and intermediate firewalls'; break
-      case ('EAI_AGAIN') :
-        issue = 'host name cannot be resolved due to temporary DNS resolution issue; verify internet connection is stable and check DNS resolution settings (/etc/resolv.conf and /etc/hosts)'; break
-      default:
-        issue = 'experienced an unknown error'
-    }
-  }
+  issue = issue || connectionCodes[code] || 'experienced an unknown error'
 
   return `Connection ${target === undefined ? '' : `${target} `}${issue}.`
 }
