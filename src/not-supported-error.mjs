@@ -5,31 +5,34 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'NotSupportedError'
 
 /**
- * An error indicating that the resource exists, but does not support some aspect of the request as is. This is most 
- * typically used when implementing a specification, but where some feature of the specification is not implemented. 
- * E.g., let's say a specification says requests can use JSON or YAML, but we only implement JSON support. If we get a 
+ * An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
+ * typically used when implementing a specification, but where some feature of the specification is not implemented.
+ * E.g., let's say a specification says requests can use JSON or YAML, but we only implement JSON support. If we get a
  * request with a YAML payload, we could throw a `NotSUpportedError`.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
- * - {@link NotImplemented} - Use this when the target is not implemented at all.
+ * - {@link NotImplementedError} - Use this when the target is not implemented at all.
  * - {@link UnavailableError} - Use this when the target is implemented, but temporarily unavailable for some reason.
  */
 const NotSupportedError = class extends CommonError {
   /**
    * Constructor for {$link NotSupportedError}.
-   * 
+   *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} options - The input options.
-   * @param {string|undefined} options.issue - A short description of the thing which is not supported. E.g., 'YAML 
+   * @param {string|undefined} options.issue - A short description of the thing which is not supported. E.g., 'YAML
    *   request payloads' or 'asynchronous execution'.
-   * @param {string|undefined} options.hint - A short hint to the user as to how they might resolve or workaround the 
+   * @param {string|undefined} options.hint - A short hint to the user as to how they might resolve or workaround the
    *   issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous execution.'
-   * @param {string|undefined} options.target - The name of the function, endpoint, service, etc. which the user is 
+   * @param {string|undefined} options.target - The name of the function, endpoint, service, etc. which the user is
    *   trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example
    * new NotSupportedError() // "The target does not currently support a requested feature."
    * // v "'/some/endpoint' does not currently support some requested feature."
-   * new NotSupportedError({ target: '/some/endpoint'}) 
+   * new NotSupportedError({ target: '/some/endpoint'})
    * // v "'myFunc()' does not currently support RFC 3339 style dates."
    * new NotSupportedError({ target: 'myFunc()', issue: 'RFC 3339 style dates' })
    * // v "The target does not currently support YAML payloads. Send request in JSON."

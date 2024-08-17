@@ -1,4 +1,4 @@
-/* globals ArgumentMissingError ArgumentOutOfRangeError */
+/* globals ArgumentMissingError ArgumentOutOfRangeError ArgumentTypeError */
 import { CommonError } from './common-error'
 import { generateBadArgumentMessage } from './lib/generate-bad-argument-message'
 import { registerParent } from './map-error-to-http-status'
@@ -11,6 +11,7 @@ const myName = 'ArgumentInvalidError'
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentMissingError} - For when the argument is required, but missing or empty.
  * - {@link ArgumentOutOfRangeError} - For when the argument is of the proper type, but outside the acceptable range.
+ * - {@link ArgumentTypeError} - Indicates an argument is an incorrect type.
  */
 const ArgumentInvalidError = class extends CommonError {
   /**
@@ -21,7 +22,7 @@ const ArgumentInvalidError = class extends CommonError {
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
    * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored 
+   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored
    *   when `undefined`, consider using the string 'undefined' if it's important to display the value.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

@@ -10,7 +10,7 @@ const myName = 'OperationNotPermittedError'
  * NoAccessError} or it's children may be better suited. Consider whether any of the following errors might be more
  * precise or better suited:
  * - {@link AuthenticationError}
- * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to perform the operation under 
+ * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to perform the operation under
  *   some conditions.
  * - {@link BadCredentialsError}
  * - {@link AuthorizationConditionsNotMetError}

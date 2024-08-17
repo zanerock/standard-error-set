@@ -1,3 +1,4 @@
+/* globals ArgumentMissingError ArgumentTypeError CommonError */ // used in docs
 import { ArgumentInvalidError } from './argument-invalid-error'
 import { generateBadArgumentMessage } from './lib/generate-bad-argument-message'
 import { registerParent } from './map-error-to-http-status'
@@ -6,10 +7,11 @@ const myName = 'ArgumentOutOfRangeError'
 
 /**
  * A {@link ArgumentInvalidError} sub-type indicating an argument is of the correct time, but outside the acceptable range.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
- * - {@link ArgumentInvalidError} - For general argument errors not of a more specific type.
- * - {@link ArgumentMissingError} - Consider this when the argument is required, but missing or empty.
+ * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
+ * - {@link ArgumentMissingError} - For when the argument is required, but missing or empty.
+ * - {@link ArgumentTypeError} - Indicates an argument is an incorrect type.
  */
 const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
   /**
@@ -20,7 +22,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
    * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored 
+   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored
    *   when `undefined`, consider using the string 'undefined' if it's important to display the value.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
@@ -53,8 +55,7 @@ const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => 
 
     if (min !== undefined) {
       message += ` greater than or equal to '${min}'`
-    }
-    else if (minBoundary !== undefined) {
+    } else if (minBoundary !== undefined) {
       message += ` greater than '${minBoundary}'`
     }
 
@@ -64,8 +65,7 @@ const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => 
 
     if (max !== undefined) {
       message += ` less than or equal to '${max}'`
-    }
-    else if (maxBoundary !== undefined) {
+    } else if (maxBoundary !== undefined) {
       message += ` less than '${maxBoundary}'`
     }
 

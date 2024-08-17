@@ -17,17 +17,17 @@ describe('ArgumentOutOfRangeError', () => {
     ],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [
-      { argumentName : 'bar', argumentValue: 5, max: 4 }, 
+      { argumentName : 'bar', argumentValue : 5, max : 4 },
       /argument 'bar' with value '5' is out of range. Value must be less than or equal to '4'./
     ],
     [
-      { argumentName : 'bar', argumentValue: 5, max: 4, minBoundary: 1 }, 
+      { argumentName : 'bar', argumentValue : 5, max : 4, minBoundary : 1 },
       /argument 'bar' with value '5' is out of range. Value must be greater than '1' and less than or equal to '4'./
     ],
     [
-      { argumentName : 'bar', argumentValue: 5, min: 10 }, 
+      { argumentName : 'bar', argumentValue : 5, min : 10 },
       /argument 'bar' with value '5' is out of range. Value must be greater than or equal to '10'./
-    ],
+    ]
   ]
 
   test.each(completeTestData({

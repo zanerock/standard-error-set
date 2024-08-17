@@ -1,4 +1,4 @@
-/* globals ArgumentMissingError ArgumentOutOfRangeError */ // in the docs
+/* globals ArgumentMissingError ArgumentOutOfRangeError CommonError */ // in the docs
 import { ArgumentInvalidError } from './argument-invalid-error'
 import { generateBadArgumentMessage } from './lib/generate-bad-argument-message'
 import { registerParent } from './map-error-to-http-status'
@@ -7,7 +7,7 @@ const myName = 'ArgumentTypeError'
 
 /**
  * A {@link ArgumentInvalidError} sub-type indicating an argument is not the correct type.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
  * - {@link ArgumentMissingError} - Indicates the argument is missing or empty.
@@ -22,7 +22,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
    * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The value of the argument; though we recommend to leave this 
+   * @param {string|undefined} options.argumentValue - The value of the argument; though we recommend to leave this
    *   undefined. The value is generally not important since the type is incorrect.
    * @param {string|undefined} options.expectedType - The expected type of the argument.
    * @param {string|undefined} options.receivedType - The actual type of the argument.
@@ -59,9 +59,9 @@ const generateMessage = ({ expectedType, receivedType, ...options }) => {
     typeMessage += `recieved type '${receivedType}'`
   }
 
-  return message + 
-    (typeMessage === undefined 
-      ? '' 
+  return message +
+    (typeMessage === undefined
+      ? ''
       : ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
     )
 }

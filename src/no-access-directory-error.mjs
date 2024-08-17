@@ -13,7 +13,7 @@ const myName = 'NoAccessDirectoryError'
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link AuthenticationRequiredError} - Use this when the resource requires authenticated access and the user is not
  *   currently authenticated.
- * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to access the directory under 
+ * - {@link AuthorizationConditionsNotMetError} - Use this when the user is authorized to access the directory under
  *   some conditions.
  * - {@link NoAccessError}
  * - {@link NoAccessFileError}
