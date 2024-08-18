@@ -1,3 +1,4 @@
+/* globals CommonError */
 import { ConstraintViolationError } from './constraint-violation-error'
 import { generateConstraintMessage } from './lib/generate-constraint-message'
 import { registerParent } from './map-error-to-http-status'

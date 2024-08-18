@@ -1,3 +1,4 @@
+/* globals DirectoryNotFoundError FileNotFoundError */ // used in docs
 import { CommonError } from './common-error'
 import { generateNotFoundMessage } from './lib/generate-not-found-message'
 import { registerParent } from './map-error-to-http-status'
@@ -7,7 +8,7 @@ const myName = 'NotFoundError'
 /**
  * An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
  * where the fundamental issue is the named thing not being present.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link DirectoryNotFoundError}
  * - {@link FileNotFoundError}

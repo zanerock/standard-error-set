@@ -1,3 +1,4 @@
+/* globals CommonError */
 import { describeFile } from './lib/describe-file'
 import { IoError } from './io-error'
 import { generateIoErrorMessage } from './lib/generate-io-error-message'
@@ -7,7 +8,7 @@ const myName = 'FileLoadError'
 
 /**
  * An {@link IoError} indicating a file is present, and can be read, but there is a problem loading it.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link IoError}
  * - {@link FileLoadError}
@@ -23,7 +24,7 @@ const FileLoadError = class extends IoError {
    *   `dirPath` should be left undefined) or just the file name, in which case it is combined with `dirPath`, if
    *   present, to create the standard error message.
    * @param {string|undefined} options.issue - Describes the specific issue.
-   * @param {string|undefined} options.target - The name or description of the target resource. Should generally be 
+   * @param {string|undefined} options.target - The name or description of the target resource. Should generally be
    *   left in preference for setting `fileName` and/or `filePath`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

@@ -4,7 +4,7 @@ const generateIoErrorMessage = (errorType = 'an IO', { action = 'accessing', iss
     message += ` while ${action}`
   }
   if (target !== undefined) {
-    message += ` the ${target}` 
+    message += ` the ${target}`
   }
   if (issue !== undefined) {
     message += `; ${issue}`

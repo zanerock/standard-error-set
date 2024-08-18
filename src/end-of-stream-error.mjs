@@ -1,3 +1,4 @@
+/* globals CommonError */ // used in docs
 import { IoError } from './io-error'
 import { generateIoErrorMessage } from './lib/generate-io-error-message'
 import { registerParent } from './map-error-to-http-status'
@@ -6,7 +7,7 @@ const myName = 'EndOfStreamError'
 
 /**
  * An {@link IoError} sub-type indicating an attempt to read beyond the of a stream.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link EndOfStreamError}
  * - {@link IoError}

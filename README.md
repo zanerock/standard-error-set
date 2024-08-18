@@ -2,6 +2,8 @@
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 
+___This is beta code.___ It's mostly done, but not all the error types have been fully tested.
+
 ## Table of contents
 
 - [Install](#install)
@@ -475,7 +477,7 @@ Indicates the requested operation is well formed and the data otherwise correct,
 `ConstraintViolationError` is distinguished from [`ArgumentInvalidError`](#ArgumentInvalidError) in that argument errors are evaluated
 at the function level, while constraint violations result from database constraints.
 
-[**Source code**](./src/constraint-violation-error.mjs#L12)
+[**Source code**](./src/constraint-violation-error.mjs#L13)
 
 
 <a id="new_ConstraintViolationError_new"></a>
@@ -583,7 +585,7 @@ Consider whether any of the following errors might be more precise or better sui
 - [`EndOfStreamError`](#EndOfStreamError)
 - [`IoError`](#IoError)
 
-[**Source code**](./src/end-of-stream-error.mjs#L14)
+[**Source code**](./src/end-of-stream-error.mjs#L15)
 
 
 <a id="new_EndOfStreamError_new"></a>
@@ -658,7 +660,7 @@ Consider whether any of the following errors might be more precise or better sui
 - [`IoError`](#IoError)
 - [`FileLoadError`](#FileLoadError)
 
-[**Source code**](./src/file-load-error.mjs#L15)
+[**Source code**](./src/file-load-error.mjs#L16)
 
 
 <a id="new_FileLoadError_new"></a>
@@ -674,7 +676,7 @@ Consider whether any of the following errors might be more precise or better sui
 | options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
 | options.fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case   `dirPath` should be left undefined) or just the file name, in which case it is combined with `dirPath`, if   present, to create the standard error message. |
 | options.issue | `string` \| `undefined` | Describes the specific issue. |
-| options.target | `string` \| `undefined` | The name or description of the target resource. Should generally be    left in preference for setting `fileName` and/or `filePath`. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. Should generally be   left in preference for setting `fileName` and/or `filePath`. |
 
 **Example**:
 ```js
@@ -735,7 +737,7 @@ Consider whether any of the following errors might be more precise or better sui
 - [`EndOfStreamError`](#EndOfStreamError)
 - [`FileLoadError`](#FileLoadError)
 
-[**Source code**](./src/io-error.mjs#L15)
+[**Source code**](./src/io-error.mjs#L16)
 
 
 <a id="new_IoError_new"></a>
@@ -747,7 +749,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | The constructor options. |
-| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'reading' or 'writing'.    Defaults to 'accessing'. |
+| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'reading' or 'writing'.   Defaults to 'accessing'. |
 | options.issue | `string` \| `undefined` | Describes the specific issue. |
 | options.target | `string` \| `undefined` | The name or description of the target resource. |
 
@@ -765,7 +767,7 @@ new IoError({ issue : 'virtual socket closed', target : 'serial port' })
 <a id="LocalRollbackError"></a>
 #### LocalRollbackError
 
-An [`IoError`](#IoError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client 
+An [`IoError`](#IoError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client
 side to indicate a failed rollback in an external data service.
 
 [**Source code**](./src/local-rollback-error.mjs#L12)
@@ -803,7 +805,7 @@ new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer dat
 An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
 
-[**Source code**](./src/local-transaction-error.mjs#L12)
+[**Source code**](./src/local-transaction-error.mjs#L11)
 
 
 <a id="new_LocalTransactionError_new"></a>
@@ -815,7 +817,7 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | The constructor options. |
-| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'closing', 'creating',    etc. |
+| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'closing', 'creating',   etc. |
 | options.issue | `string` \| `undefined` | Describes the specific issue. |
 | options.target | `string` \| `undefined` | The name or description of the target resource. |
 
@@ -917,16 +919,17 @@ Consider whether any of the following errors might be more precise or better sui
 
 
 <a id="new_NoAccessFileError_new"></a>
-##### `new NoAccessFileError(dirPath, fileName, resource)`
+##### `new NoAccessFileError(options)`
 
 [`NoAccessFileError`](#NoAccessFileError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath`    should be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to    create the standard error message. |
-| resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
+| options | `object` \| `undefined` | Constructor options. |
+| options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
+| options.fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case   `dirPath` should be left undefined) or just the file name, in which case it is combined with `dirPath`, if   present, to create the standard error message. |
+| options.resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
 
 
 <a id="NotFoundError"></a>
@@ -939,7 +942,7 @@ Consider whether any of the following errors might be more precise or better sui
 - [`DirectoryNotFoundError`](#DirectoryNotFoundError)
 - [`FileNotFoundError`](#FileNotFoundError)
 
-[**Source code**](./src/not-found-error.mjs#L15)
+[**Source code**](./src/not-found-error.mjs#L16)
 
 
 <a id="new_NotFoundError_new"></a>
@@ -1233,7 +1236,7 @@ new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Satu
 
 A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 
-[**Source code**](./src/unique-constraint-violation-error.mjs#L10)
+[**Source code**](./src/unique-constraint-violation-error.mjs#L11)
 
 
 <a id="new_UniqueConstraintViolationError_new"></a>

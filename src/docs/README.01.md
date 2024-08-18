@@ -2,6 +2,8 @@
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 
+___This is beta code.___ It's mostly done, but not all the error types have been fully tested.
+
 ## Table of contents
 
 - [Install](#install)

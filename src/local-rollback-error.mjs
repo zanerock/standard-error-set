@@ -1,4 +1,4 @@
-/* globals RollbackError */ // used in docs
+/* globals CommonError RollbackError */ // used in docs
 import { IoError } from './io-error'
 import { generateIoErrorMessage } from './lib/generate-io-error-message'
 import { registerParent } from './map-error-to-http-status'
@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'LocalRollbackError'
 
 /**
- * An {@link IoError} sub-type relating to a failed rollback within a database. Use {@link RollbackError} on the client 
+ * An {@link IoError} sub-type relating to a failed rollback within a database. Use {@link RollbackError} on the client
  * side to indicate a failed rollback in an external data service.
  */
 const LocalRollbackError = class extends IoError {
@@ -30,7 +30,7 @@ const LocalRollbackError = class extends IoError {
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
   constructor ({ name = myName, ...options } = {}) {
-    options.action = option.action || 'rolling back'
+    options.action = options.action || 'rolling back'
     options.message = options.message || generateIoErrorMessage('an', options)
     super({ name, ...options })
   }

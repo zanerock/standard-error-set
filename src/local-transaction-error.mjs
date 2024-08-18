@@ -1,6 +1,5 @@
-/* globals TransactionError */ // used in docs
+/* globals CommonError TransactionError */ // used in docs
 import { IoError } from './io-error'
-import { generateIoErrorMessage } from './lib/generate-io-error-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalTransactionError'
@@ -13,7 +12,7 @@ const LocalTransactionError = class extends IoError {
   /**
    * {@link LocalTransactionError} constructor.
    * @param {object|undefined} options - The constructor options.
-   * @param {string|undefined} options.action - A description of the action being taken. E.g., 'closing', 'creating', 
+   * @param {string|undefined} options.action - A description of the action being taken. E.g., 'closing', 'creating',
    *   etc.
    * @param {string|undefined} options.issue - Describes the specific issue.
    * @param {string|undefined} options.target - The name or description of the target resource.
@@ -44,8 +43,7 @@ const generateMessage = ({ action, issue, target }) => {
   let message = 'There was'
   if (action === undefined) {
     message += ' a transaction error'
-  }
-  else {
+  } else {
     message += ` an error ${action} the transaction`
   }
   if (target !== undefined) {

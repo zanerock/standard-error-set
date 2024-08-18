@@ -1,4 +1,4 @@
-/* globals CommonError */ // used in docs
+/* globals CommonError DirectoryNotFoundError */ // used in docs
 import { generateNotFoundMessage } from './lib/generate-not-found-message'
 import { NotFoundError } from './not-found-error'
 import { registerParent } from './map-error-to-http-status'
@@ -10,7 +10,7 @@ const myName = 'FileNotFoundError'
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and
  * `fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path
  * separator and whether it needs to be appended or not.
- * 
+ *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link DirectoryNotFoundError}
  * - {@link NotFoundError}
