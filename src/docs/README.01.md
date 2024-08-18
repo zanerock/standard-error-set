@@ -2,6 +2,49 @@
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 
+## Table of contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [API](#api)
+  - [Common parameters](#common-parameters)
+  - [Error code hoisting](#error-code-hoisting)
+  - [Instance fields](#instance-fields)
+  - [API reference](#api-reference)
+- [Presenting errors to users](#presenting-errors-to-users)
+
+## Install
+
+```bash
+npm i @liquid-labs/common-errors
+```
+
+## Usage
+
+```js
+import { wrapError } from '@liquid-labs/common-error' // ESM
+// const { wrapError } = require('@liquid-labs/common-error') // CJS
+
+try {
+  await fetch('www.foo.com')
+}
+catch (e) {
+  throw wrapError(e)[0]
+}
+```
+
+```js
+import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
+// const { ArgumentTypeError } = require('@liquid-labs/common-error') // CJS
+
+const myFunc = ({ arg }) => {
+  const typeofArg = typeof arg
+  if (typeofArg !== 'string') {
+    throw new ArgumentTypeError({ argumentName : 'arg', expectedType : 'string', receivedType : typeofArg })
+  }
+}
+```
+
 ## API
 
 ### Common parameters
