@@ -71,7 +71,7 @@ itself.
   - [RollbackError](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
   - [SystemError](#SystemError): An error indicating a system error.
   - [TimeoutError](#TimeoutError): Indicates an operation is taking too much time.
-  - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction.
+  - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction.
   - [UnavailableError](#UnavailableError): An error indicating that the resource exists, but is not currently available.
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 - Functions:
@@ -437,15 +437,39 @@ at the function level, while constraint violations result from database constrai
 <a id="DataServiceError"></a>
 #### DataServiceError
 
-An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically. Consider
-whether any of the following errors might be more precise or better suited:
+An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
+
+Consider whether any of the following errors might be more precise or better suited:
 - [`ConnectionError`](#ConnectionError)
 - [`ConstraintViolationError`](#ConstraintViolationError)
 - [`RollbackError`](#RollbackError)
 - [`TransactionError`](#TransactionError)
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
 
-[**Source code**](./src/data-service-error.mjs#L16)
+[**Source code**](./src/data-service-error.mjs#L18)
+
+
+<a id="new_DataServiceError_new"></a>
+##### `new DataServiceError(options)`
+
+[`DataServiceError`](#DataServiceError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.service | `string` \| `undefined` | The name or short description of the service. |
+| options.issue | `string` \| `undefined` | A description of the issue. |
+
+**Example**:
+```js
+new DataServiceError() // There was an error with a remote data service.
+new DataServiceError({ service : 'database' }) // The was an error with the database remote data service.
+// v "There was an error with a remote data service; service is not rot responding.""
+new DataServiceError({ issue : 'is not responding' })
+// v "There was an error with the database remote data service; service is not rot responding.""
+new DataServiceError({ service : 'database', issue : 'is not responding' })
+```
 
 
 <a id="DirectoryNotFoundError"></a>
@@ -494,7 +518,37 @@ An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a 
 
 Indicates an error related to an external service.
 
-[**Source code**](./src/external-service-error.mjs#L9)
+Consider whether any of the following errors might be more precise or better suited:
+- [`ConstraintViolationError`](#ConstraintViolationError)
+- [`DataServiceError`](#DataServiceError)
+- [`RollbackError`](#RollbackError)
+- [`TransactionError`](#TransactionError)
+- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
+
+[**Source code**](./src/external-service-error.mjs#L18)
+
+
+<a id="new_ExternalServiceError_new"></a>
+##### `new ExternalServiceError(options)`
+
+[`ExternalServiceError`](#ExternalServiceError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.service | `string` \| `undefined` | The name or short description of the service. |
+| options.issue | `string` \| `undefined` | A description of the issue. |
+
+**Example**:
+```js
+new ExternalServiceError() // There was an error with a remote service.
+new ExternalServiceError({ service : 'Foo API' }) // The was an error with the Foo API remote service.
+// v "A remote service is not responding."
+new ExternalServiceError({ issue : 'is not responding' })
+// v "The remote service Foo API is not responding."
+new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
+```
 
 
 <a id="FileLoadError"></a>
@@ -765,7 +819,38 @@ precise or better suited:
 
 A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service. Use [`LocalRollbackError`](#LocalRollbackError) within a database implementation itself.
 
-[**Source code**](./src/rollback-error.mjs#L11)
+Consider whether any of the following errors might be more precise or better suited:
+- [`ConnectionError`](#ConnectionError)
+- [`ConstraintViolationError`](#ConstraintViolationError)
+- [`DataServiceError`](#DataServiceError)
+- [`LocalRollbackError`](#LocalRollbackError)
+- [`TransactionError`](#TransactionError)
+- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
+
+[**Source code**](./src/rollback-error.mjs#L20)
+
+
+<a id="new_RollbackError_new"></a>
+##### `new RollbackError(options)`
+
+[`RollbackError`](#RollbackError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.service | `string` \| `undefined` | The name or short description of the service. |
+| options.issue | `string` \| `undefined` | A description of the issue. |
+
+**Example**:
+```js
+new RollbackError() // There was an rollback error with a remote data service.
+new RollbackError({ service : 'database' }) // The was an rollback error with the database remote data service.
+// v "There was a rollback error with a remote data service; service is not rot responding.""
+new RollbackError({ issue : 'is not responding' })
+// v "There was a rollback error with the database remote data service; service is not rot responding.""
+new RollbackError({ service : 'database', issue : 'is not responding' })
+```
 
 
 <a id="SystemError"></a>
@@ -826,11 +911,41 @@ The [`TimeoutError`](#TimeoutError) constructor.
 <a id="TransactionError"></a>
 #### TransactionError
 
-A [`DataServiceError`](#DataServiceError) indicating a problem with creating or working with a transaction. Note, this error is
-specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for error or
-otherwise involving a transaction within a database system itself.
+A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction. Note, this
+error is specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for
+error or otherwise involving a transaction within a database system itself.
 
-[**Source code**](./src/transaction-error.mjs#L12)
+Consider whether any of the following errors might be more precise or better suited:
+- [`ConnectionError`](#ConnectionError)
+- [`ConstraintViolationError`](#ConstraintViolationError)
+- [`DataServiceError`](#DataServiceError)
+- [`RollbackError`](#RollbackError)
+- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
+
+[**Source code**](./src/transaction-error.mjs#L20)
+
+
+<a id="new_TransactionError_new"></a>
+##### `new TransactionError(options)`
+
+[`TransactionError`](#TransactionError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.service | `string` \| `undefined` | The name or short description of the service. |
+| options.issue | `string` \| `undefined` | A description of the issue. |
+
+**Example**:
+```js
+new TransactionError() // There was an error with a remote data service.
+new TransactionError({ service : 'database' }) // The was an error with the database remote data service.
+// v "There was an error with a remote data service; service is not rot responding.""
+new TransactionError({ issue : 'is not responding' })
+// v "There was an error with the database remote data service; service is not rot responding.""
+new TransactionError({ service : 'database', issue : 'is not responding' })
+```
 
 
 <a id="UnavailableError"></a>
@@ -874,11 +989,13 @@ new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Satu
 
 A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
 
-[**Source code**](./src/unique-constraint-violation-error.mjs#L18)
+[**Source code**](./src/unique-constraint-violation-error.mjs#L9)
 
 
 <a id="new_UniqueConstraintViolationError_new"></a>
 ##### `new UniqueConstraintViolationError(options)`
+
+[`ConstraintViolationError`](#ConstraintViolationError) constructor.
 
 
 | Param | Type | Description |
@@ -888,7 +1005,17 @@ A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of
 | options.fieldAndValues | `Array.<string>` \| `Array.<Array.string>` | An array of either field names and/or arrays of   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
 | options.message | `string` \| `undefined` | The explicit error message to use (rather than generating an error   message) (optional). |
 | options.status | `number` \| `undefined` | The HTTP status code to use on this error instance (optional); will be   mapped to default if not provided. |
-| options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error` super-constructor. |
+| options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error`   super-constructor. |
+
+**Example**:
+```js
+new UniqueConstraintViolationError() // "Unique constraint violated."
+new UniqueConstraintViolationError({ entityType : 'user' }) // "Unique constraint on entity type 'user' violated."
+// v "Unique constraint on fields <email>."
+new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : ['email'] })
+// v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
+new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
+```
 
 
 <a id="commonErrorSettings"></a>
