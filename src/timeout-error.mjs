@@ -8,7 +8,7 @@ const myName = 'TimeoutError'
  */
 const TimeoutError = class extends CommonError {
   /**
-   * The {@link TimeoutError} constructor.
+   * {@link TimeoutError} constructor.
    * @param {object|undefined} options - The constructor options.
    * @param {string|undefined} options.resource - The name or short description of the thing which is timing out.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

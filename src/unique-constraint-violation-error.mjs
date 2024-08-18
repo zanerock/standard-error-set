@@ -1,24 +1,23 @@
 import { ConstraintViolationError } from './constraint-violation-error'
+import { generateConstraintMessage } from './lib/generate-constraint-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'UniqueConstraintViolationError'
 
 /**
- * A {@link ConstraintViolationError} ndicating violation of a unique constraint, such as login ID.
+ * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID.
  */
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
-   * {@link ConstraintViolationError} constructor.
+   * {@link UniqueConstraintViolationError} constructor.
    * @param {object|undefined} options - The error options.
+   * @param {string|undefined} options.constraintType - The constraint type. Defaults to 'unique'.
    * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
    * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
    *   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.
-   * @param {string|undefined} options.message - The explicit error message to use (rather than generating an error
-   *   message) (optional).
-   * @param {number|undefined} options.status - The HTTP status code to use on this error instance (optional); will be
-   *   mapped to default if not provided.
-   * @param {object|undefined} options.options - The remainder of the options are passed to the `Error`
-   *   super-constructor.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example
    * new UniqueConstraintViolationError() // "Unique constraint violated."
    * new UniqueConstraintViolationError({ entityType : 'user' }) // "Unique constraint on entity type 'user' violated."
@@ -27,40 +26,14 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * // v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor ({ entityType, fieldAndValues, name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(entityType, fieldAndValues)
-
+  constructor ({ name = myName, ...options } = {}) {
+    options.constraintType = options.constraintType || 'unique'
+    options.message = options.message || generateConstraintMessage(options)
     super({ name, ...options })
-
-    this.entityType = entityType
-    this.fieldAndValues = fieldAndValues
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(UniqueConstraintViolationError).name)
-
-const generateMessage = (entityType, fieldAndValues) => {
-  let message = 'Unique constraint '
-  if (fieldAndValues !== undefined && fieldAndValues.length > 0) {
-    message += 'on fields <'
-    for (const fieldAndValue of fieldAndValues) {
-      if (Array.isArray(fieldAndValue) && fieldAndValue.length === 2) {
-        const [field, value] = fieldAndValue
-        message += `${field}(${value}),`
-      } else {
-        message += `${fieldAndValue/* is just field */},`
-      }
-    }
-    message = message.slice(0, -1)
-    message += '> '
-  }
-  if (entityType !== undefined) {
-    message += `on entity type '${entityType}' `
-  }
-  message += 'violated.'
-
-  return message
-}
 
 UniqueConstraintViolationError.typeName = myName
 

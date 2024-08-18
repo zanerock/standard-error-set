@@ -58,7 +58,7 @@ additional conditions must be met.
   - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
   - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
-  - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) relating to a failed rollback within a database.
+  - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) sub-type relating to a failed rollback within a database.
   - [LocalTransactionError](#LocalTransactionError): An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself.
   - [NoAccessDirectoryError](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
@@ -73,7 +73,7 @@ itself.
   - [TimeoutError](#TimeoutError): Indicates an operation is taking too much time.
   - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction.
   - [UnavailableError](#UnavailableError): An error indicating that the resource exists, but is not currently available.
-  - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
+  - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 - Functions:
   - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError).
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
@@ -250,7 +250,7 @@ new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argum
 An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
 
-[**Source code**](./src/authentication-required-error.mjs#L10)
+[**Source code**](./src/authentication-required-error.mjs#L11)
 
 
 <a id="new_AuthenticationRequiredError_new"></a>
@@ -285,7 +285,7 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 - [`NoAccessError`](#NoAccessError)
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
-[**Source code**](./src/auth-error.mjs#L16)
+[**Source code**](./src/auth-error.mjs#L17)
 
 
 <a id="new_AuthError_new"></a>
@@ -297,7 +297,8 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | Creation objects. |
-| options.message | `string` \| `undefined` | The error message. |
+| options.action | `string` \| `undefined` | A short description of the action. |
+| options.target | `string` \| `undefined` | The name or short description of the target. |
 
 
 <a id="AuthorizationConditionsNotMetError"></a>
@@ -407,7 +408,7 @@ Constructor for the [`ConnectionError`](#ConnectionError) class.
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | The constructor options. |
-| options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the   specific issue.` |
+| options.issue | `string` \| `undefined` | Typically left `undefined` and determined automatically. Describes the   specific issue. |
 | options.target | `string` \| `undefined` | The name or description of the connection target. |
 
 **Example**:
@@ -432,6 +433,31 @@ Indicates the requested operation is well formed and the data otherwise correct,
 at the function level, while constraint violations result from database constraints.
 
 [**Source code**](./src/constraint-violation-error.mjs#L12)
+
+
+<a id="new_ConstraintViolationError_new"></a>
+##### `new ConstraintViolationError(options)`
+
+[`ConstraintViolationError`](#ConstraintViolationError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The error options. |
+| options.constraintType | `string` \| `undefined` | The constraint type. |
+| options.entityType | `string` \| `undefined` | The "type" of entity. E.g., 'user'. |
+| options.fieldAndValues | `Array.<string>` \| `Array.<Array.string>` | An array of either field names and/or arrays of   field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+
+**Example**:
+```js
+new ConstraintViolationError() // "Constraint violated."
+new ConstraintViolationError({ constraintType: 'foreign key' }) // "Foreign key constraint violated."
+new ConstraintViolationError({ entityType : 'user' }) // "Constraint on entity type 'user' violated."
+// v "Enumeration constraint on fields <email> on entity type 'user' violated."
+new ConstraintViolationError({ constraintType : 'enumeration', entityType : 'user', fieldAndValues : ['email'] })
+// v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
+new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
+```
 
 
 <a id="DataServiceError"></a>
@@ -510,7 +536,36 @@ new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found.
 
 An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
 
-[**Source code**](./src/end-of-stream-error.mjs#L9)
+Consider whether any of the following errors might be more precise or better suited:
+- [`EndOfStreamError`](#EndOfStreamError)
+- [`IoError`](#IoError)
+
+[**Source code**](./src/end-of-stream-error.mjs#L14)
+
+
+<a id="new_EndOfStreamError_new"></a>
+##### `new EndOfStreamError(options)`
+
+[`EndOfStreamError`](#EndOfStreamError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken; default to 'reading'. |
+| options.issue | `string` \| `undefined` | Describes the specific issue. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. |
+
+**Example**:
+```js
+new EndOfStreamError() // "There was an end-of-stream error."
+new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error while streaming."
+new EndOfStreamError({ target : 'serial port' }) // "There an end-of-stream error while reading the serial port."
+// v "There an end-of-stream error streaming the serial port."
+new EndOfStreamError({ action: 'streaming', target : 'serial port' })
+// v "There an end-of-stream error reading the serial port; virtual socket closed."
+new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
+```
 
 
 <a id="ExternalServiceError"></a>
@@ -556,7 +611,38 @@ new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
 
 An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
 
-[**Source code**](./src/file-load-error.mjs#L9)
+Consider whether any of the following errors might be more precise or better suited:
+- [`IoError`](#IoError)
+- [`FileLoadError`](#FileLoadError)
+
+[**Source code**](./src/file-load-error.mjs#L15)
+
+
+<a id="new_FileLoadError_new"></a>
+##### `new FileLoadError(options)`
+
+[`FileLoadError`](#FileLoadError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken. Default to 'loading'. |
+| options.dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is   located. |
+| options.fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case   `dirPath` should be left undefined) or just the file name, in which case it is combined with `dirPath`, if   present, to create the standard error message. |
+| options.issue | `string` \| `undefined` | Describes the specific issue. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. Should generally be    left in preference for setting `fileName` and/or `filePath`. |
+
+**Example**:
+```js
+new FileLoadError() // "There was an error error while loading the file."
+new FileLoadError({ action : 'reading' }) // "There was an error while reading the file."
+new FileLoadError({ fileName : 'foo.txt' }) // "There an error while loading the file 'foo.txt'."
+// v "There an error while loading the file '/bar/foo.txt'."
+new FileLoadError({ dirPath : '/bar', fileName: 'foo.txt' })
+// v "There an error while loading a file in directory '/bar'; virtual socket closed."
+new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
+```
 
 
 <a id="FileNotFoundError"></a>
@@ -566,7 +652,11 @@ A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the 
 `fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path
 separator and whether it needs to be appended or not.
 
-[**Source code**](./src/file-not-found-error.mjs#L14)
+Consider whether any of the following errors might be more precise or better suited:
+- [`DirectoryNotFoundError`](#DirectoryNotFoundError)
+- [`NotFoundError`](#NotFoundError)
+
+[**Source code**](./src/file-not-found-error.mjs#L18)
 
 
 <a id="new_FileNotFoundError_new"></a>
@@ -598,16 +688,70 @@ new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-
 A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
 external service, or remote connections errors are therefore not I/O errors.
 
-[**Source code**](./src/io-error.mjs#L10)
+Consider whether any of the following errors might be more precise or better suited:
+- [`EndOfStreamError`](#EndOfStreamError)
+- [`FileLoadError`](#FileLoadError)
+
+[**Source code**](./src/io-error.mjs#L15)
+
+
+<a id="new_IoError_new"></a>
+##### `new IoError(options)`
+
+[`IoError`](#IoError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'reading' or 'writing'.    Defaults to 'accessing'. |
+| options.issue | `string` \| `undefined` | Describes the specific issue. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. |
+
+**Example**:
+```js
+new IoError() // "There was an IO error."
+new IoError({ action : 'reading' }) // "There was an IO error while reading."
+new IoError({ target : 'serial port' }) // "There an IO error while accessing the serial port."
+new IoError({ action: 'reading', target : 'serial port' }) // "There an IO error while reading the serial port."
+// v "There an IO error while accessing the serial port; virtual socket closed."
+new IoError({ issue : 'virtual socket closed', target : 'serial port' })
+```
 
 
 <a id="LocalRollbackError"></a>
 #### LocalRollbackError
 
-An [`IoError`](#IoError) relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client side to
-indicate a failed rollback in an external data service.
+An [`IoError`](#IoError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client 
+side to indicate a failed rollback in an external data service.
 
-[**Source code**](./src/local-rollback-error.mjs#L11)
+[**Source code**](./src/local-rollback-error.mjs#L12)
+
+
+<a id="new_LocalRollbackError_new"></a>
+##### `new LocalRollbackError(options)`
+
+[`LocalRollbackError`](#LocalRollbackError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken. Defaults to 'rolling back'. |
+| options.issue | `string` \| `undefined` | Describes the specific issue. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. |
+
+**Example**:
+```js
+new LocalRollbackError() // "There was an error rollback error."
+new LocalRollbackError({ action : 'attempting rollback' }) // "There was an error while attempting rolling."
+// v "There was an while rolling back the customer database."
+new LocalRollbackError({ target : 'customer database' })
+// v "There was an error while attempting distributed rollback of the customer database."
+new LocalRollbackError({ action: 'attempting distributed rollback of', target : 'customer database' })
+// v "There was an error rolling back the customer database; virtual socket closed."
+new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
+```
 
 
 <a id="LocalTransactionError"></a>
@@ -616,7 +760,33 @@ indicate a failed rollback in an external data service.
 An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
 itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
 
-[**Source code**](./src/local-transaction-error.mjs#L11)
+[**Source code**](./src/local-transaction-error.mjs#L12)
+
+
+<a id="new_LocalTransactionError_new"></a>
+##### `new LocalTransactionError(options)`
+
+[`LocalTransactionError`](#LocalTransactionError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | The constructor options. |
+| options.action | `string` \| `undefined` | A description of the action being taken. E.g., 'closing', 'creating',    etc. |
+| options.issue | `string` \| `undefined` | Describes the specific issue. |
+| options.target | `string` \| `undefined` | The name or description of the target resource. |
+
+**Example**:
+```js
+new LocalTransactionError() // "There was a transaction error."
+new LocalTransactionError({ action : 'closing' }) // There was an error closing the transaction.
+// v "There was a transaction error on the customer database."
+new LocalTransactionError({ target : 'customer database' })
+// v "There was an error closing the transaction on the customer database."
+new LocalTransactionError({ action: 'creating', target : 'customer database' })
+// v "There was a transaction error on the customer database; virtual socket closed."
+new LocalTransactionError({ issue : 'virtual socket closed', target : 'customer database' })
+```
 
 
 <a id="NoAccessDirectoryError"></a>
@@ -700,17 +870,19 @@ Consider whether any of the following errors might be more precise or better sui
 - [`NoAccessError`](#NoAccessError)
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
-[**Source code**](./src/no-access-file-error.mjs#L28)
+[**Source code**](./src/no-access-file-error.mjs#L22)
 
 
 <a id="new_NoAccessFileError_new"></a>
 ##### `new NoAccessFileError(dirPath, fileName, resource)`
 
+[`NoAccessFileError`](#NoAccessFileError) constructor.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | dirPath | `string` \| `undefined` | The directory (not including the file itself) where the file is located. |
-| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath` should   be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the   standard error message. |
+| fileName | `string` \| `undefined` | The name of the file itself. May be a full path (in which case `dirPath`    should be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to    create the standard error message. |
 | resource | `string` \| `undefined` | Should usually be left undefined. If set, then the value will override   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set. |
 
 
@@ -720,7 +892,23 @@ Consider whether any of the following errors might be more precise or better sui
 An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
 where the fundamental issue is the named thing not being present.
 
-[**Source code**](./src/not-found-error.mjs#L11)
+Consider whether any of the following errors might be more precise or better suited:
+- [`DirectoryNotFoundError`](#DirectoryNotFoundError)
+- [`FileNotFoundError`](#FileNotFoundError)
+
+[**Source code**](./src/not-found-error.mjs#L15)
+
+
+<a id="new_NotFoundError_new"></a>
+##### `new NotFoundError(options)`
+
+[`NotFoundError`](#NotFoundError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Constructor options. |
+| options.resource | `string` \| `undefined` | The name or short description of the missing resource. |
 
 
 <a id="NotImplementedError"></a>
@@ -811,7 +999,20 @@ precise or better suited:
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError)
 - [`NoAccessError`](#NoAccessError)
 
-[**Source code**](./src/operation-not-permitted-error.mjs#L19)
+[**Source code**](./src/operation-not-permitted-error.mjs#L20)
+
+
+<a id="new_OperationNotPermittedError_new"></a>
+##### `new OperationNotPermittedError(options)`
+
+[`OperationNotPermittedError`](#OperationNotPermittedError) constructor.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | `object` \| `undefined` | Creation objects. |
+| options.action | `string` \| `undefined` | A short description of the action. |
+| options.target | `string` \| `undefined` | The name or short description of the target. |
 
 
 <a id="RollbackError"></a>
@@ -893,7 +1094,7 @@ Indicates an operation is taking too much time.
 <a id="new_TimeoutError_new"></a>
 ##### `new TimeoutError(options)`
 
-The [`TimeoutError`](#TimeoutError) constructor.
+[`TimeoutError`](#TimeoutError) constructor.
 
 
 | Param | Type | Description |
@@ -987,25 +1188,23 @@ new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Satu
 <a id="UniqueConstraintViolationError"></a>
 #### UniqueConstraintViolationError
 
-A [`ConstraintViolationError`](#ConstraintViolationError) ndicating violation of a unique constraint, such as login ID.
+A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 
-[**Source code**](./src/unique-constraint-violation-error.mjs#L9)
+[**Source code**](./src/unique-constraint-violation-error.mjs#L10)
 
 
 <a id="new_UniqueConstraintViolationError_new"></a>
 ##### `new UniqueConstraintViolationError(options)`
 
-[`ConstraintViolationError`](#ConstraintViolationError) constructor.
+[`UniqueConstraintViolationError`](#UniqueConstraintViolationError) constructor.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | `object` \| `undefined` | The error options. |
+| options.constraintType | `string` \| `undefined` | The constraint type. Defaults to 'unique'. |
 | options.entityType | `string` \| `undefined` | The "type" of entity (e.g., 'user'; optional). |
 | options.fieldAndValues | `Array.<string>` \| `Array.<Array.string>` | An array of either field names and/or arrays of   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
-| options.message | `string` \| `undefined` | The explicit error message to use (rather than generating an error   message) (optional). |
-| options.status | `number` \| `undefined` | The HTTP status code to use on this error instance (optional); will be   mapped to default if not provided. |
-| options.options | `object` \| `undefined` | The remainder of the options are passed to the `Error`   super-constructor. |
 
 **Example**:
 ```js

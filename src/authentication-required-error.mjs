@@ -1,4 +1,5 @@
 import { AuthError } from './auth-error'
+import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthenticationRequiredError'
@@ -20,7 +21,7 @@ const AuthenticationRequiredError = class extends AuthError {
    * new AuthenticationRequiredError({ action : 'updating', target : 'customer database' })
    */
   constructor ({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
+    options.message = options.message || generateAuthMessage('requires authentication', options)
     super({ name, ...options })
   }
 }
@@ -28,15 +29,5 @@ const AuthenticationRequiredError = class extends AuthError {
 registerParent(myName, Object.getPrototypeOf(AuthenticationRequiredError).name)
 
 AuthenticationRequiredError.typeName = myName
-
-const generateMessage = ({ action = 'action', target }) => {
-  let message = action.charAt(0).toUpperCase() + action.slice(1)
-  if (target !== undefined) {
-    message += ` the ${target}`
-  }
-  message += ' requires authentication.'
-
-  return message
-}
 
 export { AuthenticationRequiredError }

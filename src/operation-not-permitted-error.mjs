@@ -1,5 +1,6 @@
 /* global AuthenticationError AuthorizationConditionsNotMetError BadCredentialsError AuthorizationConditionsNotMetError NoAccessError */ // used in docs
 import { AuthError } from './auth-error'
+import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'OperationNotPermittedError'
@@ -17,7 +18,17 @@ const myName = 'OperationNotPermittedError'
  * - {@link NoAccessError}
  */
 const OperationNotPermittedError = class extends AuthError {
+  /**
+   * {@link OperationNotPermittedError} constructor.
+   * @param {object|undefined} options - Creation objects.
+   * @param {string|undefined} options.action - A short description of the action.
+   * @param {string|undefined} options.target - The name or short description of the target.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   */
   constructor ({ name = myName, ...options } = {}) {
+    options.message = options.message || generateAuthMessage('is not permitted', options)
     super({ name, ...options })
   }
 }

@@ -1,5 +1,6 @@
 /* globals AuthenticationRequiredError BadCredentialsError NoAccessError OperationNotPermittedError */
 import { CommonError } from './common-error'
+import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthError'
@@ -17,13 +18,15 @@ const AuthError = class extends CommonError {
   /**
    * {@AuthError} constructor.
    * @param {object|undefined} options - Creation objects.
-   * @param {string|undefined} options.message - The error message.
+   * @param {string|undefined} options.action - A short description of the action.
+   * @param {string|undefined} options.target - The name or short description of the target.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, message = 'An auth error has ocurred.', ...options } = {}) {
-    super({ name, message, ...options })
+  constructor ({ name = myName, ...options } = {}) {
+    options.message = options.message || generateAuthMessage('is not authorized', options)
+    super({ name, ...options })
   }
 }
 

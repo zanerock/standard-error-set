@@ -18,14 +18,20 @@ const myName = 'NoAccessFileError'
  * - {@link NoAccessDirectoryError}
  * - {@link NoAccessError}
  * - {@link OperationNotPermittedError}
- * @param {string|undefined} dirPath - The directory (not including the file itself) where the file is located.
- * @param {string|undefined} fileName - The name of the file itself. May be a full path (in which case `dirPath` should
- *   be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to create the
- *   standard error message.
- * @param {string|undefined} resource - Should usually be left undefined. If set, then the value will override
- *   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set.
  */
 const NoAccessFileError = class extends NoAccessError {
+  /**
+   * {@link NoAccessFileError} constructor.
+   * @param {string|undefined} dirPath - The directory (not including the file itself) where the file is located.
+   * @param {string|undefined} fileName - The name of the file itself. May be a full path (in which case `dirPath` 
+   *   should be left undefined) or just the file name, in which case it is combined with `dirPath`, if present, to 
+   *   create the standard error message.
+   * @param {string|undefined} resource - Should usually be left undefined. If set, then the value will override
+   *   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   */
   constructor ({ name = myName, status, ...options } = {}) {
     const resource = describeFile(options)
     options.resource = options.resource || resource
