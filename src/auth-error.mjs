@@ -27,7 +27,7 @@ const AuthError = class extends CommonError {
    */
   constructor({ name = myName, action = 'action', issue = 'is not authorized', ...options } = {}) {
     options.message = options.message || generateAuthMessage({ action, issue, ...options })
-    super({ name, ...options })
+    super({ name, action, issue, ...options })
   }
 }
 

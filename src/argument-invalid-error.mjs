@@ -40,7 +40,7 @@ const ArgumentInvalidError = class extends CommonError {
   constructor({ name = myName, issue = 'is invalid', ...options } = {}) {
     options.message = options.message || generateBadArgumentMessage({ issue, ...options })
 
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

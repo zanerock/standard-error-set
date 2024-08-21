@@ -30,7 +30,7 @@ const OperationNotPermittedError = class extends AuthError {
    */
   constructor({ name = myName, issue = 'is not permitted', ...options } = {}) {
     options.message = options.message || generateAuthMessage({ issue, ...options })
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

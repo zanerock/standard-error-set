@@ -39,7 +39,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    */
   constructor({ name = myName, issue = 'is missing or empty', ...options } = {}) {
     options.message = options.message || generateBadArgumentMessage({ issue, ...options })
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

@@ -45,7 +45,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    */
   constructor({ name = myName, issue = 'is out of range', ...options } = {}) {
     options.message = options.message || generateMessage({ issue, ...options })
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

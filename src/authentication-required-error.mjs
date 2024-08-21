@@ -26,7 +26,7 @@ const AuthenticationRequiredError = class extends AuthError {
    */
   constructor({ name = myName, issue = 'requires authentication', ...options } = {}) {
     options.message = options.message || generateAuthMessage({ issue, ...options })
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

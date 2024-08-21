@@ -32,7 +32,7 @@ const LocalRollbackError = class extends IoError {
    */
   constructor({ name = myName, action = 'rolling back', ...options } = {}) {
     options.message = options.message || generateIoErrorMessage('an', { action, ...options })
-    super({ name, ...options })
+    super({ name, action, ...options })
   }
 }
 

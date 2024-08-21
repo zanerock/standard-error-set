@@ -44,10 +44,8 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
    */
   constructor({ name = myName, issue = 'current conditions prevent this action', ...options } = {}) {
-    if (options.message === undefined) {
-      options.message = generateMessage({ issue, ...options })
-    }
-    super({ name, ...options })
+    options.message = options.message || generateMessage({ issue, ...options })
+    super({ name, issue, ...options })
   }
 }
 

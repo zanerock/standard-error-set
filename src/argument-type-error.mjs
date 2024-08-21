@@ -39,7 +39,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    */
   constructor({ name = myName, issue = 'is wrong type', ...options } = {}) {
     options.message = options.message || generateMessage({ issue, ...options })
-    super({ name, ...options })
+    super({ name, issue, ...options })
   }
 }
 

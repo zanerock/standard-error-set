@@ -33,7 +33,7 @@ const EndOfStreamError = class extends IoError {
    */
   constructor({ name = myName, action = 'reading', ...options } = {}) {
     options.message = options.message || generateIoErrorMessage('an end-of-stream', { action, ...options })
-    super({ name, ...options })
+    super({ name, action, ...options })
   }
 }
 

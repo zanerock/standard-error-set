@@ -41,7 +41,7 @@ const FileLoadError = class extends IoError {
   constructor({ name = myName, action = 'loading', ...options } = {}) {
     options.target = options.target || describeFile({ loading, ...options })
     options.message = options.message || generateIoErrorMessage('an error', options)
-    super({ name, ...options })
+    super({ name, action, ...options })
   }
 }
 

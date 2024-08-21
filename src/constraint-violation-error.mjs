@@ -31,8 +31,8 @@ const ConstraintViolationError = class extends CommonError {
    * new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
   constructor({ name = myName, constraintType = 'constraint', fieldAndValues = [], ...options } = {}) {
-    options.message = options.message || generateConstraintMessage({ constraint, fieldAndValues, ...options })
-    super({ name, ...options })
+    options.message = options.message || generateConstraintMessage({ constraintType, fieldAndValues, ...options })
+    super({ name, constraintType, fieldAndValues, ...options })
   }
 }
 
