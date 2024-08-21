@@ -16,7 +16,7 @@ const myName = 'ConnectionError'
 const ConnectionError = class extends ExternalServiceError {
   /**
    * Constructor for the {@link ConnectionError} class.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.issue - Typically left `undefined` and determined automatically. Describes the
    *   specific issue.
    * @param {string|undefined} options.target - The name or description of the connection target.

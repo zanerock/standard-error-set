@@ -11,7 +11,7 @@ const myName = 'UniqueConstraintViolationError'
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
    * {@link UniqueConstraintViolationError} constructor.
-   * @param {object|undefined} options - The error options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.constraintType - The constraint type. Defaults to 'unique'.
    * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
    * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of

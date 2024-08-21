@@ -15,7 +15,7 @@ const myName = 'EndOfStreamError'
 const EndOfStreamError = class extends IoError {
   /**
    * {@link EndOfStreamError} constructor.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A description of the action being taken; default to 'reading'.
    * @param {string|undefined} options.issue - Describes the specific issue.
    * @param {string|undefined} options.target - The name or description of the target resource.

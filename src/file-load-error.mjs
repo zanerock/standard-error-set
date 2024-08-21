@@ -16,7 +16,7 @@ const myName = 'FileLoadError'
 const FileLoadError = class extends IoError {
   /**
    * {@link FileLoadError} constructor.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A description of the action being taken. Default to 'loading'.
    * @param {string|undefined} options.dirPath - The directory (not including the file itself) where the file is
    *   located.

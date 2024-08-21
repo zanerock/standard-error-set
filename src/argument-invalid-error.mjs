@@ -18,7 +18,7 @@ const ArgumentInvalidError = class extends CommonError {
    * The {@link ArgumentInvalidError} constructor.
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @param {object|undefined} options - The error options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.packageName - The package name (optional).
    * @param {string|undefined} options.functionName - The function name (optional).
    * @param {string|undefined} options.argumentName - The argument name (optional).

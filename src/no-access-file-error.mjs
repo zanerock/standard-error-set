@@ -22,7 +22,7 @@ const myName = 'NoAccessFileError'
 const NoAccessFileError = class extends NoAccessError {
   /**
    * {@link NoAccessFileError} constructor.
-   * @param {object|undefined} options - Constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.dirPath - The directory (not including the file itself) where the file is
    *   located.
    * @param {string|undefined} options.fileName - The name of the file itself. May be a full path (in which case

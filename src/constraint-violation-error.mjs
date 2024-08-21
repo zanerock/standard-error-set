@@ -13,7 +13,7 @@ const myName = 'ConstraintViolationError'
 const ConstraintViolationError = class extends CommonError {
   /**
    * {@link ConstraintViolationError} constructor.
-   * @param {object|undefined} options - The error options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.constraintType - The constraint type.
    * @param {string|undefined} options.entityType - The "type" of entity. E.g., 'user'.
    * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of

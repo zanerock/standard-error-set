@@ -22,7 +22,7 @@ const myName = 'NoAccessDirectoryError'
 const NoAccessDirectoryError = class extends NoAccessError {
   /**
    * {@link NoAccessDirectoryError} constructor.
-   * @param {object|undefined} options - Constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.dirPath - The directory (not including the file itself) where the file is
    *   located.
    * @param {string|undefined} options.resource - Should usually be left undefined. If set, then the value will override

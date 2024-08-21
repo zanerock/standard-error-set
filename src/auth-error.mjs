@@ -17,7 +17,7 @@ const myName = 'AuthError'
 const AuthError = class extends CommonError {
   /**
    * {@AuthError} constructor.
-   * @param {object|undefined} options - Creation objects.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A short description of the action.
    * @param {string|undefined} options.target - The name or short description of the target.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

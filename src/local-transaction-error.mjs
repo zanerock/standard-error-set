@@ -11,7 +11,7 @@ const myName = 'LocalTransactionError'
 const LocalTransactionError = class extends IoError {
   /**
    * {@link LocalTransactionError} constructor.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A description of the action being taken. E.g., 'closing', 'creating',
    *   etc.
    * @param {string|undefined} options.issue - Describes the specific issue.

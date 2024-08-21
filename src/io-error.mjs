@@ -16,7 +16,7 @@ const myName = 'IoError'
 const IoError = class extends CommonError {
   /**
    * {@link IoError} constructor.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A description of the action being taken. E.g., 'reading' or 'writing'.
    *   Defaults to 'accessing'.
    * @param {string|undefined} options.issue - Describes the specific issue.

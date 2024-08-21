@@ -18,7 +18,7 @@ const myName = 'ExternalServiceError'
 const ExternalServiceError = class extends CommonError {
   /**
    * {@link ExternalServiceError} constructor.
-   * @param {object|undefined} options - Constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.service - The name or short description of the service.
    * @param {string|undefined} options.issue - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

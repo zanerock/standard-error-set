@@ -19,7 +19,7 @@ const NotSupportedError = class extends CommonError {
    * {@link NotSupportedError} constructor.
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @param {object|undefined} options - The input options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.issue - A short description of the thing which is not supported. E.g., 'YAML
    *   request payloads' or 'asynchronous execution'.
    * @param {string|undefined} options.hint - A short hint to the user as to how they might resolve or workaround the

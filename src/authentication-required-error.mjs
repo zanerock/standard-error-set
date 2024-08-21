@@ -11,7 +11,7 @@ const myName = 'AuthenticationRequiredError'
 const AuthenticationRequiredError = class extends AuthError {
   /**
    * {@link AuthenticationRequiredError} constructor.
-   * @param {object|undefined} options - Constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A short description of the action requiring authentication.
    * @param {string|undefined} options.target - A short description of the action target.
    * @example

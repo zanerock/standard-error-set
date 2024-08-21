@@ -12,7 +12,7 @@ const myName = 'LocalRollbackError'
 const LocalRollbackError = class extends IoError {
   /**
    * {@link LocalRollbackError} constructor.
-   * @param {object|undefined} options - The constructor options.
+   * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A description of the action being taken. Defaults to 'rolling back'.
    * @param {string|undefined} options.issue - Describes the specific issue.
    * @param {string|undefined} options.target - The name or description of the target resource.
