@@ -23,10 +23,10 @@ const NoAccessDirectoryError = class extends NoAccessError {
   /**
    * {@link NoAccessDirectoryError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.dirPath - The directory (not including the file itself) where the file is
-   *   located.
-   * @param {string|undefined} options.resource - Should usually be left undefined. If set, then the value will override
-   *   `dirPath` and be used to generate the standard message if `message` option not set.}
+   * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the 
+   *   file is located.
+   * @param {string|undefined} [options.resource = undefined] - Should usually be left undefined. If set, then the 
+   *   value will override `dirPath` and be used to generate the standard message if `message` option not set.}
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

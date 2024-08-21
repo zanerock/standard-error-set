@@ -15,7 +15,7 @@ const ConstraintViolationError = class extends CommonError {
    * {@link ConstraintViolationError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.constraintType = 'constraint'] - The constraint type.
-   * @param {string|undefined} options.entityType - The "type" of entity. E.g., 'user'.
+   * @param {string|undefined} [options.entityType = undefined] - The "type" of entity. E.g., 'user'.
    * @param {string[]|Array.<Array.string>} [options.fieldAndValues = []] - An array of either field names and/or   
    *   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

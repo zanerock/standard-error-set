@@ -25,7 +25,7 @@ const NoAccessError = class extends AuthError {
   /**
    * {@link NoAccessError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.resource - A description of the resource attempting to be accessed.
+   * @param {string|undefined} [options.resource = undefined] - A description of the resource attempting to be accessed.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

@@ -13,7 +13,7 @@ const AuthenticationRequiredError = class extends AuthError {
    * {@link AuthenticationRequiredError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'action'] - A short description of the action.
-   * @param {string|undefined} options.target - A short description of the action target.
+   * @param {string|undefined} [options.target = undefined] - A short description of the action target.
    * @param {string} [options.issue = 'requires authorization'] - The auth issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

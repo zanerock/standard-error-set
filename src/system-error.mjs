@@ -12,8 +12,8 @@ const SystemError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.resource - The name or short description of the resource which has run out of
-   *   memory.
+   * @param {string|undefined} [options.resource = undefined] - The name or short description of the resource which has 
+   *   run out of memory.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

@@ -22,7 +22,7 @@ const OperationNotPermittedError = class extends AuthError {
    * {@link OperationNotPermittedError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'action'] - A short description of the action.
-   * @param {string|undefined} options.target - The name or short description of the target.
+   * @param {string|undefined} [options.target = undefined] - The name or short description of the target.
    * @param {string} [options.issue = 'is not permitted'] - The auth issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

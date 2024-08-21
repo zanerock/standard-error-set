@@ -4,7 +4,7 @@
  * because we want to make sure the message stays coordinated between "true" {@link NotFoundError}s and 'hidden' {@link
  * NoAccessError}s.
  * @param {object|undefined} options - The message options.
- * @param {object|undefined} options.resource - The name or short description of the missing resource.
+ * @param {object|undefined} [options.resource = undefined] - The name or short description of the missing resource.
  * @returns {string} The 'X not found' message.
  * @private
  */
