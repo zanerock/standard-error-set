@@ -36,7 +36,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * // v yields: "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
    */
-  constructor({ name = myName, ...options }) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }
