@@ -16,7 +16,7 @@ const SystemError = class extends CommonError {
    *   memory.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new SystemError() // "The process has experienced a System."
    * // v "The application has experienced a stack overflow."

@@ -23,7 +23,7 @@ const DataServiceError = class extends ExternalServiceError {
    * @param {string|undefined} options.issue - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new DataServiceError() // There was an error with a remote data service.
    * new DataServiceError({ service : 'database' }) // The was an error with the database remote data service.

@@ -14,6 +14,9 @@ const AuthenticationRequiredError = class extends AuthError {
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} options.action - A short description of the action requiring authentication.
    * @param {string|undefined} options.target - A short description of the action target.
+   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
+   *   constructor.`
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new AuthenticationRequiredError() // "Action requires authentication."
    * new AuthenticationRequiredError({ action : 'endpoint access' }) // "Endpoint access requires authentication."

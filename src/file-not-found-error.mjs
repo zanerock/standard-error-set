@@ -28,7 +28,7 @@ const FileNotFoundError = class extends NotFoundError {
    *   `fileName` and `dirPath` and be used to generate the standard message if `message` option not set.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new FileNotFound() // "File not found."
    * new FileNotFound({ fileName: 'foo.txt' }) // "File 'foo.txt' not found."

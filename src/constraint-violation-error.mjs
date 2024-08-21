@@ -20,7 +20,7 @@ const ConstraintViolationError = class extends CommonError {
    *   field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new ConstraintViolationError() // "Constraint violated."
    * new ConstraintViolationError({ constraintType: 'foreign key' }) // "Foreign key constraint violated."

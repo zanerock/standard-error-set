@@ -18,7 +18,7 @@ const LocalTransactionError = class extends IoError {
    * @param {string|undefined} options.target - The name or description of the target resource.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new LocalTransactionError() // "There was a transaction error."
    * new LocalTransactionError({ action : 'closing' }) // There was an error closing the transaction.

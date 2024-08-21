@@ -35,7 +35,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new ArgumentOutOfRangeError() // "Function argument is out of range."
    * // v yields: "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."

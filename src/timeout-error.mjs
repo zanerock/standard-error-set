@@ -13,7 +13,7 @@ const TimeoutError = class extends CommonError {
    * @param {string|undefined} options.resource - The name or short description of the thing which is timing out.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * // new TimeoutError() // "The process has timed out."
    * // new TimeoutError({ resource : 'user session' }) // "The user session has timed out."

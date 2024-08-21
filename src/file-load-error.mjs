@@ -28,7 +28,7 @@ const FileLoadError = class extends IoError {
    *   left in preference for setting `fileName` and/or `filePath`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new FileLoadError() // "There was an error error while loading the file."
    * new FileLoadError({ action : 'reading' }) // "There was an error while reading the file."

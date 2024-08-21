@@ -24,7 +24,7 @@ const UnavailableError = class extends CommonError {
    *   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = undefined] - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new UnavailableError() // "Target resource is currently unavailable.
    * new UnavailableError({ target: '/some/endpoint'}) // "/some/endpoint is not currently available."

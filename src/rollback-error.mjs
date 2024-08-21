@@ -25,7 +25,7 @@ const RollbackError = class extends DataServiceError {
    * @param {string|undefined} options.issue - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new RollbackError() // There was an rollback error with a remote data service.
    * new RollbackError({ service : 'database' }) // The was an rollback error with the database remote data service.
