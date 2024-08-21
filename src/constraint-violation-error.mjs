@@ -14,10 +14,10 @@ const ConstraintViolationError = class extends CommonError {
   /**
    * {@link ConstraintViolationError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.constraintType - The constraint type.
+   * @param {string} [options.constraintType = 'constraint'] - The constraint type.
    * @param {string|undefined} options.entityType - The "type" of entity. E.g., 'user'.
-   * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
-   *   field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`.
+   * @param {string[]|Array.<Array.string>} [options.fieldAndValues = []] - An array of either field names and/or   
+   *   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -30,8 +30,8 @@ const ConstraintViolationError = class extends CommonError {
    * // v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateConstraintMessage(options)
+  constructor({ name = myName, constraintType = 'constraint', fieldAndValues = [], ...options } = {}) {
+    options.message = options.message || generateConstraintMessage({ constraint, fieldAndValues, ...options })
     super({ name, ...options })
   }
 }

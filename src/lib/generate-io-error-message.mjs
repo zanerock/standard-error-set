@@ -1,4 +1,4 @@
-const generateIoErrorMessage = (errorType = 'an IO', { action = 'accessing', issue, target }) => {
+const generateIoErrorMessage = (errorType = 'an IO', { action, issue, target }) => {
   let message = `There was ${errorType} error`
   if (action !== undefined) {
     message += ` while ${action}`

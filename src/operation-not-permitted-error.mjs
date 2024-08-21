@@ -21,14 +21,15 @@ const OperationNotPermittedError = class extends AuthError {
   /**
    * {@link OperationNotPermittedError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.action - A short description of the action.
+   * @param {string} [options.action = 'action'] - A short description of the action.
    * @param {string|undefined} options.target - The name or short description of the target.
+   * @param {string} [options.issue = 'is not permitted'] - The auth issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateAuthMessage('is not permitted', options)
+  constructor({ name = myName, issue = 'is not permitted', ...options } = {}) {
+    options.message = options.message || generateAuthMessage({ issue, ...options })
     super({ name, ...options })
   }
 }

@@ -26,8 +26,8 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * @param {string|undefined} options.hint - A description of what the user might do to remedy the situation. This
    *   should be a complete sentence. E.g., 'You may contact customer service and request a quota increase.', or 'Try
    *   again in a few minutes.'
-   * @param {string|undefined} options.issue - A description of the problem. E.g., 'the user is over request quota', or
-   *   'this operation is only allowed between 0900 and 1700'.
+   * @param {string} [options.issue = 'current conditions prevent this action' - A description of the problem. E.g., 
+   *   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -42,9 +42,9 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
    * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
    */
-  constructor({ name = myName, ...options } = {}) {
+  constructor({ name = myName, issue = 'current conditions prevent this action', ...options } = {}) {
     if (options.message === undefined) {
-      options.message = generateMessage(options)
+      options.message = generateMessage({ issue, ...options })
     }
     super({ name, ...options })
   }
@@ -54,7 +54,7 @@ registerParent(myName, Object.getPrototypeOf(AuthorizationConditionsNotMetError)
 
 AuthorizationConditionsNotMetError.typeName = myName
 
-const generateMessage = ({ action, hint, issue = 'current conditions prevent this action' }) => {
+const generateMessage = ({ action, hint, issue }) => {
   let message = 'While generally authorized'
   if (action !== undefined) {
     message += ` to ${action}`

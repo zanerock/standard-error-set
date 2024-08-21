@@ -12,10 +12,10 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
    * {@link UniqueConstraintViolationError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.constraintType - The constraint type. Defaults to 'unique'.
+   * @param {string} [options.constraintType = 'unique constraint'] - The constraint type.
    * @param {string|undefined} options.entityType - The "type" of entity (e.g., 'user'; optional).
-   * @param {string[]|Array.<Array.string>} options.fieldAndValues - An array of either field names and/or arrays of
-   *   field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.
+   * @param {string[]|Array.<Array.string>} [options.fieldAndValues = []] - An array of either field names and/or 
+   *   arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -27,9 +27,9 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * // v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({ name = myName, ...options } = {}) {
+  constructor({ name = myName, constraintType = 'unique constraint', ...options } = {}) {
     options.constraintType = options.constraintType || 'unique'
-    options.message = options.message || generateConstraintMessage(options)
+    options.message = options.message || generateConstraintMessage({ constraintType, ...options })
     super({ name, ...options })
   }
 }

@@ -33,7 +33,7 @@ const ExternalServiceError = class extends CommonError {
    * new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
    */
   constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage(undefined, 'an', options)
+    options.message = options.message || generateExternalServiceMessage(undefined, undefined, options)
     super({ name, ...options })
   }
 }

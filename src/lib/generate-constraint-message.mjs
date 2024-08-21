@@ -1,8 +1,6 @@
 const generateConstraintMessage = ({ constraintType, entityType, fieldAndValues }) => {
-  let message = constraintType === undefined
-    ? 'Constraint'
-    : constraintType.charAt(0).toUpperCase() + constraintType.slice(1) + ' constraint'
-  if (fieldAndValues !== undefined && fieldAndValues.length > 0) {
+  let message = constraintType.charAt(0).toUpperCase() + constraintType.slice(1) + ' constraint'
+  if (fieldAndValues.length > 0) {
     message += ' on fields <'
     for (const fieldAndValue of fieldAndValues) {
       if (Array.isArray(fieldAndValue) && fieldAndValue.length === 2) {

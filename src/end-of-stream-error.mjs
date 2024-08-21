@@ -16,7 +16,7 @@ const EndOfStreamError = class extends IoError {
   /**
    * {@link EndOfStreamError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.action - A description of the action being taken; default to 'reading'.
+   * @param {string} [options.action = 'reading'] - A description of the action being taken; default to 'reading'.
    * @param {string|undefined} options.issue - Describes the specific issue.
    * @param {string|undefined} options.target - The name or description of the target resource.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
@@ -31,9 +31,8 @@ const EndOfStreamError = class extends IoError {
    * // v "There an end-of-stream error reading the serial port; virtual socket closed."
    * new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.action = options.action || 'reading'
-    options.message = options.message || generateIoErrorMessage('an end-of-stream', options)
+  constructor({ name = myName, action = 'reading', ...options } = {}) {
+    options.message = options.message || generateIoErrorMessage('an end-of-stream', { action, ...options })
     super({ name, ...options })
   }
 }

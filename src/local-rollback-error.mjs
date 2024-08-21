@@ -13,7 +13,8 @@ const LocalRollbackError = class extends IoError {
   /**
    * {@link LocalRollbackError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.action - A description of the action being taken. Defaults to 'rolling back'.
+   * @param {string} [options.action = 'rolling back'] - A description of the action being taken. Defaults to 'rolling 
+   *   back'.
    * @param {string|undefined} options.issue - Describes the specific issue.
    * @param {string|undefined} options.target - The name or description of the target resource.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
@@ -29,9 +30,8 @@ const LocalRollbackError = class extends IoError {
    * // v "There was an error rolling back the customer database; virtual socket closed."
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.action = options.action || 'rolling back'
-    options.message = options.message || generateIoErrorMessage('an', options)
+  constructor({ name = myName, action = 'rolling back', ...options } = {}) {
+    options.message = options.message || generateIoErrorMessage('an', { action, ...options })
     super({ name, ...options })
   }
 }

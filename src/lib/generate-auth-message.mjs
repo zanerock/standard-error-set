@@ -1,4 +1,4 @@
-const generateAuthMessage = (issue, { action, target }) => {
+const generateAuthMessage = ({ action, issue, target }) => {
   let message = action.charAt(0).toUpperCase() + action.slice(1)
   if (target !== undefined) {
     message += ` the ${target}`

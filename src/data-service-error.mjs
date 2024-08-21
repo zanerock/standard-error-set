@@ -33,7 +33,7 @@ const DataServiceError = class extends ExternalServiceError {
    * new DataServiceError({ service : 'database', issue : 'is not responding' })
    */
   constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage('data', 'an', options)
+    options.message = options.message || generateExternalServiceMessage('data', undefined, options)
     super({ name, ...options })
   }
 }
