@@ -1,7 +1,4 @@
-const generateBadArgumentMessage = (
-  defaultIssue,
-  { packageName, functionName, argumentName, argumentValue, issue },
-) => {
+const generateBadArgumentMessage = ({ packageName, functionName, argumentName, argumentValue, issue }) => {
   let message = 'Function '
   if (packageName !== undefined) {
     message += functionName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
@@ -25,7 +22,7 @@ const generateBadArgumentMessage = (
       catch (e) {}
     }
   }
-  message += `${issue || defaultIssue}.`
+  message += `${issue}.`
 
   return message
 }

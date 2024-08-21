@@ -19,17 +19,22 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.packageName - The package name (optional).
-   * @param {string|undefined} options.functionName - The function name (optional).
-   * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored
-   *   when `undefined`, consider using the string 'undefined' if it's important to display the value.
+   * @param {string|undefined} [options.packageName = undefined] - The package name.
+   * @param {string|undefined} [options.functionName = undefined] - The function name.
+   * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`, 
+   *   consider using the string 'undefined' if it's important to display the value.
+   * @param {string|number|undefined} [options.max = undefined] - The maximum value; the value must be less than or 
+   *   equal to this.
+   * @param {string|number|undefined} [options.maxBoundary = undefined] - The upper value boundary; the value must be 
+   *   less than this. This value will be ignored if `max` is set.
+   * @param {string|number|undefined} [options.min = undefined] - The minimum; the value must be greater than or equal 
+   *   to this.
+   * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be 
+   *   greater than this. This value will be ignored if `min` is set.
+   * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
-   * @param {string|number|undefined} options.max - The maximum value; the value must be less than or equal to this.
-   * @param {string|number|undefined} options.maxBoundary - The upper value boundary; the value must be less than this. This value will be ignored if `max` is set.
-   * @param {string|number|undefined} options.min - The minimum; the value must be greater than or equal to this.`
-   * @param {string|number|undefined} options.minBoundary - The lower value boundary; the value must be greater than this. This value will be ignored if `min` is set.
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    * @example
    * new ArgumentOutOfRangeError() // "Function argument is out of range."
@@ -38,8 +43,8 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * // v yields: "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
    * new ArgumentInvalidError({ argumentName: 'bar', argumentValue: 'Bob', min: 'C', maxBoundary: 'D' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
+  constructor({ name = myName, issue = 'is out of range', ...options } = {}) {
+    options.message = options.message || generateMessage({ issue, ...options })
     super({ name, ...options })
   }
 }
@@ -49,7 +54,7 @@ registerParent(myName, Object.getPrototypeOf(ArgumentOutOfRangeError).name)
 ArgumentOutOfRangeError.typeName = myName
 
 const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => {
-  let message = generateBadArgumentMessage('is out of range', options)
+  let message = generateBadArgumentMessage(options)
   if (max === undefined || maxBoundary !== undefined || min === undefined || minBoundary !== undefined) {
     message += ' Value must be'
 

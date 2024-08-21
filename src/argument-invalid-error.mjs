@@ -19,11 +19,12 @@ const ArgumentInvalidError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.packageName - The package name (optional).
-   * @param {string|undefined} options.functionName - The function name (optional).
-   * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored
-   *   when `undefined`, consider using the string 'undefined' if it's important to display the value.
+   * @param {string|undefined} [options.packageName = undefined] - The package name.
+   * @param {string|undefined} [options.functionName = undefined] - The function name.
+   * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`, 
+   *   consider using the string 'undefined' if it's important to display the value.
+   * @param {string} [options.issue = 'is invalid'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
@@ -31,11 +32,13 @@ const ArgumentInvalidError = class extends CommonError {
    * new ArgumentInvalidError() // "Function argument is invalid."
    * // v yields: "Function 'my-package#foo()' argument  is invalid."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
+   * // v yields: "Function argument 'bar' cannot be parsed."
+   * new ArgumentInvalidError({ argumentName: 'bar', issue: 'cannot be parsed'})
    * // v yields: "Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateBadArgumentMessage('is invalid', options)
+  constructor({ name = myName, issue = 'is invalid', ...options } = {}) {
+    options.message = options.message || generateBadArgumentMessage({ issue, ...options })
 
     super({ name, ...options })
   }

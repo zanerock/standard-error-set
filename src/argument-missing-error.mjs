@@ -20,11 +20,13 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} options.packageName - The package name (optional).
-   * @param {string|undefined} options.functionName - The function name (optional).
-   * @param {string|undefined} options.argumentName - The argument name (optional).
-   * @param {string|undefined} options.argumentValue - The argument value (optional). Because this is value is ignored
-   *   when `undefined`, consider using the string 'undefined' if it's important to display the value.
+   * @param {string|undefined} [options.packageName = undefined] - The package name.
+   * @param {string|undefined} [options.functionName = undefined] - The function name.
+   * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`, 
+   *   consider using the string 'undefined' if it's important to display the value.
+   * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more 
+   *   specific explanation if you like.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
@@ -35,8 +37,8 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * // v yields: "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateBadArgumentMessage('is missing or empty', options)
+  constructor({ name = myName, issue = 'is missing or empty', ...options } = {}) {
+    options.message = options.message || generateBadArgumentMessage({ issue, ...options })
     super({ name, ...options })
   }
 }
