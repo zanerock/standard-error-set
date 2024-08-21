@@ -38,7 +38,7 @@ const NotSupportedError = class extends CommonError {
    * // v "The target does not currently support YAML payloads. Send request in JSON."
    * new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }

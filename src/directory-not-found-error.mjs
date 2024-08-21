@@ -30,7 +30,7 @@ const DirectoryNotFoundError = class extends NotFoundError {
    * new DirectoryNotFound() // "Directory not found."
    * new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found."
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     const resource = describeDirectory(options)
     options.message = options.message || generateNotFoundMessage({ resource })
     options.resource = options.resource || resource

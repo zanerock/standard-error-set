@@ -34,7 +34,7 @@ const NoAccessFileError = class extends NoAccessError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     const resource = describeFile(options)
     options.resource = options.resource || resource
 

@@ -29,7 +29,7 @@ const LocalTransactionError = class extends IoError {
    * // v "There was a transaction error on the customer database; virtual socket closed."
    * new LocalTransactionError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }
@@ -43,7 +43,8 @@ const generateMessage = ({ action, issue, target }) => {
   let message = 'There was'
   if (action === undefined) {
     message += ' a transaction error'
-  } else {
+  }
+  else {
     message += ` an error ${action} the transaction`
   }
   if (target !== undefined) {

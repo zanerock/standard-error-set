@@ -8,7 +8,8 @@ const generateConstraintMessage = ({ constraintType, entityType, fieldAndValues 
       if (Array.isArray(fieldAndValue) && fieldAndValue.length === 2) {
         const [field, value] = fieldAndValue
         message += `${field}(${value}),`
-      } else {
+      }
+      else {
         message += `${fieldAndValue/* is just field */},`
       }
     }

@@ -38,7 +38,7 @@ const FileLoadError = class extends IoError {
    * // v "There an error while loading a file in directory '/bar'; virtual socket closed."
    * new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.action = options.action || 'loading'
     options.target = options.target || describeFile(options)
     options.message = options.message || generateIoErrorMessage('an error', options)

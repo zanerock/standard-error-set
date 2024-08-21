@@ -27,7 +27,7 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * // v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.constraintType = options.constraintType || 'unique'
     options.message = options.message || generateConstraintMessage(options)
     super({ name, ...options })

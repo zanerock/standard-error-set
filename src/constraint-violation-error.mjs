@@ -30,7 +30,7 @@ const ConstraintViolationError = class extends CommonError {
    * // v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateConstraintMessage(options)
     super({ name, ...options })
   }

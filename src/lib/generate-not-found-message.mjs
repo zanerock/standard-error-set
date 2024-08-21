@@ -11,6 +11,7 @@
 const generateNotFoundMessage = ({ resource }) => {
   resource = resource || 'resource'
   resource = resource.charAt(0).toUpperCase() + resource.slice(1)
+
   return `${resource} not found.`
 }
 

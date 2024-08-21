@@ -24,7 +24,7 @@ const AuthError = class extends CommonError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateAuthMessage('is not authorized', options)
     super({ name, ...options })
   }

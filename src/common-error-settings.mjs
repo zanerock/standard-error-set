@@ -4,7 +4,7 @@ import { CommonError } from './common-error'
 
 const defaultSettings = {
   noInstanceHidingOnWrap : false,
-  wrapUserErrorType      : undefined
+  wrapUserErrorType      : undefined,
 }
 
 const customSettings = {}
@@ -28,15 +28,18 @@ const commonErrorSettings = (option, value) => {
     for (const prop in customSettings) {
       delete customSettings[prop]
     }
-  } else if (typeof option === 'object') {
+  }
+  else if (typeof option === 'object') {
     for (const [newOpt, newVal] of Object.entries(option)) {
       verifyArguments(newOpt, newVal)
     }
 
     Object.assign(customSettings, option)
-  } else if (value === undefined) {
+  }
+  else if (value === undefined) {
     return customSettings[option] || defaultSettings[option]
-  } else {
+  }
+  else {
     verifyArguments(option, value)
     customSettings[option] = value
   }
@@ -47,7 +50,7 @@ const verifyArguments = (option, value) => {
     throw new ArgumentInvalidError({
       argumentName  : 'option',
       argumentValue : option,
-      issue         : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`
+      issue         : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`,
     })
   }
 
@@ -56,14 +59,15 @@ const verifyArguments = (option, value) => {
       throw new ArgumentInvalidError({
         argumentName  : 'value',
         argumentValue : value,
-        issue         : `must be literal 'true' or 'false' for option '${option}'`
+        issue         : `must be literal 'true' or 'false' for option '${option}'`,
       })
     }
-  } else if (!(value === undefined || (value instanceof CommonError))) {
+  }
+  else if (!(value === undefined || (value instanceof CommonError))) {
     throw new ArgumentInvalidError({
       argumentName  : 'value',
       argumentValue : value,
-      issue         : `must be literal 'undefined', or 'CommonError' class or sub-class for option '${option}'`
+      issue         : `must be literal 'undefined', or 'CommonError' class or sub-class for option '${option}'`,
     })
   }
 }

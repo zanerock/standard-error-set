@@ -20,6 +20,7 @@ test('Check that all errors are exported', () => {
     if (!(className in exports) && !(functionName in exports)) {
       acc.push(className)
     }
+
     return acc
   }, [])
 

@@ -5,10 +5,10 @@ import { standardErrorTest } from './lib/standard-error-test'
 describe('NoAccessError', () => {
   const testData = [
     [undefined, /Access is denied./],
-    [{ resource : 'the thing' }, /Access to the thing is denied./]
+    [{ resource : 'the thing' }, /Access to the thing is denied./],
   ]
 
   test.each(completeTestData({
-    testData, defaultStatus : 403
+    testData, defaultStatus : 403,
   }))('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
 })

@@ -22,7 +22,7 @@ const NotFoundError = class extends CommonError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, code = 'ENOENT', ...options } = {}) {
+  constructor({ name = myName, code = 'ENOENT', ...options } = {}) {
     options.message = options.message || generateNotFoundMessage(options)
     super({ name, code, ...options })
   }

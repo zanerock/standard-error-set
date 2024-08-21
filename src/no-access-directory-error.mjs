@@ -31,7 +31,7 @@ const NoAccessDirectoryError = class extends NoAccessError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.resource = options.resource || describeDirectory(options)
 
     super({ name, ...options })

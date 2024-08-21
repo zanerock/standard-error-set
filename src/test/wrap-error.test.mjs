@@ -19,7 +19,7 @@ describe('wrapError', () => {
     ['SyntaxError', SyntaxError, SystemError],
     ['TypeError', TypeError, ArgumentTypeError],
     ['URIError', URIError, ArgumentInvalidError],
-    ['Error', Error, CommonError]
+    ['Error', Error, CommonError],
   ])('wraps %s to appropriate type', (description, CauseClass, ExpectedClass) => {
     const [wrappedError, isWrapped] = wrapError(new CauseClass())
     expect(wrappedError instanceof ExpectedClass).toBe(true)
@@ -31,7 +31,7 @@ describe('wrapError', () => {
     ['EACCESS', NoAccessError],
     ['EPERM', NoAccessError],
     ['ENOENT', NotFoundError],
-    ['EBLAH', CommonError]
+    ['EBLAH', CommonError],
   ])
 
   test.each(codeTests)('wraps error with code %s to appropriate type', (code, ExpectedClass) => {
@@ -45,7 +45,7 @@ describe('wrapError', () => {
   const noInstanceHidingOnWrapTests = [
     ['RangeError', RangeError, RangeError],
     ['TypeError', TypeError, TypeError],
-    ['URIError', URIError, URIError]
+    ['URIError', URIError, URIError],
   ]
 
   test.each(noInstanceHidingOnWrapTests)("wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (constructor)", (description, CauseClass, ExpectedClass) => {
@@ -63,7 +63,7 @@ describe('wrapError', () => {
 
   test.each([
     ['ReferenceError', ReferenceError],
-    ['SyntaxError', SyntaxError]
+    ['SyntaxError', SyntaxError],
   ])('wraps %s in SystemError', (description, CauseClass) => {
     const [wrappedError, isWrapped] = wrapError(new CauseClass())
     expect(wrappedError instanceof SystemError).toBe(true)

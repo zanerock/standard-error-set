@@ -34,7 +34,7 @@ const ConnectionError = class extends ExternalServiceError {
    * const cause.code = 'ECONNRESET'
    * const connError = new ConnectionError({ cause }) // also "Connection has been reset."
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     hoistErrorCode(options) // hoist the code prior to generating message
     options.message = options.message || generateMessage(options)
     super({ name, ...options })

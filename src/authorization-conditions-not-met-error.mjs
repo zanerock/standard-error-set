@@ -42,7 +42,7 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
    * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     if (options.message === undefined) {
       options.message = generateMessage(options)
     }

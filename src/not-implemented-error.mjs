@@ -27,7 +27,7 @@ const NotImplementedError = class extends CommonError {
    * new NotImplementedError() // "Action not currently implemented."
    * new NotImplementedError({ target: '/some/url/endpoint'}) // "'/some/url/endpoint' is not currently implemented."
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }
@@ -40,7 +40,8 @@ NotImplementedError.typeName = myName
 const generateMessage = ({ target }) => {
   if (target === undefined) {
     return 'Action not currently implemented.'
-  } else {
+  }
+  else {
     return `'${target}' is not currently implemented.`
   }
 }

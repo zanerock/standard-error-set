@@ -57,22 +57,32 @@ const wrapError = (error, options = {}) => {
   if (code in connectionCodes) {
     // cause and code come first in case the user wants to override them in the options
     return [new ConnectionError({ cause : error, code, ...options }), true]
-  } else if (code === 'EACCESS' || code === 'EPERM') {
+  }
+  else if (code === 'EACCESS' || code === 'EPERM') {
     return [new NoAccessError({ cause : error, code, ...options }), true]
-  } else if (code === 'ENOENT') {
+  }
+  else if (code === 'ENOENT') {
     return [new NotFoundError({ cause : error, code, ...options }), true]
-  } else if (error instanceof URIError) {
+  }
+  else if (error instanceof URIError) {
     const WrapType = wrapUserErrorType || ArgumentInvalidError
+
     return [new WrapType({ cause : error, code, ...options }), true]
-  } else if (error instanceof RangeError) {
+  }
+  else if (error instanceof RangeError) {
     const WrapType = wrapUserErrorType || ArgumentOutOfRangeError
+
     return [new WrapType({ cause : error, code, ...options }), true]
-  } else if (error instanceof TypeError) {
+  }
+  else if (error instanceof TypeError) {
     const WrapType = wrapUserErrorType || ArgumentTypeError
+
     return [new WrapType({ cause : error, code, ...options }), true]
-  } else if (error instanceof ReferenceError || error instanceof SyntaxError) {
+  }
+  else if (error instanceof ReferenceError || error instanceof SyntaxError) {
     return [new SystemError({ cause : error, code, ...options }), true]
-  } else {
+  }
+  else {
     return [new CommonError({ cause : error, code, ...options }), true]
   }
 }

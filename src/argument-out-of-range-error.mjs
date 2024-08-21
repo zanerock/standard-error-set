@@ -38,7 +38,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * // v yields: "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
    * new ArgumentInvalidError({ argumentName: 'bar', argumentValue: 'Bob', min: 'C', maxBoundary: 'D' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }
@@ -55,7 +55,8 @@ const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => 
 
     if (min !== undefined) {
       message += ` greater than or equal to '${min}'`
-    } else if (minBoundary !== undefined) {
+    }
+    else if (minBoundary !== undefined) {
       message += ` greater than '${minBoundary}'`
     }
 
@@ -65,12 +66,14 @@ const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => 
 
     if (max !== undefined) {
       message += ` less than or equal to '${max}'`
-    } else if (maxBoundary !== undefined) {
+    }
+    else if (maxBoundary !== undefined) {
       message += ` less than '${maxBoundary}'`
     }
 
     message += '.'
   }
+
   return message
 }
 

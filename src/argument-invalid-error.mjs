@@ -34,7 +34,7 @@ const ArgumentInvalidError = class extends CommonError {
    * // v yields: "Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateBadArgumentMessage('is invalid', options)
 
     super({ name, ...options })

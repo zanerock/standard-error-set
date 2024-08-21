@@ -11,7 +11,7 @@ describe('UniqueConstraintViolationError', () => {
     [{ fieldAndValues : ['email', ['world', 'earth']] }, /fields <email,world\(earth\)> violated/, 409, undefined],
     [{ fieldAndValues : ['email'], status : 400 }, /fields <email> violated/, 400, undefined],
     [{ fieldAndValues : ['email'], cause : causeError }, /fields <email> violated/, 409, causeError],
-    [{ fieldAndValues : ['email'], status : 400, cause : causeError }, /fields <email> violated/, 400, causeError]
+    [{ fieldAndValues : ['email'], status : 400, cause : causeError }, /fields <email> violated/, 400, causeError],
   ])('Options %p => message matches %p, status %s, cause %s', (options, messageMatcher, expectedStatus, expectedCause) => {
     const error = new UniqueConstraintViolationError(options)
 

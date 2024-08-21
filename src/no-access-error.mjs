@@ -30,7 +30,7 @@ const NoAccessError = class extends AuthError {
    *   constructor.`
    * @param {object|undefined} options.options - @hidden The remainder of the options to to pass to `Error`.
    */
-  constructor ({ name = myName, status, ...options } = {}) {
+  constructor({ name = myName, status, ...options } = {}) {
     status = status || mapErrorToHttpStatus(myName)
     options.message = options.message || generateNoAccessMessage({ status, ...options })
     if (status === 404 && options.code === undefined) {

@@ -29,7 +29,7 @@ const LocalRollbackError = class extends IoError {
    * // v "There was an error rolling back the customer database; virtual socket closed."
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.action = options.action || 'rolling back'
     options.message = options.message || generateIoErrorMessage('an', options)
     super({ name, ...options })

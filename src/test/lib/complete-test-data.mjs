@@ -11,6 +11,7 @@ const completeTestData = ({ testData, defaultCode, defaultStatus, fillLength = d
     while (record.length < fillLength) {
       record.push(record.length === 4 ? defaultCode : undefined)
     }
+
     return record
   })
 

@@ -36,7 +36,7 @@ const FileNotFoundError = class extends NotFoundError {
    * new FileNotFound({ dirPath: '/tmp/', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
    * new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-weird' not found."
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     const resource = describeFile(options)
     options.resource = options.resource || resource
     options.message = options.message || generateNotFoundMessage({ resource })

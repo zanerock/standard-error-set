@@ -44,7 +44,7 @@ const defaultMappings = {
   508 : 'Loop Detected',
   510 : 'Not Extended', // OBSOLETE
   511 : 'Network Authentication Required',
-  540 : 'Unknown Error' // extended code from Cloudflair
+  540 : 'Unknown Error', // extended code from Cloudflair
 }
 
 const customMappings = {}
@@ -68,11 +68,14 @@ const mapHttpStatusToName = (status, name) => { /* eslint-enable jsdoc/check-typ
     for (const prop in customMappings) {
       delete customMappings[prop]
     }
-  } else if (name === undefined) {
+  }
+  else if (name === undefined) {
     return customMappings[status] || defaultMappings[status] || 'Unassigned'
-  } else if (typeof status === 'object') {
+  }
+  else if (typeof status === 'object') {
     Object.assign(customMappings, status)
-  } else {
+  }
+  else {
     customMappings[status] = name
   }
 }

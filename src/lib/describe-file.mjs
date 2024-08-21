@@ -5,11 +5,14 @@ const describeFile = ({ dirPath, fileName }) => {
     // package with anything fancier.
     const sep = dirPath.includes('\\') ? '\\' : '/'
     desc += dirPath.endsWith(sep) ? ` '${dirPath}${fileName}'` : ` '${dirPath}${sep}${fileName}'`
-  } else if (fileName !== undefined) {
+  }
+  else if (fileName !== undefined) {
     desc += ` '${fileName}'`
-  } else if (dirPath !== undefined) {
+  }
+  else if (dirPath !== undefined) {
     desc = `a file in directory '${dirPath}'`
   } // else
+
   return desc
 }
 

@@ -30,7 +30,7 @@ const UnavailableError = class extends CommonError {
    * // v "'/some/endpoint' is not currently available, try again after 12:00 Saturday.'
    * new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Saturday' })
    */
-  constructor ({ name = myName, ...options }) {
+  constructor({ name = myName, ...options }) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }

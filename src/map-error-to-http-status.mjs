@@ -6,7 +6,7 @@ const defaultMapping = {
   // not a general authorization status
   ConstraintViolationError : 409,
   ArgumentInvalidError     : 400,
-  NotFoundError            : 404
+  NotFoundError            : 404,
 }
 
 const customMapping = {}
@@ -34,6 +34,7 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
     for (const prop in customMapping) {
       delete customMapping[prop]
     }
+
     return
   }
 
@@ -41,11 +42,14 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
   if (errorRef instanceof Error) {
     // TODO: we should probably throw an error if there is no 'name' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.name
-  } else if (typeof errorRef === 'function') { // classes are functions
+  }
+  else if (typeof errorRef === 'function') { // classes are functions
     // TODO: we should probably throw an error if there is no 'typeName' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.typeName
-  } else if (typeof errorRef === 'object') { // do this here, because if it's an instanceof Error, we skip this
+  }
+  else if (typeof errorRef === 'object') { // do this here, because if it's an instanceof Error, we skip this
     Object.assign(customMapping, errorRef) // bulk update customMappings
+
     return
   }
 
@@ -57,8 +61,10 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
       status = customMapping[parentName] || defaultMapping[parentName]
       parentName = parents[parentName]
     }
+
     return status
-  } else { // both errorRef and status are defined, set individual customMapping
+  }
+  else { // both errorRef and status are defined, set individual customMapping
     customMapping[name] = status
   }
 }

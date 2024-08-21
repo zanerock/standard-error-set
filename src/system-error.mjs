@@ -22,7 +22,7 @@ const SystemError = class extends CommonError {
    * // v "The application has experienced a stack overflow."
    * new SystemError({ resource: 'application'})
    */
-  constructor ({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}) {
     options.message = options.message || generateMessage(options)
     super({ name, ...options })
   }

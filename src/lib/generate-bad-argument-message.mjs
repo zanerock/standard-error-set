@@ -1,6 +1,6 @@
 const generateBadArgumentMessage = (
   defaultIssue,
-  { packageName, functionName, argumentName, argumentValue, issue }
+  { packageName, functionName, argumentName, argumentValue, issue },
 ) => {
   let message = 'Function '
   if (packageName !== undefined) {
@@ -16,11 +16,13 @@ const generateBadArgumentMessage = (
   if (argumentValue !== undefined) {
     if (typeof argumentValue === 'function') {
       message += 'of type function or class '
-    } else {
+    }
+    else {
       try {
         const valueString = argumentValue = typeof argumentValue === 'object' ? JSON.stringify(argumentValue) : argumentValue
         message += `with value '${valueString}' `
-      } catch (e) {}
+      }
+      catch (e) {}
     }
   }
   message += `${issue || defaultIssue}.`

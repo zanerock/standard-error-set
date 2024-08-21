@@ -29,7 +29,7 @@ const CommonError = class extends Error {
    * new CommonError() // "An error has occurred."
    * new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
    */
-  constructor ({ message = 'An error has occurred.', status, ...options } = {}) {
+  constructor({ message = 'An error has occurred.', status, ...options } = {}) {
     super(message, options)
 
     hoistErrorCode(options)
