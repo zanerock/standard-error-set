@@ -23,7 +23,7 @@ const CommonError = class extends Error {
    * @param {string} options.name - The name of error. In general, this should match the final class name.
    * @param {string} [options.message = 'An error has occurred.'] - The error message.
    * @param {string|undefined} [options.code = undefined] - The error code.
-   * @param {number|undefined} [options.status = undefined] - The HTTP status associated with the error. If undefined, 
+   * @param {number|undefined} [options.status = undefined] - The HTTP status associated with the error. If undefined,
    *   this will be automatically set according to the [@link mapErrorToHttpStatus | configured error mappings].
    * @param {object|undefined} [options.options = undefined] - The options to pass to the `Error` super-constructor.
    * @example

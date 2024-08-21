@@ -20,12 +20,12 @@ const NotSupportedError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.issue = undefined] - A short description of the thing which is not supported. 
+   * @param {string|undefined} [options.issue = undefined] - A short description of the thing which is not supported.
    *   E.g., 'YAML request payloads' or 'asynchronous execution'.
-   * @param {string|undefined} [options.hint = undefined] - A short hint to the user as to how they might resolve or 
-   *   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous 
+   * @param {string|undefined} [options.hint = undefined] - A short hint to the user as to how they might resolve or
+   *   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous
    *   execution.'
-   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which 
+   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which
    *   the user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

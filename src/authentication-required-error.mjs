@@ -1,3 +1,4 @@
+/* globals CommonError */ // ref in docs
 import { AuthError } from './auth-error'
 import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'

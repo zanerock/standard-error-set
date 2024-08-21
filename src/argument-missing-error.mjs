@@ -23,9 +23,9 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.functionName = undefined] - The function name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
-   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`, 
+   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
-   * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more 
+   * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more
    *   specific explanation if you like.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

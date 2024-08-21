@@ -22,15 +22,15 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.functionName = undefined] - The function name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
-   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`, 
+   * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
-   * @param {string|number|undefined} [options.max = undefined] - The maximum value; the value must be less than or 
+   * @param {string|number|undefined} [options.max = undefined] - The maximum value; the value must be less than or
    *   equal to this.
-   * @param {string|number|undefined} [options.maxBoundary = undefined] - The upper value boundary; the value must be 
+   * @param {string|number|undefined} [options.maxBoundary = undefined] - The upper value boundary; the value must be
    *   less than this. This value will be ignored if `max` is set.
-   * @param {string|number|undefined} [options.min = undefined] - The minimum; the value must be greater than or equal 
+   * @param {string|number|undefined} [options.min = undefined] - The minimum; the value must be greater than or equal
    *   to this.
-   * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be 
+   * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be
    *   greater than this. This value will be ignored if `min` is set.
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}

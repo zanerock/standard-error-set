@@ -21,13 +21,13 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.action = undefined] - A description of the action being taken. This should 
-   *   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer 
+   * @param {string|undefined} [options.action = undefined] - A description of the action being taken. This should
+   *   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer
    *   data'.
-   * @param {string|undefined} [options.hint = undefined] - A description of what the user might do to remedy the 
-   *   situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota 
+   * @param {string|undefined} [options.hint = undefined] - A description of what the user might do to remedy the
+   *   situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota
    *   increase.', or 'Try again in a few minutes.'
-   * @param {string} [options.issue = 'current conditions prevent this action' - A description of the problem. E.g., 
+   * @param {string} [options.issue = 'current conditions prevent this action'] - A description of the problem. E.g.,
    *   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

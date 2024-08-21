@@ -18,6 +18,8 @@ const NotFoundError = class extends CommonError {
    * {@link NotFoundError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.resource = undefined] - The name or short description of the missing resource.
+   * @param {string} [options.code = 'ENOENT'] - The code to use with the error. Should generally be left to the
+   *   default.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

@@ -18,7 +18,7 @@ const NotImplementedError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which 
+   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which
    *   the user is trying to invoke.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

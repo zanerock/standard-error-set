@@ -18,13 +18,13 @@ const FileLoadError = class extends IoError {
    * {@link FileLoadError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'loading'] - A description of the action being taken. Default to 'loading'.
-   * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the 
+   * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the
    *   file is located.
-   * @param {string|undefined} [options.fileName = undefined] - The name of the file itself. May be a full path (in 
-   *   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with 
+   * @param {string|undefined} [options.fileName = undefined] - The name of the file itself. May be a full path (in
+   *   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with
    *   `dirPath`, if present, to create the standard error message.
    * @param {string|undefined} [options.issue = undefined] - Describes the specific issue.
-   * @param {string|undefined} [options.target = undefined] - The name or description of the target resource. Should 
+   * @param {string|undefined} [options.target = undefined] - The name or description of the target resource. Should
    *   generally be left in preference for setting `fileName` and/or `filePath`.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
@@ -39,7 +39,7 @@ const FileLoadError = class extends IoError {
    * new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
    */
   constructor({ name = myName, action = 'loading', ...options } = {}) {
-    options.target = options.target || describeFile({ loading, ...options })
+    options.target = options.target || describeFile({ action, ...options })
     options.message = options.message || generateIoErrorMessage('an error', options)
     super({ name, action, ...options })
   }
