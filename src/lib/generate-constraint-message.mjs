@@ -1,5 +1,8 @@
 const generateConstraintMessage = ({ constraintType, entityType, fieldAndValues }) => {
-  let message = constraintType.charAt(0).toUpperCase() + constraintType.slice(1) + ' constraint'
+  let message = constraintType.charAt(0).toUpperCase() + constraintType.slice(1)
+  if (!constraintType.endsWith('constraint')) {
+    message += ' constraint'
+  }
   if (fieldAndValues.length > 0) {
     message += ' on fields <'
     for (const fieldAndValue of fieldAndValues) {
