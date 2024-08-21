@@ -4,14 +4,22 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 
 ___This is beta code.___ It's mostly done, but not all the error types have been fully tested.
 
+## Features
+
+- Set of expressive, semantic [error classes](#api-reference).
+- Built in, [configurable HTTP status codes and names](#mapErrorToHttpStatus).
+- Standard, parameterized or custom messages.
+- [Automated wrapping](#wrapError) of standard `Error` classes and codes.
+
 ## Table of contents
 
+- [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
 - [API](#api)
   - [Common parameters](#common-parameters)
+  - [Common Instance fields](#instance-fields)
   - [Error code hoisting](#error-code-hoisting)
-  - [Instance fields](#instance-fields)
   - [API reference](#api-reference)
 - [Presenting errors to users](#presenting-errors-to-users)
 
@@ -57,6 +65,18 @@ The following option parameters are accepted by all {@link CommonError} error co
 - `message` (`string`|`undefined`): All {@link CommonError} classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All {@link CommonError} classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with {@link mapErrorToHttpStatus}. This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
+### Common nstance fields
+
+All {@link CommonError}s provide the following instance fields:
+
+- `cause` (`Error`|`undefined`): The error that caused this error, if any.
+- `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
+- `message` (`string`): The error message.
+- `status` (`number`): The HTTP status code.
+- `statusName` (`string`): The HTTP status name.
+
+In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., {@link FileNotFoundError} provides fields `dirPath` and `fileName`.
+
 ### Error code hoisting
 
 When the creation option `cause` is an `Error` and defines a `code` instance field, the `code` value is hoisted to the new {@link CommonError} unless the `code` or `noHoistCode` option is set to `true`. E.g.:
@@ -68,14 +88,3 @@ const codeError = new CommonError({ cause, code: 'EISDIR' }) // codeError.code =
 const noHoistError = new CommonError({ cause, noHoistError : true }) // noHoistError.code === undefined
 ```
 
-### Instance fields
-
-All {@link CommonError}s provide the following instance fields:
-
-- `cause` (`Error`|`undefined`): The error that caused this error, if any.
-- `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
-- `message` (`string`): The error message.
-- `status` (`number`): The HTTP status code.
-- `statusName` (`string`): The HTTP status name.
-
-In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., {@link FileNotFoundError} provides fields `dirPath` and `fileName`.

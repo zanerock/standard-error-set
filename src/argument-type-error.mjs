@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'ArgumentTypeError'
 
 /**
- * A {@link ArgumentInvalidError} sub-type indicating an argument is not the correct type.
+ * An {@link ArgumentInvalidError} sub-type indicating an argument is not the correct type.
  *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.

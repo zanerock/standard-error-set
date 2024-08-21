@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'ArgumentOutOfRangeError'
 
 /**
- * A {@link ArgumentInvalidError} sub-type indicating an argument is of the correct time, but outside the acceptable range.
+ * An {@link ArgumentInvalidError} sub-type indicating an argument is of the correct time, but outside the acceptable range.
  *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.

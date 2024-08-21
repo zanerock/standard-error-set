@@ -11,7 +11,7 @@ const myName = 'ConnectionError'
  * standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the
  * connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error`
  * will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and
- * the hoisted `code` will determine the standard message (unless the `message` option is defined).`
+ * the hoisted `code` will determine the standard message (unless the `message` option is defined).
  */
 const ConnectionError = class extends ExternalServiceError {
   /**

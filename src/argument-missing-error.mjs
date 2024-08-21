@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'ArgumentMissingError'
 
 /**
- * A {@link ArgumentInvalidError} sub-type indicating an argument is missing or empty (typically `null', `undefined`,
+ * An {@link ArgumentInvalidError} sub-type indicating an argument is missing or empty (typically `null`, `undefined`,
  * or '').
  *
  * Consider whether any of the following errors might be more precise or better suited:
