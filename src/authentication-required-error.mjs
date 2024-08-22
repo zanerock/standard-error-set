@@ -1,6 +1,5 @@
 /* globals CommonError */ // ref in docs
 import { AuthError } from './auth-error'
-import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthenticationRequiredError'
@@ -26,8 +25,7 @@ const AuthenticationRequiredError = class extends AuthError {
    * new AuthenticationRequiredError({ action : 'updating', target : 'customer database' })
    */
   constructor({ name = myName, action = 'action', issue = 'requires authentication', ...options } = {}) {
-    options.message = options.message || generateAuthMessage({ action, issue, ...options })
-    super({ name, issue, ...options })
+    super({ name, action, issue, ...options })
   }
 }
 

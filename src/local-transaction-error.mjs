@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'LocalTransactionError'
 
 /**
- * An {@link IoError} indicating a problem creating or otherwise involving a transaction within a database system
+ * An {@link DatabaseError} indicating a problem creating or otherwise involving a transaction within a database system
  * itself. Use {@link TransactionError} for transaction errors related to transactions in an external database service.
  */
 const LocalTransactionError = class extends DatabaseError {

@@ -7,7 +7,7 @@ describe('mapHttpStatusToName', () => {
 
   test.each([
     [400, 'Bad Request'],
-    [401, 'Unauthorized']
+    [401, 'Unauthorized'],
   ])('%p => %s',
     (status, name) => expect(mapHttpStatusToName(status)).toBe(name))
 
@@ -17,7 +17,7 @@ describe('mapHttpStatusToName', () => {
   })
 
   test('can bulk assign mappings', () => {
-    mapHttpStatusToName({ 400: 'Invalid Request', 401 : 'Not Permitted' })
+    mapHttpStatusToName({ 400 : 'Invalid Request', 401 : 'Not Permitted' })
     expect(mapHttpStatusToName(400)).toBe('Invalid Request')
     expect(mapHttpStatusToName(401)).toBe('Not Permitted')
   })

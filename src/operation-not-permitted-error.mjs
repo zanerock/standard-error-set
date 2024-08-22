@@ -1,6 +1,5 @@
 /* global AuthenticationError AuthorizationConditionsNotMetError BadCredentialsError AuthorizationConditionsNotMetError CommonError NoAccessError */ // used in docs
 import { AuthError } from './auth-error'
-import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'OperationNotPermittedError'

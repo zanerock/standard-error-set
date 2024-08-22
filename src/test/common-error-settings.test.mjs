@@ -7,7 +7,7 @@ describe('commonErrorSettings', () => {
 
   test.each([
     ['noInstanceHidingOnWrap', false],
-    ['wrapUserErrorType', undefined]
+    ['wrapUserErrorType', undefined],
   ])('%p => %s',
     (option, value) => expect(commonErrorSettings(option)).toBe(value))
 
@@ -17,7 +17,7 @@ describe('commonErrorSettings', () => {
   })
 
   test('can bulk assign settings', () => {
-    commonErrorSettings({ 'noInstanceHidingOnWrap': true, 'wrapUserErrorType' : CommonError })
+    commonErrorSettings({ noInstanceHidingOnWrap : true, wrapUserErrorType : CommonError })
     expect(commonErrorSettings('noInstanceHidingOnWrap')).toBe(true)
     expect(commonErrorSettings('wrapUserErrorType')).toBe(CommonError)
   })

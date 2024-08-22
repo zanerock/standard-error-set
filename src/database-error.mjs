@@ -1,4 +1,4 @@
-/* globals CommonError TransactionError */ // used in docs
+/* globals RollbackError TransactionError */ // used in docs
 import { CommonError } from './common-error'
 import { registerParent } from './map-error-to-http-status'
 
@@ -6,6 +6,9 @@ const myName = 'DatabaseError'
 
 /**
  * Indicates a problem within a database system implementation.
+ * Consider whether any of the following errors might be more precise or better suited:
+ * - {@link RollbackError}
+ * - {@link TransactionError}
  */
 const DatabaseError = class extends CommonError {
   /**
@@ -29,7 +32,7 @@ const DatabaseError = class extends CommonError {
    * new DatabaseError({ issue : 'virtual socket closed', target : 'customer database' })
    */
   constructor({ name = myName, errorType = 'an error', target = 'database', ...options } = {}) {
-    options.message = options.message || generateMessage({ errorType, target, ...options})
+    options.message = options.message || generateMessage({ errorType, target, ...options })
     super({ name, errorType, target, ...options })
   }
 }

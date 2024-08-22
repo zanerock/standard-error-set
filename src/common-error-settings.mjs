@@ -64,7 +64,8 @@ const verifyArguments = (option, value) => {
     }
   }
   else if (value !== undefined) {
-    const testError = new value()
+    const ErrorClass = value
+    const testError = new ErrorClass()
     if (!(testError instanceof CommonError)) {
       throw new ArgumentInvalidError({
         argumentName  : 'value',
