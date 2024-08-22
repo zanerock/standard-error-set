@@ -3,8 +3,6 @@
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 
-___This is beta code.___ It's mostly done, but not all the error types have been fully tested.
-
 ## Features
 
 - Set of expressive, semantic [error classes](#api-reference).
@@ -112,8 +110,8 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
   - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
-  - [LocalRollbackError](#LocalRollbackError): An [`IoError`](#IoError) sub-type relating to a failed rollback within a database.
-  - [LocalTransactionError](#LocalTransactionError): An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system itself.
+  - [LocalRollbackError](#LocalRollbackError): An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database.
+  - [LocalTransactionError](#LocalTransactionError): An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system itself.
   - [NoAccessDirectoryError](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
   - [NoAccessError](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
   - [NoAccessFileError](#NoAccessFileError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file.
@@ -290,7 +288,7 @@ new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argum
 ```
 
 <a id="AuthenticationRequiredError"></a>
-#### AuthenticationRequiredError <sup>↱[source code](./src/authentication-required-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### AuthenticationRequiredError <sup>↱[source code](./src/authentication-required-error.mjs#L11)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
@@ -484,9 +482,12 @@ new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 
 ```
 
 <a id="DatabaseError"></a>
-#### DatabaseError <sup>↱[source code](./src/database-error.mjs#L10)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### DatabaseError <sup>↱[source code](./src/database-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates a problem within a database system implementation.
+Consider whether any of the following errors might be more precise or better suited:
+- [`RollbackError`](#RollbackError)
+- [`TransactionError`](#TransactionError)
 
 <a id="new_DatabaseError_new"></a>
 ##### `new DatabaseError([options])` 
@@ -744,10 +745,10 @@ new IoError({ issue : 'virtual socket closed', target : 'serial port' })
 ```
 
 <a id="LocalRollbackError"></a>
-#### LocalRollbackError <sup>↱[source code](./src/local-rollback-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### LocalRollbackError <sup>↱[source code](./src/local-rollback-error.mjs#L11)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An [`IoError`](#IoError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the client
-side to indicate a failed rollback in an external data service.
+An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the
+client side to indicate a failed rollback in an external data service.
 
 <a id="new_LocalRollbackError_new"></a>
 ##### `new LocalRollbackError([options])` 
@@ -761,7 +762,7 @@ side to indicate a failed rollback in an external data service.
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
 | [`options.errorType`] | `string` | `&quot;&#x27;a rollback error&#x27;&quot;` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`option.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
+| [`options.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
 
 **Example**:
 ```js
@@ -777,7 +778,7 @@ new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer dat
 <a id="LocalTransactionError"></a>
 #### LocalTransactionError <sup>↱[source code](./src/local-transaction-error.mjs#L11)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An [`IoError`](#IoError) indicating a problem creating or otherwise involving a transaction within a database system
+An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system
 itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
 
 <a id="new_LocalTransactionError_new"></a>
@@ -983,7 +984,7 @@ new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' }
 ```
 
 <a id="OperationNotPermittedError"></a>
-#### OperationNotPermittedError <sup>↱[source code](./src/operation-not-permitted-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### OperationNotPermittedError <sup>↱[source code](./src/operation-not-permitted-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation. This is most appropriate
 when the user is trying to _do_ something. If the user is attempting to "access" a resource, the [`NoAccessError`](#NoAccessError) or it's children may be better suited. Consider whether any of the following errors might be more
