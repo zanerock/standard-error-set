@@ -6,14 +6,14 @@ describe('ArgumentOutOfRangeError', () => {
   const causeError = new Error()
 
   const testData = [
-    [undefined, /Function argument is out of range./, 400],
-    [{ status : 401 }, /Function argument is out of range./, 401, undefined],
-    [{ packageName : 'my-package', functionName : 'foo' }, /Function 'my-package#foo\(\)'/, 400],
-    [{ functionName : 'foo' }, /Function 'foo\(\)'/],
-    [{ functionName : 'foo', argumentName : 'bar' }, /Function 'foo\(\)' argument 'bar' is out of range./],
+    [undefined, /Command argument is out of range./, 400],
+    [{ status : 401 }, /Command argument is out of range./, 401, undefined],
+    [{ packageName : 'my-package', endpointName : 'foo' }, /Command 'my-package#foo\(\)'/, 400],
+    [{ endpointName : 'foo' }, /Command 'foo\(\)'/],
+    [{ endpointName : 'foo', argumentName : 'bar' }, /Command 'foo\(\)' argument 'bar' is out of range./],
     [
-      { functionName : 'foo', argumentName : 'bar', argumentValue : 100 },
-      /Function 'foo\(\)' argument 'bar' with value '100' is out of range./,
+      { endpointName : 'foo', argumentName : 'bar', argumentValue : 100 },
+      /Command 'foo\(\)' argument 'bar' with value '100' is out of range./,
     ],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [
@@ -29,6 +29,7 @@ describe('ArgumentOutOfRangeError', () => {
       /argument 'bar' with value '5' is out of range. Value must be greater than or equal to '10'./,
     ],
     [{ maxBoundary : 12 }, /must be less than '12'/],
+    [{ endpointType : 'function', argumentName : 'bar' }, /Function argument 'bar'/],
   ]
 
   test.each(completeTestData({

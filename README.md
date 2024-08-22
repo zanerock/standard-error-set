@@ -61,8 +61,8 @@ const myFunc = ({ arg }) => {
 The following option parameters are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
 
 - `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
-- `message` (`string`|`undefined`): All {@link CommonError} classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
-- `status` (`number`|`undefined`): All {@link CommonError} classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with {@link mapErrorToHttpStatus}. This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
+- `message` (`string`|`undefined`): All [`CommonError`](#CommonError) classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
+- `status` (`number`|`undefined`): All [`CommonError`](#CommonError) classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with [`mapErrorToHttpStatus`](#mapErrorToHttpStatus). This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
 ### Common nstance fields
 
@@ -92,10 +92,10 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 
 <span id="global-class-index"></span>
 - Classes:
-  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid argument was passed to a function.
-  - [ArgumentMissingError](#ArgumentMissingError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is missing or empty (typically `null`, `undefined`, or '').
-  - [ArgumentOutOfRangeError](#ArgumentOutOfRangeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is of the correct time, but outside the acceptable range.
-  - [ArgumentTypeError](#ArgumentTypeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is not the correct type.
+  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid, typically user supplied argument.
+  - [ArgumentMissingError](#ArgumentMissingError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is missing or empty ( typically `null`, `undefined`, or '').
+  - [ArgumentOutOfRangeError](#ArgumentOutOfRangeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but outside the acceptable range.
+  - [ArgumentTypeError](#ArgumentTypeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is not the correct type.
   - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not authenticated.
   - [AuthError](#AuthError): A generic error indicating a problem with user authentication or authorization.
   - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but additional conditions must be met.
@@ -134,9 +134,11 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`wrapError()`](#wrapError): Wraps an `Error` in a [`CommonError`](#CommonError).
 
 <a id="ArgumentInvalidError"></a>
-#### ArgumentInvalidError <sup>↱[source code](./src/argument-invalid-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### ArgumentInvalidError <sup>↱[source code](./src/argument-invalid-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-Indicates an invalid argument was passed to a function.
+Indicates an invalid, typically user supplied argument. By default, this error and any sub-types map to an HTTP
+status of 400 ("Bad Request"). If the status codes are relevant, remember to [
+change the error to HTTP status mapping](#mapErrorToHttpStatus) or pass in the `status` option when creating the error.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentMissingError`](#ArgumentMissingError) - For when the argument is required, but missing or empty.
@@ -154,8 +156,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
+| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
-| [`options.functionName`] | `string` \| `undefined` |  | The function name. |
+| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
@@ -163,19 +166,22 @@ See the [common parameters](#common-parameters) note for additional parameters.
 **Example**:
 ```js
 new ArgumentInvalidError() // "Function argument is invalid."
-// v yields: "Function 'my-package#foo()' argument  is invalid."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-// v yields: "Function argument 'bar' cannot be parsed."
+"Function 'my-package#foo()' argument  is invalid."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+"Function argument 'bar' cannot be parsed."
 new ArgumentInvalidError({ argumentName: 'bar', issue: 'cannot be parsed'})
-// v yields: "Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 100 })
+"Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 100 })
+// v "Function argument 'bar' is invalid."
+new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentMissingError"></a>
 #### ArgumentMissingError <sup>↱[source code](./src/argument-missing-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is missing or empty (typically `null`, `undefined`,
-or '').
+An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is missing or empty (
+typically `null`, `undefined`, or ''). Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument
+errors.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
@@ -193,8 +199,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
+| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
-| [`options.functionName`] | `string` \| `undefined` |  | The function name. |
+| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more   specific explanation if you like. |
@@ -202,16 +209,19 @@ See the [common parameters](#common-parameters) note for additional parameters.
 **Example**:
 ```js
 new ArgumentInvalidError() // "Function argument is missing or empty."
-// v yields: "Function 'my-package#foo()' argument is missing or empty."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-// v yields: "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+//  "Function 'my-package#foo()' argument is missing or empty."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+//  "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+// v "Function argument 'bar' is missing or empty."
+new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentOutOfRangeError"></a>
 #### ArgumentOutOfRangeError <sup>↱[source code](./src/argument-out-of-range-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is of the correct time, but outside the acceptable range.
+An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but
+outside the  acceptable range. Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
@@ -229,8 +239,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
+| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
-| [`options.functionName`] | `string` \| `undefined` |  | The function name. |
+| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.max`] | `string` \| `number` \| `undefined` |  | The maximum value; the value must be less than or   equal to this. |
@@ -242,16 +253,19 @@ See the [common parameters](#common-parameters) note for additional parameters.
 **Example**:
 ```js
 new ArgumentOutOfRangeError() // "Function argument is out of range."
-// v yields: "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
-new ArgumentOutOfRangeError({ functionName: 'foo', argumentValue: 12, min: 24 })
-// v yields: "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
+//  "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
+new ArgumentOutOfRangeError({ endpointName: 'foo', argumentValue: 12, min: 24 })
+//  "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
 new ArgumentInvalidError({ argumentName: 'bar', argumentValue: 'Bob', min: 'C', maxBoundary: 'D' })
+// v "Function argument 'bar' is out of range."
+new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentTypeError"></a>
 #### ArgumentTypeError <sup>↱[source code](./src/argument-type-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating an argument is not the correct type.
+An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is not the correct type.
+Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
@@ -269,8 +283,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
+| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
-| [`options.functionName`] | `string` \| `undefined` |  | The function name. |
+| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
 | [`options.expectedType`] | `string` \| `undefined` |  | The expected type of the argument. |
@@ -280,11 +295,12 @@ See the [common parameters](#common-parameters) note for additional parameters.
 **Example**:
 ```js
 new ArgumentInvalidError() // "Function argument is wrong type."
-// v yields: "Function 'my-package#foo()' argument is wrong type."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-// v yields: "Function 'my-package#foo()' argument with value 'undefined' is wrong type."
-new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
-// v yields: "Function argument is wrong type;"
+//  "Function 'my-package#foo()' argument is wrong type."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+//  "Function 'my-package#foo()' argument with value 'undefined' is wrong type."
+new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+// v "Function argument 'bar' is wrong type."
+new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="AuthenticationRequiredError"></a>
