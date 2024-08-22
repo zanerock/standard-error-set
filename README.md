@@ -58,7 +58,7 @@ const myFunc = ({ arg }) => {
 
 ### Common parameters
 
-The following option parameters are accepted by all {@link CommonError} error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
+The following option parameters are accepted by all [`CommonError`](#CommonError) error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
 
 - `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
 - `message` (`string`|`undefined`): All [`CommonError`](#CommonError) classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
@@ -66,7 +66,7 @@ The following option parameters are accepted by all {@link CommonError} error co
 
 ### Common nstance fields
 
-All {@link CommonError}s provide the following instance fields:
+All [`CommonError`s](#CommonError) provide the following instance fields:
 
 - `cause` (`Error`|`undefined`): The error that caused this error, if any.
 - `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
@@ -74,11 +74,11 @@ All {@link CommonError}s provide the following instance fields:
 - `status` (`number`): The HTTP status code.
 - `statusName` (`string`): The HTTP status name.
 
-In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., {@link FileNotFoundError} provides fields `dirPath` and `fileName`.
+In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., [` FileNotFoundError`](#FileNotFoundError) provides fields `dirPath` and `fileName`.
 
 ### Error code hoisting
 
-When the creation option `cause` is an `Error` and defines a `code` instance field, the `code` value is hoisted to the new {@link CommonError} unless the `code` or `noHoistCode` option is set to `true`. E.g.:
+When the creation option `cause` is an `Error` and defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless the `code` or `noHoistCode` option is set to `true`. E.g.:
 ```js
 const cause = new Error()
 exampleError.code = 'ENOENT'
@@ -1326,6 +1326,6 @@ use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Ob
 
 ## Presenting errors to users
 
-In a production system, the user should only see the error message, and additional information about the type of the error or where it occurred should not be passed on. This includes in response data which might not be directly displayed to the user, but could be accessed by inspecting the HTTP result, for instance. In particular, the class type and stack trace _should not_ be included in any error response. If this protocol is adopted, then {@link maskNoAccessErrors} _may_ be used.
+In a production system, the user should only see the error message, and additional information about the type of the error or where it occurred should not be passed on. This includes in response data which might not be directly displayed to the user, but could be accessed by inspecting the HTTP result, for instance. In particular, the class type and stack trace _should not_ be included in any error response. If this protocol is adopted, then [`maskNoAccessErrors`](#maskNoAccessErrors) _may_ be used.
 
-If this information will be included in response data, then high security systems _should_ use {@link NotFoundError} and it's children directly, even when the real problem is one off authorization. In this case, {@link maskNoAccessErrors} _should not_ be used.
+If this information will be included in response data, then high security systems _should_ use [`NotFoundError`](#NotFoundError) and it's children directly, even when the real problem is one off authorization. In this case, [`maskNoAccessErrors`](#maskNoAccessErrors) _should not_ be used.
