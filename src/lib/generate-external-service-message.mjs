@@ -1,12 +1,5 @@
-const generateExternalServiceMessage = (serviceType, errorType, { issue, service }) => {
-  let message = `There was ${errorType || 'an'} error with ${service === undefined ? 'a' : 'the'} remote`
-  if (serviceType) {
-    message += ` ${serviceType}`
-  }
-  message += ' service'
-  if (service !== undefined) {
-    message += ' ' + service
-  }
+const generateExternalServiceMessage = (errorType, { issue, service }) => {
+  let message = `There was ${errorType || 'an'} error with the remote ${service} service`
   if (issue !== undefined) {
     message += `; service ${issue}`
   }

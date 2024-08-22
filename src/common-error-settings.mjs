@@ -63,12 +63,15 @@ const verifyArguments = (option, value) => {
       })
     }
   }
-  else if (!(value === undefined || (value instanceof CommonError))) {
-    throw new ArgumentInvalidError({
-      argumentName  : 'value',
-      argumentValue : value,
-      issue         : `must be literal 'undefined', or 'CommonError' class or sub-class for option '${option}'`,
-    })
+  else if (value !== undefined) {
+    const testError = new value()
+    if (!(testError instanceof CommonError)) {
+      throw new ArgumentInvalidError({
+        argumentName  : 'value',
+        argumentValue : value,
+        issue         : `must be literal 'undefined' or 'CommonError' class or sub-class for option '${option}'`,
+      })
+    }
   }
 }
 

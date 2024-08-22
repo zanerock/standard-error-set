@@ -10,7 +10,7 @@ const describeFile = ({ dirPath, fileName }) => {
     desc += ` '${fileName}'`
   }
   else if (dirPath !== undefined) {
-    desc = `a file in directory '${dirPath}'`
+    desc = `file in directory '${dirPath}'`
   } // else
 
   return desc

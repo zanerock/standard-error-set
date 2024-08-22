@@ -25,8 +25,8 @@ const AuthenticationRequiredError = class extends AuthError {
    * // v "Updating the customer database requires authentication."
    * new AuthenticationRequiredError({ action : 'updating', target : 'customer database' })
    */
-  constructor({ name = myName, issue = 'requires authentication', ...options } = {}) {
-    options.message = options.message || generateAuthMessage({ issue, ...options })
+  constructor({ name = myName, action = 'action', issue = 'requires authentication', ...options } = {}) {
+    options.message = options.message || generateAuthMessage({ action, issue, ...options })
     super({ name, issue, ...options })
   }
 }

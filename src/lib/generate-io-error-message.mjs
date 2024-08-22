@@ -1,8 +1,5 @@
 const generateIoErrorMessage = (errorType = 'an IO', { action, issue, target }) => {
-  let message = `There was ${errorType} error`
-  if (action !== undefined) {
-    message += ` while ${action}`
-  }
+  let message = `There was ${errorType} error ${action}`
   if (target !== undefined) {
     message += ` the ${target}`
   }

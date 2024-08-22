@@ -31,11 +31,12 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
-   * new ArgumentInvalidError() // "Function argument is missing or empty."
-   * // v yields: "Function 'my-package#foo()' argument is missing or empty."
+   * new ArgumentInvalidError() // "Function argument is wrong type."
+   * // v yields: "Function 'my-package#foo()' argument is wrong type."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-   * // v yields: "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
+   * // v yields: "Function 'my-package#foo()' argument with value 'undefined' is wrong type."
    * new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+   * // v yields: "Function argument is wrong type;"
    */
   constructor({ name = myName, issue = 'is wrong type', ...options } = {}) {
     options.message = options.message || generateMessage({ issue, ...options })
@@ -48,7 +49,7 @@ registerParent(myName, Object.getPrototypeOf(ArgumentTypeError).name)
 ArgumentTypeError.typeName = myName
 
 const generateMessage = ({ expectedType, receivedType, ...options }) => {
-  const message = generateBadArgumentMessage(options)
+  let message = generateBadArgumentMessage(options)
   let typeMessage = ''
   if (expectedType !== undefined) {
     typeMessage = `expected type '${expectedType}'`
@@ -57,14 +58,14 @@ const generateMessage = ({ expectedType, receivedType, ...options }) => {
     if (expectedType) {
       typeMessage += ', but '
     }
-    typeMessage += `recieved type '${receivedType}'`
+    typeMessage += `received type '${receivedType}'`
+  }
+
+  if (typeMessage !== '') {
+    message += ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
   }
 
   return message
-    + (typeMessage === undefined
-      ? ''
-      : ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
-    )
 }
 
 export { ArgumentTypeError }

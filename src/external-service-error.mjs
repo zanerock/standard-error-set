@@ -19,7 +19,7 @@ const ExternalServiceError = class extends CommonError {
   /**
    * {@link ExternalServiceError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.service = undefined] - The name or short description of the service.
+   * @param {string} [options.service = ''] - The name or short description of the service.
    * @param {string|undefined} [options.issue = undefined] - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
@@ -32,9 +32,9 @@ const ExternalServiceError = class extends CommonError {
    * // v "The remote service Foo API is not responding."
    * new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage(undefined, undefined, options)
-    super({ name, ...options })
+  constructor({ name = myName, service = '', ...options } = {}) {
+    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options })
+    super({ name, service, ...options })
   }
 }
 

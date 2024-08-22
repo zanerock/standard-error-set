@@ -28,6 +28,7 @@ describe('ArgumentOutOfRangeError', () => {
       { argumentName : 'bar', argumentValue : 5, min : 10 },
       /argument 'bar' with value '5' is out of range. Value must be greater than or equal to '10'./,
     ],
+    [{maxBoundary : 12 }, /must be less than '12'/]
   ]
 
   test.each(completeTestData({

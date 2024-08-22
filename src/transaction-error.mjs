@@ -27,16 +27,16 @@ const TransactionError = class extends DataServiceError {
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
-   * new TransactionError() // There was an error with a remote data service.
-   * new TransactionError({ service : 'database' }) // The was an error with the database remote data service.
-   * // v "There was an error with a remote data service; service is not rot responding.""
+   * new TransactionError() // There was a transaction error with the remote data service.
+   * new TransactionError({ service : 'database' }) // There was a transaction error with the remote database service.
+   * // v "There was a transaction error with the remote data service; service is not responding."
    * new TransactionError({ issue : 'is not responding' })
-   * // v "There was an error with the database remote data service; service is not rot responding.""
+   * // v "There was a transaction error with the remote database service; service is not responding."
    * new TransactionError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage('data', 'a transaction', options)
-    super({ name, ...options })
+  constructor({ name = myName, service = 'data', ...options } = {}) {
+    options.message = options.message || generateExternalServiceMessage('a transaction', { service, ...options })
+    super({ name, service, ...options })
   }
 }
 

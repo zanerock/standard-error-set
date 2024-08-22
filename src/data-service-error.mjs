@@ -19,22 +19,22 @@ const DataServiceError = class extends ExternalServiceError {
   /**
    * {@link DataServiceError} constructor.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.service = undefined] - The name or short description of the service.
+   * @param {string} [options.service = 'data'] - The name or short description of the service.
    * @param {string|undefined} [options.issue = undefined] - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new DataServiceError() // There was an error with a remote data service.
-   * new DataServiceError({ service : 'database' }) // The was an error with the database remote data service.
-   * // v "There was an error with a remote data service; service is not rot responding.""
+   * new DataServiceError({ service : 'database' }) // The was an error with the remote database service.
+   * // v "There was an error with a remote data service; service is not rot responding."
    * new DataServiceError({ issue : 'is not responding' })
-   * // v "There was an error with the database remote data service; service is not rot responding.""
+   * // v "There was an error with the remote database service; service is not responding."
    * new DataServiceError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage('data', undefined, options)
-    super({ name, ...options })
+  constructor({ name = myName, service = 'data', ...options } = {}) {
+    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options })
+    super({ name, service, ...options })
   }
 }
 

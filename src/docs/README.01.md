@@ -1,4 +1,5 @@
 # @liquid-labs/common-errors
+[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 

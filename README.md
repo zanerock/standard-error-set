@@ -1,4 +1,5 @@
 # @liquid-labs/common-errors
+[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
 
@@ -103,6 +104,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [CommonError](#CommonError): A base class for common errors.
   - [ConnectionError](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
   - [ConstraintViolationError](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
+  - [DatabaseError](#DatabaseError): Indicates a problem within a database system implementation.
   - [DataServiceError](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
   - [DirectoryNotFoundError](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [EndOfStreamError](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
@@ -157,7 +159,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.functionName`] | `string` \| `undefined` |  | The function name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
-| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,    consider using the string 'undefined' if it's important to display the value. |
+| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
 
 **Example**:
@@ -196,8 +198,8 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.functionName`] | `string` \| `undefined` |  | The function name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
-| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,    consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more    specific explanation if you like. |
+| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
+| [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more   specific explanation if you like. |
 
 **Example**:
 ```js
@@ -232,11 +234,11 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.functionName`] | `string` \| `undefined` |  | The function name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
-| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,    consider using the string 'undefined' if it's important to display the value. |
-| [`options.max`] | `string` \| `number` \| `undefined` |  | The maximum value; the value must be less than or    equal to this. |
-| [`options.maxBoundary`] | `string` \| `number` \| `undefined` |  | The upper value boundary; the value must be    less than this. This value will be ignored if `max` is set. |
-| [`options.min`] | `string` \| `number` \| `undefined` |  | The minimum; the value must be greater than or equal    to this. |
-| [`options.minBoundary`] | `string` \| `number` \| `undefined` |  | The lower value boundary; the value must be    greater than this. This value will be ignored if `min` is set. |
+| [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
+| [`options.max`] | `string` \| `number` \| `undefined` |  | The maximum value; the value must be less than or   equal to this. |
+| [`options.maxBoundary`] | `string` \| `number` \| `undefined` |  | The upper value boundary; the value must be   less than this. This value will be ignored if `max` is set. |
+| [`options.min`] | `string` \| `number` \| `undefined` |  | The minimum; the value must be greater than or equal   to this. |
+| [`options.minBoundary`] | `string` \| `number` \| `undefined` |  | The lower value boundary; the value must be   greater than this. This value will be ignored if `min` is set. |
 | [`options.issue`] | `string` | `&quot;&#x27;is out of range&#x27;&quot;` | The issue with the argument. |
 
 **Example**:
@@ -279,15 +281,16 @@ See the [common parameters](#common-parameters) note for additional parameters.
 
 **Example**:
 ```js
-new ArgumentInvalidError() // "Function argument is missing or empty."
-// v yields: "Function 'my-package#foo()' argument is missing or empty."
+new ArgumentInvalidError() // "Function argument is wrong type."
+// v yields: "Function 'my-package#foo()' argument is wrong type."
 new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo'})
-// v yields: "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
+// v yields: "Function 'my-package#foo()' argument with value 'undefined' is wrong type."
 new ArgumentInvalidError({ packageName: 'my-package', functionName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+// v yields: "Function argument is wrong type;"
 ```
 
 <a id="AuthenticationRequiredError"></a>
-#### AuthenticationRequiredError <sup>↱[source code](./src/authentication-required-error.mjs#L11)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### AuthenticationRequiredError <sup>↱[source code](./src/authentication-required-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
@@ -361,9 +364,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. This should    identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer    data'. |
-| [`options.hint`] | `string` \| `undefined` |  | A description of what the user might do to remedy the    situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota    increase.', or 'Try again in a few minutes.' |
-| `options.issue` | `string` |  | = 'current conditions prevent this action' - A description of the problem. E.g.,    'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. This should   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer   data'. |
+| [`options.hint`] | `string` \| `undefined` |  | A description of what the user might do to remedy the   situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota   increase.', or 'Try again in a few minutes.' |
+| [`options.issue`] | `string` | `&quot;&#x27;current conditions prevent this action&#x27;&quot;` | A description of the problem. E.g.,   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'. |
 
 **Example**:
 ```js
@@ -406,7 +409,7 @@ MyError.typeName = myName
 | `options.name` | `string` |  | The name of error. In general, this should match the final class name. |
 | [`options.message`] | `string` | `&quot;&#x27;An error has occurred.&#x27;&quot;` | The error message. |
 | [`options.code`] | `string` \| `undefined` |  | The error code. |
-| [`options.status`] | `number` \| `undefined` |  | The HTTP status associated with the error. If undefined,    this will be automatically set according to the [@link mapErrorToHttpStatus | configured error mappings]. |
+| [`options.status`] | `number` \| `undefined` |  | The HTTP status associated with the error. If undefined,   this will be automatically set according to the [@link mapErrorToHttpStatus | configured error mappings]. |
 | [`options.options`] | `object` \| `undefined` |  | The options to pass to the `Error` super-constructor. |
 
 **Example**:
@@ -433,7 +436,7 @@ Constructor for the [`ConnectionError`](#ConnectionError) class.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.issue`] | `string` | `&quot;_variaus_&quot;` | Typically left `undefined` and determined automatically according to    the error `code`. Describes the specific issue. |
+| [`options.issue`] | `string` | `&quot;_variaus_&quot;` | Typically left `undefined` and determined automatically according to   the error `code`. Describes the specific issue. |
 | [`options.target`] | `string` \| `undefined` |  | The name or description of the connection target. |
 
 **Example**:
@@ -467,7 +470,7 @@ at the function level, while constraint violations result from database constrai
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.constraintType`] | `string` | `&quot;&#x27;constraint&#x27;&quot;` | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity. E.g., 'user'. |
-| [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or      arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+| [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
 
 **Example**:
 ```js
@@ -478,6 +481,36 @@ new ConstraintViolationError({ entityType : 'user' }) // "Constraint on entity t
 new ConstraintViolationError({ constraintType : 'enumeration', entityType : 'user', fieldAndValues : ['email'] })
 // v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
 new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
+```
+
+<a id="DatabaseError"></a>
+#### DatabaseError <sup>↱[source code](./src/database-error.mjs#L10)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+
+Indicates a problem within a database system implementation.
+
+<a id="new_DatabaseError_new"></a>
+##### `new DatabaseError([options])` 
+
+[`DatabaseError`](#DatabaseError) constructor.
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [`options`] | `object` | `{}` | Constructor options. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
+| [`options.errorType`] | `string` | `&quot;&#x27;an error&#x27;&quot;` | A description of the error type. |
+| [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
+| [`options.target`] | `string` | `&quot;&#x27;target&#x27;&quot;` | The name or description of the target resource. |
+
+**Example**:
+```js
+new DatabaseError() // "There an error in the database."
+new DatabaseError({ action : 'syncing' }) // "There was an error syncing the database."
+new DatabaseError({ target : 'customer database' }) // "There was an error in the customer database."
+// v "There was an error creating the customer database."
+new DatabaseError({ action: 'creating', target : 'customer database' })
+// v "There was an error in the customer database; virtual socket closed."
+new DatabaseError({ issue : 'virtual socket closed', target : 'customer database' })
 ```
 
 <a id="DataServiceError"></a>
@@ -501,16 +534,16 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` \| `undefined` |  | The name or short description of the service. |
+| [`options.service`] | `string` | `&quot;&#x27;data&#x27;&quot;` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
 ```js
 new DataServiceError() // There was an error with a remote data service.
-new DataServiceError({ service : 'database' }) // The was an error with the database remote data service.
-// v "There was an error with a remote data service; service is not rot responding.""
+new DataServiceError({ service : 'database' }) // The was an error with the remote database service.
+// v "There was an error with a remote data service; service is not rot responding."
 new DataServiceError({ issue : 'is not responding' })
-// v "There was an error with the database remote data service; service is not rot responding.""
+// v "There was an error with the remote database service; service is not responding."
 new DataServiceError({ service : 'database', issue : 'is not responding' })
 ```
 
@@ -534,8 +567,8 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the    file is located. |
-| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the    value will override `dirPath` and be used to generate the standard message if `message` option not set. |
+| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
+| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the   value will override `dirPath` and be used to generate the standard message if `message` option not set. |
 
 **Example**:
 ```js
@@ -568,11 +601,11 @@ Consider whether any of the following errors might be more precise or better sui
 **Example**:
 ```js
 new EndOfStreamError() // "There was an end-of-stream error."
-new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error while streaming."
-new EndOfStreamError({ target : 'serial port' }) // "There an end-of-stream error while reading the serial port."
-// v "There an end-of-stream error streaming the serial port."
+new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error streaming."
+new EndOfStreamError({ target : 'serial port' }) // "There was an end-of-stream error reading the serial port."
+// v "There was an end-of-stream error streaming the serial port."
 new EndOfStreamError({ action: 'streaming', target : 'serial port' })
-// v "There an end-of-stream error reading the serial port; virtual socket closed."
+// v "There was an end-of-stream error reading the serial port; virtual socket closed."
 new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
 ```
 
@@ -597,7 +630,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` \| `undefined` |  | The name or short description of the service. |
+| [`options.service`] | `string` | `&quot;&#x27;&#x27;&quot;` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
@@ -629,19 +662,18 @@ Consider whether any of the following errors might be more precise or better sui
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` | `&quot;&#x27;loading&#x27;&quot;` | A description of the action being taken. Default to 'loading'. |
-| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the    file is located. |
-| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in    which case `dirPath` should be left undefined) or just the file name, in which case it is combined with    `dirPath`, if present, to create the standard error message. |
+| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
+| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with   `dirPath`, if present, to create the standard error message. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. Should    generally be left in preference for setting `fileName` and/or `filePath`. |
+| [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. Should   generally be left in preference for setting `fileName` and/or `filePath`. |
 
 **Example**:
 ```js
-new FileLoadError() // "There was an error error while loading the file."
-new FileLoadError({ action : 'reading' }) // "There was an error while reading the file."
-new FileLoadError({ fileName : 'foo.txt' }) // "There an error while loading the file 'foo.txt'."
-// v "There an error while loading the file '/bar/foo.txt'."
-new FileLoadError({ dirPath : '/bar', fileName: 'foo.txt' })
-// v "There an error while loading a file in directory '/bar'; virtual socket closed."
+new FileLoadError() // "There was an error loading the file."
+new FileLoadError({ action : 'reading' }) // "There was an error reading the file."
+new FileLoadError({ fileName : 'foo.txt' }) // "There an error loading the file 'foo.txt'."
+new FileLoadError({ dirPath : '/bar', fileName: 'foo.txt' }) // "There an error loading the file '/bar/foo.txt'."
+// v "There an error loading the file in directory '/bar'; virtual socket closed."
 new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
 ```
 
@@ -665,9 +697,9 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the    file is located. |
-| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in    which case `dirPath` should be left undefined) or just the file name, in which case it is combined with    `dirPath`, if present, to create the standard error message. |
-| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the    value will override `fileName` and `dirPath` and be used to generate the standard message if `message` option    not set. |
+| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
+| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with   `dirPath`, if present, to create the standard error message. |
+| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the   value will override `fileName` and `dirPath` and be used to generate the standard message if `message` option   not set. |
 
 **Example**:
 ```js
@@ -697,7 +729,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'reading'    or 'writing'. Defaults to 'accessing'. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'reading'   or 'writing'. Defaults to 'accessing'. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
 | [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. |
 
@@ -726,19 +758,19 @@ side to indicate a failed rollback in an external data service.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;rolling back&#x27;&quot;` | A description of the action being taken. Defaults to 'rolling    back'. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
+| [`options.errorType`] | `string` | `&quot;&#x27;a rollback error&#x27;&quot;` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. |
+| [`option.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
 
 **Example**:
 ```js
-new LocalRollbackError() // "There was an error rollback error."
-new LocalRollbackError({ action : 'attempting rollback' }) // "There was an error while attempting rolling."
-// v "There was an while rolling back the customer database."
-new LocalRollbackError({ target : 'customer database' })
-// v "There was an error while attempting distributed rollback of the customer database."
-new LocalRollbackError({ action: 'attempting distributed rollback of', target : 'customer database' })
-// v "There was an error rolling back the customer database; virtual socket closed."
+new LocalRollbackError() // "There an error in the database."
+new LocalRollbackError({ action : 'updating' }) // "There was a rollback error updating the database."
+new LocalRollbackError({ target : 'customer database' }) // "There was a rollback error in the customer database."
+// v "There was a rollback error updating the customer database."
+new LocalRollbackError({ action: 'updating', target : 'customer database' })
+// v "There was a rollback error in the customer database; virtual socket closed."
 new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
 ```
 
@@ -757,14 +789,15 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',    'creating', etc. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
+| [`options.errorType`] | `string` | `&quot;&#x27;an error&#x27;&quot;` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. |
+| [`options.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
 
 **Example**:
 ```js
 new LocalTransactionError() // "There was a transaction error."
-new LocalTransactionError({ action : 'closing' }) // There was an error closing the transaction.
+new LocalTransactionError({ action : 'closing' }) // "There was an error closing the transaction."
 // v "There was a transaction error on the customer database."
 new LocalTransactionError({ target : 'customer database' })
 // v "There was an error closing the transaction on the customer database."
@@ -798,8 +831,8 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the    file is located. |
-| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the    value will override `dirPath` and be used to generate the standard message if `message` option not set.} |
+| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
+| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the   value will override `dirPath` and be used to generate the standard message if `message` option not set.} |
 
 <a id="NoAccessError"></a>
 #### NoAccessError <sup>↱[source code](./src/no-access-error.mjs#L24)</sup> <sup>⇧[global class index](#global-class-index)</sup>
@@ -829,6 +862,7 @@ Consider whether any of the following errors might be more precise or better sui
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.resource`] | `string` \| `undefined` |  | A description of the resource attempting to be accessed. |
+| [`options.status`] | `number` | `(404 | 409)` | The HTTP status of the error. Should generally be left undefined   so as to be automatically determined according to [@link mapErrorToHttpStatus | configured error mapping]. |
 
 <a id="NoAccessFileError"></a>
 #### NoAccessFileError <sup>↱[source code](./src/no-access-file-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
@@ -855,9 +889,9 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the    file is located. |
-| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in    which case `dirPath` should be left undefined) or just the file name, in which case it is combined with    `dirPath`, if present, to create the standard error message. |
-| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the    value will override `fileName` and `dirPath` and be used to generate the standard message if `message` option    not set. |
+| [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
+| [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with   `dirPath`, if present, to create the standard error message. |
+| [`options.resource`] | `string` \| `undefined` |  | Should usually be left undefined. If set, then the   value will override `fileName` and `dirPath` and be used to generate the standard message if `message` option   not set. |
 
 <a id="NotFoundError"></a>
 #### NotFoundError <sup>↱[source code](./src/not-found-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
@@ -879,6 +913,7 @@ Consider whether any of the following errors might be more precise or better sui
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.resource`] | `string` \| `undefined` |  | The name or short description of the missing resource. |
+| [`options.code`] | `string` | `&quot;&#x27;ENOENT&#x27;&quot;` | The code to use with the error. Should generally be left to the   default. |
 
 <a id="NotImplementedError"></a>
 #### NotImplementedError <sup>↱[source code](./src/not-implemented-error.mjs#L15)</sup> <sup>⇧[global class index](#global-class-index)</sup>
@@ -901,7 +936,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.target`] | `string` \| `undefined` |  | The name of the function, endpoint, service, etc. which    the user is trying to invoke. |
+| [`options.target`] | `string` \| `undefined` |  | The name of the function, endpoint, service, etc. which   the user is trying to invoke. |
 
 **Example**:
 ```js
@@ -932,14 +967,14 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.issue`] | `string` \| `undefined` |  | A short description of the thing which is not supported.    E.g., 'YAML request payloads' or 'asynchronous execution'. |
-| [`options.hint`] | `string` \| `undefined` |  | A short hint to the user as to how they might resolve or    workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous    execution.' |
-| [`options.target`] | `string` \| `undefined` |  | The name of the function, endpoint, service, etc. which    the user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
+| [`options.issue`] | `string` \| `undefined` |  | A short description of the thing which is not supported.   E.g., 'YAML request payloads' or 'asynchronous execution'. |
+| [`options.hint`] | `string` \| `undefined` |  | A short hint to the user as to how they might resolve or   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous   execution.' |
+| [`options.target`] | `string` \| `undefined` |  | The name of the function, endpoint, service, etc. which   the user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
 **Example**:
 ```js
 new NotSupportedError() // "The target does not currently support a requested feature."
-// v "'/some/endpoint' does not currently support some requested feature."
+// v "'/some/endpoint' does not currently support a requested feature."
 new NotSupportedError({ target: '/some/endpoint'})
 // v "'myFunc()' does not currently support RFC 3339 style dates."
 new NotSupportedError({ target: 'myFunc()', issue: 'RFC 3339 style dates' })
@@ -973,6 +1008,17 @@ precise or better suited:
 | [`options.target`] | `string` \| `undefined` |  | The name or short description of the target. |
 | [`options.issue`] | `string` | `&quot;&#x27;is not permitted&#x27;&quot;` | The auth issue. |
 
+**Example**:
+```js
+new OperationNotPermittedError() // "Action is not permitted."
+new OperationNotPermittedError({ action = 'database update' }) // "Database update is not permitted."
+// v "Accessing the customer database is not permitted."
+new OperationNotPermittedError({ target = 'customer database' })
+// v "Updating the customer database is not permitted."
+new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
+new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
+```
+
 <a id="RollbackError"></a>
 #### RollbackError <sup>↱[source code](./src/rollback-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
@@ -995,16 +1041,16 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` \| `undefined` |  | The name or short description of the service. |
+| [`options.service`] | `string` | `&quot;&#x27;data&#x27;&quot;` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
 ```js
-new RollbackError() // There was an rollback error with a remote data service.
-new RollbackError({ service : 'database' }) // The was an rollback error with the database remote data service.
-// v "There was a rollback error with a remote data service; service is not rot responding.""
+new RollbackError() // There was a rollback error with the remote data service.
+new RollbackError({ service : 'database' }) // There was a rollback error with the remote database service.
+// v "There was a rollback error with the remote data service; service is not responding."
 new RollbackError({ issue : 'is not responding' })
-// v "There was a rollback error with the database remote data service; service is not rot responding.""
+// v "There was a rollback error with the database remote data service; service is not rot responding."
 new RollbackError({ service : 'database', issue : 'is not responding' })
 ```
 
@@ -1024,7 +1070,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.resource`] | `string` \| `undefined` |  | The name or short description of the resource which has    run out of memory. |
+| [`options.resource`] | `string` \| `undefined` |  | The name or short description of the resource which has   run out of memory. |
 
 **Example**:
 ```js
@@ -1047,7 +1093,7 @@ Indicates an operation is taking too much time.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.resource`] | `string` \| `undefined` |  | The name or short description of the thing which is    timing out. |
+| [`options.resource`] | `string` \| `undefined` |  | The name or short description of the thing which is   timing out. |
 
 **Example**:
 ```js
@@ -1083,11 +1129,11 @@ Consider whether any of the following errors might be more precise or better sui
 
 **Example**:
 ```js
-new TransactionError() // There was an error with a remote data service.
-new TransactionError({ service : 'database' }) // The was an error with the database remote data service.
-// v "There was an error with a remote data service; service is not rot responding.""
+new TransactionError() // There was a transaction error with the remote data service.
+new TransactionError({ service : 'database' }) // There was a transaction error with the remote database service.
+// v "There was a transaction error with the remote data service; service is not responding."
 new TransactionError({ issue : 'is not responding' })
-// v "There was an error with the database remote data service; service is not rot responding.""
+// v "There was a transaction error with the remote database service; service is not responding."
 new TransactionError({ service : 'database', issue : 'is not responding' })
 ```
 
@@ -1111,9 +1157,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` |  | The constructor options. |
-| [`options.expectedTime`] | `string` | `&quot;{}&quot;` | A short description as to when the resource might be    available. E.g., 'after 1400' or 'in two hours'. |
+| [`options.expectedTime`] | `string` | `&quot;{}&quot;` | A short description as to when the resource might be   available. E.g., 'after 1400' or 'in two hours'. |
 | [`options.issue`] | `string` | `&quot;&#x27;currently unavailable&#x27;&quot;` | - |
-| [`options.target`] | `string` | `&quot;&#x27;target resource&#x27;&quot;` | The name of the function, endpoint, service, etc. which the    user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
+| [`options.target`] | `string` | `&quot;&#x27;target resource&#x27;&quot;` | The name of the function, endpoint, service, etc. which the   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
 **Example**:
 ```js
@@ -1126,7 +1172,7 @@ new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Satu
 ```
 
 <a id="UniqueConstraintViolationError"></a>
-#### UniqueConstraintViolationError <sup>↱[source code](./src/unique-constraint-violation-error.mjs#L11)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### UniqueConstraintViolationError <sup>↱[source code](./src/unique-constraint-violation-error.mjs#L10)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 
@@ -1141,7 +1187,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating vi
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.constraintType`] | `string` | `&quot;&#x27;unique constraint&#x27;&quot;` | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity (e.g., 'user'; optional). |
-| [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or    arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+| [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
 
 **Example**:
 ```js

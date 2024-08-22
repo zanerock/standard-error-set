@@ -69,11 +69,11 @@ const mapHttpStatusToName = (status, name) => { /* eslint-enable jsdoc/check-typ
       delete customMappings[prop]
     }
   }
-  else if (name === undefined) {
-    return customMappings[status] || defaultMappings[status] || 'Unassigned'
-  }
   else if (typeof status === 'object') {
     Object.assign(customMappings, status)
+  }
+  else if (name === undefined) {
+    return customMappings[status] || defaultMappings[status] || 'Unassigned'
   }
   else {
     customMappings[status] = name

@@ -30,17 +30,16 @@ const FileLoadError = class extends IoError {
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
-   * new FileLoadError() // "There was an error error while loading the file."
-   * new FileLoadError({ action : 'reading' }) // "There was an error while reading the file."
-   * new FileLoadError({ fileName : 'foo.txt' }) // "There an error while loading the file 'foo.txt'."
-   * // v "There an error while loading the file '/bar/foo.txt'."
-   * new FileLoadError({ dirPath : '/bar', fileName: 'foo.txt' })
-   * // v "There an error while loading a file in directory '/bar'; virtual socket closed."
+   * new FileLoadError() // "There was an error loading the file."
+   * new FileLoadError({ action : 'reading' }) // "There was an error reading the file."
+   * new FileLoadError({ fileName : 'foo.txt' }) // "There an error loading the file 'foo.txt'."
+   * new FileLoadError({ dirPath : '/bar', fileName: 'foo.txt' }) // "There an error loading the file '/bar/foo.txt'."
+   * // v "There an error loading the file in directory '/bar'; virtual socket closed."
    * new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
    */
   constructor({ name = myName, action = 'loading', ...options } = {}) {
     options.target = options.target || describeFile({ action, ...options })
-    options.message = options.message || generateIoErrorMessage('an error', options)
+    options.message = options.message || generateIoErrorMessage('an', { action, ...options })
     super({ name, action, ...options })
   }
 }

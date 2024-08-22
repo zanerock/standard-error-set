@@ -27,10 +27,20 @@ const OperationNotPermittedError = class extends AuthError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @example
+   * new OperationNotPermittedError() // "Action is not permitted."
+   * new OperationNotPermittedError({ action = 'database update' }) // "Database update is not permitted."
+   * // v "Accessing the customer database is not permitted."
+   * new OperationNotPermittedError({ target = 'customer database' })
+   * // v "Updating the customer database is not permitted."
+   * new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
+   * new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
    */
-  constructor({ name = myName, issue = 'is not permitted', ...options } = {}) {
-    options.message = options.message || generateAuthMessage({ issue, ...options })
-    super({ name, issue, ...options })
+  constructor({ name = myName, action, issue = 'is not permitted', target, ...options } = {}) {
+    if (action === undefined && target !== undefined) {
+      action = 'accessing'
+    }
+    super({ name, action, issue, target, ...options })
   }
 }
 

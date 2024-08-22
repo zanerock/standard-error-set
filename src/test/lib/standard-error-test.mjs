@@ -8,7 +8,9 @@ const standardErrorTest = (TestClass) =>
     expect(error.cause).toBe(expectedCause)
     expect(error.code).toBe(expectedCode)
     for (const parameter of Object.keys(options || {})) {
-      expect(error[parameter]).toBeTruthy()
+      if (!error[parameter]) {
+        throw new Error(`Parameter '${parameter}' not defined.`)
+      }
     }
   }
 

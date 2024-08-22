@@ -32,7 +32,7 @@ const NotSupportedError = class extends CommonError {
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new NotSupportedError() // "The target does not currently support a requested feature."
-   * // v "'/some/endpoint' does not currently support some requested feature."
+   * // v "'/some/endpoint' does not currently support a requested feature."
    * new NotSupportedError({ target: '/some/endpoint'})
    * // v "'myFunc()' does not currently support RFC 3339 style dates."
    * new NotSupportedError({ target: 'myFunc()', issue: 'RFC 3339 style dates' })

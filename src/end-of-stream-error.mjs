@@ -24,11 +24,11 @@ const EndOfStreamError = class extends IoError {
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new EndOfStreamError() // "There was an end-of-stream error."
-   * new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error while streaming."
-   * new EndOfStreamError({ target : 'serial port' }) // "There an end-of-stream error while reading the serial port."
-   * // v "There an end-of-stream error streaming the serial port."
+   * new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error streaming."
+   * new EndOfStreamError({ target : 'serial port' }) // "There was an end-of-stream error reading the serial port."
+   * // v "There was an end-of-stream error streaming the serial port."
    * new EndOfStreamError({ action: 'streaming', target : 'serial port' })
-   * // v "There an end-of-stream error reading the serial port; virtual socket closed."
+   * // v "There was an end-of-stream error reading the serial port; virtual socket closed."
    * new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
    */
   constructor({ name = myName, action = 'reading', ...options } = {}) {
