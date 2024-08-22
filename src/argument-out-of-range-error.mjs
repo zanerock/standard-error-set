@@ -1,12 +1,12 @@
 /* globals ArgumentMissingError ArgumentTypeError CommonError */ // used in docs
 import { ArgumentInvalidError } from './argument-invalid-error'
-import { generateBadArgumentMessage } from './lib/generate-bad-argument-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ArgumentOutOfRangeError'
 
 /**
- * An {@link ArgumentInvalidError} sub-type indicating an argument is of the correct time, but outside the acceptable range.
+ * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is of the correct time, but
+ * outside the  acceptable range. Refer to {@link ArgumentInvalidError} for handling of internal argument errors.
  *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
@@ -19,8 +19,9 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
+   * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
    * @param {string|undefined} [options.packageName = undefined] - The package name.
-   * @param {string|undefined} [options.functionName = undefined] - The function name.
+   * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
@@ -38,14 +39,16 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
    * @example
    * new ArgumentOutOfRangeError() // "Function argument is out of range."
-   * // v yields: "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
-   * new ArgumentOutOfRangeError({ functionName: 'foo', argumentValue: 12, min: 24 })
-   * // v yields: "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
+   * //  "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
+   * new ArgumentOutOfRangeError({ endpointName: 'foo', argumentValue: 12, min: 24 })
+   * //  "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
    * new ArgumentInvalidError({ argumentName: 'bar', argumentValue: 'Bob', min: 'C', maxBoundary: 'D' })
+   * // v "Function argument 'bar' is out of range."
+   * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
   constructor({ name = myName, issue = 'is out of range', ...options } = {}) {
-    options.message = options.message || generateMessage({ issue, ...options })
     super({ name, issue, ...options })
+    this.message += agumentMessage(options)
   }
 }
 
@@ -53,8 +56,8 @@ registerParent(myName, Object.getPrototypeOf(ArgumentOutOfRangeError).name)
 
 ArgumentOutOfRangeError.typeName = myName
 
-const generateMessage = ({ max, maxBoundary, min, minBoundary, ...options }) => {
-  let message = generateBadArgumentMessage(options)
+const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
+  let message = ''
   if (max === undefined || maxBoundary !== undefined || min === undefined || minBoundary !== undefined) {
     message += ' Value must be'
 
