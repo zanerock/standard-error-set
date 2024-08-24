@@ -63,7 +63,7 @@ const augmentMessage = ({ expectedType, receivedType }) => {
   }
 
   if (typeMessage !== '') {
-    typeMessage += ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
+    typeMessage = ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
   }
 
   return typeMessage
