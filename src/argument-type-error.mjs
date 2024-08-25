@@ -28,6 +28,8 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * @param {*} [options.argumentValue = undefined] - The value of the argument; though we recommend to leave this
    *   undefined. The value is generally not important since the type is incorrect.
    * @param {string} [options.issue = 'is wrong type'] - The issue with the argument.
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be
+   *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -40,9 +42,13 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * // v "Function argument 'bar' is wrong type."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
-  constructor({ name = myName, issue = 'is wrong type', ...options } = {}) {
-    super({ name, issue, ...options })
+  constructor({ name = myName, hint, issue = 'is wrong type', ...options } = {}) {
+    super({ name, issue, ...options }) // hint
     this.message += augmentMessage(options)
+    if (hint !== undefined) {
+      this.hint = hint
+      this.message += ' ' + hint
+    }
   }
 }
 

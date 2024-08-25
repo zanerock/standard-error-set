@@ -4,6 +4,7 @@ import { standardErrorTest } from './lib/standard-error-test'
 
 describe('ArgumentOutOfRangeError', () => {
   const causeError = new Error()
+  const toStringObject = { toString : () => 'object!' }
 
   const testData = [
     [undefined, /Command argument is out of range./, 400],
@@ -16,6 +17,7 @@ describe('ArgumentOutOfRangeError', () => {
       /Command 'foo\(\)' argument 'bar' with value '100' is out of range./,
     ],
     [{ argumentType : 'string' }, /^Command argument type 'string' is out of range.$/],
+    [{ hint : 'Do it in range.' }, /is out of range. Do it in range.$/],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [
       { argumentName : 'bar', argumentValue : 5, max : 4 },
@@ -30,6 +32,8 @@ describe('ArgumentOutOfRangeError', () => {
       /argument 'bar' with value '5' is out of range. Value must be greater than or equal to '10'./,
     ],
     [{ maxBoundary : 12 }, /must be less than '12'/],
+    [{ maxBoundary : toStringObject, minBoundary : toStringObject }, /must be greater than 'object!' and less than 'object!'/],
+    [{ max : toStringObject, min : toStringObject }, /must be greater than or equal to 'object!' and less than or equal to 'object!'/],
     [{ endpointType : 'function', argumentName : 'bar' }, /Function argument 'bar'/],
   ]
 

@@ -14,6 +14,7 @@ describe('ArgumentInvalidError', () => {
     [{ argumentType : 'number' }, /^Command argument type 'number' is wrong type.$/],
     [{ receivedType : 'string' }, /Received type 'string'.$/],
     [{ issue : 'is incompatible type' }, /argument is incompatible type/],
+    [{ hint : 'Correct type.' }, /is wrong type. Correct type.$/],
     [{ endpointType : 'function', argumentName : 'bar' }, /Function argument 'bar'/],
     [{ message : 'Foo is bad', cause : causeError, status : 500 }, /Foo is bad/, 500, causeError],
   ]
