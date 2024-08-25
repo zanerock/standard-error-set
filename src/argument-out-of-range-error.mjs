@@ -57,16 +57,24 @@ registerParent(myName, Object.getPrototypeOf(ArgumentOutOfRangeError).name)
 
 ArgumentOutOfRangeError.typeName = myName
 
+const translateValue = (value) => {
+  if (typeof value === 'object') {
+    return value.toString()
+  } // else
+
+  return value
+}
+
 const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
   let message = ''
   if (max !== undefined || maxBoundary !== undefined || min !== undefined || minBoundary !== undefined) {
     message += ' Value must be'
 
     if (min !== undefined) {
-      message += ` greater than or equal to '${min}'`
+      message += ` greater than or equal to '${translateValue(min)}'`
     }
     else if (minBoundary !== undefined) {
-      message += ` greater than '${minBoundary}'`
+      message += ` greater than '${translateValue(minBoundary)}'`
     }
 
     if ((max !== undefined || maxBoundary !== undefined) && (min !== undefined || minBoundary !== undefined)) {
@@ -74,10 +82,10 @@ const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
     }
 
     if (max !== undefined) {
-      message += ` less than or equal to '${max}'`
+      message += ` less than or equal to '${translateValue(max)}'`
     }
     else if (maxBoundary !== undefined) {
-      message += ` less than '${maxBoundary}'`
+      message += ` less than '${translateValue(maxBoundary)}'`
     }
 
     message += '.'
