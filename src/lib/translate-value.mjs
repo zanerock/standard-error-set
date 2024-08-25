@@ -4,7 +4,7 @@ const translateValue = (value) => {
     return '<function>'
   }
   else if (typeOfValue === 'object') {
-    if (value.hasOwnProperty('toString')) {
+    if (Object.hasOwn(value, 'toString')) {
       return value.toString()
     }
     else {

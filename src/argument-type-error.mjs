@@ -28,7 +28,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * @param {*} [options.argumentValue = undefined] - The value of the argument; though we recommend to leave this
    *   undefined. The value is generally not important since the type is incorrect.
    * @param {string} [options.issue = 'is wrong type'] - The issue with the argument.
-   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be 
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be
    *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

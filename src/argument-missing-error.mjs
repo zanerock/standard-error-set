@@ -29,7 +29,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more
    *   specific explanation if you like.
-   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be 
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be
    *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`

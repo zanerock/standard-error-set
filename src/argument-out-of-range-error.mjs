@@ -36,7 +36,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be
    *   greater than this. This value will be ignored if `min` is set.
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
-   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be 
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be
    *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
