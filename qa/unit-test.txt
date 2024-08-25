@@ -1,0 +1,90 @@
+Test git rev: 8878fca3c2aae4258901ed104b502914f6f3ba81
+PASS test/argument-out-of-range-error.test.js
+PASS test/map-error-to-http-status.test.js
+PASS test/argument-invalid-error.test.js
+PASS test/wrap-error.test.js
+PASS test/all-errors-exported.test.js
+PASS test/mask-no-access-errors.test.js
+PASS test/unique-constraint-violation.test.js
+PASS test/rollback-error.test.js
+PASS test/local-rollback-error.test.js
+PASS test/unavailable-error.test.js
+PASS test/operation-not-permitted.test.js
+PASS test/file-load-error.test.js
+PASS test/argument-type-error.test.js
+PASS test/argument-missing-error.test.js
+PASS test/transaction-error.test.js
+PASS test/timeout-error.test.js
+PASS test/local-transaction-error.test.js
+PASS test/end-of-stream-error.test.js
+PASS test/common-error-settings.test.js
+PASS test/authorization-conditions-not-met.test.js
+PASS test/authentication-required-error.test.js
+PASS test/not-supported-error.test.js
+PASS test/not-implemented-error.test.js
+PASS test/map-http-status-to-name.test.js
+PASS test/file-not-found-error.test.js
+PASS test/data-service-error.test.js
+PASS test/no-access-error.test.js
+---------------------------------------------|---------|----------|---------|---------|-------------------
+File                                         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------------------------------|---------|----------|---------|---------|-------------------
+All files                                    |     100 |     90.5 |     100 |     100 |                   
+ src                                         |     100 |    90.71 |     100 |     100 |                   
+  argument-invalid-error.mjs                 |     100 |    96.42 |     100 |     100 | 77                
+  argument-missing-error.mjs                 |     100 |     90.9 |     100 |     100 | 44                
+  argument-out-of-range-error.mjs            |     100 |    92.59 |     100 |     100 | 50                
+  argument-type-error.mjs                    |     100 |    91.66 |     100 |     100 | 43                
+  auth-error.mjs                             |     100 |    86.66 |     100 |     100 | 28                
+  authentication-required-error.mjs          |     100 |     92.3 |     100 |     100 | 27                
+  authorization-conditions-not-met-error.mjs |     100 |    93.33 |     100 |     100 | 46                
+  common-error-settings.mjs                  |     100 |      100 |     100 |     100 |                   
+  common-error.mjs                           |     100 |    84.61 |     100 |     100 | 3,38              
+  connection-error.mjs                       |     100 |       75 |     100 |     100 | 37,49-51          
+  constraint-violation-error.mjs             |     100 |       80 |     100 |     100 | 33                
+  data-service-error.mjs                     |     100 |      100 |     100 |     100 |                   
+  database-error.mjs                         |     100 |    83.33 |     100 |     100 | 34                
+  directory-not-found-error.mjs              |     100 |     92.3 |     100 |     100 | 33                
+  end-of-stream-error.mjs                    |     100 |     92.3 |     100 |     100 | 34                
+  external-service-error.mjs                 |     100 |    76.92 |     100 |     100 | 35-36             
+  file-load-error.mjs                        |     100 |    93.33 |     100 |     100 | 40                
+  file-not-found-error.mjs                   |     100 |     92.3 |     100 |     100 | 40                
+  io-error.mjs                               |     100 |    72.72 |     100 |     100 | 35-36             
+  local-rollback-error.mjs                   |     100 |    81.81 |     100 |     100 | 32                
+  local-transaction-error.mjs                |     100 |    81.81 |     100 |     100 | 33                
+  map-error-to-http-status.mjs               |     100 |      100 |     100 |     100 |                   
+  map-http-status-to-name.mjs                |     100 |    88.88 |     100 |     100 | 76                
+  mask-no-access-errors.mjs                  |     100 |      100 |     100 |     100 |                   
+  no-access-directory-error.mjs              |     100 |     90.9 |     100 |     100 | 34                
+  no-access-error.mjs                        |     100 |      100 |     100 |     100 |                   
+  no-access-file-error.mjs                   |     100 |     90.9 |     100 |     100 | 38                
+  not-found-error.mjs                        |     100 |      100 |     100 |     100 |                   
+  not-implemented-error.mjs                  |     100 |     92.3 |     100 |     100 | 30                
+  not-supported-error.mjs                    |     100 |    93.75 |     100 |     100 | 42                
+  operation-not-permitted-error.mjs          |     100 |    92.85 |     100 |     100 | 38                
+  rollback-error.mjs                         |     100 |     92.3 |     100 |     100 | 37                
+  system-error.mjs                           |     100 |    76.92 |     100 |     100 | 25,35             
+  timeout-error.mjs                          |     100 |     92.3 |     100 |     100 | 22                
+  transaction-error.mjs                      |     100 |     92.3 |     100 |     100 | 37                
+  unavailable-error.mjs                      |     100 |    89.47 |     100 |     100 | 36,47             
+  unique-constraint-violation-error.mjs      |     100 |    81.81 |     100 |     100 | 29                
+  wrap-error.mjs                             |     100 |      100 |     100 |     100 |                   
+ src/lib                                     |     100 |    88.23 |     100 |     100 |                   
+  connection-codes.mjs                       |     100 |      100 |     100 |     100 |                   
+  describe-directory.mjs                     |     100 |      100 |     100 |     100 |                   
+  describe-file.mjs                          |     100 |    81.81 |     100 |     100 | 6-7               
+  generate-auth-message.mjs                  |     100 |      100 |     100 |     100 |                   
+  generate-constraint-message.mjs            |     100 |      100 |     100 |     100 |                   
+  generate-external-service-message.mjs      |     100 |      100 |     100 |     100 |                   
+  generate-io-error-message.mjs              |     100 |       75 |     100 |     100 | 1                 
+  generate-no-access-message.mjs             |     100 |      100 |     100 |     100 |                   
+  generate-not-found-message.mjs             |     100 |      100 |     100 |     100 |                   
+  hoist-error-code.mjs                       |     100 |      100 |     100 |     100 |                   
+  valid-error-names.mjs                      |     100 |    66.66 |     100 |     100 | 1                 
+---------------------------------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 27 passed, 27 total
+Tests:       227 passed, 227 total
+Snapshots:   0 total
+Time:        0.836 s, estimated 1 s
+Ran all test suites.
