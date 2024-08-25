@@ -134,7 +134,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`wrapError()`](#wrapError): Wraps an `Error` in a [`CommonError`](#CommonError).
 
 <a id="ArgumentInvalidError"></a>
-#### ArgumentInvalidError <sup>↱[source code](./src/argument-invalid-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### ArgumentInvalidError <sup>↱[source code](./src/argument-invalid-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates an invalid, typically user supplied argument. By default, this error and any sub-types map to an HTTP
 status of 400 ("Bad Request"). If the status codes are relevant, remember to [
@@ -163,6 +163,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
+| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -207,6 +208,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more   specific explanation if you like. |
+| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -220,7 +222,7 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentOutOfRangeError"></a>
-#### ArgumentOutOfRangeError <sup>↱[source code](./src/argument-out-of-range-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### ArgumentOutOfRangeError <sup>↱[source code](./src/argument-out-of-range-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but
 outside the  acceptable range. Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
@@ -252,6 +254,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.min`] | `string` \| `number` \| `undefined` |  | The minimum; the value must be greater than or equal   to this. |
 | [`options.minBoundary`] | `string` \| `number` \| `undefined` |  | The lower value boundary; the value must be   greater than this. This value will be ignored if `min` is set. |
 | [`options.issue`] | `string` | `&quot;&#x27;is out of range&#x27;&quot;` | The issue with the argument. |
+| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -294,6 +297,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.receivedType`] | `string` \| `undefined` |  | The actual type of the argument. |
 | [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
 | [`options.issue`] | `string` | `&quot;&#x27;is wrong type&#x27;&quot;` | The issue with the argument. |
+| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
