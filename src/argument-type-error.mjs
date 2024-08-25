@@ -54,6 +54,7 @@ const augmentMessage = ({ receivedType }) => {
   if (receivedType !== undefined) {
     return ` Received type '${receivedType}'.`
   } // else
+
   return ''
 }
 
