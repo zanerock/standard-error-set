@@ -1,6 +1,7 @@
 /* globals ArgumentMissingError ArgumentOutOfRangeError ArgumentTypeError mapErrorToHttpStatus */
 import { CommonError } from './common-error'
 import { registerParent } from './map-error-to-http-status'
+import { translateValue } from './lib/translate-value'
 
 const myName = 'ArgumentInvalidError'
 
@@ -28,6 +29,8 @@ const ArgumentInvalidError = class extends CommonError {
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is invalid'] - The issue with the argument.
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be 
+   *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -52,7 +55,16 @@ registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 
 ArgumentInvalidError.typeName = myName
 
-const generateMessage = ({ endpointType, packageName, endpointName, argumentName, argumentType, argumentValue, issue }) => {
+const generateMessage = ({ 
+  endpointType, 
+  packageName, 
+  endpointName, 
+  argumentName, 
+  argumentType, 
+  argumentValue, 
+  hint, 
+  issue 
+}) => {
   let message = endpointType.charAt(0).toUpperCase() + endpointType.slice(1) + ' '
   if (packageName !== undefined) {
     message += endpointName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
@@ -68,19 +80,13 @@ const generateMessage = ({ endpointType, packageName, endpointName, argumentName
     message += `type '${argumentType}' `
   }
   if (argumentValue !== undefined) {
-    message += 'with value '
-    if (typeof argumentValue === 'function') {
-      message += '<function> '
-    }
-    else {
-      try {
-        const valueString = argumentValue = typeof argumentValue === 'object' ? JSON.stringify(argumentValue) : argumentValue
-        message += `'${valueString}' `
-      }
-      catch (e) {}
-    }
+    message += `with value '${translateValue(argumentValue)}' `
   }
   message += `${issue}.`
+
+  if (hint !== undefined) {
+    message += ' ' + hint
+  }
 
   return message
 }

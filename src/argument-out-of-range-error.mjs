@@ -1,6 +1,7 @@
 /* globals ArgumentMissingError ArgumentTypeError CommonError */ // used in docs
 import { ArgumentInvalidError } from './argument-invalid-error'
 import { registerParent } from './map-error-to-http-status'
+import { translateValue } from './lib/translate-value'
 
 const myName = 'ArgumentOutOfRangeError'
 
@@ -35,6 +36,8 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be
    *   greater than this. This value will be ignored if `min` is set.
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
+   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be 
+   *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -47,23 +50,19 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * // v "Function argument 'bar' is out of range."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
-  constructor({ name = myName, issue = 'is out of range', ...options } = {}) {
-    super({ name, issue, ...options })
+  constructor({ name = myName, hint, issue = 'is out of range', ...options } = {}) {
+    super({ name, issue, ...options }) // hint
     this.message += agumentMessage(options)
+    if (hint !== undefined) {
+      this.hint = hint
+      this.message += ' ' + hint
+    }
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(ArgumentOutOfRangeError).name)
 
 ArgumentOutOfRangeError.typeName = myName
-
-const translateValue = (value) => {
-  if (typeof value === 'object') {
-    return value.toString()
-  } // else
-
-  return value
-}
 
 const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
   let message = ''
