@@ -24,6 +24,7 @@ const ArgumentInvalidError = class extends CommonError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is invalid'] - The issue with the argument.
@@ -51,7 +52,7 @@ registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 
 ArgumentInvalidError.typeName = myName
 
-const generateMessage = ({ endpointType, packageName, endpointName, argumentName, argumentValue, issue }) => {
+const generateMessage = ({ endpointType, packageName, endpointName, argumentName, argumentType, argumentValue, issue }) => {
   let message = endpointType.charAt(0).toUpperCase() + endpointType.slice(1) + ' '
   if (packageName !== undefined) {
     message += endpointName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
@@ -63,14 +64,18 @@ const generateMessage = ({ endpointType, packageName, endpointName, argumentName
   if (argumentName !== undefined) {
     message += `'${argumentName}' `
   }
+  if (argumentType !== undefined) {
+    message += `type '${argumentType}' `
+  }
   if (argumentValue !== undefined) {
+    message += 'with value '
     if (typeof argumentValue === 'function') {
-      message += 'of type function or class '
+      message += '<function> '
     }
     else {
       try {
         const valueString = argumentValue = typeof argumentValue === 'object' ? JSON.stringify(argumentValue) : argumentValue
-        message += `with value '${valueString}' `
+        message += `'${valueString}' `
       }
       catch (e) {}
     }

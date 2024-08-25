@@ -49,7 +49,7 @@ import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
 const myFunc = ({ arg }) => {
   const typeofArg = typeof arg
   if (typeofArg !== 'string') {
-    throw new ArgumentTypeError({ argumentName : 'arg', expectedType : 'string', receivedType : typeofArg })
+    throw new ArgumentTypeError({ argumentName : 'arg', argumentType : 'string', receivedType : typeofArg })
   }
 }
 ```

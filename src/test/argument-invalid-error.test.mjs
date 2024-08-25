@@ -15,6 +15,7 @@ describe('ArgumentInvalidError', () => {
       { endpointName : 'foo', argumentName : 'bar', argumentValue : 100 },
       /Command 'foo\(\)' argument 'bar' with value '100' is invalid./,
     ],
+    [{ argumentType: 'string' }, /Command argument type 'string' is invalid./],
     [{ message : 'Foo is bad', status : 401 }, /Foo is bad/, 401],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [{ endpointName : 'foo', cause : causeError, status : 401 }, /Command 'foo\(\)'/, 401, causeError],

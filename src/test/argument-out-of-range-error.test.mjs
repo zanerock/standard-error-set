@@ -15,6 +15,7 @@ describe('ArgumentOutOfRangeError', () => {
       { endpointName : 'foo', argumentName : 'bar', argumentValue : 100 },
       /Command 'foo\(\)' argument 'bar' with value '100' is out of range./,
     ],
+    [{ argumentType: 'string' }, /^Command argument type 'string' is out of range.$/],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [
       { argumentName : 'bar', argumentValue : 5, max : 4 },

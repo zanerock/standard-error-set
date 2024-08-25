@@ -49,7 +49,7 @@ import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
 const myFunc = ({ arg }) => {
   const typeofArg = typeof arg
   if (typeofArg !== 'string') {
-    throw new ArgumentTypeError({ argumentName : 'arg', expectedType : 'string', receivedType : typeofArg })
+    throw new ArgumentTypeError({ argumentName : 'arg', argumentType : 'string', receivedType : typeofArg })
   }
 }
 ```
@@ -160,6 +160,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
+| [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
 
@@ -203,6 +204,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
+| [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more   specific explanation if you like. |
 
@@ -243,6 +245,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
+| [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.max`] | `string` \| `number` \| `undefined` |  | The maximum value; the value must be less than or   equal to this. |
 | [`options.maxBoundary`] | `string` \| `number` \| `undefined` |  | The upper value boundary; the value must be   less than this. This value will be ignored if `max` is set. |
@@ -287,9 +290,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
-| [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
-| [`options.expectedType`] | `string` \| `undefined` |  | The expected type of the argument. |
+| [`options.argumentType`] | `string` \| `undefined` |  | The (expected) argument type. |
 | [`options.receivedType`] | `string` \| `undefined` |  | The actual type of the argument. |
+| [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
 | [`options.issue`] | `string` | `&quot;&#x27;is wrong type&#x27;&quot;` | The issue with the argument. |
 
 **Example**:
