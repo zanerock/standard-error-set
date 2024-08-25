@@ -24,6 +24,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more

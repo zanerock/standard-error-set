@@ -23,6 +23,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string|number|undefined} [options.max = undefined] - The maximum value; the value must be less than or
@@ -58,7 +59,7 @@ ArgumentOutOfRangeError.typeName = myName
 
 const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
   let message = ''
-  if (max === undefined || maxBoundary !== undefined || min === undefined || minBoundary !== undefined) {
+  if (max !== undefined || maxBoundary !== undefined || min !== undefined || minBoundary !== undefined) {
     message += ' Value must be'
 
     if (min !== undefined) {

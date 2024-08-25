@@ -23,10 +23,10 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.packageName = undefined] - The package name.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
+   * @param {string|undefined} [options.argumentType = undefined] - The (expected) argument type.
+   * @param {string|undefined} [options.receivedType = undefined] - The actual type of the argument.
    * @param {*} [options.argumentValue = undefined] - The value of the argument; though we recommend to leave this
    *   undefined. The value is generally not important since the type is incorrect.
-   * @param {string|undefined} [options.expectedType = undefined] - The expected type of the argument.
-   * @param {string|undefined} [options.receivedType = undefined] - The actual type of the argument.
    * @param {string} [options.issue = 'is wrong type'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
@@ -50,23 +50,12 @@ registerParent(myName, Object.getPrototypeOf(ArgumentTypeError).name)
 
 ArgumentTypeError.typeName = myName
 
-const augmentMessage = ({ expectedType, receivedType }) => {
-  let typeMessage = ''
-  if (expectedType !== undefined) {
-    typeMessage = `expected type '${expectedType}'`
-  }
+const augmentMessage = ({ receivedType }) => {
   if (receivedType !== undefined) {
-    if (expectedType) {
-      typeMessage += ', but '
-    }
-    typeMessage += `received type '${receivedType}'`
-  }
+    return ` Received type '${receivedType}'.`
+  } // else
 
-  if (typeMessage !== '') {
-    typeMessage = ' ' + typeMessage.charAt(0).toUpperCase() + typeMessage.slice(1) + '.'
-  }
-
-  return typeMessage
+  return ''
 }
 
 export { ArgumentTypeError }
