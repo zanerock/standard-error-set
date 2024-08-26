@@ -1094,7 +1094,8 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.resource`] | `string` \| `undefined` |  | The name or short description of the resource which has   run out of memory. |
+| [`options.issue`] | `string` | `&quot;&#x27;has experienced a system error&#x27;&quot;` | A description of the error. |
+| [`options.resource`] | `string` | `&quot;&#x27;process&#x27;&quot;` | The name or short description of the resource where the error   occurred. |
 
 **Example**:
 ```js

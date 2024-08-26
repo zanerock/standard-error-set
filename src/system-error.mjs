@@ -12,8 +12,9 @@ const SystemError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.resource = undefined] - The name or short description of the resource which has
-   *   run out of memory.
+   * @param {string} [options.issue = 'has experienced a system error'] - A description of the error.
+   * @param {string} [options.resource = 'process'] - The name or short description of the resource where the error
+   *   occurred.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -22,17 +23,14 @@ const SystemError = class extends CommonError {
    * // v "The application has experienced a stack overflow."
    * new SystemError({ resource: 'application'})
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
-    super({ name, ...options })
+  constructor({ name = myName, issue = 'has experienced a system error', resource = 'the process', ...options } = {}) {
+    options.message = options.message || `${resource.charAt(0).toUpperCase() + resource.slice(1)} ${issue}.`
+    super({ name, issue, resource, ...options })
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(SystemError).name)
 
 SystemError.typeName = myName
-
-const generateMessage = ({ resource = 'process' }) =>
-  `The ${resource} has experienced a system error.`
 
 export { SystemError }
