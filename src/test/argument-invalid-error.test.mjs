@@ -4,6 +4,8 @@ import { standardErrorTest } from './lib/standard-error-test'
 
 describe('ArgumentInvalidError', () => {
   const causeError = new Error()
+  const circularArgument = { a : {} }
+  circularArgument.a.a = circularArgument.a
 
   const testData = [
     [undefined, /Command argument is invalid./, 400],
@@ -51,9 +53,10 @@ describe('ArgumentInvalidError', () => {
       /Command 'my-package#foo\(\)' argument 'bar' is invalid./,
     ],
     [{ endpointType : 'function', argumentName : 'bar' }, /Function argument 'bar'/],
+    [{ argumentValue : circularArgument }, /value '\[object Object\]'/], // Test fallback to inherited '.toString()'
   ]
 
-  test.each(completeTestData({
+  test.only.each(completeTestData({
     testData,
     defaultStatus : 400,
   }))('Options %p => message %s and status %s', standardErrorTest(ArgumentInvalidError))
