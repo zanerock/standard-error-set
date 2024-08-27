@@ -6,19 +6,21 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 ## Features
 
 - Set of expressive, semantic [error classes](#api-reference).
-- Built in, [configurable HTTP status codes and names](#mapErrorToHttpStatus).
-- Standard, parameterized or custom messages.
-- [Automated wrapping](#wrapError) of standard `Error` classes and codes.
+- Built in, [configurable HTTP status codes](#mapErrorToHttpStatus) and [names](#mapHttpStatusToName).
+- All classes support standard, parameterized [constructed](#message-construction) and full custom messages.
+- [Automatically wrap](#wrapError) standard `Error` classes and codes in semantically strong `Error`s.
+- One-line [re-throw testing](#rethrowIf).
 
 ## Table of contents
 
 - [Features](#features)
 - [Install](#install)
-- [Usage](#usage)
+- [Usage and use cases](#usage-and-use-cases)
 - [API](#api)
   - [Common parameters](#common-parameters)
   - [Common Instance fields](#instance-fields)
   - [Error code hoisting](#error-code-hoisting)
+  - [Message construction](#message-construction)
   - [API reference](#api-reference)
 - [Presenting errors to users](#presenting-errors-to-users)
 
@@ -28,8 +30,37 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 npm i @liquid-labs/common-errors
 ```
 
-## Usage
+## Usage and use cases
 
+__Create semantically precise errors for better error handling__:
+```js
+import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
+// const { ArgumentTypeError } = require('@liquid-labs/common-error') // CJS
+
+const parseArgs = ({ arg = process.argv }) => {
+  const typeofArg = typeof arg
+  if (typeofArg !== 'string') {
+    throw new ArgumentTypeError({ argumentName : 'arg', argumentType : 'string', receivedType : typeofArg })
+  }
+  ...
+  return options
+}
+```
+
+__Quickly [test and re-throw errors](#rethrowIf)__:
+```js
+try {
+  parseArgs()
+}
+catch (e) {
+  // let non-ArgumentInvalidErrors bubble up
+  rethrowIf(e, { notInstanceOf: [ArgumentInvalidError] })
+  // handle user input/argument errors:
+  process.stdout.write(`ERROR: ${e.message}\n`)
+}
+```
+
+__[Wrap many standard errors in semantically strong error types](#wrapError)__:
 ```js
 import { wrapError } from '@liquid-labs/common-error' // ESM
 // const { wrapError } = require('@liquid-labs/common-error') // CJS
@@ -38,19 +69,7 @@ try {
   await fetch('www.foo.com')
 }
 catch (e) {
-  throw wrapError(e)[0]
-}
-```
-
-```js
-import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
-// const { ArgumentTypeError } = require('@liquid-labs/common-error') // CJS
-
-const myFunc = ({ arg }) => {
-  const typeofArg = typeof arg
-  if (typeofArg !== 'string') {
-    throw new ArgumentTypeError({ argumentName : 'arg', argumentType : 'string', receivedType : typeofArg })
-  }
+  throw wrapError(e)[0] // throws type specific based on e.code
 }
 ```
 
@@ -61,30 +80,37 @@ const myFunc = ({ arg }) => {
 The following option parameters are accepted by all [`CommonError`](#CommonError) error constructors. We document them here to save space and avoid repeating them for each error class. They are all optional.
 
 - `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
+- `hint` (`string`|`undefined`): Optional hint regarding how to rectify the error. This should be a complete sentence and, if defined, will be appended to the `message` (whether defined directly or constructed).
 - `message` (`string`|`undefined`): All [`CommonError`](#CommonError) classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All [`CommonError`](#CommonError) classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with [`mapErrorToHttpStatus`](#mapErrorToHttpStatus). This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
-### Common nstance fields
+### Instance fields
 
-All [`CommonError`s](#CommonError) provide the following instance fields:
+All option parameters passed to any [`CommonError`](#CommonError) (or sub-class) constructor are captured as instance fields. E.g.: 
+```js
+const error = new ArgumentInvalidError({ argumentName: 'foo' })
+// sets: error.argumentName = 'foo'
+```
 
-- `cause` (`Error`|`undefined`): The error that caused this error, if any.
-- `code` (`string`|`undefined`): The code (such as 'ENOENT') associated with this error.
-- `message` (`string`): The error message.
-- `status` (`number`): The HTTP status code.
-- `statusName` (`string`): The HTTP status name.
+All `CommonError` and sub-class instances will set `message`, `status`, and `statusName`. `statusName` is always determined by the `status` (which is either explicitly set or [determined by the error type](#mapErrorToHttpStatus)) and the current [status to name mapping](#mapHttpStatusToName).
 
-In addition to this, all parameters passed to a `CommonError` constructor will be saved as a member field. E.g., [` FileNotFoundError`](#FileNotFoundError) provides fields `dirPath` and `fileName`.
+### Message construction
+
+All [`CommonError`](#CommonError) and `CommonError` sub-classes support parameterized message construction. That is, they will generate a standard message based on class specific parameters unless `message` is explicitly specified on the constructor options. Refer to the class documentation for parameter definition and message examples.
+
+- All non-[common parameter](#common-parameters) constructor options are used in message construction. Since common parameters are not included in class documentation, all parameters in the [class documentation](#global-class-index) are used in generating a constructed message. Refer to class documentation for example constructed messages.
+- All construction parameters are optional and all `CommonError` and sub-classes will generate a class specific (but otherwise generic) message if given no options.
+- All constructors take the `hint` option, which, if specified, will be appended to the `message` (whether constructed or specified).
 
 ### Error code hoisting
 
-When the creation option `cause` is an `Error` and defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless the `code` or `noHoistCode` option is set to `true`. E.g.:
+When the `cause` constructor option defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless overridden by setting the `code` option or by setting the `noHoistCode` option to `true`. E.g.:
 ```js
 const cause = new Error()
-exampleError.code = 'ENOENT'
+cause.code = 'ENOENT'
 const hoistError = new CommonError({ cause }) // hoistError.code === 'ENOENT'
 const codeError = new CommonError({ cause, code: 'EISDIR' }) // codeError.code === 'EISDIR'
-const noHoistError = new CommonError({ cause, noHoistError : true }) // noHoistError.code === undefined
+const noHoistError = new CommonError({ cause, noHoistCode : true }) // noHoistError.code === undefined
 ```
 
 ###  API reference
@@ -131,6 +157,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
   - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
+  - [`rethrowIf()`](#rethrowIf): One liner to test and re-throw errors if any conditions are met.
   - [`wrapError()`](#wrapError): Wraps an `Error` in a [`CommonError`](#CommonError).
 
 <a id="ArgumentInvalidError"></a>
@@ -163,7 +190,6 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
-| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -208,7 +234,6 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
 | [`options.issue`] | `string` | `&quot;&#x27;is missing or empty&#x27;&quot;` | The issue with the argument. You can pass in a more   specific explanation if you like. |
-| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -254,7 +279,6 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.min`] | `string` \| `number` \| `undefined` |  | The minimum; the value must be greater than or equal   to this. |
 | [`options.minBoundary`] | `string` \| `number` \| `undefined` |  | The lower value boundary; the value must be   greater than this. This value will be ignored if `min` is set. |
 | [`options.issue`] | `string` | `&quot;&#x27;is out of range&#x27;&quot;` | The issue with the argument. |
-| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -297,7 +321,6 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.receivedType`] | `string` \| `undefined` |  | The actual type of the argument. |
 | [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
 | [`options.issue`] | `string` | `&quot;&#x27;is wrong type&#x27;&quot;` | The issue with the argument. |
-| [`options.hint`] | `string` \| `undefined` |  | Optional hint re rectifying argument issue. This should be   a complete sentence if defined. |
 
 **Example**:
 ```js
@@ -430,6 +453,7 @@ MyError.typeName = myName
 | `options.name` | `string` |  | The name of error. In general, this should match the final class name. |
 | [`options.message`] | `string` | `&quot;&#x27;An error has occurred.&#x27;&quot;` | The error message. |
 | [`options.code`] | `string` \| `undefined` |  | The error code. |
+| [`options.hint`] | `string` \| `undefined` |  | Optional hint regarding rectifying the error. |
 | [`options.status`] | `number` \| `undefined` |  | The HTTP status associated with the error. If undefined,   this will be automatically set according to the [@link mapErrorToHttpStatus | configured error mappings]. |
 | [`options.options`] | `object` \| `undefined` |  | The options to pass to the `Error` super-constructor. |
 
@@ -1294,6 +1318,29 @@ don't have access to. I.e., if a user tries to access a resource they are not pe
 so and developers _should_ continue to use [`NoAccessError`](#NoAccessError)s where the problem is actually access. In
 production systems, the [presentation of errors to the users](#presenting-errors-to-users) should not indicate the
 underlying type.
+
+<a id="rethrowIf"></a>
+#### `rethrowIf([error], [options])` ⇒ `Error` \| `undefined` <sup>↱[source code](./src/rethrow-if.mjs#L28)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+
+One liner to test and re-throw errors if any conditions are met.
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [`error`] | `Error` \| `undefined` |  | The `Error` to test against and possibly re-throw. |
+| [`options`] | `object` | `{}` | The set of conditions to test against. If any of the conditions test true, then the   `error` is re-thrown. |
+| [`options.codeIs`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _any_ of the   listed codes. |
+| [`options.codeIsNot`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _not any_ of   the listed codes. |
+| [`options.instanceOf`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is an instance   of _any_ of the listed classes. |
+| [`options.instanceOfNot`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is not an   instance of _any_ of the listed classes. |
+| [`options.statusGt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than_ the specified status. |
+| [`options.statusGte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than or equal_ to the  specified status. |
+| [`options.statusLt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is _less   than_ the specified status. |
+| [`options.statusLte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is _less   than or equal_ to the  specified status. |
+| [`options.statusIs`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined and   _any_ of the specified statuses. |
+| [`options.statusIsNot`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined and   _not any_ of the specified statuses. |
+
+**Returns**: `Error` \| `undefined` - - If the function does not throw, it returns the `error`.
 
 <a id="wrapError"></a>
 #### `wrapError(error, options)` ⇒ `Array.<Error, boolean>` <sup>↱[source code](./src/wrap-error.mjs#L47)</sup> <sup>⇧[global function index](#global-function-index)</sup>
