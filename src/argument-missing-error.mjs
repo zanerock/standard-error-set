@@ -29,8 +29,6 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is missing or empty'] - The issue with the argument. You can pass in a more
    *   specific explanation if you like.
-   * @param {string|undefined} [options.hint = undefined] - Optional hint re rectifying argument issue. This should be
-   *   a complete sentence if defined.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -43,12 +41,8 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * // v "Function argument 'bar' is missing or empty."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
-  constructor({ name = myName, hint, issue = 'is missing or empty', ...options } = {}) {
-    super({ name, issue, ...options }) // no hint
-    if (hint !== undefined) {
-      this.message += ' ' + hint
-      this.hint = hint
-    }
+  constructor({ name = myName, issue = 'is missing or empty', ...options } = {}) {
+    super({ name, issue, ...options })
   }
 }
 
