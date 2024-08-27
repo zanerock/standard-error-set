@@ -6,6 +6,7 @@ const nonErrorExports = [
   'mapErrorToHttpStatus',
   'mapHttpStatusToName',
   'registerParent',
+  'rethrowIf',
   'wrapError',
 ]
 
