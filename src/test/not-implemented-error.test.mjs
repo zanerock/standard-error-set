@@ -8,11 +8,11 @@ describe('NotImplementedError', () => {
   const testData = [
     [undefined, /Action not currently implemented./],
     [
-      { target: '/some/url/endpoint' },
+      { target : '/some/url/endpoint' },
       /'\/some\/url\/endpoint' is not currently implemented./,
     ],
     [
-      { message: 'Foo is bad', cause: causeError, status: 400 },
+      { message : 'Foo is bad', cause : causeError, status : 400 },
       /Foo is bad/,
       400,
       causeError,
@@ -22,7 +22,7 @@ describe('NotImplementedError', () => {
   test.each(
     completeTestData({
       testData,
-      defaultStatus: 500,
+      defaultStatus : 500,
     })
   )(
     'Options %p => message %s and status %s',

@@ -12,13 +12,13 @@ describe('CommonError', () => {
     })
 
     test("respects 'noHoistCode' option", () => {
-      const commonError = new CommonError({ cause, noHoistCode: true })
+      const commonError = new CommonError({ cause, noHoistCode : true })
       expect(commonError.code).toBe(undefined)
     })
 
     test("respects explicit 'code' override", () => {
       const myCode = 'EFOO'
-      const commonError = new CommonError({ cause, code: myCode })
+      const commonError = new CommonError({ cause, code : myCode })
       expect(commonError.code).toBe(myCode)
     })
   })

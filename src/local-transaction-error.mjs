@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalTransactionError'
 const defaultErrorType = 'a transaction error'
-const myDefaults = { errorType: defaultErrorType }
+const myDefaults = { errorType : defaultErrorType }
 
 /**
  * An {@link DatabaseError} indicating a problem creating or otherwise involving a transaction within a database system

@@ -6,7 +6,7 @@ import { translateValue } from './lib/translate-value'
 
 const myName = 'ArgumentOutOfRangeError'
 const defaultIssue = 'is out of range'
-const myDefaults = { issue: defaultIssue }
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is of the correct time, but
@@ -87,29 +87,31 @@ const agumentMessage = (options) => {
   const includeMinBoundary = includeParameterInMessage('minBoundary', options)
 
   if (
-    includeMax === true ||
-    includeMin === true ||
-    includeMaxBoundary === true ||
-    includeMinBoundary === true
+    includeMax === true
+    || includeMin === true
+    || includeMaxBoundary === true
+    || includeMinBoundary === true
   ) {
     message += ' Value must be'
 
     if (includeMin === true) {
       message += ` greater than or equal to '${translateValue(min)}'`
-    } else if (includeMinBoundary === true) {
+    }
+    else if (includeMinBoundary === true) {
       message += ` greater than '${translateValue(minBoundary)}'`
     }
 
     if (
-      (includeMax === true || includeMaxBoundary === true) &&
-      (includeMin === true || includeMinBoundary === true)
+      (includeMax === true || includeMaxBoundary === true)
+      && (includeMin === true || includeMinBoundary === true)
     ) {
       message += ' and'
     }
 
     if (includeMax === true) {
       message += ` less than or equal to '${translateValue(max)}'`
-    } else if (includeMaxBoundary === true) {
+    }
+    else if (includeMaxBoundary === true) {
       message += ` less than '${translateValue(maxBoundary)}'`
     }
 

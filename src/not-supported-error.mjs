@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NotSupportedError'
 const defaultMissingFeature = 'a requested feature'
-const myDefaults = { missingFeature: defaultMissingFeature }
+const myDefaults = { missingFeature : defaultMissingFeature }
 
 /**
  * An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
@@ -50,8 +50,8 @@ const NotSupportedError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateMessage({ missingFeature, ...options }, defaults)
+      options.message
+      || generateMessage({ missingFeature, ...options }, defaults)
     super({ name, missingFeature, ...options }, defaults)
   }
 }

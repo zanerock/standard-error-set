@@ -13,8 +13,8 @@ import { getCommonErrorSetting } from './get-common-error-setting'
 const includeParameterInMessage = (parameterName, options) => {
   const parameterValue = options[parameterName]
   if (
-    parameterValue === undefined ||
-    (Array.isArray(parameterValue) && parameterValue.length === 0)
+    parameterValue === undefined
+    || (Array.isArray(parameterValue) && parameterValue.length === 0)
   ) {
     return false // the parameter isn't defined, so we can ignore it based on that
   }

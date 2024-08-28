@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'AuthError'
 const defaultAction = 'action'
 const defaultIssue = 'is not authorized'
-const myDefaults = { action: defaultAction, issue: defaultIssue }
+const myDefaults = { action : defaultAction, issue : defaultIssue }
 
 /**
  * A generic error indicating a problem with user authentication or authorization. `AuthError` should generally not be
@@ -45,8 +45,8 @@ const AuthError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateAuthMessage({ action, issue, ...options }, defaults)
+      options.message
+      || generateAuthMessage({ action, issue, ...options }, defaults)
     super({ name, action, issue, ...options }, defaults)
   }
 }

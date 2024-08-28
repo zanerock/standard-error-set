@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'OperationNotPermittedError'
 const defaultIssue = 'is not permitted'
-const myDefaults = { issue: defaultIssue } // the default action is determined dynamically
+const myDefaults = { issue : defaultIssue } // the default action is determined dynamically
 
 /**
  * An {@link AuthError} indicating the user lacks authorization to perform some operation. This is most appropriate

@@ -7,21 +7,21 @@ describe('EndOfStreamError', () => {
 
   const testData = [
     [undefined, /There was an end-of-stream error./],
-    [{ action: 'streaming' }, /There was an end-of-stream error streaming./],
+    [{ action : 'streaming' }, /There was an end-of-stream error streaming./],
     [
-      { target: 'serial port' },
+      { target : 'serial port' },
       /There was an end-of-stream error reading the serial port./,
     ],
     [
-      { action: 'streaming', target: 'serial port' },
+      { action : 'streaming', target : 'serial port' },
       /There was an end-of-stream error streaming the serial port./,
     ],
     [
-      { issue: 'virtual socket closed', target: 'serial port' },
+      { issue : 'virtual socket closed', target : 'serial port' },
       /There was an end-of-stream error reading the serial port; virtual socket closed./,
     ],
     [
-      { message: 'Foo is bad', cause: causeError, status: 400 },
+      { message : 'Foo is bad', cause : causeError, status : 400 },
       /Foo is bad/,
       400,
       causeError,
@@ -31,7 +31,7 @@ describe('EndOfStreamError', () => {
   test.each(
     completeTestData({
       testData,
-      defaultStatus: 500,
+      defaultStatus : 500,
     })
   )(
     'Options %p => message %s and status %s',

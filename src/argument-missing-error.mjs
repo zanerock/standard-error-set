@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ArgumentMissingError'
 const defaultIssue = 'is missing or empty'
-const myDefaults = { issue: defaultIssue }
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link ArgumentInvalidError} sub-type indicating a argument is missing or empty which by default is interpreted
@@ -72,9 +72,9 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
       ignoreForMessage.includes('issue') || ignoreForMessage.includes('all')
     // if user explicitly sets 'issue' 'undefined', then we fall through to using the default issue message
     if (
-      issue === undefined &&
-      !Object.hasOwn(options, 'issue') &&
-      ignoreIssue === false
+      issue === undefined
+      && !Object.hasOwn(options, 'issue')
+      && ignoreIssue === false
     ) {
       if (Object.hasOwn(options, 'argumentValue')) {
         const value = options.argumentValue
@@ -91,8 +91,8 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
                     ? "is an empty object ('{}')"
                     : defaultIssue
         if (
-          options.issue !== defaultIssue &&
-          options.ignoreForMessage === undefined
+          options.issue !== defaultIssue
+          && options.ignoreForMessage === undefined
         ) {
           // If user hasn't specified ignoreForMessage, then we default to ignoring argumentValue, which is now
           // redundant.

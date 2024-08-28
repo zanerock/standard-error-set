@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'RollbackError'
 const defaultService = 'data'
-const myDefaults = { service: defaultService }
+const myDefaults = { service : defaultService }
 
 /**
  * A {@link DataServiceError} relating to a failed rollback attempt on an external data service. Use {@link
@@ -44,8 +44,8 @@ const RollbackError = class extends DataServiceError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateExternalServiceMessage(
+      options.message
+      || generateExternalServiceMessage(
         'a rollback',
         { service, ...options },
         options

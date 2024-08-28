@@ -5,9 +5,9 @@ import { standardErrorTest } from './lib/standard-error-test'
 describe('FileNotFoundError', () => {
   const testData = [
     [undefined, /File not found./],
-    [{ fileName: 'foo.txt' }, /File 'foo.txt' not found./],
+    [{ fileName : 'foo.txt' }, /File 'foo.txt' not found./],
     [
-      { fileName: 'foo.txt', dirPath: '/some/dir' },
+      { fileName : 'foo.txt', dirPath : '/some/dir' },
       /File '\/some\/dir\/foo.txt' not found./,
     ],
   ]
@@ -15,8 +15,8 @@ describe('FileNotFoundError', () => {
   test.each(
     completeTestData({
       testData,
-      defaultStatus: 404,
-      defaultCode: 'ENOENT',
+      defaultStatus : 404,
+      defaultCode   : 'ENOENT',
     })
   )(
     'Options %p => message %s and status %s',

@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'IoError'
 const defaultAciton = 'accessing'
 const defaultTarget = 'resource'
-const myDefaults = { action: defaultAciton, target: defaultTarget }
+const myDefaults = { action : defaultAciton, target : defaultTarget }
 
 /**
  * A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
@@ -43,8 +43,8 @@ const IoError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateIoErrorMessage('an IO', { action, ...options }, defaults)
+      options.message
+      || generateIoErrorMessage('an IO', { action, ...options }, defaults)
     super({ name, action, ...options })
   }
 }

@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'TimeoutError'
 const defaultResource = 'process'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * Indicates an operation is taking too much time.

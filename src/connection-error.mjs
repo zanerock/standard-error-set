@@ -43,7 +43,7 @@ const ConnectionError = class extends ExternalServiceError {
     issue = issue || connectionCodes[code] || defaultIssue
     defaults = Object.assign(
       {},
-      { issue: connectionCodes[code] || defaultIssue },
+      { issue : connectionCodes[code] || defaultIssue },
       defaults
     )
     hoistErrorCode(options) // hoist the code prior to generating message

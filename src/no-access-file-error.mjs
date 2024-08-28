@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NoAccessFileError'
 const defaultResource = 'file'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * An {@link NoAccessError} indicating a user lacks the rights to access a particular file. Note, in high security

@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'UniqueConstraintViolationError'
 const defaultConstraintType = 'unique'
-const myDefaults = { constraintType: defaultConstraintType }
+const myDefaults = { constraintType : defaultConstraintType }
 
 /**
  * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID.

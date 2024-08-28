@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'TransactionError'
 const defaultService = 'data'
-const myDefaults = { service: defaultService }
+const myDefaults = { service : defaultService }
 
 /**
  * A {@link DataServiceError} sub-type indicating a problem with creating or working with a transaction. Note, this
@@ -49,8 +49,8 @@ const TransactionError = class extends DataServiceError {
     // GUBED
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateExternalServiceMessage(
+      options.message
+      || generateExternalServiceMessage(
         'a transaction',
         { service, ...options },
         defaults

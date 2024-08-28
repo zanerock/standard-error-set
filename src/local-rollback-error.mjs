@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalRollbackError'
 const defaultErrorType = 'a rollback error'
-const myDefaults = { errorType: defaultErrorType }
+const myDefaults = { errorType : defaultErrorType }
 
 /**
  * An {@link DatabaseError} sub-type relating to a failed rollback within a database. Use {@link RollbackError} on the

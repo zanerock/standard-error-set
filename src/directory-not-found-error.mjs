@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'DirectoryNotFoundError'
 const defaultResource = 'directory'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and

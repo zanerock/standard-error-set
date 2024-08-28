@@ -41,7 +41,8 @@ NotImplementedError.typeName = myName
 const generateMessage = (options) => {
   if (includeParameterInMessage('target', options)) {
     return `'${options.target}' is not currently implemented.`
-  } else {
+  }
+  else {
     return 'Action not currently implemented.'
   }
 }

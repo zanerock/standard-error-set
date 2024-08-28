@@ -8,8 +8,8 @@ const myName = 'ArgumentInvalidError'
 const defaultEndpointType = 'command'
 const defaultIssue = 'is invalid'
 const myDefaults = {
-  endpointType: defaultEndpointType,
-  issue: defaultIssue,
+  endpointType : defaultEndpointType,
+  issue        : defaultIssue,
 }
 
 /**
@@ -74,18 +74,18 @@ const ArgumentInvalidError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults) // allow passed in defaults to override
     options.message =
-      options.message ||
-      generateMessage({ endpointType, issue, ...options }, defaults)
+      options.message
+      || generateMessage({ endpointType, issue, ...options }, defaults)
     super({ name, endpointType, issue, ...options }, defaults)
   }
 }
 // DEBUG
-/*const foo = (
+/* const foo = (
   bar,
   baz,
 ) => { console.log(bar, baz) }
 
-foo()*/
+foo() */
 // GUBED
 registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 

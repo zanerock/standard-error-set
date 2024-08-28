@@ -7,8 +7,8 @@ const myName = 'ConstraintViolationError'
 const defaultConstraintType = 'constraint'
 const defaultFieldAndValues = []
 const myDefaults = {
-  constraintType: defaultConstraintType,
-  fieldAndValues: defaultFieldAndValues,
+  constraintType : defaultConstraintType,
+  fieldAndValues : defaultFieldAndValues,
 }
 
 /**
@@ -49,8 +49,8 @@ const ConstraintViolationError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateConstraintMessage(
+      options.message
+      || generateConstraintMessage(
         { constraintType, fieldAndValues, ...options },
         defaults
       )

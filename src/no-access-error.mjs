@@ -3,12 +3,12 @@ import { AuthError } from './auth-error'
 import { generateNoAccessMessage } from './lib/generate-no-access-message'
 import {
   mapErrorToHttpStatus,
-  registerParent,
+  registerParent
 } from './map-error-to-http-status'
 
 const myName = 'NoAccessError'
 const defaultResource = 'resource'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * An {@link AuthError} indicating a user lacks the rights to access a particular resource. This error is most
@@ -48,8 +48,8 @@ const NoAccessError = class extends AuthError {
     defaults = Object.assign({}, myDefaults, defaults)
     status = status || mapErrorToHttpStatus(myName)
     options.message =
-      options.message ||
-      generateNoAccessMessage({ status, ...options }, defaults)
+      options.message
+      || generateNoAccessMessage({ status, ...options }, defaults)
     if (status === 404 && options.code === undefined) {
       options.code = 'ENOENT'
     }

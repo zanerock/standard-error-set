@@ -8,19 +8,19 @@ describe('NotSupportedError', () => {
   const testData = [
     [undefined, /The target does not currently support a requested feature./],
     [
-      { target: '/some/endpoint' },
+      { target : '/some/endpoint' },
       /'\/some\/endpoint' does not currently support a requested feature./,
     ],
     [
-      { missingFeature: 'RFC 3339 style dates', target: 'myFunc()' },
+      { missingFeature : 'RFC 3339 style dates', target : 'myFunc()' },
       /'myFunc\(\)' does not currently support RFC 3339 style dates./,
     ],
     [
-      { missingFeature: 'YAML payloads', hint: 'Send request in JSON.' },
+      { missingFeature : 'YAML payloads', hint : 'Send request in JSON.' },
       /The target does not currently support YAML payloads. Send request in JSON./,
     ],
     [
-      { message: 'Foo is bad', cause: causeError, status: 400 },
+      { message : 'Foo is bad', cause : causeError, status : 400 },
       /Foo is bad/,
       400,
       causeError,
@@ -30,7 +30,7 @@ describe('NotSupportedError', () => {
   test.each(
     completeTestData({
       testData,
-      defaultStatus: 500,
+      defaultStatus : 500,
     })
   )(
     'Options %p => message %s and status %s',

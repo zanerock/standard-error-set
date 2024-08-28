@@ -16,14 +16,14 @@ describe('maskNoAccessErrors', () => {
   describe('NoAccessError', () => {
     const testData = [
       [undefined, /Resource not found./],
-      [{ resource: 'the thing' }, /The thing not found./],
+      [{ resource : 'the thing' }, /The thing not found./],
     ]
 
     test.each(
       completeTestData({
         testData,
-        defaultStatus: 404,
-        defaultCode: 'ENOENT',
+        defaultStatus : 404,
+        defaultCode   : 'ENOENT',
       })
     )(
       'Options %p => message %s and status %s',
@@ -44,9 +44,9 @@ describe('maskNoAccessErrors', () => {
   describe('NoAccessFileError', () => {
     const testData = [
       [undefined, /File not found./],
-      [{ fileName: 'foo.txt' }, /File 'foo.txt' not found./],
+      [{ fileName : 'foo.txt' }, /File 'foo.txt' not found./],
       [
-        { dirPath: '/dir', fileName: 'foo.txt' },
+        { dirPath : '/dir', fileName : 'foo.txt' },
         /File '\/dir\/foo.txt' not found./,
       ],
     ]
@@ -54,8 +54,8 @@ describe('maskNoAccessErrors', () => {
     test.each(
       completeTestData({
         testData,
-        defaultStatus: 404,
-        defaultCode: 'ENOENT',
+        defaultStatus : 404,
+        defaultCode   : 'ENOENT',
       })
     )(
       'Options %p => message %s and status %s',
@@ -76,14 +76,14 @@ describe('maskNoAccessErrors', () => {
   describe('NoAccessDirecotryError', () => {
     const testData = [
       [undefined, /Directory not found./],
-      [{ dirPath: '/dir' }, /Directory '\/dir' not found./],
+      [{ dirPath : '/dir' }, /Directory '\/dir' not found./],
     ]
 
     test.each(
       completeTestData({
         testData,
-        defaultStatus: 404,
-        defaultCode: 'ENOENT',
+        defaultStatus : 404,
+        defaultCode   : 'ENOENT',
       })
     )(
       'Options %p => message %s and status %s',

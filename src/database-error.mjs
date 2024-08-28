@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'DatabaseError'
 const defaultErrorType = 'an error'
 const defaultTarget = 'database'
-const myDefaults = { errorType: defaultErrorType, target: defaultTarget }
+const myDefaults = { errorType : defaultErrorType, target : defaultTarget }
 
 /**
  * Indicates a problem within a database system implementation.
@@ -48,8 +48,8 @@ const DatabaseError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateMessage({ errorType, target, ...options }, defaults)
+      options.message
+      || generateMessage({ errorType, target, ...options }, defaults)
     super({ name, errorType, target, ...options }, defaults)
   }
 }
@@ -64,7 +64,8 @@ const generateMessage = (options, defaults) => {
   let message = `There was ${includeParameterInMessage('errorType', options) ? errorType : defaults.errorType}`
   if (includeParameterInMessage('action', options)) {
     message += ' ' + action
-  } else {
+  }
+  else {
     message += ' in'
   }
   message += ` the ${includeParameterInMessage('target', options) ? target : defaults.target}`

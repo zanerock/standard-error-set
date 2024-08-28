@@ -7,7 +7,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'FileLoadError'
 const defaultAction = 'loading'
 const defaultTarget = 'file'
-const myDefaults = { action: defaultAction, target: defaultTarget }
+const myDefaults = { action : defaultAction, target : defaultTarget }
 
 /**
  * An {@link IoError} indicating a file is present, and can be read, but there is a problem loading it.
@@ -49,8 +49,8 @@ const FileLoadError = class extends IoError {
     defaults = Object.assign({}, myDefaults, defaults)
     options.target = options.target || describeFile({ action, ...options })
     options.message =
-      options.message ||
-      generateIoErrorMessage('an', { action, ...options }, defaults)
+      options.message
+      || generateIoErrorMessage('an', { action, ...options }, defaults)
     super({ name, action, ...options }, defaults)
   }
 }

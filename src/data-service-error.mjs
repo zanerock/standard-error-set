@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'DataServiceError'
 const defaultService = 'data'
-const myDefaults = { service: defaultService }
+const myDefaults = { service : defaultService }
 
 /**
  * An {@link ExternalServiceError} sub-type indicating a problem related to a data service specifically.
@@ -42,8 +42,8 @@ const DataServiceError = class extends ExternalServiceError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateExternalServiceMessage(
+      options.message
+      || generateExternalServiceMessage(
         undefined,
         { service, ...options },
         defaults

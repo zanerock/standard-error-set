@@ -2,13 +2,13 @@
 import { ArgumentInvalidError } from './argument-invalid-error'
 import {
   ignoreParameter,
-  includeParameterInMessage,
+  includeParameterInMessage
 } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ArgumentTypeError'
 const defaultIssue = 'is wrong type'
-const myDefaults = { issue: defaultIssue }
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is not the correct type.
@@ -66,10 +66,10 @@ ArgumentTypeError.typeName = myName
 
 const augmentMessage = (options) => {
   if (
-    includeParameterInMessage('receivedType', options) ||
-    (!Object.hasOwn(options, 'receivedType') &&
-      !ignoreParameter('receivedType', options) &&
-      options.argumentValue !== undefined)
+    includeParameterInMessage('receivedType', options)
+    || (!Object.hasOwn(options, 'receivedType')
+      && !ignoreParameter('receivedType', options)
+      && options.argumentValue !== undefined)
   ) {
     let { receivedType } = options
     receivedType = receivedType || typeof options.argumentValue

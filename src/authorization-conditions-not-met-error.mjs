@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthorizationConditionsNotMetError'
 const defaultIssue = 'current conditions prevent this action'
-const myDefaults = { issue: defaultIssue }
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link AuthError} indicating that the user is authorized to perform some action under some circumstances, but

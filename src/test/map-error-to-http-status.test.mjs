@@ -30,7 +30,7 @@ describe('mapErrorToHttpStatus', () => {
   })
 
   test('can bulk assign mappings', () => {
-    mapErrorToHttpStatus({ ArgumentInvalidError: 401, CustomError: 401 })
+    mapErrorToHttpStatus({ ArgumentInvalidError : 401, CustomError : 401 })
     expect(mapErrorToHttpStatus('ArgumentInvalidError')).toBe(401)
     expect(mapErrorToHttpStatus('CustomError')).toBe(401)
   })

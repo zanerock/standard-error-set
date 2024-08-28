@@ -7,9 +7,11 @@ const describeFile = ({ dirPath, fileName }) => {
     desc += dirPath.endsWith(sep)
       ? ` '${dirPath}${fileName}'`
       : ` '${dirPath}${sep}${fileName}'`
-  } else if (fileName !== undefined) {
+  }
+  else if (fileName !== undefined) {
     desc += ` '${fileName}'`
-  } else if (dirPath !== undefined) {
+  }
+  else if (dirPath !== undefined) {
     desc = `file in directory '${dirPath}'`
   } // else
 

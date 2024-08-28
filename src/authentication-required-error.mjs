@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'AuthenticationRequiredError'
 const defaultAction = 'action'
 const defaultIssue = 'requires authentication'
-const myDefaults = { action: defaultAction, issue: defaultIssue }
+const myDefaults = { action : defaultAction, issue : defaultIssue }
 
 /**
  * An {@link AuthError} sub-class indicating that an operation requires an authenticated user and the current us not

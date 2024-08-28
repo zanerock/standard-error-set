@@ -63,7 +63,7 @@ describe('wrapError', () => {
     "wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (constructor)",
     (description, CauseClass, ExpectedClass) => {
       const [wrappedError, isWrapped] = wrapError(new CauseClass(), {
-        noInstanceHidingOnWrap: true,
+        noInstanceHidingOnWrap : true,
       })
       expect(wrappedError instanceof ExpectedClass).toBe(true)
       expect(isWrapped).toBe(false)

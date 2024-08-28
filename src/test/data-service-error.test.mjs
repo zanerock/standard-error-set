@@ -8,19 +8,19 @@ describe('DataServiceError', () => {
   const testData = [
     [undefined, /There was an error with the remote data service./],
     [
-      { service: 'database' },
+      { service : 'database' },
       /There was an error with the remote database service./,
     ],
     [
-      { issue: 'is not responding' },
+      { issue : 'is not responding' },
       /There was an error with the remote data service; service is not responding./,
     ],
     [
-      { service: 'database', issue: 'is not responding' },
+      { service : 'database', issue : 'is not responding' },
       /There was an error with the remote database service; service is not responding./,
     ],
     [
-      { message: 'Foo is bad', cause: causeError, status: 400 },
+      { message : 'Foo is bad', cause : causeError, status : 400 },
       /Foo is bad/,
       400,
       causeError,
@@ -30,7 +30,7 @@ describe('DataServiceError', () => {
   test.each(
     completeTestData({
       testData,
-      defaultStatus: 500,
+      defaultStatus : 500,
     })
   )(
     'Options %p => message %s and status %s',

@@ -6,7 +6,7 @@ import { describeFile } from './lib/describe-file'
 
 const myName = 'FileNotFoundError'
 const defaultResource = 'file'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and

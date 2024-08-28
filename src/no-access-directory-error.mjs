@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NoAccessDirectoryError'
 const defaultResource = 'directory'
-const myDefaults = { resource: defaultResource }
+const myDefaults = { resource : defaultResource }
 
 /**
  * An {@link NoAccessError} indicating a user lacks the rights to access a particular directory. Note, in high security

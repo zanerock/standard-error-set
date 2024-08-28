@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'UnavailableError'
 const defaultIssue = 'currently unavailable'
 const defaultTarget = 'target resource'
-const myDefaults = { issue: defaultIssue, target: defaultTarget }
+const myDefaults = { issue : defaultIssue, target : defaultTarget }
 
 /**
  * An error indicating that the resource exists, but is not currently available. This represents a temporary condition.
@@ -50,8 +50,8 @@ const UnavailableError = class extends CommonError {
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
-      options.message ||
-      generateMessage({ issue, target, ...options }, defaults)
+      options.message
+      || generateMessage({ issue, target, ...options }, defaults)
     super({ name, ...options }, defaults)
   }
 }
