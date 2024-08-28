@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'DatabaseError'
 const defaultErrorType = 'an error'
 const defaultTarget = 'database'
-const myDefaults = { errorType : defaultErrorType, target : defaultTarget }
+const myDefaults = { errorType: defaultErrorType, target: defaultTarget }
 
 /**
  * Indicates a problem within a database system implementation.
@@ -37,9 +37,19 @@ const DatabaseError = class extends CommonError {
    * // v "There was an error in the customer database; virtual socket closed."
    * new DatabaseError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = defaultErrorType, target = defaultTarget, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      errorType = defaultErrorType,
+      target = defaultTarget,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ errorType, target, ...options }, defaults)
+    options.message =
+      options.message ||
+      generateMessage({ errorType, target, ...options }, defaults)
     super({ name, errorType, target, ...options }, defaults)
   }
 }
@@ -54,8 +64,7 @@ const generateMessage = (options, defaults) => {
   let message = `There was ${includeParameterInMessage('errorType', options) ? errorType : defaults.errorType}`
   if (includeParameterInMessage('action', options)) {
     message += ' ' + action
-  }
-  else {
+  } else {
     message += ' in'
   }
   message += ` the ${includeParameterInMessage('target', options) ? target : defaults.target}`

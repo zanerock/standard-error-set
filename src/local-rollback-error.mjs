@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalRollbackError'
 const defaultErrorType = 'a rollback error'
-const myDefaults = { errorType : defaultErrorType }
+const myDefaults = { errorType: defaultErrorType }
 
 /**
  * An {@link DatabaseError} sub-type relating to a failed rollback within a database. Use {@link RollbackError} on the
@@ -33,7 +33,10 @@ const LocalRollbackError = class extends DatabaseError {
    * // v "There was a rollback error in the customer database; virtual socket closed."
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = defaultErrorType, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, errorType = defaultErrorType, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, errorType, ...options }, defaults)
   }

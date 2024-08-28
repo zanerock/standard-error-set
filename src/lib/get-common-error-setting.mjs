@@ -1,7 +1,7 @@
 const defaultSettings = {
-  ignoreForMessage       : undefined,
-  noInstanceHidingOnWrap : false,
-  wrapUserErrorType      : undefined,
+  ignoreForMessage: undefined,
+  noInstanceHidingOnWrap: false,
+  wrapUserErrorType: undefined,
 }
 
 const customSettings = {}

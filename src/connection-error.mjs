@@ -41,9 +41,14 @@ const ConnectionError = class extends ExternalServiceError {
   constructor({ name = myName, issue, ...options } = {}, defaults) {
     const { code } = options // leave 'code' in the options for hoistErrorCode
     issue = issue || connectionCodes[code] || defaultIssue
-    defaults = Object.assign({}, { issue : connectionCodes[code] || defaultIssue }, defaults)
+    defaults = Object.assign(
+      {},
+      { issue: connectionCodes[code] || defaultIssue },
+      defaults
+    )
     hoistErrorCode(options) // hoist the code prior to generating message
-    options.message = options.message || generateMessage({ issue, ...options }, defaults)
+    options.message =
+      options.message || generateMessage({ issue, ...options }, defaults)
     super({ name, ...options }, defaults)
   }
 }

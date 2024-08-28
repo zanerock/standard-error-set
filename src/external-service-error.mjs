@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ExternalServiceError'
 const defaultService = ''
-const myDefaults = { service : defaultService }
+const myDefaults = { service: defaultService }
 
 /**
  * Indicates an error related to an external service.
@@ -38,7 +38,13 @@ const ExternalServiceError = class extends CommonError {
    */
   constructor({ name = myName, service = '', ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options }, defaults)
+    options.message =
+      options.message ||
+      generateExternalServiceMessage(
+        undefined,
+        { service, ...options },
+        defaults
+      )
     super({ name, service, ...options }, defaults)
   }
 }

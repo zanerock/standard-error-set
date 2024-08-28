@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NotFoundError'
 const defaultResource = 'resource'
-const myDefaults = { resource : defaultResource }
+const myDefaults = { resource: defaultResource }
 
 /**
  * An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
@@ -36,7 +36,8 @@ const NotFoundError = class extends CommonError {
    */
   constructor({ name = myName, code = 'ENOENT', ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
     super({ name, code, ...options }, defaults)
   }
 }

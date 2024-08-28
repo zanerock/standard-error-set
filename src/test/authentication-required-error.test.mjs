@@ -7,14 +7,27 @@ describe('AuthenticationRequiredError', () => {
 
   const testData = [
     [undefined, /Action requires authentication./],
-    [{ action : 'endpoint access' }, /Endpoint access requires authentication./],
-    [{ action : 'updating', target : 'customer database' }, /Updating the customer database requires authentication./],
-    [{ issue : 'requires 2fa' }, /Action requires 2fa./],
-    [{ message : 'Foo is bad', cause : causeError, status : 500 }, /Foo is bad/, 500, causeError],
+    [{ action: 'endpoint access' }, /Endpoint access requires authentication./],
+    [
+      { action: 'updating', target: 'customer database' },
+      /Updating the customer database requires authentication./,
+    ],
+    [{ issue: 'requires 2fa' }, /Action requires 2fa./],
+    [
+      { message: 'Foo is bad', cause: causeError, status: 500 },
+      /Foo is bad/,
+      500,
+      causeError,
+    ],
   ]
 
-  test.each(completeTestData({
-    testData,
-    defaultStatus : 403,
-  }))('Options %p => message %s and status %s', standardErrorTest(AuthenticationRequiredError))
+  test.each(
+    completeTestData({
+      testData,
+      defaultStatus: 403,
+    })
+  )(
+    'Options %p => message %s and status %s',
+    standardErrorTest(AuthenticationRequiredError)
+  )
 })

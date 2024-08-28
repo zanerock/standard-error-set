@@ -6,7 +6,7 @@ import { describeFile } from './lib/describe-file'
 
 const myName = 'FileNotFoundError'
 const defaultResource = 'file'
-const myDefaults = { resource : defaultResource }
+const myDefaults = { resource: defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and
@@ -43,8 +43,10 @@ const FileNotFoundError = class extends NotFoundError {
    */
   constructor({ name = myName, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.resource = options.resource || describeFile(options) || defaultResource
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.resource =
+      options.resource || describeFile(options) || defaultResource
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
     super({ name, ...options }, defaults)
   }

@@ -6,10 +6,13 @@ describe('mapErrorToHttpStatus', () => {
   beforeEach(() => mapErrorToHttpStatus())
   afterAll(() => mapErrorToHttpStatus())
 
-  test.each(Object.keys(validErrorNames))('retrieves status for %s (string)',
-    (errorName) => expect(typeof mapErrorToHttpStatus(errorName)).toBe('number'))
+  test.each(Object.keys(validErrorNames))(
+    'retrieves status for %s (string)',
+    (errorName) => expect(typeof mapErrorToHttpStatus(errorName)).toBe('number')
+  )
 
-  test('retrieves status for class', () => expect(mapErrorToHttpStatus(ArgumentInvalidError)).toBe(400))
+  test('retrieves status for class', () =>
+    expect(mapErrorToHttpStatus(ArgumentInvalidError)).toBe(400))
 
   test('retrieves status for class instance', () => {
     const error = new ArgumentInvalidError()
@@ -27,7 +30,7 @@ describe('mapErrorToHttpStatus', () => {
   })
 
   test('can bulk assign mappings', () => {
-    mapErrorToHttpStatus({ ArgumentInvalidError : 401, CustomError : 401 })
+    mapErrorToHttpStatus({ ArgumentInvalidError: 401, CustomError: 401 })
     expect(mapErrorToHttpStatus('ArgumentInvalidError')).toBe(401)
     expect(mapErrorToHttpStatus('CustomError')).toBe(401)
   })

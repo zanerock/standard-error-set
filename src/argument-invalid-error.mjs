@@ -8,8 +8,8 @@ const myName = 'ArgumentInvalidError'
 const defaultEndpointType = 'command'
 const defaultIssue = 'is invalid'
 const myDefaults = {
-  endpointType : defaultEndpointType,
-  issue        : defaultIssue,
+  endpointType: defaultEndpointType,
+  issue: defaultIssue,
 }
 
 /**
@@ -70,10 +70,12 @@ const ArgumentInvalidError = class extends CommonError {
       issue = defaultIssue,
       ...options
     } = {},
-    defaults = {},
+    defaults = {}
   ) {
     defaults = Object.assign({}, myDefaults, defaults) // allow passed in defaults to override
-    options.message = options.message || generateMessage({ endpointType, issue, ...options }, defaults)
+    options.message =
+      options.message ||
+      generateMessage({ endpointType, issue, ...options }, defaults)
     super({ name, endpointType, issue, ...options }, defaults)
   }
 }
@@ -107,7 +109,10 @@ const generateMessage = (options, defaults) => {
   message = message.charAt(0).toUpperCase() + message.slice(1) + ' '
 
   if (includeParameterInMessage('packageName', options)) {
-    message += endpointName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
+    message +=
+      endpointName === undefined
+        ? `in package '${packageName}' `
+        : `'${packageName}#`
   }
   if (includeParameterInMessage('endpointName', options)) {
     message += `${packageName === undefined ? "'" : ''}${endpointName}()' `

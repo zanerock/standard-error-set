@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalTransactionError'
 const defaultErrorType = 'a transaction error'
-const myDefaults = { errorType : defaultErrorType }
+const myDefaults = { errorType: defaultErrorType }
 
 /**
  * An {@link DatabaseError} indicating a problem creating or otherwise involving a transaction within a database system
@@ -34,7 +34,10 @@ const LocalTransactionError = class extends DatabaseError {
    * // v "There was a transaction error on the customer database; virtual socket closed."
    * new LocalTransactionError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = defaultErrorType, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, errorType = defaultErrorType, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, errorType, ...options }, defaults)
   }

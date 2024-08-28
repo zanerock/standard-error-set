@@ -5,7 +5,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthorizationConditionsNotMetError'
 const defaultIssue = 'current conditions prevent this action'
-const myDefaults = { issue : defaultIssue }
+const myDefaults = { issue: defaultIssue }
 
 /**
  * An {@link AuthError} indicating that the user is authorized to perform some action under some circumstances, but
@@ -48,14 +48,21 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
    * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
    */
-  constructor({ name = myName, issue = defaultIssue, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, issue = defaultIssue, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ issue, ...options }, defaults)
+    options.message =
+      options.message || generateMessage({ issue, ...options }, defaults)
     super({ name, issue, ...options }, defaults)
   }
 }
 
-registerParent(myName, Object.getPrototypeOf(AuthorizationConditionsNotMetError).name)
+registerParent(
+  myName,
+  Object.getPrototypeOf(AuthorizationConditionsNotMetError).name
+)
 
 AuthorizationConditionsNotMetError.typeName = myName
 

@@ -2,7 +2,11 @@
 import { ArgumentInvalidError } from './argument-invalid-error'
 import { ArgumentTypeError } from './argument-type-error'
 import { CommonError } from './common-error'
-import { customSettings, defaultSettings, getCommonErrorSetting } from './lib/get-common-error-setting'
+import {
+  customSettings,
+  defaultSettings,
+  getCommonErrorSetting,
+} from './lib/get-common-error-setting'
 
 /**
  * Used to retrieve and manage options used in {@link wrapError}.
@@ -23,18 +27,15 @@ const commonErrorSettings = (option, value) => {
     for (const prop in customSettings) {
       delete customSettings[prop]
     }
-  }
-  else if (typeof option === 'object') {
+  } else if (typeof option === 'object') {
     for (const [newOpt, newVal] of Object.entries(option)) {
       verifyArguments(newOpt, newVal)
     }
 
     Object.assign(customSettings, option)
-  }
-  else if (value === undefined) {
+  } else if (value === undefined) {
     return getCommonErrorSetting(option)
-  }
-  else {
+  } else {
     verifyArguments(option, value)
     customSettings[option] = value
   }
@@ -43,43 +44,45 @@ const commonErrorSettings = (option, value) => {
 const verifyArguments = (option, value) => {
   if (!(option in defaultSettings)) {
     throw new ArgumentInvalidError({
-      argumentName  : 'option',
-      argumentValue : option,
-      issue         : 'is not a valid common error setting.',
-      hint          : `Specify one of '${Object.keys(defaultSettings).join("', '")}'.`,
-      status        : 500,
+      argumentName: 'option',
+      argumentValue: option,
+      issue: 'is not a valid common error setting.',
+      hint: `Specify one of '${Object.keys(defaultSettings).join("', '")}'.`,
+      status: 500,
     })
   }
 
   if (option === 'ignoreForMessage') {
-    if (value !== undefined || !Array.isArray(value) || value.some((v) => typeof v !== 'string')) {
+    if (
+      value !== undefined ||
+      !Array.isArray(value) ||
+      value.some((v) => typeof v !== 'string')
+    ) {
       throw new ArgumentTypeError({
-        argumentName  : 'value',
-        argumentValue : value,
-        argumentType  : 'string[]',
-        status        : 500,
+        argumentName: 'value',
+        argumentValue: value,
+        argumentType: 'string[]',
+        status: 500,
       })
     }
-  }
-  else if (typeof defaultSettings[option] === 'boolean') {
+  } else if (typeof defaultSettings[option] === 'boolean') {
     if (!(value === true || value === false)) {
       throw new ArgumentTypeError({
-        argumentName  : 'value',
-        argumentValue : value,
-        argumentType  : 'boolean',
-        status        : 500,
+        argumentName: 'value',
+        argumentValue: value,
+        argumentType: 'boolean',
+        status: 500,
       })
     }
-  }
-  else if (value !== undefined) {
+  } else if (value !== undefined) {
     const ErrorClass = value
     const testError = new ErrorClass()
     if (!(testError instanceof CommonError)) {
       throw new ArgumentTypeError({
-        argumentName  : 'value',
-        argumentValue : value,
-        argumentType  : 'CommonError\' class or sub-class or \'undefined',
-        status        : 500,
+        argumentName: 'value',
+        argumentValue: value,
+        argumentType: "CommonError' class or sub-class or 'undefined",
+        status: 500,
       })
     }
   }

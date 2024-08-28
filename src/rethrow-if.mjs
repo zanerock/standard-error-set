@@ -25,41 +25,43 @@
  *   _not any_ of the specified statuses.
  * @returns {Error|undefined} - If the function does not throw, it returns the `error`.
  */
-const rethrowIf = (error, {
-  codeIs,
-  codeIsNot,
-  instanceOf,
-  instanceOfNot,
-  statusGt,
-  statusGte,
-  statusIs,
-  statusIsNot,
-  statusLt,
-  statusLte,
-} = {}) => {
+const rethrowIf = (
+  error,
+  {
+    codeIs,
+    codeIsNot,
+    instanceOf,
+    instanceOfNot,
+    statusGt,
+    statusGte,
+    statusIs,
+    statusIsNot,
+    statusLt,
+    statusLte,
+  } = {}
+) => {
   if (error === undefined) return
 
   const { code, status } = error
 
-  if (arrarify(codeIs).includes(code)
-      || (codeIsNot !== undefined && !arrarify(codeIsNot).includes(code))
-      || arrarify(instanceOf).some((TestClass) => error instanceof TestClass)
-      || (instanceOfNot !== undefined && arrarify(instanceOfNot).some((TestClass) => !(error instanceof TestClass)))
-      || (error.status !== undefined
-        && ((statusGt !== undefined && status > statusGt)
-          || (statusGte !== undefined && status >= statusGte)
-          || (statusLt !== undefined && status < statusLt)
-          || (statusLte !== undefined && status <= statusLte)
-          || arrarify(statusIs).includes(status)
-          || (statusIsNot !== undefined && !arrarify(statusIsNot).includes(status))
-        )
-      )
+  if (
+    arrarify(codeIs).includes(code) ||
+    (codeIsNot !== undefined && !arrarify(codeIsNot).includes(code)) ||
+    arrarify(instanceOf).some((TestClass) => error instanceof TestClass) ||
+    (instanceOfNot !== undefined &&
+      arrarify(instanceOfNot).some(
+        (TestClass) => !(error instanceof TestClass)
+      )) ||
+    (error.status !== undefined &&
+      ((statusGt !== undefined && status > statusGt) ||
+        (statusGte !== undefined && status >= statusGte) ||
+        (statusLt !== undefined && status < statusLt) ||
+        (statusLte !== undefined && status <= statusLte) ||
+        arrarify(statusIs).includes(status) ||
+        (statusIsNot !== undefined && !arrarify(statusIsNot).includes(status))))
   ) {
-    codeIs = codeIsNot
-    || instanceOfNot
-    || (statusLt
-    || statusIsNot)
-    throw (error)
+    codeIs = codeIsNot || instanceOfNot || statusLt || statusIsNot
+    throw error
   }
 
   return error

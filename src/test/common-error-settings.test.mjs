@@ -8,8 +8,9 @@ describe('commonErrorSettings', () => {
   test.each([
     ['noInstanceHidingOnWrap', false],
     ['wrapUserErrorType', undefined],
-  ])('%p => %s',
-    (option, value) => expect(commonErrorSettings(option)).toBe(value))
+  ])('%p => %s', (option, value) =>
+    expect(commonErrorSettings(option)).toBe(value)
+  )
 
   test('can set individual settings', () => {
     commonErrorSettings('noInstanceHidingOnWrap', true)
@@ -17,7 +18,10 @@ describe('commonErrorSettings', () => {
   })
 
   test('can bulk assign settings', () => {
-    commonErrorSettings({ noInstanceHidingOnWrap : true, wrapUserErrorType : CommonError })
+    commonErrorSettings({
+      noInstanceHidingOnWrap: true,
+      wrapUserErrorType: CommonError,
+    })
     expect(commonErrorSettings('noInstanceHidingOnWrap')).toBe(true)
     expect(commonErrorSettings('wrapUserErrorType')).toBe(CommonError)
   })
@@ -26,8 +30,7 @@ describe('commonErrorSettings', () => {
     try {
       commonErrorSettings('foo', 'bar')
       throw new Error('Failed to catch invalid option.')
-    }
-    catch (e) {
+    } catch (e) {
       expect(e.message).toMatch(/is not a valid common error setting/)
     }
   })
@@ -36,8 +39,7 @@ describe('commonErrorSettings', () => {
     try {
       commonErrorSettings('noInstanceHidingOnWrap', 'bar')
       throw new Error("Failed to catch invalid 'noInstanceHidingOnWrap' value.")
-    }
-    catch (e) {
+    } catch (e) {
       expect(e.message).toMatch(/type 'boolean'.*?is wrong type.$/)
     }
   })
@@ -46,9 +48,10 @@ describe('commonErrorSettings', () => {
     try {
       commonErrorSettings('wrapUserErrorType', Error)
       throw new Error("Failed to catch invalid 'wrapUserErrorType' value.")
-    }
-    catch (e) {
-      expect(e.message).toMatch(/type 'CommonError' class or sub-class or 'undefined'.*?is wrong type.$/)
+    } catch (e) {
+      expect(e.message).toMatch(
+        /type 'CommonError' class or sub-class or 'undefined'.*?is wrong type.$/
+      )
     }
   })
 })

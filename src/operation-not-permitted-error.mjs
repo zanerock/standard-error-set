@@ -4,7 +4,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'OperationNotPermittedError'
 const defaultIssue = 'is not permitted'
-const myDefaults = { issue : defaultIssue } // the default action is determined dynamically
+const myDefaults = { issue: defaultIssue } // the default action is determined dynamically
 
 /**
  * An {@link AuthError} indicating the user lacks authorization to perform some operation. This is most appropriate
@@ -39,7 +39,10 @@ const OperationNotPermittedError = class extends AuthError {
    * new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
    * new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
    */
-  constructor({ name = myName, action, issue = defaultIssue, target, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, action, issue = defaultIssue, target, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     if (action === undefined && target !== undefined) {
       action = 'accessing'

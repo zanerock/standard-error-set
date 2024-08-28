@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 
 const myName = 'DirectoryNotFoundError'
 const defaultResource = 'directory'
-const myDefaults = { resource : defaultResource }
+const myDefaults = { resource: defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and
@@ -37,7 +37,8 @@ const DirectoryNotFoundError = class extends NotFoundError {
   constructor({ name = myName, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.resource = options.resource || describeDirectory(options)
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
     super({ name, ...options }, defaults)
   }

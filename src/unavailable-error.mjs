@@ -6,7 +6,7 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'UnavailableError'
 const defaultIssue = 'currently unavailable'
 const defaultTarget = 'target resource'
-const myDefaults = { issue : defaultIssue, target : defaultTarget }
+const myDefaults = { issue: defaultIssue, target: defaultTarget }
 
 /**
  * An error indicating that the resource exists, but is not currently available. This represents a temporary condition.
@@ -39,9 +39,19 @@ const UnavailableError = class extends CommonError {
    * // v "The URL /some/endpoint is not currently available; try again after 12:00 Saturday.'
    * new UnavailableError({ target: 'URL /some/endpoint', expectedTime: 'after 12:00 Saturday' })
    */
-  constructor({ name = myName, issue = defaultIssue, target = defaultTarget, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      issue = defaultIssue,
+      target = defaultTarget,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ issue, target, ...options }, defaults)
+    options.message =
+      options.message ||
+      generateMessage({ issue, target, ...options }, defaults)
     super({ name, ...options }, defaults)
   }
 }
@@ -53,11 +63,19 @@ UnavailableError.typeName = myName
 const generateMessage = (options, defaults) => {
   let { expectedTime, issue, target } = options
 
-  target = includeParameterInMessage('target', options) === true ? target : defaults.target
-  issue = includeParameterInMessage('issue', options) === true ? issue : defaults.issue
+  target =
+    includeParameterInMessage('target', options) === true
+      ? target
+      : defaults.target
+  issue =
+    includeParameterInMessage('issue', options) === true
+      ? issue
+      : defaults.issue
 
   let message = `The ${target} is ${issue}`
-  message += includeParameterInMessage('expectedTime', options) ? `; try again ${expectedTime}.` : '.'
+  message += includeParameterInMessage('expectedTime', options)
+    ? `; try again ${expectedTime}.`
+    : '.'
 
   return message
 }

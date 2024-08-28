@@ -6,8 +6,7 @@ const generateNoAccessMessage = (options, defaults) => {
 
   if (status === 404) {
     return generateNotFoundMessage(options, defaults)
-  }
-  else {
+  } else {
     return `Access to ${includeParameterInMessage('resource', options) ? resource : defaults.resource} is denied.`
   }
 }

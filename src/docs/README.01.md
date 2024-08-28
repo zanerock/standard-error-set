@@ -1,4 +1,5 @@
 # @liquid-labs/common-errors
+
 [![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
 A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
@@ -32,7 +33,8 @@ npm i @liquid-labs/common-errors
 
 ## Usage and use cases
 
-__Create semantically precise errors for better error handling__:
+**Create semantically precise errors for better error handling**:
+
 ```js
 import { ArgumentTypeError } from '@liquid-labs/common-error' // ESM
 // const { ArgumentTypeError } = require('@liquid-labs/common-error') // CJS
@@ -47,12 +49,12 @@ const parseArgs = ({ arg = process.argv }) => {
 }
 ```
 
-__Quickly [test and re-throw errors](#rethrowIf)__:
+**Quickly [test and re-throw errors](#rethrowIf)**:
+
 ```js
 try {
   parseArgs()
-}
-catch (e) {
+} catch (e) {
   // let non-ArgumentInvalidErrors bubble up
   rethrowIf(e, { notInstanceOf: [ArgumentInvalidError] })
   // handle user input/argument errors:
@@ -60,15 +62,15 @@ catch (e) {
 }
 ```
 
-__[Wrap many standard errors in semantically strong error types](#wrapError)__:
+**[Wrap many standard errors in semantically strong error types](#wrapError)**:
+
 ```js
 import { wrapError } from '@liquid-labs/common-error' // ESM
 // const { wrapError } = require('@liquid-labs/common-error') // CJS
 
 try {
   await fetch('www.foo.com')
-}
-catch (e) {
+} catch (e) {
   throw wrapError(e)[0] // throws type specific based on e.code
 }
 ```
@@ -87,7 +89,8 @@ The following option parameters are accepted by all [`CommonError`](#CommonError
 
 ### Instance fields
 
-All option parameters passed to any [`CommonError`](#CommonError) (or sub-class) constructor are captured as instance fields. E.g.: 
+All option parameters passed to any [`CommonError`](#CommonError) (or sub-class) constructor are captured as instance fields. E.g.:
+
 ```js
 const error = new ArgumentInvalidError({ argumentName: 'foo' })
 // sets: error.argumentName = 'foo'
@@ -100,18 +103,18 @@ All `CommonError` and sub-class instances will set `message`, `status`, and `sta
 All [`CommonError`](#CommonError) and `CommonError` sub-classes support parameterized message construction. That is, they will generate a standard message based on class specific parameters unless `message` is explicitly specified on the constructor options. Refer to the class documentation for parameter definition and message examples.
 
 - All non-[common parameter](#common-parameters) constructor options are used in message construction. Since common parameters are not included in class documentation, all parameters in the [class documentation](#global-class-index) are used in generating a constructed message. Refer to class documentation for example constructed messages.
-- All construction parameters are optional and all `CommonError` and sub-classes will generate a  standard class specific message if given no options.
+- All construction parameters are optional and all `CommonError` and sub-classes will generate a standard class specific message if given no options.
 - All constructors take the `hint` option, which, if specified, will be appended to the `message` (whether constructed or specified).
 - <span id="message-construction-ignore-parameters">Parameters can be ignored in message construction by setting the [`ignoreForMessage`](#common-parameters-ignore-for-message) option.</span>
 
 ### Error code hoisting
 
 When the `cause` constructor option defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless overridden by setting the `code` option or by setting the `noHoistCode` option to `true`. E.g.:
+
 ```js
 const cause = new Error()
 cause.code = 'ENOENT'
 const hoistError = new CommonError({ cause }) // hoistError.code === 'ENOENT'
 const codeError = new CommonError({ cause, code: 'EISDIR' }) // codeError.code === 'EISDIR'
-const noHoistError = new CommonError({ cause, noHoistCode : true }) // noHoistError.code === undefined
+const noHoistError = new CommonError({ cause, noHoistCode: true }) // noHoistError.code === undefined
 ```
-
