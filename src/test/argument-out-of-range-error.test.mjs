@@ -51,6 +51,10 @@ describe('ArgumentOutOfRangeError', () => {
       /must be greater than or equal to 'object!' and less than or equal to 'object!'/,
     ],
     [
+      { max : toStringObject, min : toStringObject, ignoreForMessage : ['boundary'] },
+      /is out of range.$/,
+    ],
+    [
       { endpointType : 'function', argumentName : 'bar' },
       /Function argument 'bar'/,
     ],

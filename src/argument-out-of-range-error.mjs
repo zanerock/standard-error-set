@@ -75,7 +75,7 @@ ArgumentOutOfRangeError.typeName = myName
 const agumentMessage = (options) => {
   const { ignoreForMessage, max, maxBoundary, min, minBoundary } = options
 
-  if (ignoreForMessage?.boundary === true) {
+  if (ignoreForMessage?.includes('boundary') === true) {
     return ''
   }
 
