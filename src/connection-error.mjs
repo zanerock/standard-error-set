@@ -2,9 +2,11 @@
 import { ExternalServiceError } from './external-service-error'
 import { connectionCodes } from './lib/connection-codes'
 import { hoistErrorCode } from './lib/hoist-error-code'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ConnectionError'
+const defaultIssue = 'experienced an unknown error'
 
 /**
  * An {@link ExternalServiceError} sub-type indicating a problem with a connection, including making a connection. The
@@ -23,6 +25,8 @@ const ConnectionError = class extends ExternalServiceError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new ConnectionError() // "Connection has experienced an unknown error."
    * // v "Connection to host 'foo.com' has experienced an unknown error."
@@ -34,10 +38,13 @@ const ConnectionError = class extends ExternalServiceError {
    * const cause.code = 'ECONNRESET'
    * const connError = new ConnectionError({ cause }) // also "Connection has been reset."
    */
-  constructor({ name = myName, ...options } = {}) {
+  constructor({ name = myName, issue, ...options } = {}, defaults) {
+    const { code } = options // leave 'code' in the options for hoistErrorCode
+    issue = issue || connectionCodes[code] || defaultIssue
+    defaults = Object.assign({}, { issue : connectionCodes[code] || defaultIssue }, defaults)
     hoistErrorCode(options) // hoist the code prior to generating message
-    options.message = options.message || generateMessage(options)
-    super({ name, ...options })
+    options.message = options.message || generateMessage({ issue, ...options }, defaults)
+    super({ name, ...options }, defaults)
   }
 }
 
@@ -45,10 +52,10 @@ registerParent(myName, Object.getPrototypeOf(ConnectionError).name)
 
 ConnectionError.typeName = myName
 
-const generateMessage = ({ code, issue, target }) => {
-  issue = issue || connectionCodes[code] || 'experienced an unknown error'
+const generateMessage = (options, defaults) => {
+  const { issue, target } = options
 
-  return `Connection ${target === undefined ? '' : `${target} `}${issue}.`
+  return `Connection ${includeParameterInMessage('target', options) ? `${target} ` : ''}${includeParameterInMessage('issue', options) ? issue : defaults.issue}.`
 }
 
 export { ConnectionError }

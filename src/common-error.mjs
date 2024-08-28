@@ -1,4 +1,5 @@
 import { hoistErrorCode } from './lib/hoist-error-code'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { mapErrorToHttpStatus } from './map-error-to-http-status'
 import { mapHttpStatusToName } from './map-http-status-to-name'
 
@@ -32,7 +33,7 @@ const CommonError = class extends Error {
    * new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
    */
   constructor({ hint, message = 'An error has occurred.', status, ...options } = {}) {
-    if (hint !== undefined) {
+    if (includeParameterInMessage('hint', { hint, ...options })) {
       message += ' ' + hint
     }
     super(message, options)

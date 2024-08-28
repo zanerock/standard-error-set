@@ -4,6 +4,9 @@ import { generateIoErrorMessage } from './lib/generate-io-error-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'IoError'
+const defaultAciton = 'accessing'
+const defaultTarget = 'resource'
+const myDefaults = { action : defaultAciton, target : defaultTarget }
 
 /**
  * A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
@@ -24,6 +27,8 @@ const IoError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new IoError() // "There was an IO error."
    * new IoError({ action : 'reading' }) // "There was an IO error while reading."
@@ -32,9 +37,10 @@ const IoError = class extends CommonError {
    * // v "There an IO error while accessing the serial port; virtual socket closed."
    * new IoError({ issue : 'virtual socket closed', target : 'serial port' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateIoErrorMessage('an IO', options)
-    super({ name, ...options })
+  constructor({ name = myName, action = defaultAciton, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateIoErrorMessage('an IO', { action, ...options }, defaults)
+    super({ name, action, ...options })
   }
 }
 

@@ -1,9 +1,11 @@
-/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError DirectoryNotFoundError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */
 import { NoAccessError } from './no-access-error'
 import { describeDirectory } from './lib/describe-directory'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NoAccessDirectoryError'
+const defaultResource = 'directory'
+const myDefaults = { resource : defaultResource }
 
 /**
  * An {@link NoAccessError} indicating a user lacks the rights to access a particular directory. Note, in high security
@@ -21,7 +23,8 @@ const myName = 'NoAccessDirectoryError'
  */
 const NoAccessDirectoryError = class extends NoAccessError {
   /**
-   * {@link NoAccessDirectoryError} constructor.
+   * {@link NoAccessDirectoryError} constructor. Refer to {@link DirectoryNotFoundError} for additional examples of
+   * constructed messages when a 404 status is set or mapped to this error type.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the
    *   file is located.
@@ -30,11 +33,18 @@ const NoAccessDirectoryError = class extends NoAccessError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
+   * @example
+   * new NoAccessDirectoryError() // "Access to directory is denied."
+   * new NoAccessDirectoryError() // when access errors mapped to 404: "Directory not found."
+   * new NoAccessDirectoryError({ dirPath = '/foo' }) // "Access to director '/foo' is denied"
    */
-  constructor({ name = myName, ...options } = {}) {
+  constructor({ name = myName, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
     options.resource = options.resource || describeDirectory(options)
 
-    super({ name, ...options })
+    super({ name, ...options }, defaults)
   }
 }
 

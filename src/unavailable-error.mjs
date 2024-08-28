@@ -1,8 +1,12 @@
 /* global NotImplementedError NotSupportedError */ // used in docs
 import { CommonError } from './common-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'UnavailableError'
+const defaultIssue = 'currently unavailable'
+const defaultTarget = 'target resource'
+const myDefaults = { issue : defaultIssue, target : defaultTarget }
 
 /**
  * An error indicating that the resource exists, but is not currently available. This represents a temporary condition.
@@ -25,17 +29,20 @@ const UnavailableError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
-   * new UnavailableError() // "Target resource is currently unavailable.
-   * new UnavailableError({ target: '/some/endpoint'}) // "/some/endpoint is not currently available."
-   * // v "Customer DB is offline for maintenance."
+   * new UnavailableError() // "The target resource is currently unavailable.
+   * new UnavailableError({ target: 'URL /some/endpoint'}) // "The URL /some/endpoint is not currently available."
+   * // v "The customer DB is offline for maintenance."
    * new UnavailableError({ target: 'customer DB', issue: 'offline for maintenance' })
-   * // v "/some/endpoint is not currently available; try again after 12:00 Saturday.'
-   * new UnavailableError({ target: '/some/endpoint', expectedTime: 'after 12:00 Saturday' })
+   * // v "The URL /some/endpoint is not currently available; try again after 12:00 Saturday.'
+   * new UnavailableError({ target: 'URL /some/endpoint', expectedTime: 'after 12:00 Saturday' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
-    super({ name, ...options })
+  constructor({ name = myName, issue = defaultIssue, target = defaultTarget, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateMessage({ issue, target, ...options }, defaults)
+    super({ name, ...options }, defaults)
   }
 }
 
@@ -43,10 +50,14 @@ registerParent(myName, Object.getPrototypeOf(UnavailableError).name)
 
 UnavailableError.typeName = myName
 
-const generateMessage = ({ expectedTime, issue = 'currently unavailable', target = 'target resource' }) => {
-  let message = target === undefined ? 'The target ' : `${target.charAt(0).toUpperCase() + target.slice(1)} `
-  message += `is ${issue}`
-  message += expectedTime === undefined ? '.' : `; try again ${expectedTime}.`
+const generateMessage = (options, defaults) => {
+  let { expectedTime, issue, target } = options
+
+  target = includeParameterInMessage('target', options) === true ? target : defaults.target
+  issue = includeParameterInMessage('issue', options) === true ? issue : defaults.issue
+
+  let message = `The ${target} is ${issue}`
+  message += includeParameterInMessage('expectedTime', options) ? `; try again ${expectedTime}.` : '.'
 
   return message
 }

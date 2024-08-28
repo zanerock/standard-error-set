@@ -1,13 +1,8 @@
 /* globals wrapError */
 import { ArgumentInvalidError } from './argument-invalid-error'
+import { ArgumentTypeError } from './argument-type-error'
 import { CommonError } from './common-error'
-
-const defaultSettings = {
-  noInstanceHidingOnWrap : false,
-  wrapUserErrorType      : undefined,
-}
-
-const customSettings = {}
+import { customSettings, defaultSettings, getCommonErrorSetting } from './lib/get-common-error-setting'
 
 /**
  * Used to retrieve and manage options used in {@link wrapError}.
@@ -37,7 +32,7 @@ const commonErrorSettings = (option, value) => {
     Object.assign(customSettings, option)
   }
   else if (value === undefined) {
-    return customSettings[option] || defaultSettings[option]
+    return getCommonErrorSetting(option)
   }
   else {
     verifyArguments(option, value)
@@ -50,16 +45,29 @@ const verifyArguments = (option, value) => {
     throw new ArgumentInvalidError({
       argumentName  : 'option',
       argumentValue : option,
-      issue         : `is not a valid common error setting; should be one of '${Object.keys(defaultSettings).join("', '")}'`,
+      issue         : 'is not a valid common error setting.',
+      hint          : `Specify one of '${Object.keys(defaultSettings).join("', '")}'.`,
+      status        : 500,
     })
   }
 
-  if (typeof defaultSettings[option] === 'boolean') {
-    if (!(value === true || value === false)) {
-      throw new ArgumentInvalidError({
+  if (option === 'ignoreForMessage') {
+    if (value !== undefined || !Array.isArray(value) || value.some((v) => typeof v !== 'string')) {
+      throw new ArgumentTypeError({
         argumentName  : 'value',
         argumentValue : value,
-        issue         : `must be literal 'true' or 'false' for option '${option}'`,
+        argumentType  : 'string[]',
+        status        : 500,
+      })
+    }
+  }
+  else if (typeof defaultSettings[option] === 'boolean') {
+    if (!(value === true || value === false)) {
+      throw new ArgumentTypeError({
+        argumentName  : 'value',
+        argumentValue : value,
+        argumentType  : 'boolean',
+        status        : 500,
       })
     }
   }
@@ -67,10 +75,11 @@ const verifyArguments = (option, value) => {
     const ErrorClass = value
     const testError = new ErrorClass()
     if (!(testError instanceof CommonError)) {
-      throw new ArgumentInvalidError({
+      throw new ArgumentTypeError({
         argumentName  : 'value',
         argumentValue : value,
-        issue         : `must be literal 'undefined' or 'CommonError' class or sub-class for option '${option}'`,
+        argumentType  : 'CommonError\' class or sub-class or \'undefined',
+        status        : 500,
       })
     }
   }

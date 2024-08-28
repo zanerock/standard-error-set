@@ -2,7 +2,7 @@ import { completeTestData } from './lib/complete-test-data'
 import { ArgumentMissingError } from '../argument-missing-error'
 import { standardErrorTest } from './lib/standard-error-test'
 
-describe('ArgumentInvalidError', () => {
+describe('ArgumentMissingError', () => {
   const causeError = new Error()
 
   const testData = [

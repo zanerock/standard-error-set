@@ -2,7 +2,7 @@ import { completeTestData } from './lib/complete-test-data'
 import { ArgumentTypeError } from '../argument-type-error'
 import { standardErrorTest } from './lib/standard-error-test'
 
-describe('ArgumentInvalidError', () => {
+describe('ArgumentTypeError', () => {
   const causeError = new Error()
 
   const testData = [

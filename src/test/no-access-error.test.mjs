@@ -4,7 +4,7 @@ import { standardErrorTest } from './lib/standard-error-test'
 
 describe('NoAccessError', () => {
   const testData = [
-    [undefined, /Access is denied./],
+    [undefined, /Access to resource is denied./],
     [{ resource : 'the thing' }, /Access to the thing is denied./],
   ]
 

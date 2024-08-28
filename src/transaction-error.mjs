@@ -4,6 +4,8 @@ import { generateExternalServiceMessage } from './lib/generate-external-service-
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'TransactionError'
+const defaultService = 'data'
+const myDefaults = { service : defaultService }
 
 /**
  * A {@link DataServiceError} sub-type indicating a problem with creating or working with a transaction. Note, this
@@ -26,6 +28,8 @@ const TransactionError = class extends DataServiceError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new TransactionError() // There was a transaction error with the remote data service.
    * new TransactionError({ service : 'database' }) // There was a transaction error with the remote database service.
@@ -34,9 +38,18 @@ const TransactionError = class extends DataServiceError {
    * // v "There was a transaction error with the remote database service; service is not responding."
    * new TransactionError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = 'data', ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage('a transaction', { service, ...options })
-    super({ name, service, ...options })
+  constructor({ name = myName, service = defaultService, ...options } = {}, defaults) {
+    // DEBUG
+    const foo =
+    'This is the value of foo!'
+    const bar =
+      'blah blah blah blah'
+    console.log(foo, bar)
+    // GUBED
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message
+    || generateExternalServiceMessage('a transaction', { service, ...options }, defaults)
+    super({ name, service, ...options }, defaults)
   }
 }
 

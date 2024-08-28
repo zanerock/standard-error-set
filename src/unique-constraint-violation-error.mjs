@@ -3,6 +3,8 @@ import { ConstraintViolationError } from './constraint-violation-error'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'UniqueConstraintViolationError'
+const defaultConstraintType = 'unique'
+const myDefaults = { constraintType : defaultConstraintType }
 
 /**
  * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID.
@@ -18,6 +20,8 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new UniqueConstraintViolationError() // "Unique constraint violated."
    * new UniqueConstraintViolationError({ entityType : 'user' }) // "Unique constraint on entity type 'user' violated."
@@ -26,8 +30,9 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * // v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({ name = myName, constraintType = 'unique', ...options } = {}) {
-    super({ name, constraintType, ...options })
+  constructor({ name = myName, constraintType = defaultConstraintType, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    super({ name, constraintType, ...options }, defaults)
   }
 }
 

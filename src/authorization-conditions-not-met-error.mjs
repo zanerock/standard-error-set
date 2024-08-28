@@ -1,8 +1,11 @@
 /* globals AuthenticationRequiredError CommonError NoAccessError OperationNotPermittedError */ // used in the docs
 import { AuthError } from './auth-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthorizationConditionsNotMetError'
+const defaultIssue = 'current conditions prevent this action'
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link AuthError} indicating that the user is authorized to perform some action under some circumstances, but
@@ -32,6 +35,8 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new AuthorizationConditionsNotMet() // "While generally authorized, current conditions prevent this action."
    * // v "While generally authorized to access customer data, current conditions prevent this action."
@@ -43,9 +48,10 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    * // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
    * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
    */
-  constructor({ name = myName, issue = 'current conditions prevent this action', ...options } = {}) {
-    options.message = options.message || generateMessage({ issue, ...options })
-    super({ name, issue, ...options })
+  constructor({ name = myName, issue = defaultIssue, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateMessage({ issue, ...options }, defaults)
+    super({ name, issue, ...options }, defaults)
   }
 }
 
@@ -53,13 +59,15 @@ registerParent(myName, Object.getPrototypeOf(AuthorizationConditionsNotMetError)
 
 AuthorizationConditionsNotMetError.typeName = myName
 
-const generateMessage = ({ action, hint, issue }) => {
+const generateMessage = (options, defaults) => {
+  const { action, hint, issue } = options
+
   let message = 'While generally authorized'
-  if (action !== undefined) {
+  if (includeParameterInMessage('action', options)) {
     message += ` to ${action}`
   }
-  message += `, ${issue}.`
-  if (hint !== undefined) {
+  message += `, ${includeParameterInMessage('issue', options) ? issue : defaults.issue}.`
+  if (includeParameterInMessage('hint', options)) {
     message += ' ' + hint
   }
 

@@ -4,6 +4,9 @@ import { generateConstraintMessage } from './lib/generate-constraint-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ConstraintViolationError'
+const defaultConstraintType = 'constraint'
+const defaultFieldAndValues = []
+const myDefaults = { constraintType : defaultConstraintType, fieldAndValues : defaultFieldAndValues }
 
 /**
  * Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
@@ -21,6 +24,8 @@ const ConstraintViolationError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new ConstraintViolationError() // "Constraint violated."
    * new ConstraintViolationError({ constraintType: 'foreign key' }) // "Foreign key constraint violated."
@@ -30,9 +35,16 @@ const ConstraintViolationError = class extends CommonError {
    * // v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({ name = myName, constraintType = 'constraint', fieldAndValues = [], ...options } = {}) {
-    options.message = options.message || generateConstraintMessage({ constraintType, fieldAndValues, ...options })
-    super({ name, constraintType, fieldAndValues, ...options })
+  constructor({
+    name = myName,
+    constraintType = defaultConstraintType,
+    fieldAndValues = defaultFieldAndValues,
+    ...options
+  } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message
+    || generateConstraintMessage({ constraintType, fieldAndValues, ...options }, defaults)
+    super({ name, constraintType, fieldAndValues, ...options }, defaults)
   }
 }
 

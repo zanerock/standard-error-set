@@ -38,7 +38,7 @@ describe('commonErrorSettings', () => {
       throw new Error("Failed to catch invalid 'noInstanceHidingOnWrap' value.")
     }
     catch (e) {
-      expect(e.message).toMatch(/must be literal 'true' or 'false'/)
+      expect(e.message).toMatch(/type 'boolean'.*?is wrong type.$/)
     }
   })
 
@@ -48,7 +48,7 @@ describe('commonErrorSettings', () => {
       throw new Error("Failed to catch invalid 'wrapUserErrorType' value.")
     }
     catch (e) {
-      expect(e.message).toMatch(/must be literal 'undefined' or 'CommonError'/)
+      expect(e.message).toMatch(/type 'CommonError' class or sub-class or 'undefined'.*?is wrong type.$/)
     }
   })
 })

@@ -4,6 +4,8 @@ import { generateExternalServiceMessage } from './lib/generate-external-service-
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'RollbackError'
+const defaultService = 'data'
+const myDefaults = { service : defaultService }
 
 /**
  * A {@link DataServiceError} relating to a failed rollback attempt on an external data service. Use {@link
@@ -26,6 +28,8 @@ const RollbackError = class extends DataServiceError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new RollbackError() // There was a rollback error with the remote data service.
    * new RollbackError({ service : 'database' }) // There was a rollback error with the remote database service.
@@ -34,9 +38,10 @@ const RollbackError = class extends DataServiceError {
    * // v "There was a rollback error with the database remote data service; service is not rot responding."
    * new RollbackError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = 'data', ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage('a rollback', { service, ...options })
-    super({ name, ...options })
+  constructor({ name = myName, service = defaultService, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateExternalServiceMessage('a rollback', { service, ...options }, options)
+    super({ name, ...options }, defaults)
   }
 }
 

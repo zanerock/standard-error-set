@@ -1,5 +1,6 @@
 /* global NotSupportedError UnavailableError */ // used in docs
 import { CommonError } from './common-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NotImplementedError'
@@ -37,12 +38,12 @@ registerParent(myName, Object.getPrototypeOf(NotImplementedError).name)
 
 NotImplementedError.typeName = myName
 
-const generateMessage = ({ target }) => {
-  if (target === undefined) {
-    return 'Action not currently implemented.'
+const generateMessage = (options) => {
+  if (includeParameterInMessage('target', options)) {
+    return `'${options.target}' is not currently implemented.`
   }
   else {
-    return `'${target}' is not currently implemented.`
+    return 'Action not currently implemented.'
   }
 }
 

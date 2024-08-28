@@ -3,6 +3,8 @@ import { AuthError } from './auth-error'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'OperationNotPermittedError'
+const defaultIssue = 'is not permitted'
+const myDefaults = { issue : defaultIssue } // the default action is determined dynamically
 
 /**
  * An {@link AuthError} indicating the user lacks authorization to perform some operation. This is most appropriate
@@ -26,6 +28,8 @@ const OperationNotPermittedError = class extends AuthError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new OperationNotPermittedError() // "Action is not permitted."
    * new OperationNotPermittedError({ action = 'database update' }) // "Database update is not permitted."
@@ -35,11 +39,13 @@ const OperationNotPermittedError = class extends AuthError {
    * new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
    * new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
    */
-  constructor({ name = myName, action, issue = 'is not permitted', target, ...options } = {}) {
+  constructor({ name = myName, action, issue = defaultIssue, target, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
     if (action === undefined && target !== undefined) {
       action = 'accessing'
+      defaults.action = action
     }
-    super({ name, action, issue, target, ...options })
+    super({ name, action, issue, target, ...options }, defaults)
   }
 }
 

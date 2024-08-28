@@ -42,18 +42,23 @@ const rethrowIf = (error, {
   const { code, status } = error
 
   if (arrarify(codeIs).includes(code)
-    || (codeIsNot !== undefined && !arrarify(codeIsNot).includes(code))
-    || arrarify(instanceOf).some((TestClass) => error instanceof TestClass)
-    || (instanceOfNot !== undefined && arrarify(instanceOfNot).some((TestClass) => !(error instanceof TestClass)))
-    || (error.status !== undefined && (
-      (statusGt !== undefined && status > statusGt)
-      || (statusGte !== undefined && status >= statusGte)
-      || (statusLt !== undefined && status < statusLt)
-      || (statusLte !== undefined && status <= statusLte)
-      || arrarify(statusIs).includes(status)
-      || (statusIsNot !== undefined && !arrarify(statusIsNot).includes(status))
-    ))
+      || (codeIsNot !== undefined && !arrarify(codeIsNot).includes(code))
+      || arrarify(instanceOf).some((TestClass) => error instanceof TestClass)
+      || (instanceOfNot !== undefined && arrarify(instanceOfNot).some((TestClass) => !(error instanceof TestClass)))
+      || (error.status !== undefined
+        && ((statusGt !== undefined && status > statusGt)
+          || (statusGte !== undefined && status >= statusGte)
+          || (statusLt !== undefined && status < statusLt)
+          || (statusLte !== undefined && status <= statusLte)
+          || arrarify(statusIs).includes(status)
+          || (statusIsNot !== undefined && !arrarify(statusIsNot).includes(status))
+        )
+      )
   ) {
+    codeIs = codeIsNot
+    || instanceOfNot
+    || (statusLt
+    || statusIsNot)
     throw (error)
   }
 

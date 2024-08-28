@@ -4,6 +4,9 @@ import { generateAuthMessage } from './lib/generate-auth-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthError'
+const defaultAction = 'action'
+const defaultIssue = 'is not authorized'
+const myDefaults = { action : defaultAction, issue : defaultIssue }
 
 /**
  * A generic error indicating a problem with user authentication or authorization. `AuthError` should generally not be
@@ -24,10 +27,17 @@ const AuthError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
+   * @example
+   * new AuthError() // "Action is not authorized."
+   * new AuthError({ action : 'dancing' }) // "Dancing is not authorized."
+   * new AuthError({ issue : 'is not permitted' }) // Action is not permitted.
    */
-  constructor({ name = myName, action = 'action', issue = 'is not authorized', ...options } = {}) {
-    options.message = options.message || generateAuthMessage({ action, issue, ...options })
-    super({ name, action, issue, ...options })
+  constructor({ name = myName, action = defaultAction, issue = defaultIssue, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateAuthMessage({ action, issue, ...options }, defaults)
+    super({ name, action, issue, ...options }, defaults)
   }
 }
 

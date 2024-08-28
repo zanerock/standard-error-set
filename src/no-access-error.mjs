@@ -1,9 +1,11 @@
-/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError NoAccessDirectoryError maskNoAccessErrors NoAccessFileError OperationNotPermittedError */ // used in docs
+/* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError maskNoAccessErrors NoAccessDirectoryError  NoAccessFileError NotFoundError OperationNotPermittedError */ // used in docs
 import { AuthError } from './auth-error'
 import { generateNoAccessMessage } from './lib/generate-no-access-message'
 import { mapErrorToHttpStatus, registerParent } from './map-error-to-http-status'
 
 const myName = 'NoAccessError'
+const defaultResource = 'resource'
+const myDefaults = { resource : defaultResource }
 
 /**
  * An {@link AuthError} indicating a user lacks the rights to access a particular resource. This error is most
@@ -23,7 +25,8 @@ const myName = 'NoAccessError'
  */
 const NoAccessError = class extends AuthError {
   /**
-   * {@link NoAccessError} constructor.
+   * {@link NoAccessError} constructor. Refer to {@link NotFoundError} for additional examples of constructed messages
+   * when a 404 status is set or mapped to this error type.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.resource = undefined] - A description of the resource attempting to be accessed.
    * @param {number} [options.status = (404 | 409)] - The HTTP status of the error. Should generally be left undefined
@@ -31,15 +34,22 @@ const NoAccessError = class extends AuthError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
+   * @example
+   * new NoAccessError() // "Access to resource is denied."
+   * new NoAccessError() // when mapped to 404 status: "Resource is not found."
+   * new NoAccessError({ resource : 'terminal connection' }) // Access to terminal connection is denied.
    */
-  constructor({ name = myName, status, ...options } = {}) {
+  constructor({ name = myName, status, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
     status = status || mapErrorToHttpStatus(myName)
-    options.message = options.message || generateNoAccessMessage({ status, ...options })
+    options.message = options.message || generateNoAccessMessage({ status, ...options }, defaults)
     if (status === 404 && options.code === undefined) {
       options.code = 'ENOENT'
     }
 
-    super({ name, status, ...options })
+    super({ name, status, ...options }, defaults)
   }
 }
 
