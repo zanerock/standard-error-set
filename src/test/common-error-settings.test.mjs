@@ -8,8 +8,8 @@ describe('commonErrorSettings', () => {
   test.each([
     ['noInstanceHidingOnWrap', false],
     ['wrapUserErrorType', undefined],
-  ])('%p => %s',
-    (option, value) => expect(commonErrorSettings(option)).toBe(value))
+  ])('%p => %s', (option, value) =>
+    expect(commonErrorSettings(option)).toBe(value))
 
   test('can set individual settings', () => {
     commonErrorSettings('noInstanceHidingOnWrap', true)
@@ -17,7 +17,10 @@ describe('commonErrorSettings', () => {
   })
 
   test('can bulk assign settings', () => {
-    commonErrorSettings({ noInstanceHidingOnWrap : true, wrapUserErrorType : CommonError })
+    commonErrorSettings({
+      noInstanceHidingOnWrap : true,
+      wrapUserErrorType      : CommonError,
+    })
     expect(commonErrorSettings('noInstanceHidingOnWrap')).toBe(true)
     expect(commonErrorSettings('wrapUserErrorType')).toBe(CommonError)
   })
@@ -48,7 +51,9 @@ describe('commonErrorSettings', () => {
       throw new Error("Failed to catch invalid 'wrapUserErrorType' value.")
     }
     catch (e) {
-      expect(e.message).toMatch(/type 'CommonError' class or sub-class or 'undefined'.*?is wrong type.$/)
+      expect(e.message).toMatch(
+        /type 'CommonError' class or sub-class or 'undefined'.*?is wrong type.$/
+      )
     }
   })
 })

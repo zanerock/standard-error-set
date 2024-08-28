@@ -32,7 +32,12 @@ const CommonError = class extends Error {
    * new CommonError() // "An error has occurred."
    * new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
    */
-  constructor({ hint, message = 'An error has occurred.', status, ...options } = {}) {
+  constructor({
+    hint,
+    message = 'An error has occurred.',
+    status,
+    ...options
+  } = {}) {
     if (includeParameterInMessage('hint', { hint, ...options })) {
       message += ' ' + hint
     }
@@ -42,7 +47,11 @@ const CommonError = class extends Error {
 
     for (const parameter of Object.keys(options)) {
       // the excluded parameters are set in the Error constructor (message), explicitly set below, or prototype
-      if (!['message', 'hint', 'status', 'statusName', 'prototype'].includes(parameter)) {
+      if (
+        !['message', 'hint', 'status', 'statusName', 'prototype'].includes(
+          parameter
+        )
+      ) {
         this[parameter] = options[parameter]
       }
     }

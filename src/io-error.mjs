@@ -37,9 +37,14 @@ const IoError = class extends CommonError {
    * // v "There an IO error while accessing the serial port; virtual socket closed."
    * new IoError({ issue : 'virtual socket closed', target : 'serial port' })
    */
-  constructor({ name = myName, action = defaultAciton, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, action = defaultAciton, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateIoErrorMessage('an IO', { action, ...options }, defaults)
+    options.message =
+      options.message
+      || generateIoErrorMessage('an IO', { action, ...options }, defaults)
     super({ name, action, ...options })
   }
 }

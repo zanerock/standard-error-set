@@ -33,7 +33,10 @@ const LocalRollbackError = class extends DatabaseError {
    * // v "There was a rollback error in the customer database; virtual socket closed."
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = defaultErrorType, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, errorType = defaultErrorType, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, errorType, ...options }, defaults)
   }

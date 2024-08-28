@@ -4,7 +4,9 @@ const generateConstraintMessage = (options, defaults) => {
   const { entityType, fieldAndValues } = options
   let { constraintType } = options
 
-  constraintType = includeParameterInMessage('constraintType', options) ? constraintType : defaults.constraintType
+  constraintType = includeParameterInMessage('constraintType', options)
+    ? constraintType
+    : defaults.constraintType
 
   let message = constraintType.charAt(0).toUpperCase() + constraintType.slice(1)
   if (!constraintType.endsWith('constraint')) {
@@ -19,7 +21,7 @@ const generateConstraintMessage = (options, defaults) => {
         message += `${field}(${value}),`
       }
       else {
-        message += `${fieldAndValue/* is just field */},`
+        message += `${fieldAndValue /* is just field */},`
       }
     }
     message = message.slice(0, -1)

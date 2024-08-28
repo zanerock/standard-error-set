@@ -37,9 +37,19 @@ const DatabaseError = class extends CommonError {
    * // v "There was an error in the customer database; virtual socket closed."
    * new DatabaseError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = defaultErrorType, target = defaultTarget, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      errorType = defaultErrorType,
+      target = defaultTarget,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ errorType, target, ...options }, defaults)
+    options.message =
+      options.message
+      || generateMessage({ errorType, target, ...options }, defaults)
     super({ name, errorType, target, ...options }, defaults)
   }
 }

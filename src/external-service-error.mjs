@@ -38,7 +38,13 @@ const ExternalServiceError = class extends CommonError {
    */
   constructor({ name = myName, service = '', ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options }, defaults)
+    options.message =
+      options.message
+      || generateExternalServiceMessage(
+        undefined,
+        { service, ...options },
+        defaults
+      )
     super({ name, service, ...options }, defaults)
   }
 }

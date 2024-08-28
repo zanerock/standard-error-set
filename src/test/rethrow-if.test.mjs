@@ -18,8 +18,16 @@ describe('rethrowIf', () => {
     [noEntError, { codeIs : [noEntCode] }, THROW],
     [noEntError, { codeIsNot : noEntCode }, NO_THROW],
     [noEntError, { codeIsNot : [noEntCode] }, NO_THROW],
-    [new ArgumentInvalidError(), { isNotInstanceOf : ArgumentInvalidError }, NO_THROW],
-    [new ArgumentInvalidError(), { isNotInstanceOf : [ArgumentInvalidError] }, NO_THROW],
+    [
+      new ArgumentInvalidError(),
+      { isNotInstanceOf : ArgumentInvalidError },
+      NO_THROW,
+    ],
+    [
+      new ArgumentInvalidError(),
+      { isNotInstanceOf : [ArgumentInvalidError] },
+      NO_THROW,
+    ],
     [new Error(), { instanceOfNot : ArgumentInvalidError }, THROW],
     [new Error(), { instanceOfNot : [ArgumentInvalidError] }, THROW],
     [new ArgumentInvalidError(), { instanceOf : ArgumentInvalidError }, THROW],
@@ -40,8 +48,13 @@ describe('rethrowIf', () => {
     [status500Error, { statusIsNot : 499 }, THROW],
     [status500Error, { statusIsNot : [499] }, THROW],
     [status500Error, { statusIsNot : 500 }, NO_THROW],
-  ])('error %p, re-throw options %p => will throw: %p', (error, options, expectThrow) => {
-    if (expectThrow === THROW) expect(() => rethrowIf(error, options)).toThrow()
-    else expect(() => rethrowIf(error, options)).not.toThrow()
-  })
+  ])(
+    'error %p, re-throw options %p => will throw: %p',
+    (error, options, expectThrow) => {
+      if (expectThrow === THROW) {
+        expect(() => rethrowIf(error, options)).toThrow()
+      }
+      else expect(() => rethrowIf(error, options)).not.toThrow()
+    }
+  )
 })

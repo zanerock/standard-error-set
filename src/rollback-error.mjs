@@ -38,9 +38,18 @@ const RollbackError = class extends DataServiceError {
    * // v "There was a rollback error with the database remote data service; service is not rot responding."
    * new RollbackError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = defaultService, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, service = defaultService, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateExternalServiceMessage('a rollback', { service, ...options }, options)
+    options.message =
+      options.message
+      || generateExternalServiceMessage(
+        'a rollback',
+        { service, ...options },
+        options
+      )
     super({ name, ...options }, defaults)
   }
 }

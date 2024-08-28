@@ -29,9 +29,19 @@ const SystemError = class extends CommonError {
    * // v "The application has experienced a stack overflow."
    * new SystemError({ resource: 'application'})
    */
-  constructor({ name = myName, issue = defaultIssue, resource = defaultResource, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      issue = defaultIssue,
+      resource = defaultResource,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ issue, resource, ...options }, defaults)
+    options.message =
+      options.message
+      || generateMessage({ issue, resource, ...options }, defaults)
     super({ name, issue, resource, ...options }, defaults)
   }
 }
@@ -40,10 +50,10 @@ registerParent(myName, Object.getPrototypeOf(SystemError).name)
 
 const generateMessage = (options, defaults) => {
   let { issue, resource } = options
-  resource = includeParameterInMessage('resource', options) ? resource : defaults.resource
-  issue = includeParameterInMessage('issue', options)
-    ? issue
-    : defaults.issue
+  resource = includeParameterInMessage('resource', options)
+    ? resource
+    : defaults.resource
+  issue = includeParameterInMessage('issue', options) ? issue : defaults.issue
 
   return `${resource.charAt(0).toUpperCase() + resource.slice(1)} ${issue}.`
 }

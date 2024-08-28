@@ -23,7 +23,7 @@ const NotSupportedError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.missingFeature = 'a requested feature'] - A short description of the action or 
+   * @param {string|undefined} [options.missingFeature = 'a requested feature'] - A short description of the action or
    *   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'.
    * @param {string|undefined} [options.hint = undefined] - A short hint to the user as to how they might resolve or
    *   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous
@@ -44,9 +44,14 @@ const NotSupportedError = class extends CommonError {
    * // v "The target does not currently support YAML payloads. Send request in JSON."
    * new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' })
    */
-  constructor({ name = myName, missingFeature = defaultMissingFeature, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, missingFeature = defaultMissingFeature, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ missingFeature, ...options }, defaults)
+    options.message =
+      options.message
+      || generateMessage({ missingFeature, ...options }, defaults)
     super({ name, missingFeature, ...options }, defaults)
   }
 }
@@ -58,10 +63,14 @@ NotSupportedError.typeName = myName
 const generateMessage = (options, defaults) => {
   const { missingFeature, target } = options
 
-  let message = includeParameterInMessage('target', options) ? `'${target}' ` : 'The target '
-  message += `does not currently support ${includeParameterInMessage('missingFeature', options) 
-    ? missingFeature 
-    : defaults.action}.`
+  let message = includeParameterInMessage('target', options)
+    ? `'${target}' `
+    : 'The target '
+  message += `does not currently support ${
+    includeParameterInMessage('missingFeature', options)
+      ? missingFeature
+      : defaults.action
+  }.`
 
   return message
 }

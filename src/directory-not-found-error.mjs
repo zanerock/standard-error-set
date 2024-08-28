@@ -37,7 +37,8 @@ const DirectoryNotFoundError = class extends NotFoundError {
   constructor({ name = myName, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
     options.resource = options.resource || describeDirectory(options)
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
     super({ name, ...options }, defaults)
   }

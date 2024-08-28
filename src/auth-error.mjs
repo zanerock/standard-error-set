@@ -34,9 +34,19 @@ const AuthError = class extends CommonError {
    * new AuthError({ action : 'dancing' }) // "Dancing is not authorized."
    * new AuthError({ issue : 'is not permitted' }) // Action is not permitted.
    */
-  constructor({ name = myName, action = defaultAction, issue = defaultIssue, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      action = defaultAction,
+      issue = defaultIssue,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateAuthMessage({ action, issue, ...options }, defaults)
+    options.message =
+      options.message
+      || generateAuthMessage({ action, issue, ...options }, defaults)
     super({ name, action, issue, ...options }, defaults)
   }
 }

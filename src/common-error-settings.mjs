@@ -2,7 +2,11 @@
 import { ArgumentInvalidError } from './argument-invalid-error'
 import { ArgumentTypeError } from './argument-type-error'
 import { CommonError } from './common-error'
-import { customSettings, defaultSettings, getCommonErrorSetting } from './lib/get-common-error-setting'
+import {
+  customSettings,
+  defaultSettings,
+  getCommonErrorSetting
+} from './lib/get-common-error-setting'
 
 /**
  * Used to retrieve and manage options used in {@link wrapError}.
@@ -52,7 +56,11 @@ const verifyArguments = (option, value) => {
   }
 
   if (option === 'ignoreForMessage') {
-    if (value !== undefined || !Array.isArray(value) || value.some((v) => typeof v !== 'string')) {
+    if (
+      value !== undefined
+      || !Array.isArray(value)
+      || value.some((v) => typeof v !== 'string')
+    ) {
       throw new ArgumentTypeError({
         argumentName  : 'value',
         argumentValue : value,
@@ -78,7 +86,7 @@ const verifyArguments = (option, value) => {
       throw new ArgumentTypeError({
         argumentName  : 'value',
         argumentValue : value,
-        argumentType  : 'CommonError\' class or sub-class or \'undefined',
+        argumentType  : "CommonError' class or sub-class or 'undefined",
         status        : 500,
       })
     }

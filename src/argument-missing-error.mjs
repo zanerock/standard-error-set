@@ -66,28 +66,41 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
   constructor({ name = myName, issue, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
     // can't just use 'includeParameterInMessage' because we have our own logic regarding `issue` undefined
-    const { ignoreForMessage = commonErrorSettings('ignoreForMessage') || [] } = options
-    const ignoreIssue = ignoreForMessage.includes('issue') || ignoreForMessage.includes('all')
+    const { ignoreForMessage = commonErrorSettings('ignoreForMessage') || [] } =
+      options
+    const ignoreIssue =
+      ignoreForMessage.includes('issue') || ignoreForMessage.includes('all')
     // if user explicitly sets 'issue' 'undefined', then we fall through to using the default issue message
-    if (issue === undefined && !Object.hasOwn(options, 'issue') && ignoreIssue === false) {
+    if (
+      issue === undefined
+      && !Object.hasOwn(options, 'issue')
+      && ignoreIssue === false
+    ) {
       if (Object.hasOwn(options, 'argumentValue')) {
         const value = options.argumentValue
-        options.issue = value === undefined
-          ? "is 'undefined'"
-          : value === null
-            ? "is 'null'"
-            : value === ''
-              ? "is '' (the empty string)"
-              : Array.isArray(value) && value.length === 0
-                ? "is an empty array ('[]')"
-                : typeof value === 'object' && Object.keys(value).length === 0
-                  ? "is an empty object ('{}')"
-                  : defaultIssue
-        if (options.issue !== defaultIssue && options.ignoreForMessage === undefined) {
+        options.issue =
+          value === undefined
+            ? "is 'undefined'"
+            : value === null
+              ? "is 'null'"
+              : value === ''
+                ? "is '' (the empty string)"
+                : Array.isArray(value) && value.length === 0
+                  ? "is an empty array ('[]')"
+                  : typeof value === 'object' && Object.keys(value).length === 0
+                    ? "is an empty object ('{}')"
+                    : defaultIssue
+        if (
+          options.issue !== defaultIssue
+          && options.ignoreForMessage === undefined
+        ) {
           // If user hasn't specified ignoreForMessage, then we default to ignoring argumentValue, which is now
           // redundant.
           const globalIgnoreForMessage = commonErrorSettings('ignoreForMessage')
-          options.ignoreForMessage = ['argumentValue', ...globalIgnoreForMessage]
+          options.ignoreForMessage = [
+            'argumentValue',
+            ...globalIgnoreForMessage,
+          ]
         }
       }
     }

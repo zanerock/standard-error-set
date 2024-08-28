@@ -24,9 +24,13 @@ const TimeoutError = class extends CommonError {
    * // new TimeoutError() // "The process has timed out."
    * // new TimeoutError({ resource : 'user session' }) // "The user session has timed out."
    */
-  constructor({ name = myName, resource = defaultResource, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, resource = defaultResource, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateMessage({ resource, ...options, defaults })
+    options.message =
+      options.message || generateMessage({ resource, ...options, defaults })
     super({ name, resource, ...options }, defaults)
   }
 }

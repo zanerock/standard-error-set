@@ -58,7 +58,10 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * // v "Function argument 'bar' is out of range."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
-  constructor({ name = myName, issue = defaultIssue, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, issue = defaultIssue, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, issue, ...options }, defaults)
     this.message += agumentMessage(options)
@@ -83,7 +86,12 @@ const agumentMessage = (options) => {
   const includeMaxBoundary = includeParameterInMessage('maxBoundary', options)
   const includeMinBoundary = includeParameterInMessage('minBoundary', options)
 
-  if (includeMax === true || includeMin === true || includeMaxBoundary === true || includeMinBoundary === true) {
+  if (
+    includeMax === true
+    || includeMin === true
+    || includeMaxBoundary === true
+    || includeMinBoundary === true
+  ) {
     message += ' Value must be'
 
     if (includeMin === true) {
@@ -93,7 +101,10 @@ const agumentMessage = (options) => {
       message += ` greater than '${translateValue(minBoundary)}'`
     }
 
-    if ((includeMax === true || includeMaxBoundary === true) && (includeMin === true || includeMinBoundary === true)) {
+    if (
+      (includeMax === true || includeMaxBoundary === true)
+      && (includeMin === true || includeMinBoundary === true)
+    ) {
       message += ' and'
     }
 

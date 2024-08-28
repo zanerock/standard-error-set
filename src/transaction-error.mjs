@@ -38,17 +38,23 @@ const TransactionError = class extends DataServiceError {
    * // v "There was a transaction error with the remote database service; service is not responding."
    * new TransactionError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = defaultService, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, service = defaultService, ...options } = {},
+    defaults
+  ) {
     // DEBUG
-    const foo =
-    'This is the value of foo!'
-    const bar =
-      'blah blah blah blah'
+    const foo = 'This is the value of foo!'
+    const bar = 'blah blah blah blah'
     console.log(foo, bar)
     // GUBED
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message
-    || generateExternalServiceMessage('a transaction', { service, ...options }, defaults)
+    options.message =
+      options.message
+      || generateExternalServiceMessage(
+        'a transaction',
+        { service, ...options },
+        defaults
+      )
     super({ name, service, ...options }, defaults)
   }
 }

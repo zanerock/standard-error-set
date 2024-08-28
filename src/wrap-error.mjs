@@ -47,12 +47,15 @@ import { connectionCodes } from './lib/connection-codes'
 const wrapError = (error, options = {}) => {
   const { code } = error
 
-  const noInstanceHidingOnWrap = options.noInstanceHidingOnWrap || commonErrorSettings('noInstanceHidingOnWrap')
+  const noInstanceHidingOnWrap =
+    options.noInstanceHidingOnWrap
+    || commonErrorSettings('noInstanceHidingOnWrap')
   if (noInstanceHidingOnWrap === true && error.name !== 'Error') {
     return [error, false]
   }
 
-  const wrapUserErrorType = options.wrapUserErrorType || commonErrorSettings('wrapUserErrorType')
+  const wrapUserErrorType =
+    options.wrapUserErrorType || commonErrorSettings('wrapUserErrorType')
 
   if (code in connectionCodes) {
     // cause and code come first in case the user wants to override them in the options

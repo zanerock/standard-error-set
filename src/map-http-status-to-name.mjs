@@ -63,7 +63,8 @@ const customMappings = {}
  * @param {string} name - The name to map a status onto.
  * @returns {string|undefined} - The status name, if known.
  */
-const mapHttpStatusToName = (status, name) => { /* eslint-enable jsdoc/check-types */
+const mapHttpStatusToName = (status, name) => {
+  /* eslint-enable jsdoc/check-types */
   if (status === undefined) {
     for (const prop in customMappings) {
       delete customMappings[prop]

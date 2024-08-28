@@ -6,10 +6,13 @@ describe('mapErrorToHttpStatus', () => {
   beforeEach(() => mapErrorToHttpStatus())
   afterAll(() => mapErrorToHttpStatus())
 
-  test.each(Object.keys(validErrorNames))('retrieves status for %s (string)',
-    (errorName) => expect(typeof mapErrorToHttpStatus(errorName)).toBe('number'))
+  test.each(Object.keys(validErrorNames))(
+    'retrieves status for %s (string)',
+    (errorName) => expect(typeof mapErrorToHttpStatus(errorName)).toBe('number')
+  )
 
-  test('retrieves status for class', () => expect(mapErrorToHttpStatus(ArgumentInvalidError)).toBe(400))
+  test('retrieves status for class', () =>
+    expect(mapErrorToHttpStatus(ArgumentInvalidError)).toBe(400))
 
   test('retrieves status for class instance', () => {
     const error = new ArgumentInvalidError()

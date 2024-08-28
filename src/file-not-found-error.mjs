@@ -43,8 +43,10 @@ const FileNotFoundError = class extends NotFoundError {
    */
   constructor({ name = myName, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.resource = options.resource || describeFile(options) || defaultResource
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.resource =
+      options.resource || describeFile(options) || defaultResource
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
     super({ name, ...options }, defaults)
   }

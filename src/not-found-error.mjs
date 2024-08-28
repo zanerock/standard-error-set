@@ -36,7 +36,8 @@ const NotFoundError = class extends CommonError {
    */
   constructor({ name = myName, code = 'ENOENT', ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateNotFoundMessage(options, defaults)
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
     super({ name, code, ...options }, defaults)
   }
 }

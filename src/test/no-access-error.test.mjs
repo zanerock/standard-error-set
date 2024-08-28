@@ -8,7 +8,10 @@ describe('NoAccessError', () => {
     [{ resource : 'the thing' }, /Access to the thing is denied./],
   ]
 
-  test.each(completeTestData({
-    testData, defaultStatus : 403,
-  }))('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
+  test.each(
+    completeTestData({
+      testData,
+      defaultStatus : 403,
+    })
+  )('Options %p => message %s and status %s', standardErrorTest(NoAccessError))
 })

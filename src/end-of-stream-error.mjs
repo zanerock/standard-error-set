@@ -36,9 +36,18 @@ const EndOfStreamError = class extends IoError {
    * // v "There was an end-of-stream error reading the serial port; virtual socket closed."
    * new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
    */
-  constructor({ name = myName, action = defaultAction, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, action = defaultAction, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateIoErrorMessage('an end-of-stream', { action, ...options }, defaults)
+    options.message =
+      options.message
+      || generateIoErrorMessage(
+        'an end-of-stream',
+        { action, ...options },
+        defaults
+      )
     super({ name, action, ...options }, defaults)
   }
 }

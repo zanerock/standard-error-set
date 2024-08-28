@@ -29,7 +29,15 @@ const AuthenticationRequiredError = class extends AuthError {
    * // v "Updating the customer database requires authentication."
    * new AuthenticationRequiredError({ action : 'updating', target : 'customer database' })
    */
-  constructor({ name = myName, action = defaultAction, issue = defaultIssue, ...options } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      action = defaultAction,
+      issue = defaultIssue,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, action, issue, ...options }, defaults)
   }

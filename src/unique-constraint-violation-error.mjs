@@ -30,13 +30,19 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * // v "Unique constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({ name = myName, constraintType = defaultConstraintType, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, constraintType = defaultConstraintType, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     super({ name, constraintType, ...options }, defaults)
   }
 }
 
-registerParent(myName, Object.getPrototypeOf(UniqueConstraintViolationError).name)
+registerParent(
+  myName,
+  Object.getPrototypeOf(UniqueConstraintViolationError).name
+)
 
 UniqueConstraintViolationError.typeName = myName
 

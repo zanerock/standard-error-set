@@ -39,7 +39,10 @@ const OperationNotPermittedError = class extends AuthError {
    * new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
    * new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
    */
-  constructor({ name = myName, action, issue = defaultIssue, target, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, action, issue = defaultIssue, target, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
     if (action === undefined && target !== undefined) {
       action = 'accessing'

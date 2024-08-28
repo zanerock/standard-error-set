@@ -36,9 +36,18 @@ const DataServiceError = class extends ExternalServiceError {
    * // v "There was an error with the remote database service; service is not responding."
    * new DataServiceError({ service : 'database', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = defaultService, ...options } = {}, defaults) {
+  constructor(
+    { name = myName, service = defaultService, ...options } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options }, defaults)
+    options.message =
+      options.message
+      || generateExternalServiceMessage(
+        undefined,
+        { service, ...options },
+        defaults
+      )
     super({ name, service, ...options }, defaults)
   }
 }

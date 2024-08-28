@@ -70,20 +70,22 @@ const ArgumentInvalidError = class extends CommonError {
       issue = defaultIssue,
       ...options
     } = {},
-    defaults = {},
+    defaults = {}
   ) {
     defaults = Object.assign({}, myDefaults, defaults) // allow passed in defaults to override
-    options.message = options.message || generateMessage({ endpointType, issue, ...options }, defaults)
+    options.message =
+      options.message
+      || generateMessage({ endpointType, issue, ...options }, defaults)
     super({ name, endpointType, issue, ...options }, defaults)
   }
 }
 // DEBUG
-/*const foo = (
+/* const foo = (
   bar,
   baz,
 ) => { console.log(bar, baz) }
 
-foo()*/
+foo() */
 // GUBED
 registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 
@@ -107,7 +109,10 @@ const generateMessage = (options, defaults) => {
   message = message.charAt(0).toUpperCase() + message.slice(1) + ' '
 
   if (includeParameterInMessage('packageName', options)) {
-    message += endpointName === undefined ? `in package '${packageName}' ` : `'${packageName}#`
+    message +=
+      endpointName === undefined
+        ? `in package '${packageName}' `
+        : `'${packageName}#`
   }
   if (includeParameterInMessage('endpointName', options)) {
     message += `${packageName === undefined ? "'" : ''}${endpointName}()' `

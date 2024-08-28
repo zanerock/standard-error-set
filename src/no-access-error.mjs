@@ -1,7 +1,10 @@
 /* globals AuthenticationRequiredError AuthorizationConditionsNotMetError CommonError maskNoAccessErrors NoAccessDirectoryError  NoAccessFileError NotFoundError OperationNotPermittedError */ // used in docs
 import { AuthError } from './auth-error'
 import { generateNoAccessMessage } from './lib/generate-no-access-message'
-import { mapErrorToHttpStatus, registerParent } from './map-error-to-http-status'
+import {
+  mapErrorToHttpStatus,
+  registerParent
+} from './map-error-to-http-status'
 
 const myName = 'NoAccessError'
 const defaultResource = 'resource'
@@ -44,7 +47,9 @@ const NoAccessError = class extends AuthError {
   constructor({ name = myName, status, ...options } = {}, defaults) {
     defaults = Object.assign({}, myDefaults, defaults)
     status = status || mapErrorToHttpStatus(myName)
-    options.message = options.message || generateNoAccessMessage({ status, ...options }, defaults)
+    options.message =
+      options.message
+      || generateNoAccessMessage({ status, ...options }, defaults)
     if (status === 404 && options.code === undefined) {
       options.code = 'ENOENT'
     }

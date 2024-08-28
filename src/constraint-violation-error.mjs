@@ -6,7 +6,10 @@ import { registerParent } from './map-error-to-http-status'
 const myName = 'ConstraintViolationError'
 const defaultConstraintType = 'constraint'
 const defaultFieldAndValues = []
-const myDefaults = { constraintType : defaultConstraintType, fieldAndValues : defaultFieldAndValues }
+const myDefaults = {
+  constraintType : defaultConstraintType,
+  fieldAndValues : defaultFieldAndValues,
+}
 
 /**
  * Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
@@ -35,15 +38,22 @@ const ConstraintViolationError = class extends CommonError {
    * // v "Constraint on fields <email(john@foo.com)> on entity type 'user' violated."
    * new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 'john@foo.com']] })
    */
-  constructor({
-    name = myName,
-    constraintType = defaultConstraintType,
-    fieldAndValues = defaultFieldAndValues,
-    ...options
-  } = {}, defaults) {
+  constructor(
+    {
+      name = myName,
+      constraintType = defaultConstraintType,
+      fieldAndValues = defaultFieldAndValues,
+      ...options
+    } = {},
+    defaults
+  ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message = options.message
-    || generateConstraintMessage({ constraintType, fieldAndValues, ...options }, defaults)
+    options.message =
+      options.message
+      || generateConstraintMessage(
+        { constraintType, fieldAndValues, ...options },
+        defaults
+      )
     super({ name, constraintType, fieldAndValues, ...options }, defaults)
   }
 }

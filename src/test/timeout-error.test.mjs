@@ -8,11 +8,18 @@ describe('TimeoutError', () => {
   const testData = [
     [undefined, /The process has timed out./],
     [{ resource : 'user session' }, /The user session has timed out./],
-    [{ message : 'Foo is bad', cause : causeError, status : 400 }, /Foo is bad/, 400, causeError],
+    [
+      { message : 'Foo is bad', cause : causeError, status : 400 },
+      /Foo is bad/,
+      400,
+      causeError,
+    ],
   ]
 
-  test.each(completeTestData({
-    testData,
-    defaultStatus : 500,
-  }))('Options %p => message %s and status %s', standardErrorTest(TimeoutError))
+  test.each(
+    completeTestData({
+      testData,
+      defaultStatus : 500,
+    })
+  )('Options %p => message %s and status %s', standardErrorTest(TimeoutError))
 })
