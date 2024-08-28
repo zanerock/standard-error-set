@@ -58,8 +58,8 @@ const verifyArguments = (option, value) => {
   if (option === 'ignoreForMessage') {
     if (
       value !== undefined
-      || !Array.isArray(value)
-      || value.some((v) => typeof v !== 'string')
+      && (!Array.isArray(value)
+        || value.some((v) => typeof v !== 'string'))
     ) {
       throw new ArgumentTypeError({
         argumentName  : 'value',

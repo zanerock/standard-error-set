@@ -29,6 +29,11 @@ describe('ArgumentMissingError', () => {
       { endpointType : 'function', argumentName : 'bar' },
       /Function argument 'bar'/,
     ],
+    [{ argumentValue : undefined }, /is 'undefined'.$/],
+    [{ argumentValue : '' }, /is the empty string \(''\).$/],
+    [{ argumentValue : null }, /is 'null'.$/],
+    [{ argumentValue : {} }, /is an empty object \('\{\}'\).$/],
+    [{ argumentValue : [] }, /is an empty array \('\[\]'\).$/],
     [{ hint : 'Define it.' }, /is missing or empty. Define it.$/],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
   ]

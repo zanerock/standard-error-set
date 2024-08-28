@@ -56,4 +56,14 @@ describe('commonErrorSettings', () => {
       )
     }
   })
+
+  test("catches invalid 'ignoreForMessage'", () => {
+    try {
+      commonErrorSettings('ignoreForMessage', [1, 2, 3])
+      throw new Error("Failed to catch invalid 'ignoreForMessage' value.")
+    }
+    catch (e) {
+      expect(e.message).toMatch(/type 'string\[\]'/)
+    }
+  })
 })

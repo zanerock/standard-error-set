@@ -48,8 +48,8 @@ const CommonError = class extends Error {
     for (const parameter of Object.keys(options)) {
       // the excluded parameters are set in the Error constructor (message), explicitly set below, or prototype
       if (
-        !['message', 'hint', 'status', 'statusName', 'prototype'].includes(
-          parameter
+        !['message', 'hint', 'status', 'statusName', 'prototype']
+          .includes(parameter
         )
       ) {
         this[parameter] = options[parameter]

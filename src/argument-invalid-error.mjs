@@ -79,14 +79,7 @@ const ArgumentInvalidError = class extends CommonError {
     super({ name, endpointType, issue, ...options }, defaults)
   }
 }
-// DEBUG
-/* const foo = (
-  bar,
-  baz,
-) => { console.log(bar, baz) }
 
-foo() */
-// GUBED
 registerParent(myName, Object.getPrototypeOf(ArgumentInvalidError).name)
 
 ArgumentInvalidError.typeName = myName

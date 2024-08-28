@@ -42,11 +42,6 @@ const TransactionError = class extends DataServiceError {
     { name = myName, service = defaultService, ...options } = {},
     defaults
   ) {
-    // DEBUG
-    const foo = 'This is the value of foo!'
-    const bar = 'blah blah blah blah'
-    console.log(foo, bar)
-    // GUBED
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
       options.message

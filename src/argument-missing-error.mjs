@@ -84,7 +84,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
             : value === null
               ? "is 'null'"
               : value === ''
-                ? "is '' (the empty string)"
+                ? "is the empty string ('')"
                 : Array.isArray(value) && value.length === 0
                   ? "is an empty array ('[]')"
                   : typeof value === 'object' && Object.keys(value).length === 0
@@ -96,7 +96,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
         ) {
           // If user hasn't specified ignoreForMessage, then we default to ignoring argumentValue, which is now
           // redundant.
-          const globalIgnoreForMessage = commonErrorSettings('ignoreForMessage')
+          const globalIgnoreForMessage = commonErrorSettings('ignoreForMessage') || []
           options.ignoreForMessage = [
             'argumentValue',
             ...globalIgnoreForMessage,
