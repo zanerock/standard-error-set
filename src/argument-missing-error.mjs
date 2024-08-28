@@ -96,7 +96,8 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
         ) {
           // If user hasn't specified ignoreForMessage, then we default to ignoring argumentValue, which is now
           // redundant.
-          const globalIgnoreForMessage = commonErrorSettings('ignoreForMessage') || []
+          const globalIgnoreForMessage =
+            commonErrorSettings('ignoreForMessage') || []
           options.ignoreForMessage = [
             'argumentValue',
             ...globalIgnoreForMessage,

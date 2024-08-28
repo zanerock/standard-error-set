@@ -1397,7 +1397,7 @@ production systems, the [presentation of errors to the users](#presenting-errors
 underlying type.
 
 <a id="rethrowIf"></a>
-#### `rethrowIf([error], [options])` ⇒ `Error` \| `undefined` <sup>↱[source code](./src/rethrow-if.mjs#L28)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `rethrowIf([error], [testOptions])` ⇒ `Error` \| `undefined` <sup>↱[source code](./src/rethrow-if.mjs#L28)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
 One liner to test and re-throw errors if any conditions are met.
 
@@ -1405,17 +1405,17 @@ One liner to test and re-throw errors if any conditions are met.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`error`] | `Error` \| `undefined` |  | The `Error` to test against and possibly re-throw. |
-| [`options`] | `object` | `{}` | The set of conditions to test against. If any of the conditions test true, then the   `error` is re-thrown. |
-| [`options.codeIs`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _any_ of the   listed codes. |
-| [`options.codeIsNot`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _not any_ of   the listed codes. |
-| [`options.instanceOf`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is an instance   of _any_ of the listed classes. |
-| [`options.instanceOfNot`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is not an   instance of _any_ of the listed classes. |
-| [`options.statusGt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than_ the specified status. |
-| [`options.statusGte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than or equal_ to the  specified status. |
-| [`options.statusLt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is _less   than_ the specified status. |
-| [`options.statusLte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is _less   than or equal_ to the  specified status. |
-| [`options.statusIs`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined and   _any_ of the specified statuses. |
-| [`options.statusIsNot`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined and   _not any_ of the specified statuses. |
+| [`testOptions`] | `object` | `{}` | The set of conditions to test against. If any of the conditions test true, then   the error` is re-thrown. |
+| [`testOptions.codeIs`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _any_ of the   listed codes. |
+| [`testOptions.codeIsNot`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _not any_ of   the listed codes. |
+| [`testOptions.instanceOf`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is an   instance of _any_ of the listed classes. |
+| [`testOptions.instanceOfNot`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is not   an instance of _any_ of the listed classes. |
+| [`testOptions.statusGt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than_ the specified status. |
+| [`testOptions.statusGte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than or equal_ to the  specified status. |
+| [`testOptions.statusLt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _less than_ the specified status. |
+| [`testOptions.statusLte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _less than or equal_ to the  specified status. |
+| [`testOptions.statusIs`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined and   _any_ of the specified statuses. |
+| [`testOptions.statusIsNot`] | `number` \| `Array.<number>` \| `undefined` |  | Throws if `error.status` is defined   and _not any_ of the specified statuses. |
 
 **Returns**: `Error` \| `undefined` - - If the function does not throw, it returns the `error`.
 

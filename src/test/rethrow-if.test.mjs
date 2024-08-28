@@ -48,6 +48,11 @@ describe('rethrowIf', () => {
     [status500Error, { statusIsNot : 499 }, THROW],
     [status500Error, { statusIsNot : [499] }, THROW],
     [status500Error, { statusIsNot : 500 }, NO_THROW],
+    [
+      new ArgumentInvalidError(),
+      { instanceOf : ArgumentInvalidError, and : { statusIs : 500 } },
+      NO_THROW,
+    ],
   ])(
     'error %p, re-throw options %p => will throw: %p',
     (error, options, expectThrow) => {
