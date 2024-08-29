@@ -228,17 +228,17 @@ as a user supplied argument/input. See discussion on [setting and interpreting `
 status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
 
 <span id="argument-missing-error-custom-issue-logic"></span>
-If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and 
-`argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of 
+If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and
+`argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of
 `argumentValue`. The logic recognizes `null`, `undefined`, '' (the empty string), `{}` (empty object), and `[]` (
 empty array). E.g., `argumentValue = null` yields issue `issue = "is 'null'"`.
 
-If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue` 
+If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue`
 parameter in the constructor options. E.g., `{ issue: "field 'foo' is not defined" }`.
 
 Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
 automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
-['argumentValue']` or merge `['argumentValue']` with any [globally configured 
+['argumentValue']` or merge `['argumentValue']` with any [globally configured
 `ignoreForMessage` option](#commonErrorSettings). To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
 `undefined` are equivalent). If you want to be sure and maintain the global settings, set `ignoreForMessage` to
 `commonErrorSettings('ignoreForMessage')`.
@@ -265,7 +265,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | (&#x27;is missing or empty&#x27;\|&lt;other&gt;) | The issue with the argument. The default    value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue    logic](#argument-missing-error-custom-issue-logic) for details. |
+| [`options.issue`] | `string` | (&#x27;is missing or empty&#x27;\|&lt;other&gt;) | The issue with the argument. The default   value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue   logic](#argument-missing-error-custom-issue-logic) for details. |
 
 **Example**:
 ```js
@@ -939,8 +939,8 @@ new NoAccessDirectoryError({ dirPath = '/foo' }) // "Access to director '/foo' i
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. This error is most
 appropriate when trying to read or write something. If the user is attempting to perform an operation, consider the
-[`OperationNotPermittedError`](#OperationNotPermittedError). Note, in high security systems, it is often desirable to tell the user a 
-resource was 'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to 
+[`OperationNotPermittedError`](#OperationNotPermittedError). Note, in high security systems, it is often desirable to tell the user a
+resource was 'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to
 deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
@@ -1337,12 +1337,12 @@ Used to retrieve and manage options used in [`wrapError`](#wrapError) and [messa
 - To bulk add/override settings, call `commonErrorSettings(mappings)` (where `mappings is an `Object`).
 - To reset the custom settings to default, call `commonErrorSettings()`.
 
-Currently, we support three settings. Two influence the behavior of [`wrapError`](#wrapError) (refer to `wrapError` 
+Currently, we support three settings. Two influence the behavior of [`wrapError`](#wrapError) (refer to `wrapError`
 documentation for further details):
 - `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
 - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
 
-The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error 
+The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error
 message](#message-construction). This can be used to hide details from end users.
 
 
