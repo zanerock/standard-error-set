@@ -1,27 +1,27 @@
 import { completeTestData } from '../../test/lib/complete-test-data'
-import { LocalRollbackError } from '../local-rollback-error'
+import { TransactionError } from '../transaction-error'
 import { standardErrorTest } from '../../test/lib/standard-error-test'
 
-describe('LocalRollbackError', () => {
+describe('TransactionError', () => {
   const causeError = new Error()
 
   const testData = [
-    [undefined, /There was a rollback error./],
+    [undefined, /There was a transaction error in the remote database\.$/],
     [
       { action : 'updating' },
-      /There was a rollback error updating the database./,
+      /There was a transaction error updating the remote database\.$/,
     ],
     [
       { target : 'customer database' },
-      /There was a rollback error in the customer database./,
+      /There was a transaction error in the remote customer database\.$/,
     ],
     [
       { action : 'updating', target : 'customer database' },
-      /There was a rollback error updating the customer database./,
+      /There was a transaction error updating the remote customer database\.$/,
     ],
     [
       { target : 'customer database', issue : 'virtual socket closed' },
-      /There was a rollback error in the customer database; virtual socket closed./,
+      /There was a transaction error in the remote customer database; virtual socket closed\.$/,
     ],
     [
       { message : 'Foo is bad', cause : causeError, status : 400 },
@@ -38,6 +38,6 @@ describe('LocalRollbackError', () => {
     })
   )(
     'Options %p => message %s and status %s',
-    standardErrorTest(LocalRollbackError)
+    standardErrorTest(TransactionError)
   )
 })

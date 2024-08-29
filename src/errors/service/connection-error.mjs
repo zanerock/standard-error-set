@@ -1,4 +1,4 @@
-/* globals CommonError */
+/* globals CommonError TimeoutError */
 import { ExternalServiceError } from './external-service-error'
 import { connectionCodes } from './lib/connection-codes'
 import { hoistErrorCode } from '../lib/hoist-error-code'
@@ -14,6 +14,8 @@ const defaultIssue = 'experienced an unknown error'
  * connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error`
  * will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and
  * the hoisted `code` will determine the standard message (unless the `message` option is defined).
+ *
+ * Consider using {@link TimeoutError} when the problem is specifically a connection timeout.
  */
 const ConnectionError = class extends ExternalServiceError {
   /**

@@ -1,5 +1,5 @@
-/* globals ArgumentInvalidError */
-import { CommonError } from '../common-error'
+/* globals ArgumentInvalidError CommonError */
+import { DatabaseError } from './database-error'
 import { generateConstraintMessage } from './lib/generate-constraint-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
@@ -14,9 +14,10 @@ const myDefaults = {
 /**
  * Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
  * `ConstraintViolationError` is distinguished from {@link ArgumentInvalidError} in that argument errors are evaluated
- * at the function level, while constraint violations result from database constraints.
+ * at the function level, while constraint violations result from database constraints. Refer to {@link DatabaseError}
+ * for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
  */
-const ConstraintViolationError = class extends CommonError {
+const ConstraintViolationError = class extends DatabaseError {
   /**
    * {@link ConstraintViolationError} constructor.
    * @param {object} [options = {}] - Constructor options.
@@ -24,6 +25,7 @@ const ConstraintViolationError = class extends CommonError {
    * @param {string|undefined} [options.entityType = undefined] - The "type" of entity. E.g., 'user'.
    * @param {string[]|Array.<Array.string>} [options.fieldAndValues = []] - An array of either field names and/or
    *   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`.
+   * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote database or not.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

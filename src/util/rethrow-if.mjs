@@ -1,3 +1,5 @@
+import { ExternalServiceError } from '../errors/service/external-service-error'
+
 /**
  * One liner to test and re-throw errors if any conditions are met.
  * @param {Error|undefined} [error = undefined] - The `Error` to test against and possibly re-throw.
@@ -11,6 +13,9 @@
  *   instance of _any_ of the listed classes.
  * @param {Function | Array.<Function> | undefined} [testOptions.instanceOfNot = undefined] - Throws if `error` is not
  *   an instance of _any_ of the listed classes.
+ * @param {boolean|undefined} [testOptions.isLocal = undefined] - If set, then tests whether the error is marked as
+ *   'isLocal' or not. Errors that do not expose this field directly are always considered local, except for instances
+ *   of {@link ExternalServiceError}, which are always considered remote.
  * @param {number|undefined} [testOptions.statusGt = undefined] - Throws if `error.status` is defined and status is
  *   _greater than_ the specified status.
  * @param {number|undefined} [testOptions.statusGte = undefined] - Throws if `error.status` is defined and status is
@@ -44,6 +49,7 @@ const rethrowTest = (
     codeIsNot,
     instanceOf,
     instanceOfNot,
+    isLocal,
     statusGt,
     statusGte,
     statusIs,
@@ -52,7 +58,7 @@ const rethrowTest = (
     statusLte,
   } = {}
 ) => {
-  const { code, status } = error
+  const { code, isLocal: isErrorLocal, status } = error
   const orTest =
     arrarify(codeIs).includes(code)
     || (codeIsNot !== undefined && !arrarify(codeIsNot).includes(code))
@@ -61,6 +67,13 @@ const rethrowTest = (
       && arrarify(instanceOfNot).some(
         (TestClass) => !(error instanceof TestClass)
       ))
+    || (isLocal !== undefined
+      && ((isLocal === true
+        && (isErrorLocal === true || isErrorLocal === undefined)
+        && !(error instanceof ExternalServiceError))
+        || (isLocal === false
+          && (isErrorLocal === false
+            || error instanceof ExternalServiceError))))
     || (error.status !== undefined
       && ((statusGt !== undefined && status > statusGt)
         || (statusGte !== undefined && status >= statusGte)

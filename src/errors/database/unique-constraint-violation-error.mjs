@@ -1,4 +1,4 @@
-/* globals CommonError */
+/* globals CommonError DatabaseError */
 import { ConstraintViolationError } from './constraint-violation-error'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
@@ -7,7 +7,8 @@ const defaultConstraintType = 'unique'
 const myDefaults = { constraintType : defaultConstraintType }
 
 /**
- * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID.
+ * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID. Refer to
+ * {@link DatabaseError} for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
  */
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
@@ -17,6 +18,7 @@ const UniqueConstraintViolationError = class extends ConstraintViolationError {
    * @param {string|undefined} [options.entityType = undefined] - The "type" of entity (e.g., 'user'; optional).
    * @param {string[]|Array.<Array.string>} [options.fieldAndValues = []] - An array of either field names and/or
    *   arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`.
+   * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote database or not.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

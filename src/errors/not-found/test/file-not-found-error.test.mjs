@@ -3,12 +3,20 @@ import { FileNotFoundError } from '../file-not-found-error'
 import { standardErrorTest } from '../../test/lib/standard-error-test'
 
 describe('FileNotFoundError', () => {
+  const cause = new Error()
+
   const testData = [
     [undefined, /File not found./],
     [{ fileName : 'foo.txt' }, /File 'foo.txt' not found./],
     [
       { fileName : 'foo.txt', dirPath : '/some/dir' },
       /File '\/some\/dir\/foo.txt' not found./,
+    ],
+    [
+      { message : 'Foo is bad', cause, status : 400 },
+      /Foo is bad/,
+      400,
+      cause,
     ],
   ]
 

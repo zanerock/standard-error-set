@@ -135,15 +135,12 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`ConnectionError`](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
   - [`ConstraintViolationError`](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
   - [`DatabaseError`](#DatabaseError): Indicates a problem within a database system implementation.
-  - [`DataServiceError`](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
   - [`DirectoryNotFoundError`](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [`EndOfStreamError`](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
   - [`ExternalServiceError`](#ExternalServiceError): Indicates an error related to an external service.
   - [`FileLoadError`](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
   - [`FileNotFoundError`](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
   - [`IoError`](#IoError): A generic local I/O error _not_ involving a missing resource.
-  - [`LocalRollbackError`](#LocalRollbackError): An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database.
-  - [`LocalTransactionError`](#LocalTransactionError): An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system itself.
   - [`NoAccessDirectoryError`](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
   - [`NoAccessError`](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
   - [`NoAccessFileError`](#NoAccessFileError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file.
@@ -151,10 +148,10 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`NotImplementedError`](#NotImplementedError): An error indicating the requested operation is not currently implemented.
   - [`NotSupportedError`](#NotSupportedError): An error indicating that the resource exists, but does not support some aspect of the request as is.
   - [`OperationNotPermittedError`](#OperationNotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
-  - [`RollbackError`](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
+  - [`RollbackError`](#RollbackError): An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database.
   - [`SystemError`](#SystemError): An error indicating a system error.
   - [`TimeoutError`](#TimeoutError): Indicates an operation is taking too much time.
-  - [`TransactionError`](#TransactionError): A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction.
+  - [`TransactionError`](#TransactionError): An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system itself.
   - [`UnavailableError`](#UnavailableError): An error indicating that the resource exists, but is not currently available.
   - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 <span id="global-function-index"></span>
@@ -542,13 +539,15 @@ new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
 ```
 
 <a id="ConnectionError"></a>
-#### `ConnectionError` <sup>↱[source code](./src/errors/service/connection-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ConnectionError` <sup>↱[source code](./src/errors/service/connection-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection. The
 standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the
 connection error. Recall that due to [error code hoisting](#error-code-hoisting), the `code` of the `cause` `Error`
 will set the `ConnectionError` `code` (unless the constructor options `code` is set or `noHoistCode` is `true`) and
 the hoisted `code` will determine the standard message (unless the `message` option is defined).
+
+Consider using [`TimeoutError`](#TimeoutError) when the problem is specifically a connection timeout.
 
 <a id="new_ConnectionError_new"></a>
 ##### `new ConnectionError([options], defaults)` 
@@ -576,11 +575,12 @@ const connError = new ConnectionError({ cause }) // also "Connection has been re
 ```
 
 <a id="ConstraintViolationError"></a>
-#### `ConstraintViolationError` <sup>↱[source code](./src/errors/database/constraint-violation-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ConstraintViolationError` <sup>↱[source code](./src/errors/database/constraint-violation-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
 `ConstraintViolationError` is distinguished from [`ArgumentInvalidError`](#ArgumentInvalidError) in that argument errors are evaluated
-at the function level, while constraint violations result from database constraints.
+at the function level, while constraint violations result from database constraints. Refer to [`DatabaseError`](#DatabaseError) 
+for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
 
 <a id="new_ConstraintViolationError_new"></a>
 ##### `new ConstraintViolationError([options], defaults)` 
@@ -594,6 +594,7 @@ at the function level, while constraint violations result from database constrai
 | [`options.constraintType`] | `string` | &#x27;constraint&#x27; | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity. E.g., 'user'. |
 | [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote database or not. |
 
 **Example**:
 ```js
@@ -607,9 +608,15 @@ new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 
 ```
 
 <a id="DatabaseError"></a>
-#### `DatabaseError` <sup>↱[source code](./src/errors/database/database-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `DatabaseError` <sup>↱[source code](./src/errors/database/database-error.mjs#L23)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates a problem within a database system implementation.
+
+<span id="database-error-remote-vs-local-database-errors"></span>
+In general, these errors arise from an external service. However, since they can also occur within a database 
+implementation itself, we don't extend [`ExternalServiceError`](#ExternalServiceError), but rather include an 'isLocal' setting, which 
+defaults to the common case of `false`.
+
 Consider whether any of the following errors might be more precise or better suited:
 - [`RollbackError`](#RollbackError)
 - [`TransactionError`](#TransactionError)
@@ -626,6 +633,7 @@ Consider whether any of the following errors might be more precise or better sui
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
 | [`options.errorType`] | `string` | &#x27;an error&#x27; | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote database or not. |
 | [`options.target`] | `string` | &#x27;target&#x27; | The name or description of the target resource. |
 
 **Example**:
@@ -637,40 +645,6 @@ new DatabaseError({ target : 'customer database' }) // "There was an error in th
 new DatabaseError({ action: 'creating', target : 'customer database' })
 // v "There was an error in the customer database; virtual socket closed."
 new DatabaseError({ issue : 'virtual socket closed', target : 'customer database' })
-```
-
-<a id="DataServiceError"></a>
-#### `DataServiceError` <sup>↱[source code](./src/errors/service/database/data-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
-
-An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
-
-Consider whether any of the following errors might be more precise or better suited:
-- [`ConnectionError`](#ConnectionError)
-- [`ConstraintViolationError`](#ConstraintViolationError)
-- [`RollbackError`](#RollbackError)
-- [`TransactionError`](#TransactionError)
-- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
-
-<a id="new_DataServiceError_new"></a>
-##### `new DataServiceError([options], defaults)` 
-
-[`DataServiceError`](#DataServiceError) constructor.
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` | &#x27;data&#x27; | The name or short description of the service. |
-| [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
-
-**Example**:
-```js
-new DataServiceError() // There was an error with a remote data service.
-new DataServiceError({ service : 'database' }) // The was an error with the remote database service.
-// v "There was an error with a remote data service; service is not rot responding."
-new DataServiceError({ issue : 'is not responding' })
-// v "There was an error with the remote database service; service is not responding."
-new DataServiceError({ service : 'database', issue : 'is not responding' })
 ```
 
 <a id="DirectoryNotFoundError"></a>
@@ -736,16 +710,15 @@ new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' }
 ```
 
 <a id="ExternalServiceError"></a>
-#### `ExternalServiceError` <sup>↱[source code](./src/errors/service/external-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ExternalServiceError` <sup>↱[source code](./src/errors/service/external-service-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-Indicates an error related to an external service.
+Indicates an error related to an external service. Not that [database related errors have their own distinct class](#DatabaseError) which is used for both local and remote database errors.
 
 Consider whether any of the following errors might be more precise or better suited:
-- [`ConstraintViolationError`](#ConstraintViolationError)
-- [`DataServiceError`](#DataServiceError)
-- [`RollbackError`](#RollbackError)
-- [`TransactionError`](#TransactionError)
-- [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
+- [`ConnectionError`](#ConnectionError)
+- [`DatabaseError`](#DatabaseError) and sub-types are used with database specific issues.
+- [`TimeoutError`](#TimeoutError)
+- [`UnavailableError`](#UnavailableError)
 
 <a id="new_ExternalServiceError_new"></a>
 ##### `new ExternalServiceError([options], defaults)` 
@@ -867,69 +840,6 @@ new IoError({ target : 'serial port' }) // "There an IO error while accessing th
 new IoError({ action: 'reading', target : 'serial port' }) // "There an IO error while reading the serial port."
 // v "There an IO error while accessing the serial port; virtual socket closed."
 new IoError({ issue : 'virtual socket closed', target : 'serial port' })
-```
-
-<a id="LocalRollbackError"></a>
-#### `LocalRollbackError` <sup>↱[source code](./src/errors/database/local-rollback-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
-
-An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the
-client side to indicate a failed rollback in an external data service.
-
-<a id="new_LocalRollbackError_new"></a>
-##### `new LocalRollbackError([options], defaults)` 
-
-[`LocalRollbackError`](#LocalRollbackError) constructor.
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
-| [`options.errorType`] | `string` | &#x27;a rollback error&#x27; | A description of the error type. |
-| [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` | &#x27;database&#x27; | The name or description of the target resource. |
-
-**Example**:
-```js
-new LocalRollbackError() // "There an error in the database."
-new LocalRollbackError({ action : 'updating' }) // "There was a rollback error updating the database."
-new LocalRollbackError({ target : 'customer database' }) // "There was a rollback error in the customer database."
-// v "There was a rollback error updating the customer database."
-new LocalRollbackError({ action: 'updating', target : 'customer database' })
-// v "There was a rollback error in the customer database; virtual socket closed."
-new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
-```
-
-<a id="LocalTransactionError"></a>
-#### `LocalTransactionError` <sup>↱[source code](./src/errors/database/local-transaction-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
-
-An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system
-itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
-
-<a id="new_LocalTransactionError_new"></a>
-##### `new LocalTransactionError([options], defaults)` 
-
-[`LocalTransactionError`](#LocalTransactionError) constructor.
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
-| [`options.errorType`] | `string` | &#x27;an error&#x27; | A description of the error type. |
-| [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` | &#x27;database&#x27; | The name or description of the target resource. |
-
-**Example**:
-```js
-new LocalTransactionError() // "There was a transaction error."
-new LocalTransactionError({ action : 'closing' }) // "There was an error closing the transaction."
-// v "There was a transaction error on the customer database."
-new LocalTransactionError({ target : 'customer database' })
-// v "There was an error closing the transaction on the customer database."
-new LocalTransactionError({ action: 'creating', target : 'customer database' })
-// v "There was a transaction error on the customer database; virtual socket closed."
-new LocalTransactionError({ issue : 'virtual socket closed', target : 'customer database' })
 ```
 
 <a id="NoAccessDirectoryError"></a>
@@ -1181,15 +1091,16 @@ new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not
 ```
 
 <a id="RollbackError"></a>
-#### `RollbackError` <sup>↱[source code](./src/errors/service/database/rollback-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `RollbackError` <sup>↱[source code](./src/errors/database/rollback-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service. Use [`LocalRollbackError`](#LocalRollbackError) within a database implementation itself.
+An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the
+client side to indicate a failed rollback in an external data service. Refer to [`DatabaseError`](#DatabaseError) for [remote vs 
+local database errors](#database-error-remote-vs-local-database-errors).
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ConnectionError`](#ConnectionError)
 - [`ConstraintViolationError`](#ConstraintViolationError)
-- [`DataServiceError`](#DataServiceError)
-- [`LocalRollbackError`](#LocalRollbackError)
+- [`DataServiceError`](DataServiceError)
 - [`TransactionError`](#TransactionError)
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
 
@@ -1202,23 +1113,27 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` | &#x27;data&#x27; | The name or short description of the service. |
-| [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
+| [`options.errorType`] | `string` | &#x27;a rollback error&#x27; | A description of the error type. |
+| [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
+| [`options.target`] | `string` | &#x27;database&#x27; | The name or description of the target resource. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote database or not. |
 
 **Example**:
 ```js
-new RollbackError() // There was a rollback error with the remote data service.
-new RollbackError({ service : 'database' }) // There was a rollback error with the remote database service.
-// v "There was a rollback error with the remote data service; service is not responding."
-new RollbackError({ issue : 'is not responding' })
-// v "There was a rollback error with the database remote data service; service is not rot responding."
-new RollbackError({ service : 'database', issue : 'is not responding' })
+new RollbackError() // "There a rollback error in the database."
+new RollbackError({ action : 'updating' }) // "There was a rollback error updating the database."
+new RollbackError({ target : 'customer database' }) // "There was a rollback error in the customer database."
+// v "There was a rollback error updating the customer database."
+new RollbackError({ action: 'updating', target : 'customer database' })
+// v "There was a rollback error in the customer database; virtual socket closed."
+new RollbackError({ issue : 'virtual socket closed', target : 'customer database' })
 ```
 
 <a id="SystemError"></a>
 #### `SystemError` <sup>↱[source code](./src/errors/system-error.mjs#L14)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`, 
+An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`,
 etc.), be sure to set the `cause` option.
 
 <a id="new_SystemError_new"></a>
@@ -1257,6 +1172,7 @@ Indicates an operation is taking too much time.
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.resource`] | `string` \| `undefined` |  | The name or short description of the thing which is   timing out. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote service our not (   e.g., a connection timeout). |
 
 **Example**:
 ```js
@@ -1265,16 +1181,17 @@ Indicates an operation is taking too much time.
 ```
 
 <a id="TransactionError"></a>
-#### `TransactionError` <sup>↱[source code](./src/errors/service/database/transaction-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `TransactionError` <sup>↱[source code](./src/errors/database/transaction-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction. Note, this
-error is specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for
-error or otherwise involving a transaction within a database system itself.
+An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system
+itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service. 
+Refer to [`DatabaseError`](#DatabaseError) for [remote vs local database 
+errors](#database-error-remote-vs-local-database-errors).
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ConnectionError`](#ConnectionError)
 - [`ConstraintViolationError`](#ConstraintViolationError)
-- [`DataServiceError`](#DataServiceError)
+- [`DataServiceError`](DataServiceError)
 - [`RollbackError`](#RollbackError)
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
 
@@ -1287,17 +1204,22 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` \| `undefined` |  | The name or short description of the service. |
-| [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
+| [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
+| [`options.errorType`] | `string` | &#x27;an error&#x27; | A description of the error type. |
+| [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
+| [`options.target`] | `string` | &#x27;database&#x27; | The name or description of the target resource. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote database or not. |
 
 **Example**:
 ```js
-new TransactionError() // There was a transaction error with the remote data service.
-new TransactionError({ service : 'database' }) // There was a transaction error with the remote database service.
-// v "There was a transaction error with the remote data service; service is not responding."
-new TransactionError({ issue : 'is not responding' })
-// v "There was a transaction error with the remote database service; service is not responding."
-new TransactionError({ service : 'database', issue : 'is not responding' })
+new TransactionError() // "There was a transaction error in the database."
+new TransactionError({ action : 'closing' }) // "There was an error closing the transaction."
+// v "There was a transaction error on the customer database."
+new TransactionError({ target : 'customer database' })
+// v "There was an error closing the transaction on the customer database."
+new TransactionError({ action: 'creating', target : 'customer database' })
+// v "There was a transaction error on the customer database; virtual socket closed."
+new TransactionError({ issue : 'virtual socket closed', target : 'customer database' })
 ```
 
 <a id="UnavailableError"></a>
@@ -1335,9 +1257,10 @@ new UnavailableError({ target: 'URL /some/endpoint', expectedTime: 'after 12:00 
 ```
 
 <a id="UniqueConstraintViolationError"></a>
-#### `UniqueConstraintViolationError` <sup>↱[source code](./src/errors/database/unique-constraint-violation-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `UniqueConstraintViolationError` <sup>↱[source code](./src/errors/database/unique-constraint-violation-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
+A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID. Refer to 
+[`DatabaseError`](#DatabaseError) for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
 
 <a id="new_UniqueConstraintViolationError_new"></a>
 ##### `new UniqueConstraintViolationError([options], defaults)` 
@@ -1351,6 +1274,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating vi
 | [`options.constraintType`] | `string` | &#x27;unique constraint&#x27; | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity (e.g., 'user'; optional). |
 | [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
+| [`options.isLocal`] | `boolean` | `false` | Indicates whether the error arises from a remote database or not. |
 
 **Example**:
 ```js
