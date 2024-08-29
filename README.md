@@ -227,7 +227,7 @@ An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a argumen
 as a user supplied argument/input. See discussion on [setting and interpreting `InvalidArgumentError`
 status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
 
-<span id="argument-type-error-custom-issue-logic"></span>
+<span id="argument-missing-error-custom-issue-logic"></span>
 If using the class parameters to [construct the error message](#message-construction), it will take note of
 `argumentValue` to customize the message. This takes cognizance of `null`, `undefined`, '' (the empty string), `{}` (
 empty object), and `[]` (empty array). If you want a more specific error message and have a different concept of
@@ -263,7 +263,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | `&quot;(&#x27;is missing or empty&#x27;|&amp;lt;other&amp;gt;)&quot;` | The issue with the argument. The default   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more   specific explanation if you like. To force the message to default to the default 'is missing or empty',   explicitly set issue to undefined. See [discussion on custom issue   logic](#argument-type-error-custom-issue-logic) for further details. |
+| [`options.issue`] | `string` | `&quot;(&#x27;is missing or empty&#x27;|&amp;lt;other&amp;gt;)&quot;` | The issue with the argument. The default   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more   specific explanation if you like. To force the message to default to the default 'is missing or empty',   explicitly set issue to undefined. See [discussion on custom issue   logic](#argument-missing-error-custom-issue-logic) for further details. |
 
 **Example**:
 ```js
@@ -937,9 +937,9 @@ new NoAccessDirectoryError({ dirPath = '/foo' }) // "Access to director '/foo' i
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. This error is most
 appropriate when trying to read or write something. If the user is attempting to perform an operation, consider the
-{@OperationNotPermittedError}. Note, in high security systems, it is often desirable to tell the user a resource was
-'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to deal with
-this situation.
+[`OperationNotPermittedError`](#OperationNotPermittedError). Note, in high security systems, it is often desirable to tell the user a 
+resource was 'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to 
+deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError) - Use this when the resource requires authenticated access and the user is not
@@ -1432,12 +1432,12 @@ The wrapping logic is as follows:
 - If the `error` `code` is 'EACCESS' or 'EPERM', results in a [`NoAccessError`](#NoAccessError).
 - If the `error` `code` is 'ENOENT', results in a [`NotFoundError`](#NotFoundError).
 - If the `error` is an instance of `URIError` and the `wrapUserErrorType` option is `undefined`, results in a
-  {@ArgumentInvalidError}.
+  [`ArgumentInvalidError`](#ArgumentInvalidError).
 - If the `error` is an instance of `RangeError` and the `wrapUserErrorType` option is `undefined`, results in a
   [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError).
 - If the `error` is an instance of `TypeError` and the `wrapUserErrorType` option is `undefined`, results in a
   [`ArgumentTypeError`](#ArgumentTypeError).
-- If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a {@SystemError}.
+- If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a [`SystemError`](#SystemError).
 - Otherwise, results in a [`CommonError`](#CommonError).
 
 Note, there is no special handling for `EvalError` (which [is no longer in
@@ -1451,7 +1451,7 @@ use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Ob
 | `error` | `Error` | The `Error` to be wrapped. |
 | `options` | `object` \| `undefined` | The options controlling some wrapping and also passed to the wrapping   `CommonError`constructor. |
 | `options.noInstanceHidingOnWrap` | `boolean` | If true, then if the `error` class is anything but `Error`, the   original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
-| `options.wrapUserErrorType` | `function` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped   in a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
+| `options.wrapUserErrorType` | `function` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped   in a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)   `wrapUserErrorType`, which if undefined will result in the appropriate [`ArgumentInvalidError`](#ArgumentInvalidError) analog. |
 
 **Returns**: `Array.<Error, boolean>` - An array containing either the original `Error` or the new wrapping `CommonError`
   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).

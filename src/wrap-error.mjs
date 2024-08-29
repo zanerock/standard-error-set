@@ -20,12 +20,12 @@ import { connectionCodes } from './lib/connection-codes'
  * - If the `error` `code` is 'EACCESS' or 'EPERM', results in a {@link NoAccessError}.
  * - If the `error` `code` is 'ENOENT', results in a {@link NotFoundError}.
  * - If the `error` is an instance of `URIError` and the `wrapUserErrorType` option is `undefined`, results in a
- *   {@ArgumentInvalidError}.
+ *   {@link ArgumentInvalidError}.
  * - If the `error` is an instance of `RangeError` and the `wrapUserErrorType` option is `undefined`, results in a
  *   {@link ArgumentOutOfRangeError}.
  * - If the `error` is an instance of `TypeError` and the `wrapUserErrorType` option is `undefined`, results in a
  *   {@link ArgumentTypeError}.
- * - If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a {@SystemError}.
+ * - If the `error` in an instance of `ReferenceError` or `SyntaxError`, results in a {@link SystemError}.
  * - Otherwise, results in a {@link CommonError}.
  *
  * Note, there is no special handling for `EvalError` (which [is no longer in
@@ -40,7 +40,7 @@ import { connectionCodes } from './lib/connection-codes'
  *   commonErrorSettings} `noInstanceHidingOnWrap` option value.
  * @param {Function} options.wrapUserErrorType - If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped
  *   in a new error of that `Class`. Otherwise, the logic will refer to the {@link commonErrorSettings}
- *   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog.
+ *   `wrapUserErrorType`, which if undefined will result in the appropriate {@link ArgumentInvalidError} analog.
  * @returns {Array.<Error, boolean>} An array containing either the original `Error` or the new wrapping `CommonError`
  *   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
  */

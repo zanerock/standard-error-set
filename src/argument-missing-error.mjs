@@ -12,7 +12,7 @@ const myDefaults = { issue : defaultIssue }
  * as a user supplied argument/input. See discussion on [setting and interpreting `InvalidArgumentError`
  * status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
  *
- * <span id="argument-type-error-custom-issue-logic"></span>
+ * <span id="argument-missing-error-custom-issue-logic"></span>
  * If using the class parameters to [construct the error message](#message-construction), it will take note of
  * `argumentValue` to customize the message. This takes cognizance of `null`, `undefined`, '' (the empty string), `{}` (
  * empty object), and `[]` (empty array). If you want a more specific error message and have a different concept of
@@ -48,7 +48,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    *   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more
    *   specific explanation if you like. To force the message to default to the default 'is missing or empty',
    *   explicitly set issue to undefined. See [discussion on custom issue
-   *   logic](#argument-type-error-custom-issue-logic) for further details.
+   *   logic](#argument-missing-error-custom-issue-logic) for further details.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
