@@ -1,4 +1,3 @@
-
 export * from './constraint-violation-error'
 export * from './database-error'
 export * from './local-rollback-error'

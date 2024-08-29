@@ -8,7 +8,7 @@ const defaultResource = 'the process'
 const myDefaults = { issue : defaultIssue, resource : defaultResource }
 
 /**
- * An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`, 
+ * An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`,
  * etc.), be sure to set the `cause` option.
  */
 const SystemError = class extends CommonError {
