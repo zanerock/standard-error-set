@@ -199,13 +199,13 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
+| [`options.endpointType`] | `string` | `'command'` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | `&quot;&#x27;is invalid&#x27;&quot;` | The issue with the argument. |
+| [`options.issue`] | `string` | `'is invalid'` | The issue with the argument. |
 
 **Example**:
 ```js
@@ -257,13 +257,13 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
+| [`options.endpointType`] | `string` | `'command'` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | `&quot;(&#x27;is missing or empty&#x27;|&amp;lt;other&amp;gt;)&quot;` | The issue with the argument. The default   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more   specific explanation if you like. To force the message to default to the default 'is missing or empty',   explicitly set issue to undefined. See [discussion on custom issue   logic](#argument-missing-error-custom-issue-logic) for further details. |
+| [`options.issue`] | `string` | `('is missing or empty'\|<other>)` | The issue with the argument. The default   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more   specific explanation if you like. To force the message to default to the default 'is missing or empty',   explicitly set issue to undefined. See [discussion on custom issue   logic](#argument-missing-error-custom-issue-logic) for further details. |
 
 **Example**:
 ```js
@@ -303,7 +303,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
+| [`options.endpointType`] | `string` | `'command'` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
@@ -313,7 +313,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.maxBoundary`] | `string` \| `number` \| `undefined` |  | The upper value boundary; the value must be   less than this. This value will be ignored if `max` is set. |
 | [`options.min`] | `string` \| `number` \| `undefined` |  | The minimum; the value must be greater than or equal   to this. |
 | [`options.minBoundary`] | `string` \| `number` \| `undefined` |  | The lower value boundary; the value must be   greater than this. This value will be ignored if `min` is set. |
-| [`options.issue`] | `string` | `&quot;&#x27;is out of range&#x27;&quot;` | The issue with the argument. |
+| [`options.issue`] | `string` | `'is out of range'` | The issue with the argument. |
 
 **Example**:
 ```js
@@ -348,14 +348,14 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.endpointType`] | `string` | `&quot;&#x27;command&#x27;&quot;` | The type of "endpoint" consuming the argument. |
+| [`options.endpointType`] | `string` | `'command'` | The type of "endpoint" consuming the argument. |
 | [`options.packageName`] | `string` \| `undefined` |  | The package name. |
 | [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The (expected) argument type. |
 | [`options.receivedType`] | `string` \| `undefined` |  | The actual type of the argument. If this is not   set, but `argumentValue` is provided then unless `receivedType` is ignored, the `typeof argumentValue` will be   used as the received type. |
 | [`options.argumentValue`] | `*` |  | The value of the argument; though we recommend to leave this   undefined. The value is generally not important since the type is incorrect. |
-| [`options.issue`] | `string` | `&quot;&#x27;is wrong type&#x27;&quot;` | The issue with the argument. |
+| [`options.issue`] | `string` | `'is wrong type'` | The issue with the argument. |
 
 **Example**:
 ```js
@@ -383,9 +383,9 @@ authenticated.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;action&#x27;&quot;` | A short description of the action. |
+| [`options.action`] | `string` | `'action'` | A short description of the action. |
 | [`options.target`] | `string` \| `undefined` |  | A short description of the action target. |
-| [`options.issue`] | `string` | `&quot;&#x27;requires authorization&#x27;&quot;` | The auth issue. |
+| [`options.issue`] | `string` | `'requires authorization'` | The auth issue. |
 
 **Example**:
 ```js
@@ -409,15 +409,15 @@ related errors broadly (`e.g., instanceof AuthError`). Generally, will want to u
 <a id="new_AuthError_new"></a>
 ##### `new AuthError([options], defaults)` 
 
-{@AuthError} constructor.
+[`AuthError`](#AuthError) constructor.
 
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;action&#x27;&quot;` | A short description of the action. |
+| [`options.action`] | `string` | `'action'` | A short description of the action. |
 | [`options.target`] | `string` \| `undefined` |  | The name or short description of the target. |
-| [`options.issue`] | `string` | `&quot;&#x27;is not authorized&#x27;&quot;` | The auth issue. |
+| [`options.issue`] | `string` | `'is not authorized'` | The auth issue. |
 
 **Example**:
 ```js
@@ -452,7 +452,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. This should   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer   data'. |
 | [`options.hint`] | `string` \| `undefined` |  | A description of what the user might do to remedy the   situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota   increase.', or 'Try again in a few minutes.' |
-| [`options.issue`] | `string` | `&quot;&#x27;current conditions prevent this action&#x27;&quot;` | A description of the problem. E.g.,   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'. |
+| [`options.issue`] | `string` | `'current conditions prevent this action'` | A description of the problem. E.g.,   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'. |
 
 **Example**:
 ```js
@@ -486,14 +486,14 @@ MyError.typeName = myName
 <a id="new_CommonError_new"></a>
 ##### `new CommonError([options])` 
 
-{@CommonError} constructor.
+[`CommonError`](#CommonError) constructor.
 
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | `options.name` | `string` |  | The name of error. In general, this should match the final class name. |
-| [`options.message`] | `string` | `&quot;&#x27;An error has occurred.&#x27;&quot;` | The error message. |
+| [`options.message`] | `string` | `'An error has occurred.'` | The error message. |
 | [`options.code`] | `string` \| `undefined` |  | The error code. |
 | [`options.hint`] | `string` \| `undefined` |  | Optional hint regarding rectifying the error. |
 | [`options.status`] | `number` \| `undefined` |  | The HTTP status associated with the error. If undefined,   this will be automatically set according to the [@link mapErrorToHttpStatus | configured error mappings]. |
@@ -523,7 +523,7 @@ Constructor for the [`ConnectionError`](#ConnectionError) class.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.issue`] | `string` | `&quot;_variaus_&quot;` | Typically left `undefined` and determined automatically according to   the error `code`. Describes the specific issue. |
+| [`options.issue`] | `string` | `_variaus_` | Typically left `undefined` and determined automatically according to   the error `code`. Describes the specific issue. |
 | [`options.target`] | `string` \| `undefined` |  | The name or description of the connection target. |
 
 **Example**:
@@ -555,7 +555,7 @@ at the function level, while constraint violations result from database constrai
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.constraintType`] | `string` | `&quot;&#x27;constraint&#x27;&quot;` | The constraint type. |
+| [`options.constraintType`] | `string` | `'constraint'` | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity. E.g., 'user'. |
 | [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value. You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
 
@@ -588,9 +588,9 @@ Consider whether any of the following errors might be more precise or better sui
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
-| [`options.errorType`] | `string` | `&quot;&#x27;an error&#x27;&quot;` | A description of the error type. |
+| [`options.errorType`] | `string` | `'an error'` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` | `&quot;&#x27;target&#x27;&quot;` | The name or description of the target resource. |
+| [`options.target`] | `string` | `'target'` | The name or description of the target resource. |
 
 **Example**:
 ```js
@@ -624,7 +624,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` | `&quot;&#x27;data&#x27;&quot;` | The name or short description of the service. |
+| [`options.service`] | `string` | `'data'` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
@@ -684,7 +684,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;reading&#x27;&quot;` | A description of the action being taken; default to 'reading'. |
+| [`options.action`] | `string` | `'reading'` | A description of the action being taken; default to 'reading'. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
 | [`options.target`] | `string` \| `undefined` |  | The name or description of the target resource. |
 
@@ -720,7 +720,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` | `&quot;&#x27;&#x27;&quot;` | The name or short description of the service. |
+| [`options.service`] | `string` | `''` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
@@ -751,7 +751,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;loading&#x27;&quot;` | A description of the action being taken. Default to 'loading'. |
+| [`options.action`] | `string` | `'loading'` | A description of the action being taken. Default to 'loading'. |
 | [`options.dirPath`] | `string` \| `undefined` |  | The directory (not including the file itself) where the   file is located. |
 | [`options.fileName`] | `string` \| `undefined` |  | The name of the file itself. May be a full path (in   which case `dirPath` should be left undefined) or just the file name, in which case it is combined with   `dirPath`, if present, to create the standard error message. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
@@ -849,9 +849,9 @@ client side to indicate a failed rollback in an external data service.
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
-| [`options.errorType`] | `string` | `&quot;&#x27;a rollback error&#x27;&quot;` | A description of the error type. |
+| [`options.errorType`] | `string` | `'a rollback error'` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
+| [`options.target`] | `string` | `'database'` | The name or description of the target resource. |
 
 **Example**:
 ```js
@@ -880,9 +880,9 @@ itself. Use [`TransactionError`](#TransactionError) for transaction errors relat
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` \| `undefined` |  | A description of the action being taken. E.g., 'closing',   'creating', etc. |
-| [`options.errorType`] | `string` | `&quot;&#x27;an error&#x27;&quot;` | A description of the error type. |
+| [`options.errorType`] | `string` | `'an error'` | A description of the error type. |
 | [`options.issue`] | `string` \| `undefined` |  | Describes the specific issue. |
-| [`options.target`] | `string` | `&quot;&#x27;database&#x27;&quot;` | The name or description of the target resource. |
+| [`options.target`] | `string` | `'database'` | The name or description of the target resource. |
 
 **Example**:
 ```js
@@ -1032,7 +1032,7 @@ Consider whether any of the following errors might be more precise or better sui
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.resource`] | `string` \| `undefined` |  | The name or short description of the missing resource. |
-| [`options.code`] | `string` | `&quot;&#x27;ENOENT&#x27;&quot;` | The code to use with the error. Should generally be left to the   default. |
+| [`options.code`] | `string` | `'ENOENT'` | The code to use with the error. Should generally be left to the   default. |
 
 **Example**:
 ```js
@@ -1092,7 +1092,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.missingFeature`] | `string` \| `undefined` | `&quot;&#x27;a requested feature&#x27;&quot;` | A short description of the action or   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'. |
+| [`options.missingFeature`] | `string` \| `undefined` | `'a requested feature'` | A short description of the action or   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'. |
 | [`options.hint`] | `string` \| `undefined` |  | A short hint to the user as to how they might resolve or   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous   execution.' |
 | [`options.target`] | `string` \| `undefined` |  | The name of the function, endpoint, service, etc. which   the user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
@@ -1129,9 +1129,9 @@ precise or better suited:
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.action`] | `string` | `&quot;&#x27;action&#x27;&quot;` | A short description of the action. |
+| [`options.action`] | `string` | `'action'` | A short description of the action. |
 | [`options.target`] | `string` \| `undefined` |  | The name or short description of the target. |
-| [`options.issue`] | `string` | `&quot;&#x27;is not permitted&#x27;&quot;` | The auth issue. |
+| [`options.issue`] | `string` | `'is not permitted'` | The auth issue. |
 
 **Example**:
 ```js
@@ -1166,7 +1166,7 @@ Consider whether any of the following errors might be more precise or better sui
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.service`] | `string` | `&quot;&#x27;data&#x27;&quot;` | The name or short description of the service. |
+| [`options.service`] | `string` | `'data'` | The name or short description of the service. |
 | [`options.issue`] | `string` \| `undefined` |  | A description of the issue. |
 
 **Example**:
@@ -1195,8 +1195,8 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.issue`] | `string` | `&quot;&#x27;has experienced a system error&#x27;&quot;` | A description of the error. |
-| [`options.resource`] | `string` | `&quot;&#x27;process&#x27;&quot;` | The name or short description of the resource where the error   occurred. |
+| [`options.issue`] | `string` | `'has experienced a system error'` | A description of the error. |
+| [`options.resource`] | `string` | `'process'` | The name or short description of the resource where the error   occurred. |
 
 **Example**:
 ```js
@@ -1283,9 +1283,9 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` |  | The constructor options. |
-| [`options.expectedTime`] | `string` | `&quot;{}&quot;` | A short description as to when the resource might be   available. E.g., 'after 1400' or 'in two hours'. |
-| [`options.issue`] | `string` | `&quot;&#x27;currently unavailable&#x27;&quot;` | - |
-| [`options.target`] | `string` | `&quot;&#x27;target resource&#x27;&quot;` | The name of the function, endpoint, service, etc. which the   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
+| [`options.expectedTime`] | `string` | `{}` | A short description as to when the resource might be   available. E.g., 'after 1400' or 'in two hours'. |
+| [`options.issue`] | `string` | `'currently unavailable'` | - |
+| [`options.target`] | `string` | `'target resource'` | The name of the function, endpoint, service, etc. which the   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 
 **Example**:
 ```js
@@ -1311,7 +1311,7 @@ A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating vi
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.constraintType`] | `string` | `&quot;&#x27;unique constraint&#x27;&quot;` | The constraint type. |
+| [`options.constraintType`] | `string` | `'unique constraint'` | The constraint type. |
 | [`options.entityType`] | `string` \| `undefined` |  | The "type" of entity (e.g., 'user'; optional). |
 | [`options.fieldAndValues`] | `Array.<string>` \| `Array.<Array.string>` | `[]` | An array of either field names and/or   arrays of field name + field value (optional). You may mix and match, e.g., `['field1', ['field2', 'value2']`. |
 

@@ -19,7 +19,7 @@ const myDefaults = { action : defaultAction, issue : defaultIssue }
  */
 const AuthError = class extends CommonError {
   /**
-   * {@AuthError} constructor.
+   * {@link AuthError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'action'] - A short description of the action.
    * @param {string|undefined} [options.target = undefined] - The name or short description of the target.

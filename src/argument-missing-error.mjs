@@ -44,7 +44,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
-   * @param {string} [options.issue = ('is missing or empty'|&lt;other&gt;)] - The issue with the argument. The default
+   * @param {string} [options.issue = ('is missing or empty'\|<other>)] - The issue with the argument. The default
    *   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more
    *   specific explanation if you like. To force the message to default to the default 'is missing or empty',
    *   explicitly set issue to undefined. See [discussion on custom issue

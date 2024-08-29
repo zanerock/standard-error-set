@@ -19,7 +19,7 @@ import { mapHttpStatusToName } from './map-http-status-to-name'
  */
 const CommonError = class extends Error {
   /**
-   * {@CommonError} constructor.
+   * {@link CommonError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} options.name - The name of error. In general, this should match the final class name.
    * @param {string} [options.message = 'An error has occurred.'] - The error message.
