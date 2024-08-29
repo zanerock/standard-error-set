@@ -1,5 +1,5 @@
-/* global NotImplementedError NotSupportedError */ // used in docs
-import { CommonError } from '../common-error'
+/* global CommonError NotImplementedError NotSupportedError */ // used in docs
+import { ExternalServiceError } from './external-service-error'
 import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
@@ -15,7 +15,7 @@ const myDefaults = { issue : defaultIssue, target : defaultTarget }
  * - {@link NotImplementedError} - Use this when the target is not implemented at all.
  * - {@link NotSupportedError} - Use this when the target is implemented, but doesn't support some requested feature.
  */
-const UnavailableError = class extends CommonError {
+const UnavailableError = class extends ExternalServiceError {
   /**
    * {@link UnavailableError} constructor.
    *
