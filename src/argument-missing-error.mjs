@@ -21,8 +21,8 @@ const myDefaults = { issue : defaultIssue }
  *
  * Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
  * automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
- * ['argumentValue']` or merge `['argumentValue']` with any {@linkplain commonErrorSettings | globally configured
- * `ignoreForMessage` option]. To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
+ * ['argumentValue']` or merge `['argumentValue']` with any {@linkplain commonErrorSettings|globally configured 
+ * `ignoreForMessage` option}. To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
  * `undefined` are equivalent). If you want to be sure and maintain the global settings, set `ignoreForMessage` to
  * `commonErrorSettings('ignoreForMessage')`.
  *

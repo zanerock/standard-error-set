@@ -236,13 +236,13 @@ not defined" }`.
 
 Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
 automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
-['argumentValue']` or merge `['argumentValue']` with any [ globally configured
-`ignoreForMessage` option]. To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
+['argumentValue']` or merge `['argumentValue']` with any [globally configured 
+`ignoreForMessage` option](#commonErrorSettings). To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
 `undefined` are equivalent). If you want to be sure and maintain the global settings, set `ignoreForMessage` to
 `commonErrorSettings('ignoreForMessage')`.
 
 Consider whether any of the following errors might be more precise or better suited:
-- {@link ArgumentInvalidError](#commonErrorSettings) - General argument error when no more specific error fits.
+- [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
 - [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError) - Indicates an argument is of the correct type, but outside the acceptable range.
 - [`ArgumentTypeError`](#ArgumentTypeError) - Indicates an argument is an incorrect type.
 
