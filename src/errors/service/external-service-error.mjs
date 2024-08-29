@@ -1,6 +1,6 @@
 /* globals ConnectionError DatabaseError UnavailableError TimeoutError */ // used in docs
 import { CommonError } from '../common-error'
-import { generateExternalServiceMessage } from './lib/generate-external-service-message'
+import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
 const myName = 'ExternalServiceError'
@@ -30,7 +30,7 @@ const ExternalServiceError = class extends CommonError {
    * @example
    * new ExternalServiceError() // There was an error with a remote service.
    * new ExternalServiceError({ service : 'Foo API' }) // The was an error with the Foo API remote service.
-   * // v "A remote service is not responding."
+   * // v "The remote service is not responding."
    * new ExternalServiceError({ issue : 'is not responding' })
    * // v "The remote service Foo API is not responding."
    * new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
@@ -39,11 +39,7 @@ const ExternalServiceError = class extends CommonError {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
       options.message
-      || generateExternalServiceMessage(
-        undefined,
-        { service, ...options },
-        defaults
-      )
+      || generateMessage(undefined, { service, ...options }, defaults)
     super({ name, service, ...options }, defaults)
   }
 }
@@ -51,5 +47,23 @@ const ExternalServiceError = class extends CommonError {
 registerParent(myName, Object.getPrototypeOf(ExternalServiceError).name)
 
 ExternalServiceError.typeName = myName
+
+const generateMessage = (errorType, options, defaults) => {
+  const { issue } = options
+  let { service } = options
+
+  const showIssue = includeParameterInMessage('issue', options)
+  service = includeParameterInMessage('service', options) === true ? service : defaults.service
+  if (service.length > 0) {
+    service += ' '
+  }
+
+  if (issue === undefined) {
+    return `There was ${errorType || 'an'} error with the remote ${service}service.`
+  }
+  else {
+    return `The remote ${service}service ${issue}.`
+  }
+}
 
 export { ExternalServiceError }

@@ -1,6 +1,13 @@
 import { ArgumentInvalidError } from '../../errors/argument/argument-invalid-error'
 import { ArgumentTypeError } from '../../errors/argument//argument-type-error'
+import { ConstraintViolationError } from '../../errors/database/constraint-violation-error'
+import { DatabaseError } from '../../errors/database/database-error'
+import { ExternalServiceError } from '../../errors/service/external-service-error'
 import { rethrowIf } from '../rethrow-if'
+import { RollbackError } from '../../errors/database/rollback-error'
+import { TimeoutError } from '../../errors/timeout-error'
+import { TransactionError } from '../../errors/database/transaction-error'
+import { UniqueConstraintViolationError } from '../../errors/database/unique-constraint-violation-error'
 
 describe('rethrowIf', () => {
   const THROW = true
@@ -11,7 +18,16 @@ describe('rethrowIf', () => {
   const status500Error = new Error()
   status500Error.status = 500
 
-  test.each([
+  const isLocalAwareClasses = [
+    ConstraintViolationError,
+    DatabaseError,
+    RollbackError,
+    TimeoutError,
+    TransactionError,
+    UniqueConstraintViolationError,
+  ]
+
+  const rethrowTestData = [
     [undefined, undefined, NO_THROW],
     [new Error(), undefined, NO_THROW],
     [noEntError, { codeIs : noEntCode }, THROW],
@@ -53,7 +69,24 @@ describe('rethrowIf', () => {
       { instanceOf : ArgumentInvalidError, and : { statusIs : 500 } },
       NO_THROW,
     ],
-  ])(
+    [new ExternalServiceError(), { isLocal: false }, THROW],
+    [new Error(), { isLocal: false }, NO_THROW],
+    [new ArgumentInvalidError(), { isLocal: false }, NO_THROW],
+    [new ExternalServiceError(), { isLocal: true }, NO_THROW],
+    [new Error(), { isLocal: true }, THROW],
+    [new ArgumentInvalidError(), { isLocal: true }, THROW],
+  ]
+
+  for (const IlaClass of isLocalAwareClasses) {
+    rethrowTestData.push(
+      [new IlaClass({ isLocal: true }), { isLocal: true}, THROW],
+      [new IlaClass({ isLocal: false }), { isLocal: true}, NO_THROW],
+      [new IlaClass({ isLocal: true }), { isLocal: false}, NO_THROW],
+      [new IlaClass({ isLocal: false }), { isLocal: false}, THROW],
+    )
+  }
+
+  test.each(rethrowTestData)(
     'error %p, re-throw options %p => will throw: %p',
     (error, options, expectThrow) => {
       if (expectThrow === THROW) {
