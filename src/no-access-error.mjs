@@ -13,8 +13,8 @@ const myDefaults = { resource : defaultResource }
 /**
  * An {@link AuthError} indicating a user lacks the rights to access a particular resource. This error is most
  * appropriate when trying to read or write something. If the user is attempting to perform an operation, consider the
- * {@link OperationNotPermittedError}. Note, in high security systems, it is often desirable to tell the user a 
- * resource was 'not found', even when the problem is really an access issue, use and see {@link maskNoAccessErrors} to 
+ * {@link OperationNotPermittedError}. Note, in high security systems, it is often desirable to tell the user a
+ * resource was 'not found', even when the problem is really an access issue, use and see {@link maskNoAccessErrors} to
  * deal with this situation.
  *
  * Consider whether any of the following errors might be more precise or better suited:
