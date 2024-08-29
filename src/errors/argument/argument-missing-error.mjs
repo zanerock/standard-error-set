@@ -32,6 +32,7 @@ const myDefaults = { issue : defaultIssue }
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
  * - {@link ArgumentOutOfRangeError} - Indicates an argument is of the correct type, but outside the acceptable range.
  * - {@link ArgumentTypeError} - Indicates an argument is an incorrect type.
+ * @category Argument errors
  */
 const ArgumentMissingError = class extends ArgumentInvalidError {
   /**

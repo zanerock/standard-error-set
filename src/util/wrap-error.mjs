@@ -43,6 +43,7 @@ import { connectionCodes } from '../errors/service/lib/connection-codes'
  *   `wrapUserErrorType`, which if undefined will result in the appropriate {@link ArgumentInvalidError} analog.
  * @returns {Array.<Error, boolean>} An array containing either the original `Error` or the new wrapping `CommonError`
  *   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
+ * @category Utility
  */
 const wrapError = (error, options = {}) => {
   const { code } = error

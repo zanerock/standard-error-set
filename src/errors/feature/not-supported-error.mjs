@@ -16,6 +16,7 @@ const myDefaults = { missingFeature : defaultMissingFeature }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link NotImplementedError} - Use this when the target is not implemented at all.
  * - {@link UnavailableError} - Use this when the target is implemented, but temporarily unavailable for some reason.
+ * @category Feature errors
  */
 const NotSupportedError = class extends CommonError {
   /**

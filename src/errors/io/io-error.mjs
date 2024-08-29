@@ -15,6 +15,7 @@ const myDefaults = { action : defaultAciton, target : defaultTarget }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link EndOfStreamError}
  * - {@link FileLoadError}
+ * @category IO errors
  */
 const IoError = class extends CommonError {
   /**

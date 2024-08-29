@@ -18,6 +18,7 @@ const myDefaults = { errorType : defaultErrorType }
  * - {@link DatabaseError}
  * - {@link RollbackError}
  * - {@link UniqueConstraintViolationError}
+ * @category Database errors
  */
 const TransactionError = class extends DatabaseError {
   /**

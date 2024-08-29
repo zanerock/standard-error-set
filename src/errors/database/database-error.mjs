@@ -19,6 +19,7 @@ const myDefaults = { errorType : defaultErrorType, target : defaultTarget }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link RollbackError}
  * - {@link TransactionError}
+ * @category Database errors
  */
 const DatabaseError = class extends CommonError {
   /**

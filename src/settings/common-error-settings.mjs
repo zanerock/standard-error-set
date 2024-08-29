@@ -26,6 +26,7 @@ import {
  * @param {string|object} option - Then name of the setting, or bulk settings `Object`.
  * @param {*} value - The value of the setting. The necessary type depends on the `option`.
  * @returns {*} The value of the indicated `option`. The type will depend on the particular `option`.
+ * @category Settings management
  */
 const commonErrorSettings = (option, value) => {
   if (option === undefined) {

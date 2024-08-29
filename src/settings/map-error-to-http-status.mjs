@@ -29,6 +29,7 @@ const customMapping = {}
  * @param {number} status - An integer value to map the error to.
  * @returns {number|undefined} Returns an integer if retrieving an error to status mapping, otherwise return
  *   undefined.
+ * @category Settings management
  */
 const mapErrorToHttpStatus = (errorRef, status) => {
   /* eslint-enable jsdoc/check-types */

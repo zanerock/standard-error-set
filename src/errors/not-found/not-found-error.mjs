@@ -17,6 +17,7 @@ const myDefaults = { resource : defaultResource }
  * - {@link NoAccessError} and sub-classes where the issue is related to resource authorizations.
  * - {@link OperationNotPermittedError} where the issue is related to action authorizations (as opposed to resource
  *   authorizations)
+ * @category Not found errors
  */
 const NotFoundError = class extends CommonError {
   /**

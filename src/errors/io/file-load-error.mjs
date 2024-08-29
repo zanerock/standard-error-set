@@ -15,6 +15,7 @@ const myDefaults = { action : defaultAction, target : defaultTarget }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link IoError}
  * - {@link FileLoadError}
+ * @category IO errors
  */
 const FileLoadError = class extends IoError {
   /**

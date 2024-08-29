@@ -12,6 +12,7 @@ import { NoAccessFileError } from '../errors/auth/no-access-file-error'
  * so and developers _should_ continue to use {@link NoAccessError}s where the problem is actually access. In
  * production systems, the [presentation of errors to the users](#presenting-errors-to-users) should not indicate the
  * underlying type.
+ * @category Settings management
  */
 const maskNoAccessErrors = () => {
   mapErrorToHttpStatus(NoAccessError, 404)

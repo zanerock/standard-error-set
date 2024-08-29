@@ -12,6 +12,7 @@ const myName = 'NotImplementedError'
  * - {@link NotSupportedError} - Use this when the target is implemented, but does not support some feature or
  *   condition captured in the request.
  * - {@link UnavailableError} - Use this when a resource exists, but is temporarily unavailable for some reason.
+ * @category Feature errors
  */
 const NotImplementedError = class extends CommonError {
   /**

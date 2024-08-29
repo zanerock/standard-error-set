@@ -16,6 +16,7 @@ const myDefaults = { resource : defaultResource }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link FileNotFoundError}
  * - {@link NotFoundError}
+ * @category Not found errors
  */
 const DirectoryNotFoundError = class extends NotFoundError {
   /**

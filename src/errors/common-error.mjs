@@ -23,6 +23,7 @@ import { mapHttpStatusToName } from '../settings/map-http-status-to-name'
  *
  * If your new error creates a [constructed message](#constructed-message) from parameters, refer to {@link
  * includeParameterInMessage} and {@link ArgumentInvalidError} source code for an example of how to use it.
+ * @category General errors
  */
 const CommonError = class extends Error {
   /**

@@ -29,6 +29,7 @@ import { ExternalServiceError } from '../errors/service/external-service-error'
  * @param {number|Array.<number>|undefined} [testOptions.statusIsNot = undefined] - Throws if `error.status` is defined
  *   and _not any_ of the specified statuses.
  * @returns {Error|undefined} - If the function does not throw, it returns the `error`.
+ * @category Utility
  */
 const rethrowIf = (error, testOptions) => {
   if (error === undefined) return

@@ -14,6 +14,7 @@ const myDefaults = { issue : defaultIssue, target : defaultTarget }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link NotImplementedError} - Use this when the target is not implemented at all.
  * - {@link NotSupportedError} - Use this when the target is implemented, but doesn't support some requested feature.
+ * @category External service errors
  */
 const UnavailableError = class extends ExternalServiceError {
   /**

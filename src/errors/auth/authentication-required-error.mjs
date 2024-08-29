@@ -10,6 +10,7 @@ const myDefaults = { action : defaultAction, issue : defaultIssue }
 /**
  * An {@link AuthError} sub-class indicating that an operation requires an authenticated user and the current us not
  * authenticated.
+ * @category Auth errors
  */
 const AuthenticationRequiredError = class extends AuthError {
   /**

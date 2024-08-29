@@ -16,6 +16,7 @@ const myDefaults = {
  * `ConstraintViolationError` is distinguished from {@link ArgumentInvalidError} in that argument errors are evaluated
  * at the function level, while constraint violations result from database constraints. Refer to {@link DatabaseError}
  * for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
+ * @category Database errors
  */
 const ConstraintViolationError = class extends DatabaseError {
   /**

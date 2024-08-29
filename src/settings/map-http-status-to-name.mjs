@@ -62,6 +62,7 @@ const customMappings = {}
  *   `Object<number,string>` to bulk update mappings.
  * @param {string} name - The name to map a status onto.
  * @returns {string|undefined} The status name, if known.
+ * @category Settings management
  */
 const mapHttpStatusToName = (status, name) => {
   /* eslint-enable jsdoc/check-types */

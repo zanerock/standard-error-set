@@ -15,6 +15,7 @@ const myDefaults = { service : defaultService }
  * - {@link DatabaseError} and sub-types are used with database specific issues.
  * - {@link TimeoutError}
  * - {@link UnavailableError}
+ * @category External service errors
  */
 const ExternalServiceError = class extends CommonError {
   /**

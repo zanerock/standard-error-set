@@ -9,6 +9,7 @@ const myDefaults = { constraintType : defaultConstraintType }
 /**
  * A {@link ConstraintViolationError} sub-type indicating violation of a unique constraint, such as login ID. Refer to
  * {@link DatabaseError} for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
+ * @category Database errors
  */
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
