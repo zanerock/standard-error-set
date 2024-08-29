@@ -53,16 +53,19 @@ const generateMessage = (errorType, options, defaults) => {
   let { service } = options
 
   const showIssue = includeParameterInMessage('issue', options)
-  service = includeParameterInMessage('service', options) === true ? service : defaults.service
+  service =
+    includeParameterInMessage('service', options) === true
+      ? service
+      : defaults.service
   if (service.length > 0) {
     service += ' '
   }
 
-  if (issue === undefined) {
-    return `There was ${errorType || 'an'} error with the remote ${service}service.`
+  if (showIssue === true) {
+    return `The remote ${service}service ${issue}.`
   }
   else {
-    return `The remote ${service}service ${issue}.`
+    return `There was ${errorType || 'an'} error with the remote ${service}service.`
   }
 }
 

@@ -13,7 +13,7 @@ describe('FileNotFoundError', () => {
       /File '\/some\/dir\/foo.txt' not found./,
     ],
     [
-      { message : 'Foo is bad', cause : cause, status : 400 },
+      { message : 'Foo is bad', cause, status : 400 },
       /Foo is bad/,
       400,
       cause,

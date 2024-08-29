@@ -69,20 +69,20 @@ describe('rethrowIf', () => {
       { instanceOf : ArgumentInvalidError, and : { statusIs : 500 } },
       NO_THROW,
     ],
-    [new ExternalServiceError(), { isLocal: false }, THROW],
-    [new Error(), { isLocal: false }, NO_THROW],
-    [new ArgumentInvalidError(), { isLocal: false }, NO_THROW],
-    [new ExternalServiceError(), { isLocal: true }, NO_THROW],
-    [new Error(), { isLocal: true }, THROW],
-    [new ArgumentInvalidError(), { isLocal: true }, THROW],
+    [new ExternalServiceError(), { isLocal : false }, THROW],
+    [new Error(), { isLocal : false }, NO_THROW],
+    [new ArgumentInvalidError(), { isLocal : false }, NO_THROW],
+    [new ExternalServiceError(), { isLocal : true }, NO_THROW],
+    [new Error(), { isLocal : true }, THROW],
+    [new ArgumentInvalidError(), { isLocal : true }, THROW],
   ]
 
   for (const IlaClass of isLocalAwareClasses) {
     rethrowTestData.push(
-      [new IlaClass({ isLocal: true }), { isLocal: true}, THROW],
-      [new IlaClass({ isLocal: false }), { isLocal: true}, NO_THROW],
-      [new IlaClass({ isLocal: true }), { isLocal: false}, NO_THROW],
-      [new IlaClass({ isLocal: false }), { isLocal: false}, THROW],
+      [new IlaClass({ isLocal : true }), { isLocal : true }, THROW],
+      [new IlaClass({ isLocal : false }), { isLocal : true }, NO_THROW],
+      [new IlaClass({ isLocal : true }), { isLocal : false }, NO_THROW],
+      [new IlaClass({ isLocal : false }), { isLocal : false }, THROW]
     )
   }
 
