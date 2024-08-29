@@ -24,8 +24,8 @@ import {
  * The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error 
  * message](#message-construction). This can be used to hide details from end users.
  * @param {string|object} option - Then name of the setting, or bulk settings `Object`.
- * @param {boolean |Function|string[]|undefined} value - The value of the setting.
- * @returns {boolean|Function|undefined} The value of the indicated `option` or undefined.
+ * @param {*} value - The value of the setting. The necessary type depends on the `option`.
+ * @returns {*} The value of the indicated `option`. The type will depend on the particular `option`.
  */
 const commonErrorSettings = (option, value) => {
   if (option === undefined) {

@@ -1326,7 +1326,7 @@ new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['em
 ```
 
 <a id="commonErrorSettings"></a>
-#### `commonErrorSettings(option, value)` ⇒ `boolean` \| `function` \| `undefined` <sup>↱[source code](./src/common-error-settings.mjs#L30)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `commonErrorSettings(option, value)` ⇒ `*` <sup>↱[source code](./src/common-error-settings.mjs#L30)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
 Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
 
@@ -1347,9 +1347,9 @@ message](#message-construction). This can be used to hide details from end users
 | Param | Type | Description |
 | --- | --- | --- |
 | `option` | `string` \| `object` | Then name of the setting, or bulk settings `Object`. |
-| `value` | `boolean` \| `function` \| `Array.<string>` \| `undefined` | The value of the setting. |
+| `value` | `*` | The value of the setting. The necessary type depends on the `option`. |
 
-**Returns**: `boolean` \| `function` \| `undefined` - The value of the indicated `option` or undefined.
+**Returns**: `*` - The value of the indicated `option`. The type will depend on the particular `option`.
 
 <a id="mapErrorToHttpStatus"></a>
 #### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L32)</sup> <sup>⇧[global function index](#global-function-index)</sup>
