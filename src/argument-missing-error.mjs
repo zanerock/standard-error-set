@@ -13,11 +13,13 @@ const myDefaults = { issue : defaultIssue }
  * status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
  *
  * <span id="argument-missing-error-custom-issue-logic"></span>
- * If using the class parameters to [construct the error message](#message-construction), it will take note of
- * `argumentValue` to customize the message. This takes cognizance of `null`, `undefined`, '' (the empty string), `{}` (
- * empty object), and `[]` (empty array). If you want a more specific error message and have a different concept of
- * 'empty', you'll need to specify the `issue` parameter in the constructor options. E.g., `{ issue: "field 'foo' is
- * not defined" }`.
+ * If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and 
+ * `argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of 
+ * `argumentValue`. The logic recognizes `null`, `undefined`, '' (the empty string), `{}` (empty object), and `[]` (
+ * empty array). E.g., `argumentValue = null` yields issue `issue = "is 'null'"`.
+ * 
+ * If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue` 
+ * parameter in the constructor options. E.g., `{ issue: "field 'foo' is not defined" }`.
  *
  * Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
  * automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
@@ -44,11 +46,9 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
-   * @param {string} [options.issue = ('is missing or empty'\|<other>)] - The issue with the argument. The default
-   *   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more
-   *   specific explanation if you like. To force the message to default to the default 'is missing or empty',
-   *   explicitly set issue to undefined. See [discussion on custom issue
-   *   logic](#argument-missing-error-custom-issue-logic) for further details.
+   * @param {string} [options.issue = ('is missing or empty'\|<other>)] - The issue with the argument. The default 
+   *   value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue 
+   *   logic](#argument-missing-error-custom-issue-logic) for details.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.

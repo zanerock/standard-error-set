@@ -221,18 +221,20 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentMissingError"></a>
-#### ArgumentMissingError <sup>↱[source code](./src/argument-missing-error.mjs#L34)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### ArgumentMissingError <sup>↱[source code](./src/argument-missing-error.mjs#L36)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a argument is missing or empty which by default is interpreted
 as a user supplied argument/input. See discussion on [setting and interpreting `InvalidArgumentError`
 status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
 
 <span id="argument-missing-error-custom-issue-logic"></span>
-If using the class parameters to [construct the error message](#message-construction), it will take note of
-`argumentValue` to customize the message. This takes cognizance of `null`, `undefined`, '' (the empty string), `{}` (
-empty object), and `[]` (empty array). If you want a more specific error message and have a different concept of
-'empty', you'll need to specify the `issue` parameter in the constructor options. E.g., `{ issue: "field 'foo' is
-not defined" }`.
+If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and 
+`argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of 
+`argumentValue`. The logic recognizes `null`, `undefined`, '' (the empty string), `{}` (empty object), and `[]` (
+empty array). E.g., `argumentValue = null` yields issue `issue = "is 'null'"`.
+
+If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue` 
+parameter in the constructor options. E.g., `{ issue: "field 'foo' is not defined" }`.
 
 Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
 automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
@@ -263,7 +265,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | `('is missing or empty'\|<other>)` | The issue with the argument. The default   message depends on `argumentValue`, if provided and the `issue` option is not set. You can pass in a more   specific explanation if you like. To force the message to default to the default 'is missing or empty',   explicitly set issue to undefined. See [discussion on custom issue   logic](#argument-missing-error-custom-issue-logic) for further details. |
+| [`options.issue`] | `string` | `('is missing or empty'\|<other>)` | The issue with the argument. The default    value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue    logic](#argument-missing-error-custom-issue-logic) for details. |
 
 **Example**:
 ```js
