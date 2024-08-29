@@ -1,6 +1,6 @@
 /* globals AuthenticationRequiredError CommonError NoAccessError OperationNotPermittedError */ // used in the docs
 import { AuthError } from './auth-error'
-import { includeParameterInMessage } from './lib/include-parameter-in-message'
+import { includeParameterInMessage } from './include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'AuthorizationConditionsNotMetError'

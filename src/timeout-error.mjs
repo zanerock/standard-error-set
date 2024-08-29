@@ -1,5 +1,5 @@
 import { CommonError } from './common-error'
-import { includeParameterInMessage } from './lib/include-parameter-in-message'
+import { includeParameterInMessage } from './include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'TimeoutError'

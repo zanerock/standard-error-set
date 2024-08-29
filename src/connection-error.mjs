@@ -2,7 +2,7 @@
 import { ExternalServiceError } from './external-service-error'
 import { connectionCodes } from './lib/connection-codes'
 import { hoistErrorCode } from './lib/hoist-error-code'
-import { includeParameterInMessage } from './lib/include-parameter-in-message'
+import { includeParameterInMessage } from './include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ConnectionError'

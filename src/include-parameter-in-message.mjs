@@ -1,4 +1,4 @@
-import { getCommonErrorSetting } from './get-common-error-setting'
+import { getCommonErrorSetting } from './lib/get-common-error-setting'
 
 /**
  * Determines whether, based on parameter value and settings, whether the parameter should be used in creating a
@@ -8,7 +8,6 @@ import { getCommonErrorSetting } from './get-common-error-setting'
  * @param {string} parameterName - The name of the parameter to check.
  * @param {object} options - The (relevant) constructor options.
  * @returns {boolean} A boolean indicating whether to include the parameter in the message construction or not.
- * @private
  */
 const includeParameterInMessage = (parameterName, options) => {
   const parameterValue = options[parameterName]
@@ -22,6 +21,14 @@ const includeParameterInMessage = (parameterName, options) => {
   return ignoreParameter(parameterName, options)
 }
 
+/**
+ * Determines whether a parameter should be ignored according to the provided options and global settings.
+ * @param {string} parameterName - The name of the parameter to check.
+ * @param {object} options - The (relevant) constructor options.
+ * @param {string[]} [options.ignoreForMessage = []] - List of parameter names which should be ignored in [constructed
+ *   error messages](#message-construction). Ignored parameter values revert to default or `undefined`.
+ * @returns {boolean} A boolean indicating whether the named parameter should be ignored or not.
+ */
 const ignoreParameter = (
   parameterName,
   { ignoreForMessage = getCommonErrorSetting('ignoreForMessage') || [] }

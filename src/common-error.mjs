@@ -1,21 +1,28 @@
+/* globals ArgumentInvalidError */
 import { hoistErrorCode } from './lib/hoist-error-code'
-import { includeParameterInMessage } from './lib/include-parameter-in-message'
+import { includeParameterInMessage } from './include-parameter-in-message'
 import { mapErrorToHttpStatus } from './map-error-to-http-status'
 import { mapHttpStatusToName } from './map-http-status-to-name'
 
 /**
  * A base class for common errors. To create a common error of your own, extend this class.
  * ```js
+ * import { CommonError, registerParent } from 'standard-error-set'
  * const myName = 'MyError'
  *
  * export const MyError = class extends CommonError {
- *   constructor(foo, options) {
- *     const message = `You hit ${foo}!`
- *     super(name, message, options)
+ *   constructor({ name = myName, ...options}) {
+ *     const message = "Now you've done it!"
+ *     super({ name, message, ...options })
  *   }
  * }
  * MyError.typeName = myName
+ *
+ * registerParent(myName, Object.getPrototypeOf(MyError).name)
  * ```
+ *
+ * If your new error creates a [constructed message](#constructed-message) from parameters, refer to {@link
+ * includeParameterInMessage} and {@link ArgumentInvalidError} source code for an example of how to use it.
  */
 const CommonError = class extends Error {
   /**

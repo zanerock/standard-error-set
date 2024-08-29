@@ -1,5 +1,5 @@
 import { generateNotFoundMessage } from './generate-not-found-message'
-import { includeParameterInMessage } from './include-parameter-in-message'
+import { includeParameterInMessage } from '../include-parameter-in-message'
 
 const generateNoAccessMessage = (options, defaults) => {
   const { resource, status } = options

@@ -130,6 +130,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`AuthenticationRequiredError`](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not authenticated.
   - [`AuthError`](#AuthError): A generic error indicating a problem with user authentication or authorization.
   - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but additional conditions must be met.
+  - [`BadCredentialsError`](#BadCredentialsError): An [`AuthError`](#AuthError) sub-class indicating the provided credentials are invalid.
   - [`CommonError`](#CommonError): A base class for common errors.
   - [`ConnectionError`](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
   - [`ConstraintViolationError`](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
@@ -159,6 +160,8 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 <span id="global-function-index"></span>
 - Functions:
   - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
+  - [`ignoreParameter()`](#ignoreParameter): Determines whether a parameter should be ignored according to the provided options and global settings.
+  - [`includeParameterInMessage()`](#includeParameterInMessage): Determines whether, based on parameter value and settings, whether the parameter should be used in creating a constructed message.
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
   - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
@@ -228,17 +231,17 @@ as a user supplied argument/input. See discussion on [setting and interpreting `
 status](#setting-and-interpreting-invalidargumenterror-status) for more detail.
 
 <span id="argument-missing-error-custom-issue-logic"></span>
-If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and 
-`argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of 
+If using the class parameters to [construct the error message](#message-construction), where `issue` is not set and
+`argumentValue` is specified, `ArgumentMissingError` determines the default `issue` based on the value of
 `argumentValue`. The logic recognizes `null`, `undefined`, '' (the empty string), `{}` (empty object), and `[]` (
 empty array). E.g., `argumentValue = null` yields issue `issue = "is 'null'"`.
 
-If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue` 
+If your code has a different concept of what constitutes an "empty" argument, you'll need to specify the `issue`
 parameter in the constructor options. E.g., `{ issue: "field 'foo' is not defined" }`.
 
 Since the argument value is implied in the issue and stating the value would be redundant, when the `issue` is
 automatically customized and `ignoreForMessage` is not defined, the logic will set `ignoreForMessage =
-['argumentValue']` or merge `['argumentValue']` with any [globally configured 
+['argumentValue']` or merge `['argumentValue']` with any [globally configured
 `ignoreForMessage` option](#commonErrorSettings). To suppress this behavior, pass in an explicit `ignoreForMessage` (an empty array and
 `undefined` are equivalent). If you want to be sure and maintain the global settings, set `ignoreForMessage` to
 `commonErrorSettings('ignoreForMessage')`.
@@ -265,7 +268,7 @@ See the [common parameters](#common-parameters) note for additional parameters.
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
-| [`options.issue`] | `string` | (&#x27;is missing or empty&#x27;\|&lt;other&gt;) | The issue with the argument. The default    value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue    logic](#argument-missing-error-custom-issue-logic) for details. |
+| [`options.issue`] | `string` | (&#x27;is missing or empty&#x27;\|&lt;other&gt;) | The issue with the argument. The default   value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue   logic](#argument-missing-error-custom-issue-logic) for details. |
 
 **Example**:
 ```js
@@ -404,7 +407,7 @@ A generic error indicating a problem with user authentication or authorization. 
 used directly, but instead is intended as a base class for auth related errors allowing consumers to check for auth
 related errors broadly (`e.g., instanceof AuthError`). Generally, will want to use one of the following:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError)
-- [`BadCredentialsError`](BadCredentialsError)
+- [`BadCredentialsError`](#BadCredentialsError)
 - [`NoAccessError`](#NoAccessError)
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
@@ -469,21 +472,52 @@ new AuthorizationConditionsNotMet({ action: 'access customer data', issue: 'user
 new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
 ```
 
+<a id="BadCredentialsError"></a>
+#### `BadCredentialsError` <sup>↱[source code](./src/bad-credentials-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+
+An [`AuthError`](#AuthError) sub-class indicating the provided credentials are invalid.
+
+<a id="new_BadCredentialsError_new"></a>
+##### `new BadCredentialsError([options], defaults)` 
+
+[`BadCredentialsError`](#BadCredentialsError) constructor.
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [`options`] | `object` | `{}` | Constructor options. |
+| [`options.action`] | `string` | &#x27;authentication&#x27; | A short description of the action. |
+| [`options.issue`] | `string` \| `undefined` |  | Additional specifics regarding the issue. |
+| [`options.method`] | `string` \| `undefined` |  | The authentication method. E.g., 'password', 'SSL cert',   etc. |
+
+**Example**:
+```js
+new BadCredentialsError() // "Authentication failed."
+new BadCredentialsError({ method: 'password' }) // "Authentication of password failed."
+new BadCredentialsError({ action : 'decoding', method: 'SSL cert' }) // "Decoding of SSL cert failed."
+new BadCredentialsError({ issue: 'certificate not signed' }) // "Authentication failed; certificate not signed."
+```
+
 <a id="CommonError"></a>
-#### `CommonError` <sup>↱[source code](./src/common-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `CommonError` <sup>↱[source code](./src/common-error.mjs#L26)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A base class for common errors. To create a common error of your own, extend this class.
 ```js
+import { CommonError, registerParent } from 'standard-error-set'
 const myName = 'MyError'
 
 export const MyError = class extends CommonError {
-  constructor(foo, options) {
-    const message = `You hit ${foo}!`
-    super(name, message, options)
+  constructor({ name = myName, ...options}) {
+    const message = "Now you've done it!"
+    super({ name, message, ...options })
   }
 }
 MyError.typeName = myName
+
+registerParent(myName, Object.getPrototypeOf(MyError).name)
 ```
+
+If your new error creates a [constructed message](#constructed-message) from parameters, refer to [`includeParameterInMessage`](#includeParameterInMessage) and [`ArgumentInvalidError`](#ArgumentInvalidError) source code for an example of how to use it.
 
 <a id="new_CommonError_new"></a>
 ##### `new CommonError([options])` 
@@ -939,8 +973,8 @@ new NoAccessDirectoryError({ dirPath = '/foo' }) // "Access to director '/foo' i
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. This error is most
 appropriate when trying to read or write something. If the user is attempting to perform an operation, consider the
-[`OperationNotPermittedError`](#OperationNotPermittedError). Note, in high security systems, it is often desirable to tell the user a 
-resource was 'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to 
+[`OperationNotPermittedError`](#OperationNotPermittedError). Note, in high security systems, it is often desirable to tell the user a
+resource was 'not found', even when the problem is really an access issue, use and see [`maskNoAccessErrors`](#maskNoAccessErrors) to
 deal with this situation.
 
 Consider whether any of the following errors might be more precise or better suited:
@@ -1118,7 +1152,7 @@ precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to perform the operation under
   some conditions.
-- [`BadCredentialsError`](BadCredentialsError)
+- [`BadCredentialsError`](#BadCredentialsError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError)
 - [`NoAccessError`](#NoAccessError)
 
@@ -1337,12 +1371,12 @@ Used to retrieve and manage options used in [`wrapError`](#wrapError) and [messa
 - To bulk add/override settings, call `commonErrorSettings(mappings)` (where `mappings is an `Object`).
 - To reset the custom settings to default, call `commonErrorSettings()`.
 
-Currently, we support three settings. Two influence the behavior of [`wrapError`](#wrapError) (refer to `wrapError` 
+Currently, we support three settings. Two influence the behavior of [`wrapError`](#wrapError) (refer to `wrapError`
 documentation for further details):
 - `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
 - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
 
-The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error 
+The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error
 message](#message-construction). This can be used to hide details from end users.
 
 
@@ -1353,8 +1387,37 @@ message](#message-construction). This can be used to hide details from end users
 
 **Returns**: `*` - The value of the indicated `option`. The type will depend on the particular `option`.
 
+<a id="ignoreParameter"></a>
+#### `ignoreParameter(parameterName, options)` ⇒ `boolean` <sup>↱[source code](./src/include-parameter-in-message.mjs#L30)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+
+Determines whether a parameter should be ignored according to the provided options and global settings.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `parameterName` | `string` | The name of the parameter to check. |
+| `options` | `object` | The (relevant) constructor options. |
+
+**Returns**: `boolean` - A boolean indicating whether the named parameter should be ignored or not.
+
+<a id="includeParameterInMessage"></a>
+#### `includeParameterInMessage(parameterName, options)` ⇒ `boolean` <sup>↱[source code](./src/include-parameter-in-message.mjs#L12)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+
+Determines whether, based on parameter value and settings, whether the parameter should be used in creating a
+constructed message. If the parameter value is undefined or an empty array, then it is not included. Otherwise,
+`options.ignoreForMessage` or, if that is not defined, the common settings 'ignoreForMessage' setting is checked to
+see if the `parameterName` is included.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `parameterName` | `string` | The name of the parameter to check. |
+| `options` | `object` | The (relevant) constructor options. |
+
+**Returns**: `boolean` - A boolean indicating whether to include the parameter in the message construction or not.
+
 <a id="mapErrorToHttpStatus"></a>
-#### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L32)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L33)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
 Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your
 own mappings, which may be useful when dealing with non-common error errors.

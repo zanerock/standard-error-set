@@ -3,7 +3,7 @@ import { ArgumentInvalidError } from './argument-invalid-error'
 import {
   ignoreParameter,
   includeParameterInMessage
-} from './lib/include-parameter-in-message'
+} from './include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ArgumentTypeError'

@@ -1,4 +1,4 @@
-import { includeParameterInMessage } from './include-parameter-in-message'
+import { includeParameterInMessage } from '../include-parameter-in-message'
 
 const generateExternalServiceMessage = (errorType, options, defaults) => {
   const { issue, service } = options

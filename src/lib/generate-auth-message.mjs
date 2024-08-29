@@ -1,4 +1,4 @@
-import { includeParameterInMessage } from './include-parameter-in-message'
+import { includeParameterInMessage } from '../include-parameter-in-message'
 
 const generateAuthMessage = (options, defaults) => {
   const { issue, target } = options
