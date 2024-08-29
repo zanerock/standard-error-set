@@ -4,6 +4,8 @@ import { generateExternalServiceMessage } from './lib/generate-external-service-
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'ExternalServiceError'
+const defaultService = ''
+const myDefaults = { service : defaultService }
 
 /**
  * Indicates an error related to an external service.
@@ -24,6 +26,8 @@ const ExternalServiceError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new ExternalServiceError() // There was an error with a remote service.
    * new ExternalServiceError({ service : 'Foo API' }) // The was an error with the Foo API remote service.
@@ -32,9 +36,16 @@ const ExternalServiceError = class extends CommonError {
    * // v "The remote service Foo API is not responding."
    * new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
    */
-  constructor({ name = myName, service = '', ...options } = {}) {
-    options.message = options.message || generateExternalServiceMessage(undefined, { service, ...options })
-    super({ name, service, ...options })
+  constructor({ name = myName, service = '', ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message =
+      options.message
+      || generateExternalServiceMessage(
+        undefined,
+        { service, ...options },
+        defaults
+      )
+    super({ name, service, ...options }, defaults)
   }
 }
 

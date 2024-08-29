@@ -20,27 +20,38 @@ describe('wrapError', () => {
     ['TypeError', TypeError, ArgumentTypeError],
     ['URIError', URIError, ArgumentInvalidError],
     ['Error', Error, CommonError],
-  ])('wraps %s to appropriate type', (description, CauseClass, ExpectedClass) => {
-    const [wrappedError, isWrapped] = wrapError(new CauseClass())
-    expect(wrappedError instanceof ExpectedClass).toBe(true)
-    expect(isWrapped).toBe(true)
-  })
+  ])(
+    'wraps %s to appropriate type',
+    (description, CauseClass, ExpectedClass) => {
+      const [wrappedError, isWrapped] = wrapError(new CauseClass())
+      expect(wrappedError instanceof ExpectedClass).toBe(true)
+      expect(isWrapped).toBe(true)
+    }
+  )
 
-  const codeTests = Object.keys(connectionCodes).map((code) => [code, ConnectionError])
-  codeTests.push(...[
-    ['EACCESS', NoAccessError],
-    ['EPERM', NoAccessError],
-    ['ENOENT', NotFoundError],
-    ['EBLAH', CommonError],
+  const codeTests = Object.keys(connectionCodes).map((code) => [
+    code,
+    ConnectionError,
   ])
+  codeTests.push(
+    ...[
+      ['EACCESS', NoAccessError],
+      ['EPERM', NoAccessError],
+      ['ENOENT', NotFoundError],
+      ['EBLAH', CommonError],
+    ]
+  )
 
-  test.each(codeTests)('wraps error with code %s to appropriate type', (code, ExpectedClass) => {
-    const cause = new Error()
-    cause.code = code
-    const [wrappedError, isWrapped] = wrapError(cause)
-    expect(wrappedError instanceof ExpectedClass).toBe(true)
-    expect(isWrapped).toBe(true)
-  })
+  test.each(codeTests)(
+    'wraps error with code %s to appropriate type',
+    (code, ExpectedClass) => {
+      const cause = new Error()
+      cause.code = code
+      const [wrappedError, isWrapped] = wrapError(cause)
+      expect(wrappedError instanceof ExpectedClass).toBe(true)
+      expect(isWrapped).toBe(true)
+    }
+  )
 
   const noInstanceHidingOnWrapTests = [
     ['RangeError', RangeError, RangeError],
@@ -48,18 +59,26 @@ describe('wrapError', () => {
     ['URIError', URIError, URIError],
   ]
 
-  test.each(noInstanceHidingOnWrapTests)("wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (constructor)", (description, CauseClass, ExpectedClass) => {
-    const [wrappedError, isWrapped] = wrapError(new CauseClass(), { noInstanceHidingOnWrap : true })
-    expect(wrappedError instanceof ExpectedClass).toBe(true)
-    expect(isWrapped).toBe(false)
-  })
+  test.each(noInstanceHidingOnWrapTests)(
+    "wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (constructor)",
+    (description, CauseClass, ExpectedClass) => {
+      const [wrappedError, isWrapped] = wrapError(new CauseClass(), {
+        noInstanceHidingOnWrap : true,
+      })
+      expect(wrappedError instanceof ExpectedClass).toBe(true)
+      expect(isWrapped).toBe(false)
+    }
+  )
 
-  test.each(noInstanceHidingOnWrapTests)("wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (common setting)", (description, CauseClass, ExpectedClass) => {
-    commonErrorSettings('noInstanceHidingOnWrap', true)
-    const [wrappedError, isWrapped] = wrapError(new CauseClass())
-    expect(wrappedError instanceof ExpectedClass).toBe(true)
-    expect(isWrapped).toBe(false)
-  })
+  test.each(noInstanceHidingOnWrapTests)(
+    "wraps %s to appropriate error when 'noInstanceHidingOnWrap' is true (common setting)",
+    (description, CauseClass, ExpectedClass) => {
+      commonErrorSettings('noInstanceHidingOnWrap', true)
+      const [wrappedError, isWrapped] = wrapError(new CauseClass())
+      expect(wrappedError instanceof ExpectedClass).toBe(true)
+      expect(isWrapped).toBe(false)
+    }
+  )
 
   test.each([
     ['ReferenceError', ReferenceError],

@@ -1,3 +1,4 @@
-const describeDirectory = ({ dirPath }) => `directory${dirPath === undefined ? '' : ` '${dirPath}'`}`
+const describeDirectory = ({ dirPath }) =>
+  `directory${dirPath === undefined ? '' : ` '${dirPath}'`}`
 
 export { describeDirectory }

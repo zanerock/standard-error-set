@@ -1,6 +1,11 @@
 const defaultFillLength = 5
 
-const completeTestData = ({ testData, defaultCode, defaultStatus, fillLength = defaultFillLength }) =>
+const completeTestData = ({
+  testData,
+  defaultCode,
+  defaultStatus,
+  fillLength = defaultFillLength,
+}) =>
   testData.map((record) => {
     if (record.length === 2) {
       record.push(defaultStatus)

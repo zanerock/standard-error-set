@@ -1,7 +1,11 @@
 import { CommonError } from './common-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'SystemError'
+const defaultIssue = 'has experienced a system error'
+const defaultResource = 'the process'
+const myDefaults = { issue : defaultIssue, resource : defaultResource }
 
 /**
  * An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`, etc.), be sure to set the `cause` option.
@@ -18,18 +22,41 @@ const SystemError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new SystemError() // "The process has experienced a System."
    * // v "The application has experienced a stack overflow."
    * new SystemError({ resource: 'application'})
    */
-  constructor({ name = myName, issue = 'has experienced a system error', resource = 'the process', ...options } = {}) {
-    options.message = options.message || `${resource.charAt(0).toUpperCase() + resource.slice(1)} ${issue}.`
-    super({ name, issue, resource, ...options })
+  constructor(
+    {
+      name = myName,
+      issue = defaultIssue,
+      resource = defaultResource,
+      ...options
+    } = {},
+    defaults
+  ) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message =
+      options.message
+      || generateMessage({ issue, resource, ...options }, defaults)
+    super({ name, issue, resource, ...options }, defaults)
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(SystemError).name)
+
+const generateMessage = (options, defaults) => {
+  let { issue, resource } = options
+  resource = includeParameterInMessage('resource', options)
+    ? resource
+    : defaults.resource
+  issue = includeParameterInMessage('issue', options) ? issue : defaults.issue
+
+  return `${resource.charAt(0).toUpperCase() + resource.slice(1)} ${issue}.`
+}
 
 SystemError.typeName = myName
 

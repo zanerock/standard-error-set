@@ -1,9 +1,10 @@
-const generateIoErrorMessage = (errorType = 'an IO', { action, issue, target }) => {
-  let message = `There was ${errorType} error ${action}`
-  if (target !== undefined) {
-    message += ` the ${target}`
-  }
-  if (issue !== undefined) {
+import { includeParameterInMessage } from './include-parameter-in-message'
+
+const generateIoErrorMessage = (errorType = 'an IO', options, defaults) => {
+  const { action, issue, target } = options
+
+  let message = `There was ${errorType} error ${includeParameterInMessage('action', options) ? action : defaults.action} the ${includeParameterInMessage('target', options) ? target : defaults.target}`
+  if (includeParameterInMessage('issue', options)) {
     message += `; ${issue}`
   }
   message += '.'

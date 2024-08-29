@@ -5,6 +5,8 @@ import { registerParent } from './map-error-to-http-status'
 import { describeFile } from './lib/describe-file'
 
 const myName = 'FileNotFoundError'
+const defaultResource = 'file'
+const myDefaults = { resource : defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and
@@ -30,6 +32,8 @@ const FileNotFoundError = class extends NotFoundError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new FileNotFound() // "File not found."
    * new FileNotFound({ fileName: 'foo.txt' }) // "File 'foo.txt' not found."
@@ -37,12 +41,14 @@ const FileNotFoundError = class extends NotFoundError {
    * new FileNotFound({ dirPath: '/tmp/', fileName: 'foo.txt'}) // "File '/tmp/foo.txt' not found."
    * new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-weird' not found."
    */
-  constructor({ name = myName, ...options } = {}) {
-    const resource = describeFile(options)
-    options.resource = options.resource || resource
-    options.message = options.message || generateNotFoundMessage({ resource })
+  constructor({ name = myName, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.resource =
+      options.resource || describeFile(options) || defaultResource
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
-    super({ name, ...options })
+    super({ name, ...options }, defaults)
   }
 }
 

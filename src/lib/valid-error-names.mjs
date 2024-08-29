@@ -10,7 +10,9 @@ const nonErrorExports = [
   'wrapError',
 ]
 
-const exportedErrors = Object.keys(exports).filter((name) => !nonErrorExports.includes(name))
+const exportedErrors = Object.keys(exports).filter(
+  (name) => !nonErrorExports.includes(name)
+)
 
 const validErrorNames = exportedErrors.reduce((acc, errorName) => {
   acc[errorName] = true

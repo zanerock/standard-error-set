@@ -5,6 +5,8 @@ import { NotFoundError } from './not-found-error'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'DirectoryNotFoundError'
+const defaultResource = 'directory'
+const myDefaults = { resource : defaultResource }
 
 /**
  * A {@link NotFoundError} sub-type indicating there is no file at the requested location. If both `dirPath` and
@@ -26,16 +28,19 @@ const DirectoryNotFoundError = class extends NotFoundError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new DirectoryNotFound() // "Directory not found."
    * new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found."
    */
-  constructor({ name = myName, ...options } = {}) {
-    const resource = describeDirectory(options)
-    options.message = options.message || generateNotFoundMessage({ resource })
-    options.resource = options.resource || resource
+  constructor({ name = myName, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.resource = options.resource || describeDirectory(options)
+    options.message =
+      options.message || generateNotFoundMessage(options, defaults)
 
-    super({ name, ...options })
+    super({ name, ...options }, defaults)
   }
 }
 

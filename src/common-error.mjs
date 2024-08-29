@@ -1,4 +1,5 @@
 import { hoistErrorCode } from './lib/hoist-error-code'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { mapErrorToHttpStatus } from './map-error-to-http-status'
 import { mapHttpStatusToName } from './map-http-status-to-name'
 
@@ -18,7 +19,7 @@ import { mapHttpStatusToName } from './map-http-status-to-name'
  */
 const CommonError = class extends Error {
   /**
-   * {@CommonError} constructor.
+   * {@link CommonError} constructor.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} options.name - The name of error. In general, this should match the final class name.
    * @param {string} [options.message = 'An error has occurred.'] - The error message.
@@ -31,8 +32,13 @@ const CommonError = class extends Error {
    * new CommonError() // "An error has occurred."
    * new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
    */
-  constructor({ hint, message = 'An error has occurred.', status, ...options } = {}) {
-    if (hint !== undefined) {
+  constructor({
+    hint,
+    message = 'An error has occurred.',
+    status,
+    ...options
+  } = {}) {
+    if (includeParameterInMessage('hint', { hint, ...options })) {
       message += ' ' + hint
     }
     super(message, options)
@@ -41,7 +47,11 @@ const CommonError = class extends Error {
 
     for (const parameter of Object.keys(options)) {
       // the excluded parameters are set in the Error constructor (message), explicitly set below, or prototype
-      if (!['message', 'hint', 'status', 'statusName', 'prototype'].includes(parameter)) {
+      if (
+        !['message', 'hint', 'status', 'statusName', 'prototype'].includes(
+          parameter
+        )
+      ) {
         this[parameter] = options[parameter]
       }
     }

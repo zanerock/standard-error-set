@@ -4,6 +4,9 @@ import { generateIoErrorMessage } from './lib/generate-io-error-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'EndOfStreamError'
+const defaultAction = 'reading'
+const defaultTarget = 'stream'
+const myDefaults = { action : defaultAction, target : defaultTarget }
 
 /**
  * An {@link IoError} sub-type indicating an attempt to read beyond the of a stream.
@@ -22,6 +25,8 @@ const EndOfStreamError = class extends IoError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new EndOfStreamError() // "There was an end-of-stream error."
    * new EndOfStreamError({ action : 'streaming' }) // "There was an end-of-stream error streaming."
@@ -31,9 +36,19 @@ const EndOfStreamError = class extends IoError {
    * // v "There was an end-of-stream error reading the serial port; virtual socket closed."
    * new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' })
    */
-  constructor({ name = myName, action = 'reading', ...options } = {}) {
-    options.message = options.message || generateIoErrorMessage('an end-of-stream', { action, ...options })
-    super({ name, action, ...options })
+  constructor(
+    { name = myName, action = defaultAction, ...options } = {},
+    defaults
+  ) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message =
+      options.message
+      || generateIoErrorMessage(
+        'an end-of-stream',
+        { action, ...options },
+        defaults
+      )
+    super({ name, action, ...options }, defaults)
   }
 }
 

@@ -1,13 +1,21 @@
 /* globals ArgumentMissingError ArgumentTypeError CommonError */ // used in docs
 import { ArgumentInvalidError } from './argument-invalid-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 import { translateValue } from './lib/translate-value'
 
 const myName = 'ArgumentOutOfRangeError'
+const defaultIssue = 'is out of range'
+const myDefaults = { issue : defaultIssue }
 
 /**
  * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is of the correct time, but
  * outside the  acceptable range. Refer to {@link ArgumentInvalidError} for handling of internal argument errors.
+ *
+ * The [`includeForMessage`](#common-parameters-ignore-for-message] option for this function recognizes the special
+ * 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. options) will
+ * be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a subset would be
+ * strange.
  *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
@@ -39,6 +47,8 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new ArgumentOutOfRangeError() // "Function argument is out of range."
    * //  "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
@@ -48,8 +58,12 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * // v "Function argument 'bar' is out of range."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
-  constructor({ name = myName, issue = 'is out of range', ...options } = {}) {
-    super({ name, issue, ...options }) // hint
+  constructor(
+    { name = myName, issue = defaultIssue, ...options } = {},
+    defaults
+  ) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    super({ name, issue, ...options }, defaults)
     this.message += agumentMessage(options)
   }
 }
@@ -58,26 +72,46 @@ registerParent(myName, Object.getPrototypeOf(ArgumentOutOfRangeError).name)
 
 ArgumentOutOfRangeError.typeName = myName
 
-const agumentMessage = ({ max, maxBoundary, min, minBoundary }) => {
+const agumentMessage = (options) => {
+  const { ignoreForMessage, max, maxBoundary, min, minBoundary } = options
+
+  if (ignoreForMessage?.includes('boundary') === true) {
+    return ''
+  }
+
   let message = ''
-  if (max !== undefined || maxBoundary !== undefined || min !== undefined || minBoundary !== undefined) {
+
+  const includeMax = includeParameterInMessage('max', options)
+  const includeMin = includeParameterInMessage('min', options)
+  const includeMaxBoundary = includeParameterInMessage('maxBoundary', options)
+  const includeMinBoundary = includeParameterInMessage('minBoundary', options)
+
+  if (
+    includeMax === true
+    || includeMin === true
+    || includeMaxBoundary === true
+    || includeMinBoundary === true
+  ) {
     message += ' Value must be'
 
-    if (min !== undefined) {
+    if (includeMin === true) {
       message += ` greater than or equal to '${translateValue(min)}'`
     }
-    else if (minBoundary !== undefined) {
+    else if (includeMinBoundary === true) {
       message += ` greater than '${translateValue(minBoundary)}'`
     }
 
-    if ((max !== undefined || maxBoundary !== undefined) && (min !== undefined || minBoundary !== undefined)) {
+    if (
+      (includeMax === true || includeMaxBoundary === true)
+      && (includeMin === true || includeMinBoundary === true)
+    ) {
       message += ' and'
     }
 
-    if (max !== undefined) {
+    if (includeMax === true) {
       message += ` less than or equal to '${translateValue(max)}'`
     }
-    else if (maxBoundary !== undefined) {
+    else if (includeMaxBoundary === true) {
       message += ` less than '${translateValue(maxBoundary)}'`
     }
 

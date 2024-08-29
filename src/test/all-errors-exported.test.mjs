@@ -11,8 +11,9 @@ import * as exports from '../index'
 test('Check that all errors are exported', () => {
   const srcDir = resolvePath(__dirname, '..')
 
-  const files = readdirSync(srcDir, { withFileTypes : true })
-    .filter((dirEnt) => dirEnt.isFile() && !dirEnt.name.startsWith('index.'))
+  const files = readdirSync(srcDir, { withFileTypes : true }).filter(
+    (dirEnt) => dirEnt.isFile() && !dirEnt.name.startsWith('index.')
+  )
 
   const missingExports = files.reduce((acc, { name }) => {
     const functionName = camelCase(name.replace(/\.[m|c]?js$/, ''))

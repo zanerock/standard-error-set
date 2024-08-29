@@ -1,8 +1,11 @@
 /* global NotImplementedError UnavailableError */ // used in docs
 import { CommonError } from './common-error'
+import { includeParameterInMessage } from './lib/include-parameter-in-message'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'NotSupportedError'
+const defaultMissingFeature = 'a requested feature'
+const myDefaults = { missingFeature : defaultMissingFeature }
 
 /**
  * An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
@@ -20,8 +23,8 @@ const NotSupportedError = class extends CommonError {
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.issue = undefined] - A short description of the thing which is not supported.
-   *   E.g., 'YAML request payloads' or 'asynchronous execution'.
+   * @param {string|undefined} [options.missingFeature = 'a requested feature'] - A short description of the action or
+   *   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'.
    * @param {string|undefined} [options.hint = undefined] - A short hint to the user as to how they might resolve or
    *   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous
    *   execution.'
@@ -30,6 +33,8 @@ const NotSupportedError = class extends CommonError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new NotSupportedError() // "The target does not currently support a requested feature."
    * // v "'/some/endpoint' does not currently support a requested feature."
@@ -39,9 +44,15 @@ const NotSupportedError = class extends CommonError {
    * // v "The target does not currently support YAML payloads. Send request in JSON."
    * new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' })
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
-    super({ name, ...options })
+  constructor(
+    { name = myName, missingFeature = defaultMissingFeature, ...options } = {},
+    defaults
+  ) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message =
+      options.message
+      || generateMessage({ missingFeature, ...options }, defaults)
+    super({ name, missingFeature, ...options }, defaults)
   }
 }
 
@@ -49,13 +60,17 @@ registerParent(myName, Object.getPrototypeOf(NotSupportedError).name)
 
 NotSupportedError.typeName = myName
 
-const generateMessage = ({ hint, issue, target }) => {
-  let message = target === undefined ? 'The target ' : `'${target}' `
-  message += 'does not currently support '
-  message += issue === undefined ? 'a requested feature.' : `${issue}.`
-  if (hint !== undefined) {
-    message += ' ' + hint
-  }
+const generateMessage = (options, defaults) => {
+  const { missingFeature, target } = options
+
+  let message = includeParameterInMessage('target', options)
+    ? `'${target}' `
+    : 'The target '
+  message += `does not currently support ${
+    includeParameterInMessage('missingFeature', options)
+      ? missingFeature
+      : defaults.action
+  }.`
 
   return message
 }

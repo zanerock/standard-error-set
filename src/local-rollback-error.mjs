@@ -3,6 +3,8 @@ import { DatabaseError } from './database-error'
 import { registerParent } from './map-error-to-http-status'
 
 const myName = 'LocalRollbackError'
+const defaultErrorType = 'a rollback error'
+const myDefaults = { errorType : defaultErrorType }
 
 /**
  * An {@link DatabaseError} sub-type relating to a failed rollback within a database. Use {@link RollbackError} on the
@@ -20,6 +22,8 @@ const LocalRollbackError = class extends DatabaseError {
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
+   *   indicates a parameter should be treated as not set.
    * @example
    * new LocalRollbackError() // "There an error in the database."
    * new LocalRollbackError({ action : 'updating' }) // "There was a rollback error updating the database."
@@ -29,8 +33,12 @@ const LocalRollbackError = class extends DatabaseError {
    * // v "There was a rollback error in the customer database; virtual socket closed."
    * new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer database' })
    */
-  constructor({ name = myName, errorType = 'a rollback error', ...options } = {}) {
-    super({ name, errorType, ...options })
+  constructor(
+    { name = myName, errorType = defaultErrorType, ...options } = {},
+    defaults
+  ) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    super({ name, errorType, ...options }, defaults)
   }
 }
 

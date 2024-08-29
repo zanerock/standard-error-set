@@ -26,11 +26,13 @@ const customMapping = {}
  *   (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<
  *   string,true>` `for bulk add/override of the custom mappings.
  * @param {number} status - An integer value to map the error to.
- * @returns {number|undefined} - Returns an integer if retrieving an error to status mapping, otherwise return
+ * @returns {number|undefined} Returns an integer if retrieving an error to status mapping, otherwise return
  *   undefined.
  */
-const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/check-types */
-  if (errorRef === undefined) { // reset customMapping to default
+const mapErrorToHttpStatus = (errorRef, status) => {
+  /* eslint-enable jsdoc/check-types */
+  if (errorRef === undefined) {
+    // reset customMapping to default
     for (const prop in customMapping) {
       delete customMapping[prop]
     }
@@ -43,18 +45,21 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
     // TODO: we should probably throw an error if there is no 'name' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.name
   }
-  else if (typeof errorRef === 'function') { // classes are functions
+  else if (typeof errorRef === 'function') {
+    // classes are functions
     // TODO: we should probably throw an error if there is no 'typeName' field; we'll want to rework so we can add the underlying Error that gets us here as a 'cause' of the new Error (if any)
     name = errorRef.typeName
   }
-  else if (typeof errorRef === 'object') { // do this here, because if it's an instanceof Error, we skip this
+  else if (typeof errorRef === 'object') {
+    // do this here, because if it's an instanceof Error, we skip this
     Object.assign(customMapping, errorRef) // bulk update customMappings
 
     return
   }
 
   // it's either a regular retrieve or single value add/override
-  if (status === undefined) { // return customMapping value
+  if (status === undefined) {
+    // return customMapping value
     let status = customMapping[name] || defaultMapping[name]
     let parentName = parents[name]
     while (status === undefined && parentName !== undefined) {
@@ -64,7 +69,8 @@ const mapErrorToHttpStatus = (errorRef, status) => { /* eslint-enable jsdoc/chec
 
     return status
   }
-  else { // both errorRef and status are defined, set individual customMapping
+  else {
+    // both errorRef and status are defined, set individual customMapping
     customMapping[name] = status
   }
 }
