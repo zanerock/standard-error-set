@@ -158,7 +158,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 <span id="global-function-index"></span>
 - Functions:
-  - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError).
+  - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
   - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
@@ -1326,23 +1326,28 @@ new UniqueConstraintViolationError({ entityType : 'user', fieldAndValues : [['em
 ```
 
 <a id="commonErrorSettings"></a>
-#### `commonErrorSettings(option, value)` ⇒ `boolean` \| `function` \| `undefined` <sup>↱[source code](./src/common-error-settings.mjs#L25)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `commonErrorSettings(option, value)` ⇒ `boolean` \| `function` \| `undefined` <sup>↱[source code](./src/common-error-settings.mjs#L30)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
-Used to retrieve and manage options used in [`wrapError`](#wrapError).
+Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
+
 - To retrieve a setting, call `commonErrorSettings(option)` (where `option` is a `string`).
 - To add/override a single setting, call `commonErrorSettings(option, value)`.
-- To bulk add/override settings, call `commonErrorSettings(/mappings)` (where `mappings is an `Object`).
+- To bulk add/override settings, call `commonErrorSettings(mappings)` (where `mappings is an `Object`).
 - To reset the custom settings to default, call `commonErrorSettings()`.
 
-Currently, we support two settings (see [`wrapError`](#wrapError) for details):
+Currently, we support three settings. Two influence the behavior of [`wrapError`](#wrapError) (refer to `wrapError` 
+documentation for further details):
 - `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
 - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
+
+The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error 
+message](#message-construction). This can be used to hide details from end users.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | `option` | `string` \| `object` | Then name of the setting, or bulk settings `Object`. |
-| `value` | `boolean` \| `function` \| `undefined` | The value of the setting. |
+| `value` | `boolean` \| `function` \| `Array.<string>` \| `undefined` | The value of the setting. |
 
 **Returns**: `boolean` \| `function` \| `undefined` - The value of the indicated `option` or undefined.
 

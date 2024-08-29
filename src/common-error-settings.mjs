@@ -9,18 +9,23 @@ import {
 } from './lib/get-common-error-setting'
 
 /**
- * Used to retrieve and manage options used in {@link wrapError}.
+ * Used to retrieve and manage options used in {@link wrapError} and [message construction](#message-construction).
+ * 
  * - To retrieve a setting, call `commonErrorSettings(option)` (where `option` is a `string`).
  * - To add/override a single setting, call `commonErrorSettings(option, value)`.
- * - To bulk add/override settings, call `commonErrorSettings(/mappings)` (where `mappings is an `Object`).
+ * - To bulk add/override settings, call `commonErrorSettings(mappings)` (where `mappings is an `Object`).
  * - To reset the custom settings to default, call `commonErrorSettings()`.
  *
- * Currently, we support two settings (see {@link wrapError} for details):
+ * Currently, we support three settings. Two influence the behavior of {@link wrapError} (refer to `wrapError` 
+ * documentation for further details):
  * - `noInstanceHidingOnWrap` - Controls whether or not errors that are not class `Error` are wrapped or not.
  * - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
+ * 
+ * The third option `ignoreForMessage` (an array of string) specifies parameters to ignore when [constructing an error 
+ * message](#message-construction). This can be used to hide details from end users.
  * @param {string|object} option - Then name of the setting, or bulk settings `Object`.
- * @param {boolean | Function | undefined} value - The value of the setting.
- * @returns {boolean | Function | undefined} The value of the indicated `option` or undefined.
+ * @param {boolean |Function|string[]|undefined} value - The value of the setting.
+ * @returns {boolean|Function|undefined} The value of the indicated `option` or undefined.
  */
 const commonErrorSettings = (option, value) => {
   if (option === undefined) {
