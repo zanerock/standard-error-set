@@ -123,39 +123,39 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 
 <span id="global-class-index"></span>
 - Classes:
-  - [ArgumentInvalidError](#ArgumentInvalidError): Indicates an invalid argument which by default is interpreted as a user supplied argument/input.
-  - [ArgumentMissingError](#ArgumentMissingError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a argument is missing or empty which by default is interpreted as a user supplied argument/input.
-  - [ArgumentOutOfRangeError](#ArgumentOutOfRangeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but outside the acceptable range.
-  - [ArgumentTypeError](#ArgumentTypeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is not the correct type.
-  - [AuthenticationRequiredError](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not authenticated.
-  - [AuthError](#AuthError): A generic error indicating a problem with user authentication or authorization.
-  - [AuthorizationConditionsNotMetError](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but additional conditions must be met.
-  - [CommonError](#CommonError): A base class for common errors.
-  - [ConnectionError](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
-  - [ConstraintViolationError](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
-  - [DatabaseError](#DatabaseError): Indicates a problem within a database system implementation.
-  - [DataServiceError](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
-  - [DirectoryNotFoundError](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
-  - [EndOfStreamError](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
-  - [ExternalServiceError](#ExternalServiceError): Indicates an error related to an external service.
-  - [FileLoadError](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
-  - [FileNotFoundError](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
-  - [IoError](#IoError): A generic local I/O error _not_ involving a missing resource.
-  - [LocalRollbackError](#LocalRollbackError): An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database.
-  - [LocalTransactionError](#LocalTransactionError): An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system itself.
-  - [NoAccessDirectoryError](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
-  - [NoAccessError](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
-  - [NoAccessFileError](#NoAccessFileError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file.
-  - [NotFoundError](#NotFoundError): An error indicating a resource or entity cannot be found.
-  - [NotImplementedError](#NotImplementedError): An error indicating the requested operation is not currently implemented.
-  - [NotSupportedError](#NotSupportedError): An error indicating that the resource exists, but does not support some aspect of the request as is.
-  - [OperationNotPermittedError](#OperationNotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
-  - [RollbackError](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
-  - [SystemError](#SystemError): An error indicating a system error.
-  - [TimeoutError](#TimeoutError): Indicates an operation is taking too much time.
-  - [TransactionError](#TransactionError): A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction.
-  - [UnavailableError](#UnavailableError): An error indicating that the resource exists, but is not currently available.
-  - [UniqueConstraintViolationError](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
+  - [`ArgumentInvalidError`](#ArgumentInvalidError): Indicates an invalid argument which by default is interpreted as a user supplied argument/input.
+  - [`ArgumentMissingError`](#ArgumentMissingError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a argument is missing or empty which by default is interpreted as a user supplied argument/input.
+  - [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but outside the acceptable range.
+  - [`ArgumentTypeError`](#ArgumentTypeError): An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is not the correct type.
+  - [`AuthenticationRequiredError`](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not authenticated.
+  - [`AuthError`](#AuthError): A generic error indicating a problem with user authentication or authorization.
+  - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but additional conditions must be met.
+  - [`CommonError`](#CommonError): A base class for common errors.
+  - [`ConnectionError`](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
+  - [`ConstraintViolationError`](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
+  - [`DatabaseError`](#DatabaseError): Indicates a problem within a database system implementation.
+  - [`DataServiceError`](#DataServiceError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
+  - [`DirectoryNotFoundError`](#DirectoryNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
+  - [`EndOfStreamError`](#EndOfStreamError): An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
+  - [`ExternalServiceError`](#ExternalServiceError): Indicates an error related to an external service.
+  - [`FileLoadError`](#FileLoadError): An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
+  - [`FileNotFoundError`](#FileNotFoundError): A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location.
+  - [`IoError`](#IoError): A generic local I/O error _not_ involving a missing resource.
+  - [`LocalRollbackError`](#LocalRollbackError): An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database.
+  - [`LocalTransactionError`](#LocalTransactionError): An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system itself.
+  - [`NoAccessDirectoryError`](#NoAccessDirectoryError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory.
+  - [`NoAccessError`](#NoAccessError): An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource.
+  - [`NoAccessFileError`](#NoAccessFileError): An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file.
+  - [`NotFoundError`](#NotFoundError): An error indicating a resource or entity cannot be found.
+  - [`NotImplementedError`](#NotImplementedError): An error indicating the requested operation is not currently implemented.
+  - [`NotSupportedError`](#NotSupportedError): An error indicating that the resource exists, but does not support some aspect of the request as is.
+  - [`OperationNotPermittedError`](#OperationNotPermittedError): An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation.
+  - [`RollbackError`](#RollbackError): A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service.
+  - [`SystemError`](#SystemError): An error indicating a system error.
+  - [`TimeoutError`](#TimeoutError): Indicates an operation is taking too much time.
+  - [`TransactionError`](#TransactionError): A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction.
+  - [`UnavailableError`](#UnavailableError): An error indicating that the resource exists, but is not currently available.
+  - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError): A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 <span id="global-function-index"></span>
 - Functions:
   - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
@@ -166,7 +166,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`wrapError()`](#wrapError): Wraps an `Error` in a [`CommonError`](#CommonError).
 
 <a id="ArgumentInvalidError"></a>
-#### ArgumentInvalidError <sup>↱[source code](./src/argument-invalid-error.mjs#L36)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ArgumentInvalidError` <sup>↱[source code](./src/argument-invalid-error.mjs#L36)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates an invalid argument which by default is interpreted as a user supplied argument/input.
 
@@ -221,7 +221,7 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentMissingError"></a>
-#### ArgumentMissingError <sup>↱[source code](./src/argument-missing-error.mjs#L36)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ArgumentMissingError` <sup>↱[source code](./src/argument-missing-error.mjs#L36)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a argument is missing or empty which by default is interpreted
 as a user supplied argument/input. See discussion on [setting and interpreting `InvalidArgumentError`
@@ -279,7 +279,7 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentOutOfRangeError"></a>
-#### ArgumentOutOfRangeError <sup>↱[source code](./src/argument-out-of-range-error.mjs#L25)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ArgumentOutOfRangeError` <sup>↱[source code](./src/argument-out-of-range-error.mjs#L25)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but
 outside the  acceptable range. Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
@@ -329,7 +329,7 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="ArgumentTypeError"></a>
-#### ArgumentTypeError <sup>↱[source code](./src/argument-type-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ArgumentTypeError` <sup>↱[source code](./src/argument-type-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is not the correct type.
 Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
@@ -371,7 +371,7 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 ```
 
 <a id="AuthenticationRequiredError"></a>
-#### AuthenticationRequiredError <sup>↱[source code](./src/authentication-required-error.mjs#L14)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `AuthenticationRequiredError` <sup>↱[source code](./src/authentication-required-error.mjs#L14)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not
 authenticated.
@@ -398,7 +398,7 @@ new AuthenticationRequiredError({ action : 'updating', target : 'customer databa
 ```
 
 <a id="AuthError"></a>
-#### AuthError <sup>↱[source code](./src/auth-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `AuthError` <sup>↱[source code](./src/auth-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A generic error indicating a problem with user authentication or authorization. `AuthError` should generally not be
 used directly, but instead is intended as a base class for auth related errors allowing consumers to check for auth
@@ -429,7 +429,7 @@ new AuthError({ issue : 'is not permitted' }) // Action is not permitted.
 ```
 
 <a id="AuthorizationConditionsNotMetError"></a>
-#### AuthorizationConditionsNotMetError <sup>↱[source code](./src/authorization-conditions-not-met-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `AuthorizationConditionsNotMetError` <sup>↱[source code](./src/authorization-conditions-not-met-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but
 additional conditions must be met. The blocking or necessary conditions should be described if possible.
@@ -470,7 +470,7 @@ new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
 ```
 
 <a id="CommonError"></a>
-#### CommonError <sup>↱[source code](./src/common-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `CommonError` <sup>↱[source code](./src/common-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A base class for common errors. To create a common error of your own, extend this class.
 ```js
@@ -508,7 +508,7 @@ new CommonError({ message : 'Oh no! An error!' }) // "Oh no! An error!"
 ```
 
 <a id="ConnectionError"></a>
-#### ConnectionError <sup>↱[source code](./src/connection-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ConnectionError` <sup>↱[source code](./src/connection-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection. The
 standard instance `message` is determined by the `code` instance field, which indicates the specific nature of the
@@ -542,7 +542,7 @@ const connError = new ConnectionError({ cause }) // also "Connection has been re
 ```
 
 <a id="ConstraintViolationError"></a>
-#### ConstraintViolationError <sup>↱[source code](./src/constraint-violation-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ConstraintViolationError` <sup>↱[source code](./src/constraint-violation-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
 `ConstraintViolationError` is distinguished from [`ArgumentInvalidError`](#ArgumentInvalidError) in that argument errors are evaluated
@@ -573,7 +573,7 @@ new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 
 ```
 
 <a id="DatabaseError"></a>
-#### DatabaseError <sup>↱[source code](./src/database-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `DatabaseError` <sup>↱[source code](./src/database-error.mjs#L17)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates a problem within a database system implementation.
 Consider whether any of the following errors might be more precise or better suited:
@@ -606,7 +606,7 @@ new DatabaseError({ issue : 'virtual socket closed', target : 'customer database
 ```
 
 <a id="DataServiceError"></a>
-#### DataServiceError <sup>↱[source code](./src/data-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `DataServiceError` <sup>↱[source code](./src/data-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem related to a data service specifically.
 
@@ -640,7 +640,7 @@ new DataServiceError({ service : 'database', issue : 'is not responding' })
 ```
 
 <a id="DirectoryNotFoundError"></a>
-#### DirectoryNotFoundError <sup>↱[source code](./src/directory-not-found-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `DirectoryNotFoundError` <sup>↱[source code](./src/directory-not-found-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and
 `fileName` are specified, `DirectoryNotFound` tries to be smart about joining them and will try and guess the proper
@@ -669,7 +669,7 @@ new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found.
 ```
 
 <a id="EndOfStreamError"></a>
-#### EndOfStreamError <sup>↱[source code](./src/end-of-stream-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `EndOfStreamError` <sup>↱[source code](./src/end-of-stream-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`IoError`](#IoError) sub-type indicating an attempt to read beyond the of a stream.
 
@@ -702,7 +702,7 @@ new EndOfStreamError({ issue : 'virtual socket closed', target : 'serial port' }
 ```
 
 <a id="ExternalServiceError"></a>
-#### ExternalServiceError <sup>↱[source code](./src/external-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `ExternalServiceError` <sup>↱[source code](./src/external-service-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates an error related to an external service.
 
@@ -736,7 +736,7 @@ new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
 ```
 
 <a id="FileLoadError"></a>
-#### FileLoadError <sup>↱[source code](./src/file-load-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `FileLoadError` <sup>↱[source code](./src/file-load-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`IoError`](#IoError) indicating a file is present, and can be read, but there is a problem loading it.
 
@@ -770,7 +770,7 @@ new FileLoadError({ issue : 'virtual socket closed', dirPath : '/bar' })
 ```
 
 <a id="FileNotFoundError"></a>
-#### FileNotFoundError <sup>↱[source code](./src/file-not-found-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `FileNotFoundError` <sup>↱[source code](./src/file-not-found-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`NotFoundError`](#NotFoundError) sub-type indicating there is no file at the requested location. If both `dirPath` and
 `fileName` are specified, `FileNotFound` tries to be smart about joining them and will try and guess the proper path
@@ -803,7 +803,7 @@ new FileNotFound({ dirPath: '/this-is-weird' }) // "File in directory '/this-is-
 ```
 
 <a id="IoError"></a>
-#### IoError <sup>↱[source code](./src/io-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `IoError` <sup>↱[source code](./src/io-error.mjs#L19)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A generic local I/O error _not_ involving a missing resource. Note that `IoError`s are specifically locally and
 external service, or remote connections errors are therefore not I/O errors.
@@ -836,7 +836,7 @@ new IoError({ issue : 'virtual socket closed', target : 'serial port' })
 ```
 
 <a id="LocalRollbackError"></a>
-#### LocalRollbackError <sup>↱[source code](./src/local-rollback-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `LocalRollbackError` <sup>↱[source code](./src/local-rollback-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the
 client side to indicate a failed rollback in an external data service.
@@ -867,7 +867,7 @@ new LocalRollbackError({ issue : 'virtual socket closed', target : 'customer dat
 ```
 
 <a id="LocalTransactionError"></a>
-#### LocalTransactionError <sup>↱[source code](./src/local-transaction-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `LocalTransactionError` <sup>↱[source code](./src/local-transaction-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system
 itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
@@ -899,7 +899,7 @@ new LocalTransactionError({ issue : 'virtual socket closed', target : 'customer 
 ```
 
 <a id="NoAccessDirectoryError"></a>
-#### NoAccessDirectoryError <sup>↱[source code](./src/no-access-directory-error.mjs#L24)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NoAccessDirectoryError` <sup>↱[source code](./src/no-access-directory-error.mjs#L24)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular directory. Note, in high security
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
@@ -935,7 +935,7 @@ new NoAccessDirectoryError({ dirPath = '/foo' }) // "Access to director '/foo' i
 ```
 
 <a id="NoAccessError"></a>
-#### NoAccessError <sup>↱[source code](./src/no-access-error.mjs#L29)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NoAccessError` <sup>↱[source code](./src/no-access-error.mjs#L29)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) indicating a user lacks the rights to access a particular resource. This error is most
 appropriate when trying to read or write something. If the user is attempting to perform an operation, consider the
@@ -973,7 +973,7 @@ new NoAccessError({ resource : 'terminal connection' }) // Access to terminal co
 ```
 
 <a id="NoAccessFileError"></a>
-#### NoAccessFileError <sup>↱[source code](./src/no-access-file-error.mjs#L24)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NoAccessFileError` <sup>↱[source code](./src/no-access-file-error.mjs#L24)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`NoAccessError`](#NoAccessError) indicating a user lacks the rights to access a particular file. Note, in high security
 systems, it is often desirable to tell the user a resource was 'not found', even when the problem is really an
@@ -1012,7 +1012,7 @@ new NoAccessFileError({ dirPath: '/foo' }) // Access to file in directory '/foo'
 ```
 
 <a id="NotFoundError"></a>
-#### NotFoundError <sup>↱[source code](./src/not-found-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NotFoundError` <sup>↱[source code](./src/not-found-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An error indicating a resource or entity cannot be found. This error is used with local and remote resources/entities
 where the fundamental issue is the named thing not being present.
@@ -1043,7 +1043,7 @@ new NotFoundError({ resource : 'the hidden garden' }) // "The hidden garden is n
 ```
 
 <a id="NotImplementedError"></a>
-#### NotImplementedError <sup>↱[source code](./src/not-implemented-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NotImplementedError` <sup>↱[source code](./src/not-implemented-error.mjs#L16)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An error indicating the requested operation is not currently implemented.
 
@@ -1072,7 +1072,7 @@ new NotImplementedError({ target: '/some/url/endpoint'}) // "'/some/url/endpoint
 ```
 
 <a id="NotSupportedError"></a>
-#### NotSupportedError <sup>↱[source code](./src/not-supported-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `NotSupportedError` <sup>↱[source code](./src/not-supported-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
 typically used when implementing a specification, but where some feature of the specification is not implemented.
@@ -1110,7 +1110,7 @@ new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' }
 ```
 
 <a id="OperationNotPermittedError"></a>
-#### OperationNotPermittedError <sup>↱[source code](./src/operation-not-permitted-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `OperationNotPermittedError` <sup>↱[source code](./src/operation-not-permitted-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation. This is most appropriate
 when the user is trying to _do_ something. If the user is attempting to "access" a resource, the [`NoAccessError`](#NoAccessError) or it's children may be better suited. Consider whether any of the following errors might be more
@@ -1147,7 +1147,7 @@ new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not
 ```
 
 <a id="RollbackError"></a>
-#### RollbackError <sup>↱[source code](./src/rollback-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `RollbackError` <sup>↱[source code](./src/rollback-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`DataServiceError`](#DataServiceError) relating to a failed rollback attempt on an external data service. Use [`LocalRollbackError`](#LocalRollbackError) within a database implementation itself.
 
@@ -1182,7 +1182,7 @@ new RollbackError({ service : 'database', issue : 'is not responding' })
 ```
 
 <a id="SystemError"></a>
-#### SystemError <sup>↱[source code](./src/system-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `SystemError` <sup>↱[source code](./src/system-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An error indicating a system error. When used to wrap native system errors (like `ReferenceError`, `SyntaxError`, etc.), be sure to set the `cause` option.
 
@@ -1208,7 +1208,7 @@ new SystemError({ resource: 'application'})
 ```
 
 <a id="TimeoutError"></a>
-#### TimeoutError <sup>↱[source code](./src/timeout-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `TimeoutError` <sup>↱[source code](./src/timeout-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 Indicates an operation is taking too much time.
 
@@ -1230,7 +1230,7 @@ Indicates an operation is taking too much time.
 ```
 
 <a id="TransactionError"></a>
-#### TransactionError <sup>↱[source code](./src/transaction-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `TransactionError` <sup>↱[source code](./src/transaction-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`DataServiceError`](#DataServiceError) sub-type indicating a problem with creating or working with a transaction. Note, this
 error is specifically for problems arising with an external data service; use [`LocalTransactionError`](#LocalTransactionError) for
@@ -1266,7 +1266,7 @@ new TransactionError({ service : 'database', issue : 'is not responding' })
 ```
 
 <a id="UnavailableError"></a>
-#### UnavailableError <sup>↱[source code](./src/unavailable-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `UnavailableError` <sup>↱[source code](./src/unavailable-error.mjs#L18)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An error indicating that the resource exists, but is not currently available. This represents a temporary condition.
 
@@ -1300,7 +1300,7 @@ new UnavailableError({ target: 'URL /some/endpoint', expectedTime: 'after 12:00 
 ```
 
 <a id="UniqueConstraintViolationError"></a>
-#### UniqueConstraintViolationError <sup>↱[source code](./src/unique-constraint-violation-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `UniqueConstraintViolationError` <sup>↱[source code](./src/unique-constraint-violation-error.mjs#L12)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID.
 
