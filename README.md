@@ -579,7 +579,7 @@ const connError = new ConnectionError({ cause }) // also "Connection has been re
 
 Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
 `ConstraintViolationError` is distinguished from [`ArgumentInvalidError`](#ArgumentInvalidError) in that argument errors are evaluated
-at the function level, while constraint violations result from database constraints. Refer to [`DatabaseError`](#DatabaseError) 
+at the function level, while constraint violations result from database constraints. Refer to [`DatabaseError`](#DatabaseError)
 for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
 
 <a id="new_ConstraintViolationError_new"></a>
@@ -613,8 +613,8 @@ new ConstraintViolationError({ entityType : 'user', fieldAndValues : [['email', 
 Indicates a problem within a database system implementation.
 
 <span id="database-error-remote-vs-local-database-errors"></span>
-In general, these errors arise from an external service. However, since they can also occur within a database 
-implementation itself, we don't extend [`ExternalServiceError`](#ExternalServiceError), but rather include an 'isLocal' setting, which 
+In general, these errors arise from an external service. However, since they can also occur within a database
+implementation itself, we don't extend [`ExternalServiceError`](#ExternalServiceError), but rather include an 'isLocal' setting, which
 defaults to the common case of `false`.
 
 Consider whether any of the following errors might be more precise or better suited:
@@ -736,7 +736,7 @@ Consider whether any of the following errors might be more precise or better sui
 ```js
 new ExternalServiceError() // There was an error with a remote service.
 new ExternalServiceError({ service : 'Foo API' }) // The was an error with the Foo API remote service.
-// v "A remote service is not responding."
+// v "The remote service is not responding."
 new ExternalServiceError({ issue : 'is not responding' })
 // v "The remote service Foo API is not responding."
 new ExternalServiceError({ service : 'Foo API', issue : 'is not responding' })
@@ -1094,13 +1094,13 @@ new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not
 #### `RollbackError` <sup>↱[source code](./src/errors/database/rollback-error.mjs#L21)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`DatabaseError`](#DatabaseError) sub-type relating to a failed rollback within a database. Use [`RollbackError`](#RollbackError) on the
-client side to indicate a failed rollback in an external data service. Refer to [`DatabaseError`](#DatabaseError) for [remote vs 
+client side to indicate a failed rollback in an external data service. Refer to [`DatabaseError`](#DatabaseError) for [remote vs
 local database errors](#database-error-remote-vs-local-database-errors).
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ConnectionError`](#ConnectionError)
 - [`ConstraintViolationError`](#ConstraintViolationError)
-- [`DataServiceError`](DataServiceError)
+- [`DatabaseError`](#DatabaseError)
 - [`TransactionError`](#TransactionError)
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
 
@@ -1184,14 +1184,14 @@ Indicates an operation is taking too much time.
 #### `TransactionError` <sup>↱[source code](./src/errors/database/transaction-error.mjs#L22)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 An [`DatabaseError`](#DatabaseError) indicating a problem creating or otherwise involving a transaction within a database system
-itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service. 
-Refer to [`DatabaseError`](#DatabaseError) for [remote vs local database 
+itself. Use [`TransactionError`](#TransactionError) for transaction errors related to transactions in an external database service.
+Refer to [`DatabaseError`](#DatabaseError) for [remote vs local database
 errors](#database-error-remote-vs-local-database-errors).
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ConnectionError`](#ConnectionError)
 - [`ConstraintViolationError`](#ConstraintViolationError)
-- [`DataServiceError`](DataServiceError)
+- [`DatabaseError`](#DatabaseError)
 - [`RollbackError`](#RollbackError)
 - [`UniqueConstraintViolationError`](#UniqueConstraintViolationError)
 
@@ -1259,7 +1259,7 @@ new UnavailableError({ target: 'URL /some/endpoint', expectedTime: 'after 12:00 
 <a id="UniqueConstraintViolationError"></a>
 #### `UniqueConstraintViolationError` <sup>↱[source code](./src/errors/database/unique-constraint-violation-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
-A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID. Refer to 
+A [`ConstraintViolationError`](#ConstraintViolationError) sub-type indicating violation of a unique constraint, such as login ID. Refer to
 [`DatabaseError`](#DatabaseError) for [remote vs local database errors](#database-error-remote-vs-local-database-errors).
 
 <a id="new_UniqueConstraintViolationError_new"></a>
@@ -1393,7 +1393,7 @@ production systems, the [presentation of errors to the users](#presenting-errors
 underlying type.
 
 <a id="rethrowIf"></a>
-#### `rethrowIf([error], [testOptions])` ⇒ `Error` \| `undefined` <sup>↱[source code](./src/util/rethrow-if.mjs#L28)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `rethrowIf([error], [testOptions])` ⇒ `Error` \| `undefined` <sup>↱[source code](./src/util/rethrow-if.mjs#L33)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
 One liner to test and re-throw errors if any conditions are met.
 
@@ -1406,6 +1406,7 @@ One liner to test and re-throw errors if any conditions are met.
 | [`testOptions.codeIsNot`] | `string` \| `Array.<string>` \| `undefined` |  | Throws if `error.code` is _not any_ of   the listed codes. |
 | [`testOptions.instanceOf`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is an   instance of _any_ of the listed classes. |
 | [`testOptions.instanceOfNot`] | `function` \| `Array.<function()>` \| `undefined` |  | Throws if `error` is not   an instance of _any_ of the listed classes. |
+| [`testOptions.isLocal`] | `boolean` \| `undefined` |  | If set, then tests whether the error is marked as   'isLocal' or not. Errors that do not expose this field directly are always considered local, except for instances   of [`ExternalServiceError`](#ExternalServiceError), which are always considered remote. |
 | [`testOptions.statusGt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than_ the specified status. |
 | [`testOptions.statusGte`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _greater than or equal_ to the  specified status. |
 | [`testOptions.statusLt`] | `number` \| `undefined` |  | Throws if `error.status` is defined and status is   _less than_ the specified status. |
