@@ -1113,7 +1113,7 @@ new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' }
 An [`AuthError`](#AuthError) indicating the user lacks authorization to perform some operation. This is most appropriate
 when the user is trying to _do_ something. If the user is attempting to "access" a resource, the [`NoAccessError`](#NoAccessError) or it's children may be better suited. Consider whether any of the following errors might be more
 precise or better suited:
-- [`AuthenticationError`](AuthenticationError)
+- [`AuthenticationRequiredError`](#AuthenticationRequiredError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to perform the operation under
   some conditions.
 - [`BadCredentialsError`](BadCredentialsError)
