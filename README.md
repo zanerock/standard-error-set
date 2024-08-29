@@ -1344,7 +1344,7 @@ Currently, we support two settings (see [`wrapError`](#wrapError) for details):
 | `option` | `string` \| `object` | Then name of the setting, or bulk settings `Object`. |
 | `value` | `boolean` \| `function` \| `undefined` | The value of the setting. |
 
-**Returns**: `boolean` \| `function` \| `undefined` - - The value of the indicated `option` or undefined.
+**Returns**: `boolean` \| `function` \| `undefined` - The value of the indicated `option` or undefined.
 
 <a id="mapErrorToHttpStatus"></a>
 #### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L32)</sup> <sup>⇧[global function index](#global-function-index)</sup>
@@ -1363,7 +1363,7 @@ own mappings, which may be useful when dealing with non-common error errors.
 | `errorRef` | `string` \| `Error` \| `CommonError.constructor` \| `Object.<string, true>` | The name, instance, or class   (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<   string,true>` `for bulk add/override of the custom mappings. |
 | `status` | `number` | An integer value to map the error to. |
 
-**Returns**: `number` \| `undefined` - - Returns an integer if retrieving an error to status mapping, otherwise return
+**Returns**: `number` \| `undefined` - Returns an integer if retrieving an error to status mapping, otherwise return
   undefined.
 
 <a id="mapHttpStatusToName"></a>
@@ -1383,7 +1383,7 @@ returned by IIS, NginX, and Cloudflare.
 | `status` | `number` \| `Object.<number, string>` | Either the status to retrieve or set mapping for, or an   `Object<number,string>` to bulk update mappings. |
 | `name` | `string` | The name to map a status onto. |
 
-**Returns**: `string` \| `undefined` - - The status name, if known.
+**Returns**: `string` \| `undefined` - The status name, if known.
 
 <a id="maskNoAccessErrors"></a>
 #### `maskNoAccessErrors()` <sup>↱[source code](./src/mask-no-access-errors.mjs#L16)</sup> <sup>⇧[global function index](#global-function-index)</sup>
@@ -1453,7 +1453,7 @@ use](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Ob
 | `options.noInstanceHidingOnWrap` | `boolean` | If true, then if the `error` class is anything but `Error`, the   original `error` will be return as is. If `undefined`, then the logic will refer to the [`commonErrorSettings`](#commonErrorSettings) `noInstanceHidingOnWrap` option value. |
 | `options.wrapUserErrorType` | `function` | If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped   in a new error of that `Class`. Otherwise, the logic will refer to the [`commonErrorSettings`](#commonErrorSettings)   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog. |
 
-**Returns**: `Array.<Error, boolean>` - - An array containing either the original `Error` or the new wrapping `CommonError`
+**Returns**: `Array.<Error, boolean>` - An array containing either the original `Error` or the new wrapping `CommonError`
   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
 
 ## Presenting errors to users

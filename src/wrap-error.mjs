@@ -41,7 +41,7 @@ import { connectionCodes } from './lib/connection-codes'
  * @param {Function} options.wrapUserErrorType - If set, then `URIError`, `RangeError`, and `TypeError` will be wrapped
  *   in a new error of that `Class`. Otherwise, the logic will refer to the {@link commonErrorSettings}
  *   `wrapUserErrorType`, which if undefined will result in the appropriate {@ArgumentInvalidError} analog.
- * @returns {Array.<Error, boolean>} - An array containing either the original `Error` or the new wrapping `CommonError`
+ * @returns {Array.<Error, boolean>} An array containing either the original `Error` or the new wrapping `CommonError`
  *   and a boolean indicating whether the `error` was wrapped (`true`) or not (`false`).
  */
 const wrapError = (error, options = {}) => {

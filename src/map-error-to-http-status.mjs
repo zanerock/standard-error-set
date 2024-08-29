@@ -26,7 +26,7 @@ const customMapping = {}
  *   (`instanceof ${linkplain CommonError)`) of the error to either retrieve or set status for, or `Object<
  *   string,true>` `for bulk add/override of the custom mappings.
  * @param {number} status - An integer value to map the error to.
- * @returns {number|undefined} - Returns an integer if retrieving an error to status mapping, otherwise return
+ * @returns {number|undefined} Returns an integer if retrieving an error to status mapping, otherwise return
  *   undefined.
  */
 const mapErrorToHttpStatus = (errorRef, status) => {

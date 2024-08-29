@@ -7,7 +7,7 @@ import { getCommonErrorSetting } from './get-common-error-setting'
  * see if the `parameterName` is included.
  * @param {string} parameterName - The name of the parameter to check.
  * @param {object} options - The (relevant) constructor options.
- * @returns {boolean} - A boolean indicating whether to include the parameter in the message construction or not.
+ * @returns {boolean} A boolean indicating whether to include the parameter in the message construction or not.
  * @private
  */
 const includeParameterInMessage = (parameterName, options) => {

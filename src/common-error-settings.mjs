@@ -20,7 +20,7 @@ import {
  * - `wrapUserErrorType` - Controls the resulting class when wrapping errors associated with bad user input.
  * @param {string|object} option - Then name of the setting, or bulk settings `Object`.
  * @param {boolean | Function | undefined} value - The value of the setting.
- * @returns {boolean | Function | undefined} - The value of the indicated `option` or undefined.
+ * @returns {boolean | Function | undefined} The value of the indicated `option` or undefined.
  */
 const commonErrorSettings = (option, value) => {
   if (option === undefined) {
