@@ -2,8 +2,9 @@ const parents = {}
 
 const defaultMapping = {
   CommonError              : 500,
-  AuthError                : 403, // note 401 (Unauthorized) is actually specifically for HTTP authorization and
-  // not a general authorization status
+  // note 401 (Unauthorized) is actually specifically for HTTP authorization and not a general authorization status
+  AuthError                : 403,
+  BadCredentialsError      : 400, // Override general AuthError 403
   ConstraintViolationError : 409,
   ArgumentInvalidError     : 400,
   NotFoundError            : 404,

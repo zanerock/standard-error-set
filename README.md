@@ -130,6 +130,7 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
   - [`AuthenticationRequiredError`](#AuthenticationRequiredError): An [`AuthError`](#AuthError) sub-class indicating that an operation requires an authenticated user and the current us not authenticated.
   - [`AuthError`](#AuthError): A generic error indicating a problem with user authentication or authorization.
   - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError): An [`AuthError`](#AuthError) indicating that the user is authorized to perform some action under some circumstances, but additional conditions must be met.
+  - [`BadCredentialsError`](#BadCredentialsError): An [`AuthError`](#AuthError) sub-class indicating the provided credentials are invalid.
   - [`CommonError`](#CommonError): A base class for common errors.
   - [`ConnectionError`](#ConnectionError): An [`ExternalServiceError`](#ExternalServiceError) sub-type indicating a problem with a connection, including making a connection.
   - [`ConstraintViolationError`](#ConstraintViolationError): Indicates the requested operation is well formed and the data otherwise correct, but it violates a data constraint.
@@ -404,7 +405,7 @@ A generic error indicating a problem with user authentication or authorization. 
 used directly, but instead is intended as a base class for auth related errors allowing consumers to check for auth
 related errors broadly (`e.g., instanceof AuthError`). Generally, will want to use one of the following:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError)
-- [`BadCredentialsError`](BadCredentialsError)
+- [`BadCredentialsError`](#BadCredentialsError)
 - [`NoAccessError`](#NoAccessError)
 - [`OperationNotPermittedError`](#OperationNotPermittedError)
 
@@ -467,6 +468,32 @@ new AuthorizationConditionsNotMet({ issue: 'user is over rate quota' })
 new AuthorizationConditionsNotMet({ action: 'access customer data', issue: 'user is over rate quota' })
 // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
 new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
+```
+
+<a id="BadCredentialsError"></a>
+#### `BadCredentialsError` <sup>↱[source code](./src/bad-credentials-error.mjs#L13)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+
+An [`AuthError`](#AuthError) sub-class indicating the provided credentials are invalid.
+
+<a id="new_BadCredentialsError_new"></a>
+##### `new BadCredentialsError([options], defaults)` 
+
+[`BadCredentialsError`](#BadCredentialsError) constructor.
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [`options`] | `object` | `{}` | Constructor options. |
+| [`options.action`] | `string` | &#x27;authentication&#x27; | A short description of the action. |
+| [`options.issue`] | `string` \| `undefined` |  | Additional specifics regarding the issue. |
+| [`options.method`] | `string` \| `undefined` |  | The authentication method. E.g., 'password', 'SSL cert',    etc. |
+
+**Example**:
+```js
+new BadCredentialsError() // "Authentication failed."
+new BadCredentialsError({ method: 'password' }) // "Authentication of password failed."
+new BadCredentialsError({ action : 'decoding', method: 'SSL cert' }) // "Decoding of SSL cert failed."
+new BadCredentialsError({ issue: 'certificate not signed' }) // "Authentication failed; certificate not signed."
 ```
 
 <a id="CommonError"></a>
@@ -1118,7 +1145,7 @@ precise or better suited:
 - [`AuthenticationRequiredError`](#AuthenticationRequiredError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError) - Use this when the user is authorized to perform the operation under
   some conditions.
-- [`BadCredentialsError`](BadCredentialsError)
+- [`BadCredentialsError`](#BadCredentialsError)
 - [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError)
 - [`NoAccessError`](#NoAccessError)
 
@@ -1354,7 +1381,7 @@ message](#message-construction). This can be used to hide details from end users
 **Returns**: `*` - The value of the indicated `option`. The type will depend on the particular `option`.
 
 <a id="mapErrorToHttpStatus"></a>
-#### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L32)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+#### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L33)</sup> <sup>⇧[global function index](#global-function-index)</sup>
 
 Used to translate and manage translation of error names to HTTP status codes. You can use this function to add your
 own mappings, which may be useful when dealing with non-common error errors.
