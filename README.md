@@ -1284,8 +1284,8 @@ See the [common parameters](#common-parameters) note for additional parameters.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [`options`] | `object` |  | The constructor options. |
-| [`options.expectedTime`] | `string` | {} | A short description as to when the resource might be   available. E.g., 'after 1400' or 'in two hours'. |
+| [`options`] | `object` | `{}` | The constructor options. |
+| [`options.expectedTime`] | `string` \| `undefined` |  | A short description as to when the resource might be   available. E.g., 'after 1400' or 'in two hours'. |
 | [`options.issue`] | `string` | &#x27;currently unavailable&#x27; | - |
 | [`options.target`] | `string` | &#x27;target resource&#x27; | The name of the function, endpoint, service, etc. which the   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()' |
 

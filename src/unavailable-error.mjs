@@ -20,8 +20,8 @@ const UnavailableError = class extends CommonError {
    * {@link UnavailableError} constructor.
    *
    * See the [common parameters](#common-parameters) note for additional parameters.
-   * @param {object} [options = undefined] - The constructor options.
-   * @param {string} [options.expectedTime = {}] - A short description as to when the resource might be
+   * @param {object} [options = {}] - The constructor options.
+   * @param {string|undefined} [options.expectedTime = undefined] - A short description as to when the resource might be
    *   available. E.g., 'after 1400' or 'in two hours'.
    * @param {string} [options.issue = 'currently unavailable'] -
    * @param {string} [options.target = 'target resource'] - The name of the function, endpoint, service, etc. which the
