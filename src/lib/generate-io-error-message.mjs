@@ -1,4 +1,4 @@
-import { includeParameterInMessage } from './include-parameter-in-message'
+import { includeParameterInMessage } from '../include-parameter-in-message'
 
 const generateIoErrorMessage = (errorType = 'an IO', options, defaults) => {
   const { action, issue, target } = options

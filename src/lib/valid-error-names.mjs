@@ -2,6 +2,8 @@ import * as exports from '../index'
 
 const nonErrorExports = [
   'commonErrorSettings',
+  'ignoreParameter',
+  'includeParameterInMessage',
   'maskNoAccessErrors',
   'mapErrorToHttpStatus',
   'mapHttpStatusToName',

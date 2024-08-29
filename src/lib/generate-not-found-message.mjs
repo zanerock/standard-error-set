@@ -1,4 +1,4 @@
-import { includeParameterInMessage } from './include-parameter-in-message'
+import { includeParameterInMessage } from '../include-parameter-in-message'
 
 /* globals NotFoundError NoAccessError */ // used in docs
 /**

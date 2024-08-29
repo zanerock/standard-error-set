@@ -160,6 +160,8 @@ _API generated with [dmd-readme-api](https://www.npmjs.com/package/dmd-readme-ap
 <span id="global-function-index"></span>
 - Functions:
   - [`commonErrorSettings()`](#commonErrorSettings): Used to retrieve and manage options used in [`wrapError`](#wrapError) and [message construction](#message-construction).
+  - [`ignoreParameter()`](#ignoreParameter): Determines whether a parameter should be ignored according to the provided options and global settings.
+  - [`includeParameterInMessage()`](#includeParameterInMessage): Determines whether, based on parameter value and settings, whether the parameter should be used in creating a constructed message.
   - [`mapErrorToHttpStatus()`](#mapErrorToHttpStatus): Used to translate and manage translation of error names to HTTP status codes.
   - [`mapHttpStatusToName()`](#mapHttpStatusToName): Used to translate and manage mappings from HTTP status codes to names.
   - [`maskNoAccessErrors()`](#maskNoAccessErrors): Remaps [`NoAccessError`](#NoAccessError)s (and all children) to a 404 (Not Found) status and changes the generated message.
@@ -486,7 +488,7 @@ An [`AuthError`](#AuthError) sub-class indicating the provided credentials are i
 | [`options`] | `object` | `{}` | Constructor options. |
 | [`options.action`] | `string` | &#x27;authentication&#x27; | A short description of the action. |
 | [`options.issue`] | `string` \| `undefined` |  | Additional specifics regarding the issue. |
-| [`options.method`] | `string` \| `undefined` |  | The authentication method. E.g., 'password', 'SSL cert',    etc. |
+| [`options.method`] | `string` \| `undefined` |  | The authentication method. E.g., 'password', 'SSL cert',   etc. |
 
 **Example**:
 ```js
@@ -497,20 +499,25 @@ new BadCredentialsError({ issue: 'certificate not signed' }) // "Authentication 
 ```
 
 <a id="CommonError"></a>
-#### `CommonError` <sup>↱[source code](./src/common-error.mjs#L20)</sup> <sup>⇧[global class index](#global-class-index)</sup>
+#### `CommonError` <sup>↱[source code](./src/common-error.mjs#L26)</sup> <sup>⇧[global class index](#global-class-index)</sup>
 
 A base class for common errors. To create a common error of your own, extend this class.
 ```js
+import { CommonError, registerParent } from 'standard-error-set'
 const myName = 'MyError'
 
 export const MyError = class extends CommonError {
-  constructor(foo, options) {
-    const message = `You hit ${foo}!`
-    super(name, message, options)
+  constructor({ name = myName, ...options}) {
+    const message = "Now you've done it!"
+    super({ name, message, ...options })
   }
 }
 MyError.typeName = myName
+
+registerParent(myName, Object.getPrototypeOf(MyError).name)
 ```
+
+If your new error creates a [constructed message](#constructed-message) from parameters, refer to [`includeParameterInMessage`](#includeParameterInMessage) and [`ArgumentInvalidError`](#ArgumentInvalidError) source code for an example of how to use it.
 
 <a id="new_CommonError_new"></a>
 ##### `new CommonError([options])` 
@@ -1379,6 +1386,35 @@ message](#message-construction). This can be used to hide details from end users
 | `value` | `*` | The value of the setting. The necessary type depends on the `option`. |
 
 **Returns**: `*` - The value of the indicated `option`. The type will depend on the particular `option`.
+
+<a id="ignoreParameter"></a>
+#### `ignoreParameter(parameterName, options)` ⇒ `boolean` <sup>↱[source code](./src/include-parameter-in-message.mjs#L30)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+
+Determines whether a parameter should be ignored according to the provided options and global settings.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `parameterName` | `string` | The name of the parameter to check. |
+| `options` | `object` | The (relevant) constructor options. |
+
+**Returns**: `boolean` - A boolean indicating whether the named parameter should be ignored or not.
+
+<a id="includeParameterInMessage"></a>
+#### `includeParameterInMessage(parameterName, options)` ⇒ `boolean` <sup>↱[source code](./src/include-parameter-in-message.mjs#L12)</sup> <sup>⇧[global function index](#global-function-index)</sup>
+
+Determines whether, based on parameter value and settings, whether the parameter should be used in creating a
+constructed message. If the parameter value is undefined or an empty array, then it is not included. Otherwise,
+`options.ignoreForMessage` or, if that is not defined, the common settings 'ignoreForMessage' setting is checked to
+see if the `parameterName` is included.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| `parameterName` | `string` | The name of the parameter to check. |
+| `options` | `object` | The (relevant) constructor options. |
+
+**Returns**: `boolean` - A boolean indicating whether to include the parameter in the message construction or not.
 
 <a id="mapErrorToHttpStatus"></a>
 #### `mapErrorToHttpStatus(errorRef, status)` ⇒ `number` \| `undefined` <sup>↱[source code](./src/map-error-to-http-status.mjs#L33)</sup> <sup>⇧[global function index](#global-function-index)</sup>
