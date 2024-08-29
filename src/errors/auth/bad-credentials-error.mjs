@@ -9,6 +9,7 @@ const myDefaults = { action : defaultAction }
 
 /**
  * An {@link AuthError} sub-class indicating the provided credentials are invalid.
+ * @category Auth errors
  */
 const BadCredentialsError = class extends AuthError {
   /**

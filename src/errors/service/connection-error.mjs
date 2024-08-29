@@ -16,6 +16,7 @@ const defaultIssue = 'experienced an unknown error'
  * the hoisted `code` will determine the standard message (unless the `message` option is defined).
  *
  * Consider using {@link TimeoutError} when the problem is specifically a connection timeout.
+ * @category External service errors
  */
 const ConnectionError = class extends ExternalServiceError {
   /**

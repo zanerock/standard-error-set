@@ -16,6 +16,7 @@ const myDefaults = { action : defaultAction, issue : defaultIssue }
  * - {@link BadCredentialsError}
  * - {@link NoAccessError}
  * - {@link OperationNotPermittedError}
+ * @category Auth errors
  */
 const AuthError = class extends CommonError {
   /**

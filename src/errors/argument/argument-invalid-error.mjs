@@ -32,6 +32,7 @@ const myDefaults = {
  * - {@link ArgumentMissingError} - For when the argument is required, but missing or empty.
  * - {@link ArgumentOutOfRangeError} - For when the argument is of the proper type, but outside the acceptable range.
  * - {@link ArgumentTypeError} - Indicates an argument is an incorrect type.
+ * @category Argument errors
  */
 const ArgumentInvalidError = class extends CommonError {
   /**

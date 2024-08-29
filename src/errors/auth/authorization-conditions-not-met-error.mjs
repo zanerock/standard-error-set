@@ -17,6 +17,7 @@ const myDefaults = { issue : defaultIssue }
  * - {@link NoAccessError} - Use this when the user is accessing a resource the user has no authorizations to.
  * - {@link OperationNotPermittedError} - Use this when user is attempting an operation for which they have no
  *   authorization.
+ * @category Auth errors
  */
 const AuthorizationConditionsNotMetError = class extends AuthError {
   /**

@@ -29,6 +29,7 @@ const SystemError = class extends CommonError {
    * new SystemError() // "The process has experienced a System."
    * // v "The application has experienced a stack overflow."
    * new SystemError({ resource: 'application'})
+   * @category General errors
    */
   constructor(
     {

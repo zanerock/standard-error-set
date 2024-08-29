@@ -20,6 +20,7 @@ const myDefaults = { resource : defaultResource }
  * - {@link NoAccessDirectoryError}
  * - {@link NoAccessError}
  * - {@link OperationNotPermittedError}
+ * @category Auth errors
  */
 const NoAccessFileError = class extends NoAccessError {
   /**

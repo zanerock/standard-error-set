@@ -25,6 +25,7 @@ const TimeoutError = class extends CommonError {
    * @example
    * // new TimeoutError() // "The process has timed out."
    * // new TimeoutError({ resource : 'user session' }) // "The user session has timed out."
+   * @category General errors
    */
   constructor(
     { name = myName, resource = defaultResource, ...options } = {},

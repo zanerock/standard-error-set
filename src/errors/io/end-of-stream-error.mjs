@@ -14,6 +14,7 @@ const myDefaults = { action : defaultAction, target : defaultTarget }
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link EndOfStreamError}
  * - {@link IoError}
+ * @category IO errors
  */
 const EndOfStreamError = class extends IoError {
   /**
