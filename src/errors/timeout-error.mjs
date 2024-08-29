@@ -15,6 +15,8 @@ const TimeoutError = class extends CommonError {
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.resource = undefined] - The name or short description of the thing which is
    *   timing out.
+   * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote service our not (
+   *   e.g., a connection timeout).
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
    * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
@@ -39,7 +41,13 @@ registerParent(myName, Object.getPrototypeOf(TimeoutError).name)
 
 TimeoutError.typeName = myName
 
-const generateMessage = (options, defaults) =>
-  `The ${includeParameterInMessage('resource', options) ? options.resource : defaults.resource} has timed out.`
+const generateMessage = (options, defaults) => {
+  const { isLocal, resource } = options
+  const showRemote =
+    includeParameterInMessage('isLocal', options) && isLocal === false
+  const showResource = includeParameterInMessage('resource', options)
+
+  return `The ${showRemote ? 'remote ' : ''}${showResource ? resource : defaults.resource} has timed out.`
+}
 
 export { TimeoutError }

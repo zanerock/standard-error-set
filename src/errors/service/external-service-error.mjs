@@ -1,4 +1,4 @@
-/* globals ConstraintViolationError DataServiceError RollbackError TransactionError UniqueConstraintViolationError */
+/* globals ConnectionError DatabaseError UnavailableError TimeoutError */ // used in docs
 import { CommonError } from '../common-error'
 import { generateExternalServiceMessage } from './lib/generate-external-service-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
@@ -8,14 +8,13 @@ const defaultService = ''
 const myDefaults = { service : defaultService }
 
 /**
- * Indicates an error related to an external service.
+ * Indicates an error related to an external service. Not that {@linkplain DatabaseError|database related errors have their own distinct class} which is used for both local and remote database errors.
  *
  * Consider whether any of the following errors might be more precise or better suited:
- * - {@link ConstraintViolationError}
- * - {@link DataServiceError}
- * - {@link RollbackError}
- * - {@link TransactionError}
- * - {@link UniqueConstraintViolationError}
+ * - {@link ConnectionError}
+ * - {@link DatabaseError} and sub-types are used with database specific issues.
+ * - {@link TimeoutError}
+ * - {@link UnavailableError}
  */
 const ExternalServiceError = class extends CommonError {
   /**
