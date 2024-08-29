@@ -20,8 +20,8 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 - [API](#api)
   - [Common parameters](#common-parameters)
   - [Common Instance fields](#instance-fields)
-  - [Error code hoisting](#error-code-hoisting)
   - [Message construction](#message-construction)
+  - [Error code hoisting](#error-code-hoisting)
   - [API reference](#api-reference)
 - [Presenting errors to users](#presenting-errors-to-users)
 
