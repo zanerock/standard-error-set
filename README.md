@@ -1,7 +1,6 @@
 # standard-error-set
-[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed) [![Unit tests](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml/badge.svg)](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml)
 
-[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
+[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed) [![Unit tests](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml/badge.svg)](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml)
 
 A collection of common/standard error types to flesh out JavaScript's rather anemic baseline.
 
@@ -22,7 +21,7 @@ This project is currently in beta. There are no known issues and we are using it
 - [Usage and use cases](#usage-and-use-cases)
 - [API](#api)
   - [Common constructor options](#common-constructor-options)
-  - [Common instance fields](#instance-fields)
+  - [Common instance fields](#common-instance-fields)
   - [Message construction](#message-construction)
   - [Error code hoisting](#error-code-hoisting)
   - [API reference](#api-reference)
@@ -90,7 +89,7 @@ The following option parameters are accepted by all [`CommonError`](#CommonError
 - `message` (`string`|`undefined`): All [`CommonError`](#CommonError) classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All [`CommonError`](#CommonError) classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with [`mapErrorToHttpStatus`](#mapErrorToHttpStatus). This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
-### Instance fields
+### Common instance fields
 
 All option parameters passed to any [`CommonError`](#CommonError) (or sub-class) constructor are captured as instance fields. E.g.:
 
@@ -112,7 +111,7 @@ All [`CommonError`](#CommonError) and `CommonError` sub-classes support paramete
 
 ### Error code hoisting
 
-When the `cause` constructor option defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless overridden by setting the `code` option or by setting the `noHoistCode` option to `true`. E.g.:
+When the `cause` constructor option defines a `code` instance field, the `code` value is hoisted to the new [`CommonError`](#CommonError) unless overridden by either the `code` or `noHoistCode` option. E.g.:
 
 ```js
 const cause = new Error()
@@ -301,9 +300,9 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but
 outside the  acceptable range. Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
 
-The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the 
-special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. 
-options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a 
+The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the
+special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc.
+options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a
 subset would be strange.
 
 Consider whether any of the following errors might be more precise or better suited:
