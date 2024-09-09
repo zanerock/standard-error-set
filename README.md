@@ -1,4 +1,5 @@
 # standard-error-set
+[![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed) [![Unit tests](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml/badge.svg)](https://github.com/liquid-labs/standard-error-set/actions/workflows/unit-tests-node.yaml)
 
 [![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
