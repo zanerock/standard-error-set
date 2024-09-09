@@ -36,8 +36,13 @@ describe('ArgumentTypeError', () => {
       /Function argument 'bar'/,
     ],
     [
-      { message : 'Foo is bad', cause : causeError, status : 500 },
-      /Foo is bad/,
+      {
+        message      : 'Foo is bad',
+        cause        : causeError,
+        status       : 500,
+        receivedType : 'blah',
+      },
+      /^Foo is bad$/,
       500,
       causeError,
     ],

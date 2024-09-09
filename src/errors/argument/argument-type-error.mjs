@@ -66,6 +66,10 @@ registerParent(myName, Object.getPrototypeOf(ArgumentTypeError).name)
 ArgumentTypeError.typeName = myName
 
 const augmentMessage = (options) => {
+  if (options.message !== undefined) {
+    return ''
+  }
+
   if (
     includeParameterInMessage('receivedType', options)
     || (!Object.hasOwn(options, 'receivedType')
