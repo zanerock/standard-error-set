@@ -41,8 +41,8 @@ projects:
           - builder: '@liquid-labs/sdlc-projects-workflow-local-node-build'
             version: 1.0.0-alpha.5
             priority: 50
-            path: make/50-common-errors-js.mk
-            purpose: Builds the 'dist/common-errors.js' artifact.
+            path: make/50-standard-error-set-js.mk
+            purpose: Builds the 'dist/standard-error-set.js' artifact.
           - builder: '@liquid-labs/sdlc-projects-workflow-local-node-build'
             version: 1.0.0-alpha.5
             priority: 55

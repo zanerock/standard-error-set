@@ -3,10 +3,10 @@
 # node-build for further details
 
 #####
-# build dist/common-errors.js
+# build dist/standard-error-set.js
 #####
 
-SDLC_COMMON_ERRORS_JS:=$(DIST)/common-errors.js
+SDLC_COMMON_ERRORS_JS:=$(DIST)/standard-error-set.js
 SDLC_COMMON_ERRORS_JS_ENTRY=$(SRC)/index.mjs
 BUILD_TARGETS+=$(SDLC_COMMON_ERRORS_JS)
 
@@ -16,5 +16,5 @@ $(SDLC_COMMON_ERRORS_JS): package.json $(SDLC_ALL_NON_TEST_JS_FILES_SRC)
 	  $(SDLC_ROLLUP) --config $(SDLC_ROLLUP_CONFIG)
 
 #####
-# end dist/common-errors.js
+# end dist/standard-error-set.js
 #####

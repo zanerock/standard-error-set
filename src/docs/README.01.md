@@ -1,4 +1,4 @@
-# @liquid-labs/common-errors
+# standard-error-set
 
 [![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
@@ -28,7 +28,7 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 ## Install
 
 ```bash
-npm i @liquid-labs/common-errors
+npm i standard-error-set
 ```
 
 ## Usage and use cases

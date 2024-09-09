@@ -2,7 +2,7 @@
   "name": "standard-error-set",
   "version": "1.0.0-alpha.9",
   "description": "A collection of common/standard error types to flesh out Javascripts rather anemic baseline.",
-  "main": "dist/common-errors.js",
+  "main": "dist/standard-error-set.js",
   "scripts": {
     "build": "make",
     "lint": "make lint",
