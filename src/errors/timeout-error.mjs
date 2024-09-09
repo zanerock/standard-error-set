@@ -12,7 +12,7 @@ const myDefaults = { resource : defaultResource }
 const TimeoutError = class extends CommonError {
   /**
    * {@link TimeoutError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.resource = undefined] - The name or short description of the thing which is

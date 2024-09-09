@@ -12,9 +12,9 @@ const myDefaults = { issue : defaultIssue }
  * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is of the correct time, but
  * outside the  acceptable range. Refer to {@link ArgumentInvalidError} for handling of internal argument errors.
  *
- * The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the 
- * special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. 
- * options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a 
+ * The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the
+ * special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc.
+ * options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a
  * subset would be strange.
  *
  * Consider whether any of the following errors might be more precise or better suited:

@@ -22,7 +22,7 @@ const myDefaults = { errorType : defaultErrorType }
 const RollbackError = class extends DatabaseError {
   /**
    * {@link RollbackError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.action = undefined] - A description of the action being taken. E.g., 'closing',

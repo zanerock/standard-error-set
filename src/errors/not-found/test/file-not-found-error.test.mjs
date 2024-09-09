@@ -12,12 +12,7 @@ describe('FileNotFoundError', () => {
       { fileName : 'foo.txt', dirPath : '/some/dir' },
       /File '\/some\/dir\/foo.txt' not found./,
     ],
-    [
-      { message : 'Foo is bad', cause, status : 400 },
-      /Foo is bad/,
-      400,
-      cause,
-    ],
+    [{ message : 'Foo is bad', cause, status : 400 }, /Foo is bad/, 400, cause],
   ]
 
   test.each(

@@ -20,7 +20,7 @@ const myDefaults = { service : defaultService }
 const ExternalServiceError = class extends CommonError {
   /**
    * {@link ExternalServiceError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.service = ''] - The name or short description of the service.

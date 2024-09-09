@@ -14,7 +14,7 @@ const myDefaults = { constraintType : defaultConstraintType }
 const UniqueConstraintViolationError = class extends ConstraintViolationError {
   /**
    * {@link UniqueConstraintViolationError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.constraintType = 'unique constraint'] - The constraint type.

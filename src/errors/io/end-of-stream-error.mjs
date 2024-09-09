@@ -19,7 +19,7 @@ const myDefaults = { action : defaultAction, target : defaultTarget }
 const EndOfStreamError = class extends IoError {
   /**
    * {@link EndOfStreamError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'reading'] - A description of the action being taken; default to 'reading'.

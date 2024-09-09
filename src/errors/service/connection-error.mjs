@@ -21,7 +21,7 @@ const defaultIssue = 'experienced an unknown error'
 const ConnectionError = class extends ExternalServiceError {
   /**
    * Constructor for the {@link ConnectionError} class.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.issue = _variaus_] - Typically left `undefined` and determined automatically according to

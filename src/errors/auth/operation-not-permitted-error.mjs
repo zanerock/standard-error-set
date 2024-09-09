@@ -22,7 +22,7 @@ const myDefaults = { issue : defaultIssue } // the default action is determined 
 const OperationNotPermittedError = class extends AuthError {
   /**
    * {@link OperationNotPermittedError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'action'] - A short description of the action.

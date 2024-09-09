@@ -21,7 +21,7 @@ const myDefaults = { resource : defaultResource }
 const DirectoryNotFoundError = class extends NotFoundError {
   /**
    * {@link DirectoryNotFoundError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the

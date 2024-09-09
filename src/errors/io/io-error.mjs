@@ -20,7 +20,7 @@ const myDefaults = { action : defaultAciton, target : defaultTarget }
 const IoError = class extends CommonError {
   /**
    * {@link IoError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.action = undefined] - A description of the action being taken. E.g., 'reading'

@@ -14,7 +14,7 @@ const myDefaults = { action : defaultAction }
 const BadCredentialsError = class extends AuthError {
   /**
    * {@link BadCredentialsError} constructor.
-   * 
+   *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'authentication'] - A short description of the action.
