@@ -23,7 +23,7 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
   /**
    * Constructor for the {@link AuthorizationConditionsNotMetError}.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.action = undefined] - A description of the action being taken. This should
    *   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer

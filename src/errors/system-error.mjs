@@ -15,7 +15,7 @@ const SystemError = class extends CommonError {
   /**
    * {@link SystemError} constructor.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.issue = 'has experienced a system error'] - A description of the error.
    * @param {string} [options.resource = 'process'] - The name or short description of the resource where the error

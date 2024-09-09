@@ -24,6 +24,8 @@ const myDefaults = { errorType : defaultErrorType, target : defaultTarget }
 const DatabaseError = class extends CommonError {
   /**
    * {@link DatabaseError} constructor.
+   *
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.action = undefined] - A description of the action being taken. E.g., 'closing',
    *   'creating', etc.

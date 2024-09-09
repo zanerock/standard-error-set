@@ -12,6 +12,9 @@
     "preversion": "npm test && make lint",
     "qa": "make qa"
   },
+  "engines": {
+    "node": "14.x || 16.x || >=18.0.0"
+  },
   "keywords": [],
   "author": "Zane Rockenbaugh <zane@liquid-labs.com>",
   "license": "Apache-2.0",

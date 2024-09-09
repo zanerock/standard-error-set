@@ -24,7 +24,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
   /**
    * The {@link ArgumentTypeError} constructor.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
    * @param {string|undefined} [options.packageName = undefined] - The package name.

@@ -22,7 +22,7 @@ const NotSupportedError = class extends CommonError {
   /**
    * {@link NotSupportedError} constructor.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.missingFeature = 'a requested feature'] - A short description of the action or
    *   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'.

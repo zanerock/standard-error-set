@@ -23,6 +23,8 @@ const myDefaults = { errorType : defaultErrorType }
 const TransactionError = class extends DatabaseError {
   /**
    * {@link TransactionError} constructor.
+   *
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.action = undefined] - A description of the action being taken. E.g., 'closing',
    *   'creating', etc.
