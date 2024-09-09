@@ -21,6 +21,8 @@ const myDefaults = {
 const ConstraintViolationError = class extends DatabaseError {
   /**
    * {@link ConstraintViolationError} constructor.
+   * 
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.constraintType = 'constraint'] - The constraint type.
    * @param {string|undefined} [options.entityType = undefined] - The "type" of entity. E.g., 'user'.

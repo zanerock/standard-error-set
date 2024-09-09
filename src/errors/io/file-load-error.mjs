@@ -20,6 +20,8 @@ const myDefaults = { action : defaultAction, target : defaultTarget }
 const FileLoadError = class extends IoError {
   /**
    * {@link FileLoadError} constructor.
+   * 
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.action = 'loading'] - A description of the action being taken. Default to 'loading'.
    * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the

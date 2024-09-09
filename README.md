@@ -2,7 +2,9 @@
 
 [![coverage: 100%](./.readme-assets/coverage.svg)](https://github.com/liquid-labs/standard-error-set/pulls?q=is%3Apr+is%3Aclosed)
 
-A collection of common/standard error types to flesh out Javascripts rather anemic baseline.
+A collection of common/standard error types to flesh out JavaScript's rather anemic baseline.
+
+This project is currently in beta. There are no known issues and we are using it in several of our own projects without issue. There's at least [one update](https://github.com/liquid-labs/standard-error-set/issues/39) we want to make before promoting to general release.
 
 ## Features
 
@@ -18,8 +20,8 @@ A collection of common/standard error types to flesh out Javascripts rather anem
 - [Install](#install)
 - [Usage and use cases](#usage-and-use-cases)
 - [API](#api)
-  - [Common parameters](#common-parameters)
-  - [Common Instance fields](#instance-fields)
+  - [Common constructor options](#common-constructor-options)
+  - [Common instance fields](#instance-fields)
   - [Message construction](#message-construction)
   - [Error code hoisting](#error-code-hoisting)
   - [API reference](#api-reference)
@@ -83,7 +85,7 @@ The following option parameters are accepted by all [`CommonError`](#CommonError
 
 - `cause` (`Error`|`undefined`): The error that caused this error. This is useful for wrapping a more generic error in a more specific error or chaining related errors across an error boundary (e.g., asynchronous calls).
 - `hint` (`string`|`undefined`): Optional hint regarding how to rectify the error. This should be a complete sentence and, if defined, will be appended to the `message` (whether defined directly or constructed).
-- <span id="common-parameters-ignore-for-message">`ignoreForMessage`</span> (`string[]|undefined`): When set, the named options name options will be ignored if/when [constructing the message](#message-construction). Ignored values are treated as 'unset' and will either be left out of the message entirely or revert to default values based on the error type. If the special value 'all' is included, then all parameters will be ignored. This is useful when, for instance, you want to hide information from the user about specific resources, actions, required authorizations, etc., but you still want to include these parameters as part of the error instance for logging or other purposes.
+- <span id="common-constructor-options-ignore-for-message">`ignoreForMessage`</span> (`string[]|undefined`): When set, the named options name options will be ignored if/when [constructing the message](#message-construction). Ignored values are treated as 'unset' and will either be left out of the message entirely or revert to default values based on the error type. If the special value 'all' is included, then all parameters will be ignored. This is useful when, for instance, you want to hide information from the user about specific resources, actions, required authorizations, etc., but you still want to include these parameters as part of the error instance for logging or other purposes.
 - `message` (`string`|`undefined`): All [`CommonError`](#CommonError) classes generate a standard message, based on class specific input parameters (if any). You can always override this message and provide your own custom message.
 - `status` (`number`|`undefined`): All [`CommonError`](#CommonError) classes are assigned an HTTP status based on their error type. The mapping between error type and status code can be managed with [`mapErrorToHttpStatus`](#mapErrorToHttpStatus). This would be unusual, but you can instead set the status on a particular `CommonError` instance with this option.
 
@@ -102,10 +104,10 @@ All `CommonError` and sub-class instances will set `message`, `status`, and `sta
 
 All [`CommonError`](#CommonError) and `CommonError` sub-classes support parameterized message construction. That is, they will generate a standard message based on class specific parameters unless `message` is explicitly specified on the constructor options. Refer to the class documentation for parameter definition and message examples.
 
-- All non-[common parameter](#common-parameters) constructor options are used in message construction. Since common parameters are not included in class documentation, all parameters in the [class documentation](#global-class-index) are used in generating a constructed message. Refer to class documentation for example constructed messages.
+- All non-[common constructor options](#common-constructor-options) are used in message construction. Since common parameters are not included in class documentation, all parameters in the [class documentation](#global-class-index) are used in generating a constructed message. Refer to class documentation for example constructed messages.
 - All construction parameters are optional and all `CommonError` and sub-classes will generate a standard class specific message if given no options.
 - All constructors take the `hint` option, which, if specified, will be appended to the `message` (whether constructed or specified).
-- <span id="message-construction-ignore-parameters">Parameters can be ignored in message construction by setting the [`ignoreForMessage`](#common-parameters-ignore-for-message) option.</span>
+- <span id="message-construction-ignore-parameters">Parameters can be ignored in message construction by setting the [`ignoreForMessage`](#common-constructor-options-ignore-for-message) option.</span>
 
 ### Error code hoisting
 
@@ -205,7 +207,7 @@ __Category__: [Argument errors](#global-class-Argument-errors-index)
 
 The [`ArgumentInvalidError`](#ArgumentInvalidError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -267,7 +269,7 @@ __Category__: [Argument errors](#global-class-Argument-errors-index)
 
 The [`ArgumentMissingError`](#ArgumentMissingError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -298,10 +300,10 @@ new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
 An [`ArgumentInvalidError`](#ArgumentInvalidError) sub-type indicating a (typically user supplied) argument is of the correct time, but
 outside the  acceptable range. Refer to [`ArgumentInvalidError`](#ArgumentInvalidError) for handling of internal argument errors.
 
-The [`includeForMessage`](#common-parameters-ignore-for-message] option for this function recognizes the special
-'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. options) will
-be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a subset would be
-strange.
+The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the 
+special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. 
+options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a 
+subset would be strange.
 
 Consider whether any of the following errors might be more precise or better suited:
 - [`ArgumentInvalidError`](#ArgumentInvalidError) - General argument error when no more specific error fits.
@@ -315,7 +317,7 @@ __Category__: [Argument errors](#global-class-Argument-errors-index)
 
 The [`ArgumentOutOfRangeError`](#ArgumentOutOfRangeError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -362,7 +364,7 @@ __Category__: [Argument errors](#global-class-Argument-errors-index)
 
 The [`ArgumentTypeError`](#ArgumentTypeError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -401,6 +403,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 
 [`AuthenticationRequiredError`](#AuthenticationRequiredError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -434,6 +438,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 ##### `new AuthError([options], defaults)` 
 
 [`AuthError`](#AuthError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -470,7 +476,7 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 
 Constructor for the [`AuthorizationConditionsNotMetError`](#AuthorizationConditionsNotMetError).
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -504,6 +510,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 ##### `new BadCredentialsError([options], defaults)` 
 
 [`BadCredentialsError`](#BadCredentialsError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -545,6 +553,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 [`NoAccessDirectoryError`](#NoAccessDirectoryError) constructor. Refer to [`DirectoryNotFoundError`](#DirectoryNotFoundError) for additional examples of
 constructed messages when a 404 status is set or mapped to this error type.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -585,6 +595,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 [`NoAccessError`](#NoAccessError) constructor. Refer to [`NotFoundError`](#NotFoundError) for additional examples of constructed messages
 when a 404 status is set or mapped to this error type.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -623,6 +635,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 [`NoAccessFileError`](#NoAccessFileError) constructor. Refer to [`FileNotFoundError`](#FileNotFoundError) for additional examples of constructed
 messages when a 404 status is set or mapped to this error type.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -660,6 +674,8 @@ __Category__: [Auth errors](#global-class-Auth-errors-index)
 
 [`OperationNotPermittedError`](#OperationNotPermittedError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -693,6 +709,8 @@ __Category__: [Database errors](#global-class-Database-errors-index)
 ##### `new ConstraintViolationError([options], defaults)` 
 
 [`ConstraintViolationError`](#ConstraintViolationError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -735,6 +753,8 @@ __Category__: [Database errors](#global-class-Database-errors-index)
 
 [`DatabaseError`](#DatabaseError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -776,6 +796,8 @@ __Category__: [Database errors](#global-class-Database-errors-index)
 ##### `new RollbackError([options], defaults)` 
 
 [`RollbackError`](#RollbackError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -820,6 +842,8 @@ __Category__: [Database errors](#global-class-Database-errors-index)
 
 [`TransactionError`](#TransactionError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -854,6 +878,8 @@ __Category__: [Database errors](#global-class-Database-errors-index)
 ##### `new UniqueConstraintViolationError([options], defaults)` 
 
 [`UniqueConstraintViolationError`](#UniqueConstraintViolationError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -891,6 +917,8 @@ __Category__: [External service errors](#global-class-External-service-errors-in
 ##### `new ConnectionError([options], defaults)` 
 
 Constructor for the [`ConnectionError`](#ConnectionError) class.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -930,6 +958,8 @@ __Category__: [External service errors](#global-class-External-service-errors-in
 
 [`ExternalServiceError`](#ExternalServiceError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -963,7 +993,7 @@ __Category__: [External service errors](#global-class-External-service-errors-in
 
 [`UnavailableError`](#UnavailableError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1000,7 +1030,7 @@ __Category__: [Feature errors](#global-class-Feature-errors-index)
 
 [`NotImplementedError`](#NotImplementedError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1033,7 +1063,7 @@ __Category__: [Feature errors](#global-class-Feature-errors-index)
 
 [`NotSupportedError`](#NotSupportedError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1082,6 +1112,8 @@ __Category__: [General errors](#global-class-General-errors-index)
 
 [`CommonError`](#CommonError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1112,7 +1144,7 @@ __Category__: [General errors](#global-class-General-errors-index)
 
 [`SystemError`](#SystemError) constructor.
 
-See the [common parameters](#common-parameters) note for additional parameters.
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1139,6 +1171,8 @@ __Category__: [General errors](#global-class-General-errors-index)
 ##### `new TimeoutError([options], defaults)` 
 
 [`TimeoutError`](#TimeoutError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1168,6 +1202,8 @@ __Category__: [IO errors](#global-class-IO-errors-index)
 ##### `new EndOfStreamError([options], defaults)` 
 
 [`EndOfStreamError`](#EndOfStreamError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1203,6 +1239,8 @@ __Category__: [IO errors](#global-class-IO-errors-index)
 ##### `new FileLoadError([options], defaults)` 
 
 [`FileLoadError`](#FileLoadError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1241,6 +1279,8 @@ __Category__: [IO errors](#global-class-IO-errors-index)
 
 [`IoError`](#IoError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1277,6 +1317,8 @@ __Category__: [Not found errors](#global-class-Not-found-errors-index)
 
 [`DirectoryNotFoundError`](#DirectoryNotFoundError) constructor.
 
+See the [common constructor options](#common-constructor-options) note for additional parameters.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1307,6 +1349,8 @@ __Category__: [Not found errors](#global-class-Not-found-errors-index)
 ##### `new FileNotFoundError([options], defaults)` 
 
 [`FileNotFoundError`](#FileNotFoundError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |
@@ -1344,6 +1388,8 @@ __Category__: [Not found errors](#global-class-Not-found-errors-index)
 ##### `new NotFoundError([options], defaults)` 
 
 [`NotFoundError`](#NotFoundError) constructor.
+
+See the [common constructor options](#common-constructor-options) note for additional parameters.
 
 
 | Param | Type | Default | Description |

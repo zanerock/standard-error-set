@@ -26,6 +26,8 @@ const NoAccessFileError = class extends NoAccessError {
   /**
    * {@link NoAccessFileError} constructor. Refer to {@link FileNotFoundError} for additional examples of constructed
    * messages when a 404 status is set or mapped to this error type.
+   * 
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.dirPath = undefined] - The directory (not including the file itself) where the
    *   file is located. If defined, and the `resource` option is undefined, then `dirPath` is combined with `fileName`,

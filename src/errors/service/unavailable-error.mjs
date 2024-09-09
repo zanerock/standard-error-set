@@ -20,7 +20,7 @@ const UnavailableError = class extends ExternalServiceError {
   /**
    * {@link UnavailableError} constructor.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - The constructor options.
    * @param {string|undefined} [options.expectedTime = undefined] - A short description as to when the resource might be
    *   available. E.g., 'after 1400' or 'in two hours'.

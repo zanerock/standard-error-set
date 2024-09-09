@@ -12,10 +12,10 @@ const myDefaults = { issue : defaultIssue }
  * An {@link ArgumentInvalidError} sub-type indicating a (typically user supplied) argument is of the correct time, but
  * outside the  acceptable range. Refer to {@link ArgumentInvalidError} for handling of internal argument errors.
  *
- * The [`includeForMessage`](#common-parameters-ignore-for-message] option for this function recognizes the special
- * 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. options) will
- * be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a subset would be
- * strange.
+ * The [`includeForMessage`](#common-constructor-options-ignore-for-message] option for this function recognizes the 
+ * special 'boundary' value. If included, then the entire boundary description (based on the `max`, `min`, etc. 
+ * options) will be suppressed. And while it is possible to exclude the individual boundary parameters, excluding a 
+ * subset would be strange.
  *
  * Consider whether any of the following errors might be more precise or better suited:
  * - {@link ArgumentInvalidError} - General argument error when no more specific error fits.
@@ -27,7 +27,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
   /**
    * The {@link ArgumentOutOfRangeError} constructor.
    *
-   * See the [common parameters](#common-parameters) note for additional parameters.
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
    * @param {string|undefined} [options.packageName = undefined] - The package name.

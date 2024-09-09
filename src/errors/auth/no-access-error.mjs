@@ -31,6 +31,8 @@ const NoAccessError = class extends AuthError {
   /**
    * {@link NoAccessError} constructor. Refer to {@link NotFoundError} for additional examples of constructed messages
    * when a 404 status is set or mapped to this error type.
+   * 
+   * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string|undefined} [options.resource = undefined] - A description of the resource attempting to be accessed.
    * @param {number} [options.status = (404 | 409)] - The HTTP status of the error. Should generally be left undefined
