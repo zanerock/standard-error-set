@@ -40,9 +40,12 @@ const ArgumentInvalidError = class extends CommonError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
-   * @param {string|undefined} [options.packageName = undefined] - The package name.
-   * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
+   * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming or defining the argument.
+   *   E.g., 'URL', 'configuration settings', 'function', etc.
+   * @param {string|undefined} [options.packageName = undefined] - The package name. E.g., the Javascript package or
+   *   module.
+   * @param {string|undefined} [options.endpointName = undefined] - The endpoint name. For example, the command name,
+   *   the URL endpoint, or the function name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,

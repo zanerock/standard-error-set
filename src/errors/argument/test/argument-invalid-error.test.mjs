@@ -100,7 +100,11 @@ describe('ArgumentInvalidError', () => {
     ],
     [
       { endpointType : 'function', argumentName : 'bar' },
-      /Function argument 'bar'/,
+      /^Function argument 'bar' is invalid.$/,
+    ],
+    [
+      { endpointType : 'function', argumentName : 'bar', issue : 'is bad' },
+      /^Function argument 'bar' is bad.$/,
     ],
     [{ argumentValue : circularArgument }, /value '\[object Object\]'/], // Test fallback to inherited '.toString()'
   ]
