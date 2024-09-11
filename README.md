@@ -213,9 +213,9 @@ See the [common constructor options](#common-constructor-options) note for addit
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [`options`] | `object` | `{}` | Constructor options. |
-| [`options.endpointType`] | `string` | &#x27;command&#x27; | The type of "endpoint" consuming the argument. |
-| [`options.packageName`] | `string` \| `undefined` |  | The package name. |
-| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. |
+| [`options.endpointType`] | `string` | &#x27;command&#x27; | The type of "endpoint" consuming or defining the argument.    E.g., 'URL', 'configuration settings', 'function', etc. |
+| [`options.packageName`] | `string` \| `undefined` |  | The package name. E.g., the Javascript package or    module. |
+| [`options.endpointName`] | `string` \| `undefined` |  | The endpoint name. For example, the command name,    the URL endpoint, or the function name. |
 | [`options.argumentName`] | `string` \| `undefined` |  | The argument name. |
 | [`options.argumentType`] | `string` \| `undefined` |  | The argument type. |
 | [`options.argumentValue`] | `*` |  | The argument value. Because this is value is ignored when `undefined`,   consider using the string 'undefined' if it's important to display the value. |
