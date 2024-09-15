@@ -1,9 +1,12 @@
 /* global NotSupportedError UnavailableError */ // used in docs
 import { CommonError } from '../common-error'
+import { describeEndpoint } from '../lib/describe-endpoint'
 import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
 const myName = 'NotImplementedError'
+const defaultEndpointType = 'command'
+const myDefaults = { endpointType : defaultEndpointType }
 
 /**
  * An error indicating the requested operation is not currently implemented.
@@ -20,17 +23,16 @@ const NotImplementedError = class extends CommonError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which
-   *   the user is trying to invoke.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
+   {{> common-endpoint-parameters }}
+   {{> common-hidden-parameters noDefaults=true }}
    * @example
    * new NotImplementedError() // "Action not currently implemented."
-   * new NotImplementedError({ target: '/some/url/endpoint'}) // "'/some/url/endpoint' is not currently implemented."
+   * // v "URL '/some/url/endpoint' is not currently implemented."
+   * new NotImplementedError({ endpointType: 'URL', endpointName: '/some/url/endpoint'})
    */
-  constructor({ name = myName, ...options } = {}) {
-    options.message = options.message || generateMessage(options)
+  constructor({ name = myName, ...options } = {}, defaults) {
+    defaults = Object.assign({}, myDefaults, defaults)
+    options.message = options.message || generateMessage(options, defaults)
     super({ name, ...options })
   }
 }
@@ -39,9 +41,11 @@ registerParent(myName, Object.getPrototypeOf(NotImplementedError).name)
 
 NotImplementedError.typeName = myName
 
-const generateMessage = (options) => {
-  if (includeParameterInMessage('target', options)) {
-    return `'${options.target}' is not currently implemented.`
+const generateMessage = (options, defaults) => {
+  if (includeParameterInMessage('endpointType', options)
+      || includeParameterInMessage('endpointName', options)
+      || includeParameterInMessage('packageName', options)) {
+    return `${describeEndpoint(options, defaults)} is not currently implemented.`
   }
   else {
     return 'Action not currently implemented.'

@@ -29,7 +29,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   {{< common-endpoint-parameters }}
+   {{< common-endpoint-parameters defaultEndpointType='command' }}
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
@@ -43,13 +43,11 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string|number|undefined} [options.minBoundary = undefined] - The lower value boundary; the value must be
    *   greater than this. This value will be ignored if `min` is set.
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.
    {{> common-hidden-parameters }}
    * @example
    * new ArgumentOutOfRangeError() // "Function argument is out of range."
    * //  "Function 'foo()' argument is out of range. Value must be greater than or equal to 24."
-   * new ArgumentOutOfRangeError({ endpointName: 'foo', argumentValue: 12, min: 24 })
+   * new ArgumentOutOfRangeError({ endpointName: 'foo()', argumentValue: 12, min: 24 })
    * //  "Function argument 'bar' with value '100' is out of range. Value must be greater than or equal to 'C' and less than 'D'."
    * new ArgumentInvalidError({ argumentName: 'bar', argumentValue: 'Bob', min: 'C', maxBoundary: 'D' })
    * // v "Function argument 'bar' is out of range."

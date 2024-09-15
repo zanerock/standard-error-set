@@ -7,17 +7,17 @@ describe('BadCredentialsError', () => {
 
   const testData = [
     [undefined, /^Authentication failed.$/],
-    [{ method : 'password' }, /Authentication of password failed./],
+    [{ method : 'password' }, /^Authentication using password failed\.$/],
     [
       { action : 'decoding', method : 'SSL cert' },
-      /Decoding of SSL cert failed./,
+      /^Decoding using SSL cert failed\.$/,
     ],
     [
       { issue : 'certificate not signed' },
       /^Authentication failed; certificate not signed.$/,
     ],
-    [{ hint : 'Try again later.' }, /. Try again later.$/],
-    [{ message : 'Foo is bad', cause, status : 500 }, /Foo is bad/, 500, cause],
+    [{ hint : 'Try again later.' }, /\. Try again later.$/],
+    [{ message : 'Foo is bad', cause, status : 500 }, /^Foo is bad$/, 500, cause],
   ]
 
   test.each(

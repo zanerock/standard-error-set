@@ -41,23 +41,21 @@ const ArgumentInvalidError = class extends CommonError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   {{< common-endpoint-parameters }}
+   {{< common-endpoint-parameters defaultEndpointType='command' }}
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
    *   consider using the string 'undefined' if it's important to display the value.
    * @param {string} [options.issue = 'is invalid'] - The issue with the argument.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new ArgumentInvalidError() // "Function argument is invalid."
    * "Function 'my-package#foo()' argument  is invalid."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()'})
    * "Function argument 'bar' cannot be parsed."
    * new ArgumentInvalidError({ argumentName: 'bar', issue: 'cannot be parsed'})
    * "Function 'my-package#foo()' argument 'bar' with value '100' is invalid."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 100 })
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()', argumentName: 'bar', argumentValue: 100 })
    * // v "Function argument 'bar' is invalid."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */
@@ -95,7 +93,7 @@ const generateMessage = (options, defaults) => {
 
   let message = describeEndpoint(options, defaults)
 
-  message += 'argument '
+  message += ' argument '
   if (includeParameterInMessage('argumentName', options)) {
     message += `'${argumentName}' `
   }

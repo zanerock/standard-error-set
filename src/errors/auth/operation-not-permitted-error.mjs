@@ -25,31 +25,28 @@ const OperationNotPermittedError = class extends AuthError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string} [options.action = 'action'] - A short description of the action.
+   {{< common-endpoint-parameters defaultEndpointType='action' }}
    * @param {string|undefined} [options.target = undefined] - The name or short description of the target.
    * @param {string} [options.issue = 'is not permitted'] - The auth issue.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
-   * new OperationNotPermittedError() // "Action is not permitted."
-   * new OperationNotPermittedError({ action = 'database update' }) // "Database update is not permitted."
-   * // v "Accessing the customer database is not permitted."
-   * new OperationNotPermittedError({ target = 'customer database' })
-   * // v "Updating the customer database is not permitted."
-   * new OperationNotPermittedError({ action = 'updating', target = 'customer database '})
-   * new OperationNotPermittedError({ issue = 'is not authorized' }) // Action is not authorized.
+   * new OperationNotPermittedError() // "User is not permitted to invoke action."
+   * // v "User is not permitted to update database."
+   * new OperationNotPermittedError({ action : 'update', endpointType : 'database' })
+   * // v "User is not permitted to access database 'customer'."
+   * new OperationNotPermittedError({ action: 'access', endpointType : 'database', endpointName : 'customer' })
+   * new OperationNotPermittedError({ issue : 'is not authorized' }) // "User is not authorized to invoke action."
    */
   constructor(
-    { name = myName, action, issue = defaultIssue, target, ...options } = {},
+    { name = myName, endpointType, issue = defaultIssue, target, ...options } = {},
     defaults
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    if (action === undefined && target !== undefined) {
-      action = 'accessing'
-      defaults.action = action
+    if (endpointType === undefined && target !== undefined) {
+      endpointType = 'accessing'
+      defaults.endpointType = endpointType
     }
-    super({ name, action, issue, target, ...options }, defaults)
+    super({ name, endpointType, issue, target, ...options }, defaults)
   }
 }
 

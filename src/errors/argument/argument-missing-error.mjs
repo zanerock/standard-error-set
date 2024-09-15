@@ -40,7 +40,7 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   {{> common-endpoint-parameters }}
+   {{< common-endpoint-parameters defaultEndpointType='command' }}
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
    * @param {*} [options.argumentValue] - The argument value. Because this is value is ignored when `undefined`,
@@ -48,15 +48,13 @@ const ArgumentMissingError = class extends ArgumentInvalidError {
    * @param {string} [options.issue = ('is missing or empty'\|<other>)] - The issue with the argument. The default
    *   value is determined by the value (or absence) of `argumentValue`. Refer to [discussion of customized issue
    *   logic](#argument-missing-error-custom-issue-logic) for details.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new ArgumentInvalidError() // "Function argument is missing or empty."
    * //  "Function 'my-package#foo()' argument is missing or empty."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()'})
    * //  "Function 'my-package#foo()' argument with value 'undefined' is missing or empty."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()', argumentName: 'bar', argumentValue: 'undefined' })
    * // v "Function argument 'bar' is missing or empty."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */

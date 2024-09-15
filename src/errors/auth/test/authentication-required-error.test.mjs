@@ -6,13 +6,12 @@ describe('AuthenticationRequiredError', () => {
   const causeError = new Error()
 
   const testData = [
-    [undefined, /Action requires authentication./],
-    [{ action : 'endpoint access' }, /Endpoint access requires authentication./],
+    [undefined, /^User requires authentication to invoke action\.$/],
     [
-      { action : 'updating', target : 'customer database' },
-      /Updating the customer database requires authentication./,
+      { action : 'update', endpointType : 'customer database' },
+      /^User requires authentication to update customer database\.$/,
     ],
-    [{ issue : 'requires 2fa' }, /Action requires 2fa./],
+    [{ issue : 'requires 2fa authentication' }, /User requires 2fa authentication to invoke action./],
     [
       { message : 'Foo is bad', cause : causeError, status : 500 },
       /Foo is bad/,

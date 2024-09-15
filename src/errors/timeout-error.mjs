@@ -19,8 +19,6 @@ const TimeoutError = class extends CommonError {
    *   timing out.
    * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote service our not (
    *   e.g., a connection timeout).
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * // new TimeoutError() // "The process has timed out."

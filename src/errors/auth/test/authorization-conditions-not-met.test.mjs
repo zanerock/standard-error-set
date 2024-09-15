@@ -3,26 +3,22 @@ import { AuthorizationConditionsNotMetError } from '../authorization-conditions-
 import { standardErrorTest } from '../../test/lib/standard-error-test'
 
 describe('AuthorizationConditionsNotMetError', () => {
-  const preamble = 'While generally authorized'
-  const stdIssue = ', current conditions prevent this action.'
+  const preamble = 'User request is authorized but'
+  const stdIssue = 'does not meet necessary conditions'
   const cause = new Error()
 
   const testData = [
-    [undefined, new RegExp(`${preamble}${stdIssue}`)],
+    [undefined, new RegExp(`^${preamble} ${stdIssue} to invoke action\\.$`)],
     [
-      { action : 'access the database' },
-      new RegExp(`${preamble} to access the database${stdIssue}`),
+      { action : 'access', endpointType: 'database', endpointName: 'customer' },
+      new RegExp(`${preamble} ${stdIssue} to access database 'customer'\\.$`),
     ],
     [
       { issue : 'user is over rate quota' },
-      new RegExp(`${preamble}, user is over rate quota.`),
+      new RegExp(`^${preamble} user is over rate quota to invoke action\\.$`),
     ],
-    [
-      { action : 'access the database', issue : 'user is over quota' },
-      new RegExp(`${preamble} to access the database, user is over quota.`),
-    ],
-    [{ hint : 'Try again later.' }, /. Try again later.$/],
-    [{ message : 'Foo is bad', cause, status : 500 }, /Foo is bad/, 500, cause],
+    [{ hint : 'Try again later.' }, /\. Try again later\.$/],
+    [{ message : 'Foo is bad', cause, status : 500 }, /^Foo is bad$/, 500, cause],
   ]
 
   test.each(

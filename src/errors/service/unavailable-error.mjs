@@ -27,8 +27,6 @@ const UnavailableError = class extends ExternalServiceError {
    * @param {string} [options.issue = 'currently unavailable'] -
    * @param {string} [options.target = 'target resource'] - The name of the function, endpoint, service, etc. which the
    *   user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new UnavailableError() // "The target resource is currently unavailable.

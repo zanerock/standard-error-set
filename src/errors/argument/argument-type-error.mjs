@@ -26,7 +26,7 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   {{< common-endpoint-parameters }}
+   {{< common-endpoint-parameters defaultEndpointType='command' }}
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The (expected) argument type.
    * @param {string|undefined} [options.receivedType = undefined] - The actual type of the argument. If this is not
@@ -35,15 +35,13 @@ const ArgumentTypeError = class extends ArgumentInvalidError {
    * @param {*} [options.argumentValue = undefined] - The value of the argument; though we recommend to leave this
    *   undefined. The value is generally not important since the type is incorrect.
    * @param {string} [options.issue = 'is wrong type'] - The issue with the argument.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new ArgumentInvalidError() // "Function argument is wrong type."
    * //  "Function 'my-package#foo()' argument is wrong type."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo'})
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()'})
    * //  "Function 'my-package#foo()' argument with value 'undefined' is wrong type."
-   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo', argumentName: 'bar', argumentValue: 'undefined' })
+   * new ArgumentInvalidError({ packageName: 'my-package', endpointName: 'foo()', argumentName: 'bar', argumentValue: 'undefined' })
    * // v "Function argument 'bar' is wrong type."
    * new ArgumentInvalidError({ endpointType: 'function', argumentName: 'bar' })
    */

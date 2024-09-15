@@ -6,20 +6,19 @@ describe('OperationNotPermittedError', () => {
   const causeError = new Error()
 
   const testData = [
-    [undefined, /Action is not permitted./],
-    [{ action : 'database update' }, /Database update is not permitted./],
+    [undefined, /^User is not permitted to invoke action.$/],
+    [{ action : 'update', endpointType : 'database' }, /^User is not permitted to update database\.$/],
     [
-      { target : 'customer database' },
-      /Accessing the customer database is not permitted./,
+      { action: 'access', endpointType : 'database', endpointName : 'customer' },
+      /^User is not permitted to access database 'customer'\.$/,
     ],
     [
-      { action : 'updating', target : 'customer database' },
-      /Updating the customer database is not permitted./,
+      { issue : 'is not authorized' },
+      /^User is not authorized to invoke action\.$/,
     ],
-    [{ issue : 'is not authorized' }, /Action is not authorized./],
     [
       { message : 'Foo is bad', cause : causeError, status : 400 },
-      /Foo is bad/,
+      /^Foo is bad$/,
       400,
       causeError,
     ],

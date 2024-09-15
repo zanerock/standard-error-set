@@ -4,7 +4,7 @@ import { includeParameterInMessage } from '../../util/include-parameter-in-messa
 import { registerParent } from '../../settings/map-error-to-http-status'
 
 const myName = 'AuthorizationConditionsNotMetError'
-const defaultIssue = 'current conditions prevent this action'
+const defaultIssue = 'does not meet necessary conditions'
 const myDefaults = { issue : defaultIssue }
 
 /**
@@ -25,35 +25,26 @@ const AuthorizationConditionsNotMetError = class extends AuthError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string|undefined} [options.action = undefined] - A description of the action being taken. This should
-   *   identify the target resource/entity where appropriate. E.g., 'accessing the database' or 'updating customer
-   *   data'.
-   * @param {string|undefined} [options.hint = undefined] - A description of what the user might do to remedy the
-   *   situation. This should be a complete sentence. E.g., 'You may contact customer service and request a quota
-   *   increase.', or 'Try again in a few minutes.'
+   {{< common-endpoint-parameters defaultEndpointType='action' }}
    * @param {string} [options.issue = 'current conditions prevent this action'] - A description of the problem. E.g.,
    *   'the user is over request quota', or 'this operation is only allowed between 0900 and 1700'.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
-   * new AuthorizationConditionsNotMet() // "While generally authorized, current conditions prevent this action."
-   * // v "While generally authorized to access customer data, current conditions prevent this action."
-   * new AuthorizationConditionsNotMet({ action: 'access customer data' })
-   * // v "While generally authorized, user is over rate quota."
+   * // v "User request is authorized but does not meet necessary conditions to invoke action."
+   * new AuthorizationConditionsNotMet()
+   * // v "User request is authorized but does not meet necessary conditions to access customer database."
+   * new AuthorizationConditionsNotMet({ action: 'access', endpointType: 'customer data' })
+   * // v "User request is authorized but user is over rate quota to invoke action."
    * new AuthorizationConditionsNotMet({ issue: 'user is over rate quota' })
-   * // v "While generally authorized to access customer data, user is over rate quota."
-   * new AuthorizationConditionsNotMet({ action: 'access customer data', issue: 'user is over rate quota' })
-   * // v "While generally authorized, current conditions prevent this action. Try again in a few minutes."
-   * new AuthorizationConditionsNotMet({ hint: 'Try again in a few minutes.' })
+   * // v "User request is authorized but does not meet necessary conditions to invoke action. Try again later.""
+   * new AuthorizationConditionsNotMet({ hint: 'Try again later.' })
    */
   constructor(
     { name = myName, issue = defaultIssue, ...options } = {},
     defaults
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
-    options.message =
-      options.message || generateMessage({ issue, ...options }, defaults)
+    issue = 'request is authorized but ' + issue
     super({ name, issue, ...options }, defaults)
   }
 }
@@ -64,20 +55,5 @@ registerParent(
 )
 
 AuthorizationConditionsNotMetError.typeName = myName
-
-const generateMessage = (options, defaults) => {
-  const { action, hint, issue } = options
-
-  let message = 'While generally authorized'
-  if (includeParameterInMessage('action', options)) {
-    message += ` to ${action}`
-  }
-  message += `, ${includeParameterInMessage('issue', options) ? issue : defaults.issue}.`
-  if (includeParameterInMessage('hint', options)) {
-    message += ' ' + hint
-  }
-
-  return message
-}
 
 export { AuthorizationConditionsNotMetError }

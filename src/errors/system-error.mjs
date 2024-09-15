@@ -20,8 +20,6 @@ const SystemError = class extends CommonError {
    * @param {string} [options.issue = 'has experienced a system error'] - A description of the error.
    * @param {string} [options.resource = 'process'] - The name or short description of the resource where the error
    *   occurred.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new SystemError() // "The process has experienced a System."

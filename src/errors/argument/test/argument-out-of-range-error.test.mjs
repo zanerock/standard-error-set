@@ -10,17 +10,17 @@ describe('ArgumentOutOfRangeError', () => {
     [undefined, /Command argument is out of range./, 400],
     [{ status : 401 }, /Command argument is out of range./, 401, undefined],
     [
-      { packageName : 'my-package', endpointName : 'foo' },
+      { packageName : 'my-package', endpointName : 'foo()' },
       /Command 'my-package#foo\(\)'/,
       400,
     ],
-    [{ endpointName : 'foo' }, /Command 'foo\(\)'/],
+    [{ endpointName : 'foo()' }, /Command 'foo\(\)'/],
     [
-      { endpointName : 'foo', argumentName : 'bar' },
+      { endpointName : 'foo()', argumentName : 'bar' },
       /Command 'foo\(\)' argument 'bar' is out of range./,
     ],
     [
-      { endpointName : 'foo', argumentName : 'bar', argumentValue : 100 },
+      { endpointName : 'foo()', argumentName : 'bar', argumentValue : 100 },
       /Command 'foo\(\)' argument 'bar' with value '100' is out of range./,
     ],
     [

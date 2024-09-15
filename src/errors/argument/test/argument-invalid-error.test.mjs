@@ -11,17 +11,17 @@ describe('ArgumentInvalidError', () => {
     [undefined, /Command argument is invalid./, 400],
     [{ status : 401 }, /Command argument is invalid./, 401, undefined],
     [
-      { packageName : 'my-package', endpointName : 'foo' },
+      { packageName : 'my-package', endpointName : 'foo()' },
       /Command 'my-package#foo\(\)'/,
       400,
     ],
-    [{ endpointName : 'foo' }, /Command 'foo\(\)'/],
+    [{ endpointName : 'foo()' }, /Command 'foo\(\)'/],
     [
-      { endpointName : 'foo', argumentName : 'bar' },
+      { endpointName : 'foo()', argumentName : 'bar' },
       /Command 'foo\(\)' argument 'bar' is invalid/,
     ],
     [
-      { endpointName : 'foo', argumentName : 'bar', argumentValue : 100 },
+      { endpointName : 'foo()', argumentName : 'bar', argumentValue : 100 },
       /Command 'foo\(\)' argument 'bar' with value '100' is invalid./,
     ],
     [{ argumentType : 'string' }, /Command argument type 'string' is invalid./],
@@ -30,14 +30,14 @@ describe('ArgumentInvalidError', () => {
     [{ message : 'Foo is bad', status : 401 }, /Foo is bad/, 401],
     [{ message : 'Foo is bad', cause : causeError }, /Foo is bad/, causeError],
     [
-      { endpointName : 'foo', cause : causeError, status : 401 },
+      { endpointName : 'foo()', cause : causeError, status : 401 },
       /Command 'foo\(\)'/,
       401,
       causeError,
     ],
     [
       {
-        endpointName : 'foo',
+        endpointName : 'foo()',
         argumentName : 'bar',
         cause        : causeError,
         status       : 401,
@@ -48,7 +48,7 @@ describe('ArgumentInvalidError', () => {
     ],
     [
       {
-        endpointName  : 'foo',
+        endpointName  : 'foo()',
         argumentName  : 'bar',
         argumentValue : 100,
         cause         : causeError,
@@ -60,7 +60,7 @@ describe('ArgumentInvalidError', () => {
     ],
     [
       {
-        endpointName  : 'foo',
+        endpointName  : 'foo()',
         argumentName  : 'bar',
         argumentValue : 100,
         cause         : causeError,
@@ -73,7 +73,7 @@ describe('ArgumentInvalidError', () => {
     [
       {
         packageName   : 'my-package',
-        endpointName  : 'foo',
+        endpointName  : 'foo()',
         argumentName  : 'bar',
         argumentValue : 100,
         cause         : causeError,
@@ -92,7 +92,7 @@ describe('ArgumentInvalidError', () => {
     [
       {
         packageName  : 'my-package',
-        endpointName : 'foo',
+        endpointName : 'foo()',
         argumentName : 'bar',
         bar          : 100,
       },

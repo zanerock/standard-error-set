@@ -8,13 +8,13 @@ describe('ArgumentMissingError', () => {
   const testData = [
     [undefined, /Command argument is missing or empty./],
     [
-      { packageName : 'my-package', endpointName : 'foo' },
+      { packageName : 'my-package', endpointName : 'foo()' },
       /Command 'my-package#foo\(\)' argument is missing or empty./,
     ],
     [
       {
         packageName   : 'my-package',
-        endpointName  : 'foo',
+        endpointName  : 'foo()',
         argumentValue : 'undefined',
       },
       /Command 'my-package#foo\(\)' argument with value 'undefined' is missing or empty./,

@@ -8,13 +8,13 @@ describe('ArgumentTypeError', () => {
   const testData = [
     [undefined, /Command argument is wrong type./],
     [
-      { packageName : 'my-package', endpointName : 'foo' },
+      { packageName : 'my-package', endpointName : 'foo()' },
       /Command 'my-package#foo\(\)' argument is wrong type.$/,
     ],
     [
       {
         packageName   : 'my-package',
-        endpointName  : 'foo',
+        endpointName  : 'foo()',
         argumentValue : 'undefined',
       },
       /Command 'my-package#foo\(\)' argument with value 'undefined' is wrong type.$/,

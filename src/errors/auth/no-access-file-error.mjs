@@ -39,8 +39,6 @@ const NoAccessFileError = class extends NoAccessError {
    * @param {string|undefined} [options.resource = undefined] - Should usually be left undefined. If set, then the
    *   value will override `fileName` and `dirPath` and be used to generate the standard message if `message` option
    *   not set.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new NoAccessFileError() // "Access to file is denied."

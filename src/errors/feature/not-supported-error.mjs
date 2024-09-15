@@ -1,11 +1,13 @@
 /* global NotImplementedError UnavailableError */ // used in docs
 import { CommonError } from '../common-error'
+import { describeEndpoint } from '../lib/describe-endpoint'
 import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
 const myName = 'NotSupportedError'
+const defaultEndpointType = 'command'
 const defaultMissingFeature = 'a requested feature'
-const myDefaults = { missingFeature : defaultMissingFeature }
+const myDefaults = { endpointType : defaultEndpointType, missingFeature : defaultMissingFeature }
 
 /**
  * An error indicating that the resource exists, but does not support some aspect of the request as is. This is most
@@ -24,22 +26,16 @@ const NotSupportedError = class extends CommonError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
+   {{> common-endpoint-parameters }}
    * @param {string|undefined} [options.missingFeature = 'a requested feature'] - A short description of the action or
    *   thing which is not supported. E.g., 'YAML request payloads' or 'asynchronous execution'.
-   * @param {string|undefined} [options.hint = undefined] - A short hint to the user as to how they might resolve or
-   *   workaround the issue. This should be a complete sentence. E.g., 'Encode request in JSON.' or 'Try synchronous
-   *   execution.'
-   * @param {string|undefined} [options.target = undefined] - The name of the function, endpoint, service, etc. which
-   *   the user is trying to invoke. E.g., '/some/url/endpoint' or 'myFunction()'
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new NotSupportedError() // "The target does not currently support a requested feature."
    * // v "'/some/endpoint' does not currently support a requested feature."
-   * new NotSupportedError({ target: '/some/endpoint'})
+   * new NotSupportedError({ endpointName: '/some/endpoint'})
    * // v "'myFunc()' does not currently support RFC 3339 style dates."
-   * new NotSupportedError({ target: 'myFunc()', issue: 'RFC 3339 style dates' })
+   * new NotSupportedError({ endpointName: 'myFunc()', issue: 'RFC 3339 style dates' })
    * // v "The target does not currently support YAML payloads. Send request in JSON."
    * new NotSupportedError({ issue: 'YAML payloads', hint : 'Send request in JSON.' })
    */
@@ -62,13 +58,20 @@ NotSupportedError.typeName = myName
 const generateMessage = (options, defaults) => {
   const { missingFeature, target } = options
 
-  let message = includeParameterInMessage('target', options)
-    ? `'${target}' `
-    : 'The target '
-  message += `does not currently support ${
+  let message
+  if (includeParameterInMessage('endpointType', options)
+      || includeParameterInMessage('endpointName', options)
+      || includeParameterInMessage('packageName', options)) {
+    message = describeEndpoint(options, defaults)
+  }
+  else {
+    message = 'The target'
+  }
+
+  message += ` does not currently support ${
     includeParameterInMessage('missingFeature', options)
       ? missingFeature
-      : defaults.action
+      : defaults.missingFeature
   }.`
 
   return message

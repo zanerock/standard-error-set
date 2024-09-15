@@ -33,8 +33,6 @@ const DatabaseError = class extends CommonError {
    * @param {string|undefined} [options.issue = undefined] - Describes the specific issue.
    * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote database or not.
    * @param {string} [options.target = 'target'] - The name or description of the target resource.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new DatabaseError() // "There an error in the database."

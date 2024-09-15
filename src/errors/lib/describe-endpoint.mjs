@@ -1,25 +1,31 @@
 import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 
-const describeEndpoint = (options, defaults) => {
+const describeEndpoint = (options, defaults, capitalize = true) => {
   const { endpointType, endpointName, packageName } = options
 
-  let message = includeParameterInMessage('endpointType', options)
+  let message = includeParameterInMessage('endpointType', options) === true
     ? endpointType
     : defaults.endpointType
 
-  message = message.charAt(0).toUpperCase() + message.slice(1) + ' '
+  if (capitalize === true) {
+    message = message.charAt(0).toUpperCase() + message.slice(1)
+  }
+  message += ' '
 
-  if (includeParameterInMessage('packageName', options)) {
+  const includeEndpointName = includeParameterInMessage('endpointName', options)
+
+  if (includeParameterInMessage('packageName', options) === true) {
     message +=
       endpointName === undefined
         ? `in package '${packageName}' `
         : `'${packageName}#`
   }
-  if (includeParameterInMessage('endpointName', options)) {
-    message += `${packageName === undefined ? "'" : ''}${endpointName}()' `
+  
+  if (includeEndpointName ===  true) {
+    message += `${packageName === undefined ? "'" : ''}${endpointName}'`
   }
 
-  return message
+  return message.trim()
 }
 
 export { describeEndpoint }

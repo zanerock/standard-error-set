@@ -1,12 +1,20 @@
 /* globals AuthenticationRequiredError BadCredentialsError NoAccessError OperationNotPermittedError */
 import { CommonError } from '../common-error'
-import { generateAuthMessage } from './lib/generate-auth-message'
+import { describeEndpoint } from '../lib/describe-endpoint'
+import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 
 const myName = 'AuthError'
-const defaultAction = 'action'
+const defaultAction = 'invoke'
+const defaultEndpointType = 'action'
 const defaultIssue = 'is not authorized'
-const myDefaults = { action : defaultAction, issue : defaultIssue }
+const defaultSubject = 'user'
+const myDefaults = { 
+  action: defaultAction, 
+  endpointType : defaultEndpointType, 
+  issue : defaultIssue, 
+  subject: defaultSubject
+}
 
 /**
  * A generic error indicating a problem with user authentication or authorization. `AuthError` should generally not be
@@ -24,36 +32,59 @@ const AuthError = class extends CommonError {
    *
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
-   * @param {string} [options.action = 'action'] - A short description of the action.
-   * @param {string|undefined} [options.target = undefined] - The name or short description of the target.
-   * @param {string} [options.issue = 'is not authorized'] - The auth issue.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
+   {{> common-auth-parameters defaultAction='access' defaultIssue='is not authorized' defaultEndpointType='action'}}
    {{> common-hidden-parameters }}
    * @example
-   * new AuthError() // "Action is not authorized."
-   * new AuthError({ action : 'dancing' }) // "Dancing is not authorized."
-   * new AuthError({ issue : 'is not permitted' }) // Action is not permitted.
+   * new AuthError() // "User is not authorized to invoke action."
+   * new AuthError({ action : 'access', endpointType : 'URL' }) // "User is not authorized to access URL."
+   * new AuthError({ issue : 'is not permitted' }) // User is not permitted to invoke action.
    */
   constructor(
     {
       name = myName,
       action = defaultAction,
+      endpointType = defaultEndpointType,
       issue = defaultIssue,
+      subject = defaultSubject,
       ...options
     } = {},
     defaults
   ) {
     defaults = Object.assign({}, myDefaults, defaults)
+    // fold the default options back in
+    options = { action, endpointType, issue, subject, ...options }
     options.message =
       options.message
-      || generateAuthMessage({ action, issue, ...options }, defaults)
-    super({ name, action, issue, ...options })
+      || generateMessage(options, defaults)
+    super({ name, ...options })
   }
 }
 
 registerParent(myName, Object.getPrototypeOf(AuthError).name)
 
 AuthError.typeName = myName
+
+const generateMessage = (options, defaults) => {
+  const { action, issue, subject } = options
+
+  let message = includeParameterInMessage('subject', options) 
+    ? subject 
+    : defaults.subject
+  message = subject.charAt(0).toUpperCase() + subject.slice(1) + ' '
+
+  message += includeParameterInMessage('issue', options)
+    ? issue
+    : defaults.issue
+
+  message += ' to ' 
+
+  message += includeParameterInMessage('action', options)
+    ? action
+    : defaults.action
+
+  message += ` ${describeEndpoint(options, defaults, false)}.`
+
+  return message
+}
 
 export { AuthError }

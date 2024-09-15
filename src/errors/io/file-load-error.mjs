@@ -32,8 +32,6 @@ const FileLoadError = class extends IoError {
    * @param {string|undefined} [options.issue = undefined] - Describes the specific issue.
    * @param {string|undefined} [options.target = undefined] - The name or description of the target resource. Should
    *   generally be left in preference for setting `fileName` and/or `filePath`.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new FileLoadError() // "There was an error loading the file."

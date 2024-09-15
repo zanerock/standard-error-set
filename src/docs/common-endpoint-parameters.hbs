@@ -1,4 +1,5 @@
-* @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
+* @param {string} [options.endpointType = '{{ defaultEndpointType }}'] - The type of "endpoint" consuming the argument. 
+  This may be a a technical type (like 'command' or 'URL') or a behavioral type (like 'action' or 'authentication').
 * @param {string|undefined} [options.packageName = undefined] - The package name. E.g., the Javascript package or
 *   module. This is intended primarily to be used with 'function' type endpoints.
 * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.

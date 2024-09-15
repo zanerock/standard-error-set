@@ -37,8 +37,6 @@ const NoAccessError = class extends AuthError {
    * @param {string|undefined} [options.resource = undefined] - A description of the resource attempting to be accessed.
    * @param {number} [options.status = (404 | 409)] - The HTTP status of the error. Should generally be left undefined
    *   so as to be automatically determined according to [@link mapErrorToHttpStatus | configured error mapping].
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new NoAccessError() // "Access to resource is denied."

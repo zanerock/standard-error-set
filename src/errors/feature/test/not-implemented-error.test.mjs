@@ -6,14 +6,14 @@ describe('NotImplementedError', () => {
   const causeError = new Error()
 
   const testData = [
-    [undefined, /Action not currently implemented./],
+    [undefined, /^Action not currently implemented\.$/],
     [
-      { target : '/some/url/endpoint' },
-      /'\/some\/url\/endpoint' is not currently implemented./,
+      { endpointType : 'URL', endpointName : '/some/url/endpoint' },
+      /^URL '\/some\/url\/endpoint' is not currently implemented\.$/,
     ],
     [
       { message : 'Foo is bad', cause : causeError, status : 400 },
-      /Foo is bad/,
+      /^Foo is bad$/,
       400,
       causeError,
     ],

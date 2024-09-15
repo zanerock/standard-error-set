@@ -21,13 +21,11 @@ const BadCredentialsError = class extends AuthError {
    * @param {string|undefined} [options.issue = undefined] - Additional specifics regarding the issue.
    * @param {string|undefined} [options.method = undefined] - The authentication method. E.g., 'password', 'SSL cert',
    *   etc.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new BadCredentialsError() // "Authentication failed."
-   * new BadCredentialsError({ method: 'password' }) // "Authentication of password failed."
-   * new BadCredentialsError({ action : 'decoding', method: 'SSL cert' }) // "Decoding of SSL cert failed."
+   * new BadCredentialsError({ method: 'password' }) // "Authentication using password failed."
+   * new BadCredentialsError({ action : 'decoding', method: 'SSL cert' }) // "Decoding using SSL cert failed."
    * new BadCredentialsError({ issue: 'certificate not signed' }) // "Authentication failed; certificate not signed."
    */
   constructor(
@@ -42,16 +40,12 @@ const BadCredentialsError = class extends AuthError {
 }
 
 const generateMessage = (options, defaults) => {
-  let { action } = options
-  const { issue, method } = options
-
-  action = includeParameterInMessage('action', options)
-    ? action
-    : defaults.action
+  const { action, issue, method } = options
 
   let message = action.charAt(0).toUpperCase() + action.slice(1)
+
   if (includeParameterInMessage('method', options)) {
-    message += ` of ${method}`
+    message += ` using ${method}`
   }
 
   message += ' failed'

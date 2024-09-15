@@ -31,8 +31,6 @@ const RollbackError = class extends DatabaseError {
    * @param {string|undefined} [options.issue = undefined] - Describes the specific issue.
    * @param {string} [options.target = 'database'] - The name or description of the target resource.
    * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote database or not.
-   * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
-   *   constructor.`
    {{> common-hidden-parameters }}
    * @example
    * new RollbackError() // "There a rollback error in the database."
