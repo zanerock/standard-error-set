@@ -39,7 +39,7 @@ const NotFoundError = class extends CommonError {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
       options.message || generateNotFoundMessage(options, defaults)
-    super({ name, code, ...options }, defaults)
+    super({ name, code, ...options })
   }
 }
 

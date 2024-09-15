@@ -51,7 +51,7 @@ const NotSupportedError = class extends CommonError {
     options.message =
       options.message
       || generateMessage({ missingFeature, ...options }, defaults)
-    super({ name, missingFeature, ...options }, defaults)
+    super({ name, missingFeature, ...options })
   }
 }
 

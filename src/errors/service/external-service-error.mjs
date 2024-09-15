@@ -41,7 +41,7 @@ const ExternalServiceError = class extends CommonError {
     options.message =
       options.message
       || generateMessage(undefined, { service, ...options }, defaults)
-    super({ name, service, ...options }, defaults)
+    super({ name, service, ...options })
   }
 }
 

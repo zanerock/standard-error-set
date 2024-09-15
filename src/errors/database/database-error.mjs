@@ -59,7 +59,7 @@ const DatabaseError = class extends CommonError {
     options.message =
       options.message
       || generateMessage({ errorType, isLocal, target, ...options }, defaults)
-    super({ name, errorType, isLocal, target, ...options }, defaults)
+    super({ name, errorType, isLocal, target, ...options })
   }
 }
 

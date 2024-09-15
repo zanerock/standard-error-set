@@ -48,7 +48,7 @@ const AuthError = class extends CommonError {
     options.message =
       options.message
       || generateAuthMessage({ action, issue, ...options }, defaults)
-    super({ name, action, issue, ...options }, defaults)
+    super({ name, action, issue, ...options })
   }
 }
 
