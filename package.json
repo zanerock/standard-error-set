@@ -33,6 +33,7 @@
     "@liquid-labs/sdlc-resource-eslint": "^1.0.0-alpha.20",
     "@liquid-labs/sdlc-resource-jest": "^1.0.0-alpha.7",
     "dmd-readme-api": "^1.0.0-beta.8",
+    "hbs-cli": "^1.4.1",
     "lodash": "^4.17.21"
   },
   "_comply": {

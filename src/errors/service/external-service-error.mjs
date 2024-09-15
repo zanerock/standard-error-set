@@ -27,9 +27,7 @@ const ExternalServiceError = class extends CommonError {
    * @param {string|undefined} [options.issue = undefined] - A description of the issue.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new ExternalServiceError() // There was an error with a remote service.
    * new ExternalServiceError({ service : 'Foo API' }) // The was an error with the Foo API remote service.

@@ -21,9 +21,7 @@ const TimeoutError = class extends CommonError {
    *   e.g., a connection timeout).
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * // new TimeoutError() // "The process has timed out."
    * // new TimeoutError({ resource : 'user session' }) // "The user session has timed out."
@@ -36,7 +34,7 @@ const TimeoutError = class extends CommonError {
     defaults = Object.assign({}, myDefaults, defaults)
     options.message =
       options.message || generateMessage({ resource, ...options, defaults })
-    super({ name, resource, ...options }, defaults)
+    super({ name, resource, ...options })
   }
 }
 

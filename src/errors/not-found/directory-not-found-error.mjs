@@ -30,9 +30,7 @@ const DirectoryNotFoundError = class extends NotFoundError {
    *   value will override `dirPath` and be used to generate the standard message if `message` option not set.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new DirectoryNotFound() // "Directory not found."
    * new DirectoryNotFound({ dirPath: '/my-dir' }) // "Directory '/my-dir' not found."

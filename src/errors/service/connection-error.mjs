@@ -29,9 +29,7 @@ const ConnectionError = class extends ExternalServiceError {
    * @param {string|undefined} [options.target = undefined] - The name or description of the connection target.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new ConnectionError() // "Connection has experienced an unknown error."
    * // v "Connection to host 'foo.com' has experienced an unknown error."

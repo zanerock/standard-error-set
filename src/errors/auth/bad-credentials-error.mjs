@@ -23,9 +23,7 @@ const BadCredentialsError = class extends AuthError {
    *   etc.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new BadCredentialsError() // "Authentication failed."
    * new BadCredentialsError({ method: 'password' }) // "Authentication of password failed."

@@ -35,9 +35,7 @@ const NoAccessDirectoryError = class extends NoAccessError {
    *   value will override `dirPath` and be used to generate the standard message if `message` option not set.}
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new NoAccessDirectoryError() // "Access to directory is denied."
    * new NoAccessDirectoryError() // when access errors mapped to 404: "Directory not found."

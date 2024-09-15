@@ -31,9 +31,7 @@ const ConstraintViolationError = class extends DatabaseError {
    * @param {boolean} [options.isLocal = false] - Indicates whether the error arises from a remote database or not.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
-   * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
-   *   indicates a parameter should be treated as not set.
+   {{> common-hidden-parameters }}
    * @example
    * new ConstraintViolationError() // "Constraint violated."
    * new ConstraintViolationError({ constraintType: 'foreign key' }) // "Foreign key constraint violated."
