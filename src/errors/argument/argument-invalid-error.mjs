@@ -1,5 +1,6 @@
 /* globals ArgumentMissingError ArgumentOutOfRangeError ArgumentTypeError mapErrorToHttpStatus */
 import { CommonError } from '../common-error'
+import { describeEndpoint } from '../lib/describe-endpoint'
 import { includeParameterInMessage } from '../../util/include-parameter-in-message'
 import { registerParent } from '../../settings/map-error-to-http-status'
 import { translateValue } from '../lib/translate-value'
@@ -92,21 +93,8 @@ const generateMessage = (options, defaults) => {
     issue,
   } = options
 
-  let message = includeParameterInMessage('endpointType', options)
-    ? endpointType
-    : defaults.endpointType
+  let message = describeEndpoint(options, defaults)
 
-  message = message.charAt(0).toUpperCase() + message.slice(1) + ' '
-
-  if (includeParameterInMessage('packageName', options)) {
-    message +=
-      endpointName === undefined
-        ? `in package '${packageName}' `
-        : `'${packageName}#`
-  }
-  if (includeParameterInMessage('endpointName', options)) {
-    message += `${packageName === undefined ? "'" : ''}${endpointName}()' `
-  }
   message += 'argument '
   if (includeParameterInMessage('argumentName', options)) {
     message += `'${argumentName}' `
