@@ -43,7 +43,7 @@ const ArgumentInvalidError = class extends CommonError {
    * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming or defining the argument.
    *   E.g., 'URL', 'configuration settings', 'function', etc.
    * @param {string|undefined} [options.packageName = undefined] - The package name. E.g., the Javascript package or
-   *   module.
+   *   module. This is intended primarily to be used with 'function' type endpoints.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name. For example, the command name,
    *   the URL endpoint, or the function name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
@@ -53,7 +53,7 @@ const ArgumentInvalidError = class extends CommonError {
    * @param {string} [options.issue = 'is invalid'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
    * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
    *   indicates a parameter should be treated as not set.
    * @example

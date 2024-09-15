@@ -30,7 +30,8 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * See the [common constructor options](#common-constructor-options) note for additional parameters.
    * @param {object} [options = {}] - Constructor options.
    * @param {string} [options.endpointType = 'command'] - The type of "endpoint" consuming the argument.
-   * @param {string|undefined} [options.packageName = undefined] - The package name.
+   * @param {string|undefined} [options.packageName = undefined] - The package name. E.g., the Javascript package or
+   *   module. This is intended primarily to be used with 'function' type endpoints.
    * @param {string|undefined} [options.endpointName = undefined] - The endpoint name.
    * @param {string|undefined} [options.argumentName = undefined] - The argument name.
    * @param {string|undefined} [options.argumentType = undefined] - The argument type.
@@ -47,7 +48,7 @@ const ArgumentOutOfRangeError = class extends ArgumentInvalidError {
    * @param {string} [options.issue = 'is out of range'] - The issue with the argument.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
    * @param {object} defaults - @hidden Map of parameter names to default values. Used when `ignoreForMessage`
    *   indicates a parameter should be treated as not set.
    * @example

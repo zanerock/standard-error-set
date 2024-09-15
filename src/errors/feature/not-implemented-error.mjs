@@ -24,7 +24,7 @@ const NotImplementedError = class extends CommonError {
    *   the user is trying to invoke.
    * @param {string} options.name - @hidden Used internally to set the name; falls through to {@link CommonError}
    *   constructor.`
-   * @param {object} [options.options = {}] - @hidden The remainder of the options to to pass to super-constructor.
+   * @param {object} [options.options = {}] - @hidden The remainder of the options to pass to super-constructor.
    * @example
    * new NotImplementedError() // "Action not currently implemented."
    * new NotImplementedError({ target: '/some/url/endpoint'}) // "'/some/url/endpoint' is not currently implemented."
